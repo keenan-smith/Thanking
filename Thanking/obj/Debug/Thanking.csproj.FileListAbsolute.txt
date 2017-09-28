@@ -1,0 +1,9 @@
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\bin\Debug\Assembly-CSharp.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\bin\Debug\UnityEngine.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\obj\Debug\Thanking.csprojResolveAssemblyReference.cache
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\obj\Debug\Thanking.csproj.CoreCompileInputs.cache
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\bin\Debug\i.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\bin\Debug\i.pdb
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\obj\Debug\i.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Thanking\obj\Debug\i.pdb
