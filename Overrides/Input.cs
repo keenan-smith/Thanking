@@ -10,9 +10,9 @@ using UnityEngine;
 
 namespace Thanking.Overrides
 {
-    [Override(typeof(UnityEngine.Input))]
     public static class Input
     {
+        [Override(typeof(UnityEngine.Input), "GetInput", BindingFlags.Public | BindingFlags.Static)]
         public static bool OV_GetInput(KeyCode key)
         {
             if (key == ControlsSettings.primary && TriggerbotOptions.Enabled)

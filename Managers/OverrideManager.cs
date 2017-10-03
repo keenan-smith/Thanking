@@ -4,56 +4,48 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Thanking.Wrappers;
+using Thanking.Attributes;
 using UnityEngine;
 
 namespace Thanking.Managers
 {
     public static class OverrideManager
     {
-        public static void OverrideClass(Type basetype, Type overrideType)
+        public static void Load()
         {
-            for (int i = 0; i < basetype.GetMethods().Length; i++)
+            // Main code
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (Type tClass in asm.GetTypes())
+                    if (tClass.IsClass)
+                        foreach (MethodInfo method in tClass.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+                            LoadDetour(method);
+
+            // Set the variables
+        }
+        #region Public Functions
+        public static void LoadDetour(MethodInfo method)
+        {
+            // Setup variables
+            OverrideAttribute attribute = (OverrideAttribute)Attribute.GetCustomAttribute(method, typeof(OverrideAttribute));
+
+            // Do checks
+            if (attribute == null)
+                return;
+            if (!attribute.MethodFound)
+                return;
+
+            try
             {
-                MethodInfo mi = basetype.GetMethods()[i];
-                
-                MethodInfo o_mi = overrideType.GetMethod("OV_" + mi.Name);
+                OverrideWrapper wrapper = new OverrideWrapper(attribute.Method, method, attribute);
 
-                if (o_mi == null)
-                    continue;
+                wrapper.Detour();
+            }
+            catch (Exception ex)
 
-                RuntimeHelpers.PrepareMethod(mi.MethodHandle);
-                RuntimeHelpers.PrepareMethod(o_mi.MethodHandle);
-
-                IntPtr ptrOriginal = mi.MethodHandle.GetFunctionPointer();
-                IntPtr ptrModified = o_mi.MethodHandle.GetFunctionPointer();
-
-                switch (IntPtr.Size)
-                {
-                    case sizeof(Int32):
-                        unsafe
-                        {
-                            Debug.LogWarning("Detouring " + ptrOriginal + " to " + ptrModified + "...");
-                            byte* ptrFrom = (byte*) ptrOriginal.ToPointer();
-
-                            *ptrFrom = 0x68; // PUSH
-                            *((uint*) (ptrFrom + 1)) = (uint) ptrModified.ToInt32(); // Pointer
-                            *(ptrFrom + 5) = 0xC3; // RETN
-                        }
-                        break;
-                    case sizeof(Int64):
-                        unsafe
-                        {
-                            byte* ptrFrom = (byte*) ptrOriginal.ToPointer();
-
-                            *ptrFrom = 0x48; // REX.W
-                            *(ptrFrom + 1) = 0xB8; // MOV
-                            *((ulong*) (ptrFrom + 2)) = (ulong) ptrModified.ToInt64(); // Pointer
-                            *(ptrFrom + 10) = 0xFF; // INC 1
-                            *(ptrFrom + 11) = 0xE0; // LOOPE
-                        }
-                        break;
-                }
+            {
             }
         }
+#endregion
     }
 }
