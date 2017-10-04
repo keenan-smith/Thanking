@@ -12,8 +12,8 @@ namespace Thanking.Overrides
 {
     public static class Input
     {
-        [Override(typeof(UnityEngine.Input), "GetInput", BindingFlags.Public | BindingFlags.Static)]
-        public static bool OV_GetInput(KeyCode key)
+        [Override(typeof(UnityEngine.Input), "GetKey", BindingFlags.Public | BindingFlags.Static)]
+        public static bool OV_GetKey(KeyCode key)
         {
             if (key == ControlsSettings.primary && TriggerbotOptions.Enabled)
                 return true;

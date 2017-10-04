@@ -10,7 +10,7 @@ namespace Thanking.Overrides
     public static class PlayerPauseUI
     {
         [Override(typeof(SDG.Unturned.PlayerPauseUI), "onClickedExitButton", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)]
-        public static void OnExitClicked(SleekButton button) =>
+        public static void OV_onClickedExitButton(SleekButton button) =>
             Provider.disconnect();
     }
 }

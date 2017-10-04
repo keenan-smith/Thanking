@@ -7,6 +7,7 @@ using System.Text;
 using Thanking.Wrappers;
 using Thanking.Attributes;
 using UnityEngine;
+using Thanking.Variables;
 
 namespace Thanking.Managers
 {
@@ -26,7 +27,7 @@ namespace Thanking.Managers
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
                 foreach (Type tClass in asm.GetTypes())
                     if (tClass.IsClass)
-                        foreach (MethodInfo method in tClass.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+                        foreach (MethodInfo method in tClass.GetMethods(BFlags.Everything))
                             LoadOverride(method);
 
             // Set the variables
@@ -54,8 +55,8 @@ namespace Thanking.Managers
                 Overrides.Add(attribute, wrapper);
             }
             catch (Exception ex)
-
             {
+                Debug.Log(ex);
             }
         }
 #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Thanking.Managers;
 using Thanking.Threads;
 using UnityEngine;
 
@@ -23,7 +24,9 @@ namespace LOADING
 
         public static void Hook()
         {
-
+            HookObject = new GameObject();
+            DontDestroyOnLoad(HookObject);
+            AttributeManager.Init();
         }
     }
 }

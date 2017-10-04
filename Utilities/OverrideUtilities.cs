@@ -111,7 +111,7 @@ namespace Thanking.Utilities
                     case sizeof(Int32):
                         unsafe
                         {
-                            Debug.LogWarning("Overrideing " + ptrOriginal + " to " + ptrModified + "...");
+                            Debug.LogWarning("Overriding " + ptrOriginal + " to " + ptrModified + "...");
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
                             *ptrFrom = 0x68; // PUSH
@@ -122,7 +122,7 @@ namespace Thanking.Utilities
                     case sizeof(Int64):
                         unsafe
                         {
-                            Debug.LogWarning("Overrideing " + ptrOriginal + " to " + ptrModified + "...");
+                            Debug.LogWarning("Overriding " + ptrOriginal + " to " + ptrModified + "...");
 
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
@@ -141,6 +141,7 @@ namespace Thanking.Utilities
             }
             catch (Exception ex)
             {
+                Debug.Log(ex);
                 return false;
             }
         }
