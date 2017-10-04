@@ -5,10 +5,12 @@ using Thanking.Attributes;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Thanking.Managers;
+using Thanking.Utilities;
 
 namespace Thanking.Wrappers
 {
-    internal class OverrideWrapper
+    public class OverrideWrapper
     {
         #region Properties
         public MethodInfo Original { get; private set; }
@@ -17,7 +19,7 @@ namespace Thanking.Wrappers
         public IntPtr PtrOriginal { get; private set; }
         public IntPtr PtrModified { get; private set; }
 
-        public OverrideManager.OffsetBackup OffsetBackup { get; private set; }
+        public OverrideUtilities.OffsetBackup OffsetBackup { get; private set; }
         public OverrideAttribute Attribute { get; private set; }
 
         public bool Detoured { get; private set; }
@@ -39,16 +41,16 @@ namespace Thanking.Wrappers
             PtrOriginal = Original.MethodHandle.GetFunctionPointer();
             PtrModified = Modified.MethodHandle.GetFunctionPointer();
 
-            OffsetBackup = new RedirectionHelper.OffsetBackup(PtrOriginal);
+            OffsetBackup = new OverrideUtilities.OffsetBackup(PtrOriginal);
             Detoured = false;
         }
 
         #region Public Functions
-        public bool Detour()
+        public bool Override()
         {
             if (Detoured)
                 return true;
-            bool result = RedirectionHelper.DetourFunction(PtrOriginal, PtrModified);
+            bool result = OverrideUtilities.OverrideFunction(PtrOriginal, PtrModified);
 
             if (result)
                 Detoured = true;
@@ -60,7 +62,7 @@ namespace Thanking.Wrappers
         {
             if (!Detoured)
                 return false;
-            bool result = RedirectionHelper.RevertDetour(OffsetBackup);
+            bool result = OverrideUtilities.RevertOverride(OffsetBackup);
 
             if (result)
                 Detoured = false;
@@ -81,7 +83,7 @@ namespace Thanking.Wrappers
 
             }
 
-            Detour();
+            Override();
             return result;
         }
         #endregion

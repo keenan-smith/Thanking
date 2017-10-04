@@ -12,5 +12,6 @@ namespace Thanking.Variables
         public static BindingFlags PublicInstance = BindingFlags.Public | BindingFlags.Instance;
         public static BindingFlags PrivateStatic = BindingFlags.NonPublic | BindingFlags.Static;
         public static BindingFlags PrivateInstance = BindingFlags.NonPublic | BindingFlags.Instance;
+        public static BindingFlags Everything = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
     }
 }

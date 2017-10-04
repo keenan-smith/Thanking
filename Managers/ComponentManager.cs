@@ -16,7 +16,7 @@ namespace Thanking.Managers
                     if (tClass.IsClass)
                         foreach (MethodInfo method in tClass.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
                             if (Attribute.GetCustomAttribute(method, typeof(OverrideAttribute)) != null)
-                                LOADING.Loader.HookObject.AddComponent(tClass);]
+                                LOADING.Loader.HookObject.AddComponent(tClass);
         }
     }
 }
