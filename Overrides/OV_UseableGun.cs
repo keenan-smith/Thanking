@@ -10,9 +10,9 @@ using UnityEngine;
 
 namespace Thanking.Overrides
 {
-    public class UseableGun
+    public class OV_UseableGun
     {
-        [Override(typeof(SDG.Unturned.UseableGun), "ballistics", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)]
+        [Override(typeof(UseableGun), "ballistics", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)]
         public void OV_ballistics()
         {
             ItemGunAsset PAsset = ((ItemGunAsset)Player.player.equipment.asset);

@@ -1,22 +1,23 @@
-﻿using LOADING;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Thanking.Attributes;
 using UnityEngine;
 
 namespace Thanking.Threads
 {
-    public class LoaderThread
+	[Thread("Start")]
+    public static class LoaderThread
     {
         public static void Start()
         {
             while (true)
             {
-                if (LOADING.Loader.HookObject == null)
-                    LOADING.Loader.Hook();
+                if (Loader.HookObject == null)
+                    Loader.Hook();
 
                 Thread.Sleep(2000);
             }

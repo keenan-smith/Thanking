@@ -17,7 +17,7 @@ namespace Thanking.Managers
                     if (tClass.IsClass)
                         foreach (MethodInfo method in tClass.GetMethods(BFlags.Everything))
                             if (Attribute.GetCustomAttribute(method, typeof(ComponentAttribute)) != null)
-                                LOADING.Loader.HookObject.AddComponent(tClass);
+                                Loader.HookObject.AddComponent(tClass);
         }
     }
 }

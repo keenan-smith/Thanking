@@ -15,6 +15,7 @@ namespace Thanking.Managers
             Debug.Log("Initializing attribute manager...");
             ComponentManager.Load();
             OverrideManager.Load();
+			ThreadManager.Load();
         }
     }
 }
