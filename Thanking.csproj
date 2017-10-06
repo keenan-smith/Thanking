@@ -53,14 +53,16 @@
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
+    <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
+    <Compile Include="Loader.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
-    <Compile Include="Overrides\Input.cs" />
-    <Compile Include="Overrides\PlayerPauseUI.cs" />
-    <Compile Include="Overrides\UseableGun.cs" />
+    <Compile Include="Managers\ThreadManager.cs" />
+    <Compile Include="Overrides\OV_Input.cs" />
+    <Compile Include="Overrides\OV_PlayerPauseUI.cs" />
+    <Compile Include="Overrides\OV_UseableGun.cs" />
     <Compile Include="Threads\LoaderThread.cs" />
-    <Compile Include="Loader\Loader.cs" />
     <Compile Include="Managers\AttributeManager.cs" />
     <Compile Include="Managers\OverrideManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
