@@ -15,9 +15,8 @@ namespace Thanking.Managers
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
                 foreach (Type tClass in asm.GetTypes())
                     if (tClass.IsClass)
-                        foreach (MethodInfo method in tClass.GetMethods(BFlags.Everything))
-                            if (Attribute.GetCustomAttribute(method, typeof(ComponentAttribute)) != null)
-                                Loader.HookObject.AddComponent(tClass);
+						if (tClass.IsDefined(typeof(ComponentAttribute), false))
+							Loader.HookObject.AddComponent(tClass);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Thanking.Attributes;
+using Thanking.Managers;
 using Thanking.Variables;
 using UnityEngine;
 
@@ -13,8 +14,7 @@ namespace Thanking.Components
     {
         private void Update()
         {
-            if (Input.GetKeyDown(TriggerbotOptions.Toggle))
-                TriggerbotOptions.Enabled = !TriggerbotOptions.Enabled;
+			// if (Input.GetKeyDown(KeyCode.Backslash))
         }
     }
 }

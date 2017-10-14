@@ -30,8 +30,9 @@ namespace Thanking.Utilities
                     go.layer = LayerMasks.ENEMY;
 
                     if (SphereUtilities.Get(go, aimPos, RayMasks.DAMAGE_SERVER) != Vector3.zero)
-                    {
-                        Physics.Raycast(aimPos, (p.transform.position - aimPos).normalized, out RaycastHit hit, currentGun.range + 18, RayMasks.ENEMY);
+					{
+						PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
+						Physics.Raycast(aimPos, (p.transform.position - aimPos).normalized, out RaycastHit hit, currentGun.range + 18, RayMasks.ENEMY);
                         return new RaycastInfo(hit)
                         {
                             direction = Vector3.up * 10,
@@ -39,16 +40,17 @@ namespace Thanking.Utilities
                             player = p,
                             material = EPhysicsMaterial.ALIEN_DYNAMIC
                         };
-                    }
-                }
-                return new RaycastInfo(Player.player.transform)
+					}
+				}
+				PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
+				return new RaycastInfo(Player.player.transform)
                 {
                     direction = Vector3.up * 10,
                     limb = ELimb.SKULL,
                     player = players[0].player,
                     material = EPhysicsMaterial.ALIEN_DYNAMIC
                 };
-            }
+			}
 
             return new RaycastInfo(Player.player.transform);
         }

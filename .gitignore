@@ -297,3 +297,11 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+ThankingAssets/Library/
+
+ThankingAssets/ProjectSettings/
+
+ThankingAssets/Temp/ProcessJobs/
+
+ThankingAssets/Temp/

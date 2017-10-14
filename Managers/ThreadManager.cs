@@ -16,9 +16,9 @@ namespace Thanking.Managers
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)
-						if (tClass.GetCustomAttributes(typeof(ThreadAttribute), false) != null)
+						if (tClass.IsDefined(typeof(ThreadAttribute), false))
 						{
-							ThreadAttribute classAttribute = (ThreadAttribute)tClass.GetCustomAttributes(typeof(ThreadAttribute), false)[0];
+							ThreadAttribute classAttribute = Attribute.GetCustomAttribute(tClass, typeof(ThreadAttribute)) as ThreadAttribute;
 							MethodInfo ThreadStart = tClass.GetMethod(classAttribute.StartMethod, BFlags.Everything);
 							Action ThreadAction = (Action)Delegate.CreateDelegate(typeof(Action), ThreadStart);
 							new Thread(new ThreadStart(ThreadAction)).Start();

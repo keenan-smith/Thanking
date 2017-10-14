@@ -32,7 +32,6 @@ namespace Thanking.Overrides
                     BulletInfo bulletInfo = Bullets[i];
                     RaycastInfo ri = RaycastUtilities.GenerateRaycast();
                     Player.player.input.sendRaycast(ri);
-                    PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
                 }
             }
         }

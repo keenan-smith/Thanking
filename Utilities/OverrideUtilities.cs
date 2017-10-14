@@ -215,7 +215,7 @@ namespace Thanking.Utilities
                 }
             }
         }
-        #endregion
-    }
-    #endregion
+		#endregion
+		#endregion
+	}
 }

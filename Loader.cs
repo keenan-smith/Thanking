@@ -9,15 +9,16 @@ using UnityEngine;
 
 namespace Thanking
 {
-    public class Loader : MonoBehaviour
+    public static class Loader
     {
         public static GameObject HookObject;
 
         public static void Hook()
         {
             HookObject = new GameObject();
-            DontDestroyOnLoad(HookObject);
+			UnityEngine.Object.DontDestroyOnLoad(HookObject);
             AttributeManager.Init();
+			AssetManager.Init();
         }
     }
 }

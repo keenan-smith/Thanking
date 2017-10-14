@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Thanking</RootNamespace>
-    <AssemblyName>i</AssemblyName>
+    <AssemblyName>Thanking</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,6 +45,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Thanking.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Thanking.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\UnityEngine.dll</HintPath>
@@ -54,9 +58,11 @@
     <Compile Include="Attributes\ComponentAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
+    <Compile Include="Components\ESPComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Loader.cs" />
+    <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Managers\ThreadManager.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
@@ -71,6 +77,7 @@
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
+    <Compile Include="Variables\RaycastOptions.cs" />
     <Compile Include="Wrappers\OverrideWrapper.cs" />
     <Compile Include="Utilities\RaycastUtilities.cs" />
     <Compile Include="Utilities\SphereUtilities.cs" />
@@ -80,8 +87,11 @@
   <ItemGroup>
     <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
     <Content Include="Libraries\Assembly-CSharp.dll" />
+    <Content Include="Libraries\Thanking.UI.dll" />
     <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ThankingAssets\ThankingAssets.unity3d" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
