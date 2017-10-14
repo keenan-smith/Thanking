@@ -85,8 +85,5 @@
     <Content Include="Libraries\Assembly-CSharp.dll" />
     <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ThankingAssets\ThankingAssets.unity3d" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
