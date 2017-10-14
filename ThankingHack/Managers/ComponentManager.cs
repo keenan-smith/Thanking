@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Thanking.Attributes;
-using Thanking.Variables;
 
 namespace Thanking.Managers
 {

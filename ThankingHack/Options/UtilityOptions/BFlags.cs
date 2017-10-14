@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Thanking.Variables
+namespace Thanking.Options.UtilityOptions
 {
     public static class BFlags
     {

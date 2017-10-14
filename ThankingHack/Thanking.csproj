@@ -16,11 +16,12 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Binaries\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -54,8 +58,10 @@
     <Compile Include="Attributes\ComponentAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
-    <Compile Include="Components\ESPComponent.cs" />
-    <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Attributes\UIComponentAttribute.cs" />
+    <Compile Include="Components\UI\ESPComponent.cs" />
+    <Compile Include="Components\Basic\InputComponent.cs" />
+    <Compile Include="Components\UI\RadarComponent.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Managers\AssetManager.cs" />
@@ -73,17 +79,20 @@
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
-    <Compile Include="Variables\RaycastOptions.cs" />
+    <Compile Include="Options\VisualOptions\ESPOptions.cs" />
+    <Compile Include="Options\VisualOptions\RadarOptions.cs" />
+    <Compile Include="Options\SilentAimOptions\RaycastOptions.cs" />
     <Compile Include="Wrappers\OverrideWrapper.cs" />
     <Compile Include="Utilities\RaycastUtilities.cs" />
     <Compile Include="Utilities\SphereUtilities.cs" />
-    <Compile Include="Variables\BFlags.cs" />
-    <Compile Include="Variables\TriggerbotOptions.cs" />
+    <Compile Include="Options\UtilityOptions\BFlags.cs" />
+    <Compile Include="Options\BotOptions\TriggerbotOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
     <Content Include="Libraries\Assembly-CSharp.dll" />
     <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

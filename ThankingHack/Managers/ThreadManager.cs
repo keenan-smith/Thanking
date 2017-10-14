@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using Thanking.Attributes;
-using Thanking.Variables;
+using Thanking.Options.UtilityOptions;
 
 namespace Thanking.Managers
 {

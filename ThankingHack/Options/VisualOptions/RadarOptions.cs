@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Thanking.Variables
+namespace Thanking.Options.VisualOptions
 {
-	public static class RaycastOptions
+	class RadarOptions
 	{
-		public static bool Enabled;
-
 	}
 }

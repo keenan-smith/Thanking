@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
 using Thanking.Wrappers;
 using Thanking.Attributes;
 using UnityEngine;
-using Thanking.Variables;
+using Thanking.Options.UtilityOptions;
 
 namespace Thanking.Managers
 {

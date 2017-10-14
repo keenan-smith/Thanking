@@ -13,12 +13,19 @@ namespace Thanking.Utilities
         {
             Mesh mesh = go.GetComponent<MeshCollider>().sharedMesh;
             VertTriList vt = new VertTriList(mesh);
-            Vector3[] verts = mesh.vertices.Where(v => !Physics.Raycast(pos, (go.transform.TransformPoint(v) - pos).normalized, Vector3.Distance(pos, go.transform.TransformPoint(v)) + 0.5f, mask)).ToArray();
+			Vector3[] verts = mesh.vertices;
 
-            if (verts != null && verts.Length != 0)
-                return go.transform.TransformPoint(verts
-                    .OrderBy(v => Vector3.Distance(go.transform.TransformPoint(v), pos)).First());
-            
+			List<Vector3> nVerts = new List<Vector3>();
+
+			for (int i = 0; i < verts.Length; i++)
+				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5f, mask))
+					nVerts.Add(verts[i]);
+
+			if (verts != null && verts.Length != 0)
+				return go.transform.TransformPoint(verts[0]);
+
+			Debug.Log("no moga :(");
+
             return Vector3.zero;
         }
     }

@@ -1,11 +1,8 @@
 ﻿using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Thanking.Attributes;
-using Thanking.Variables;
+using Thanking.Options.UtilityOptions;
+using Thanking.Options.BotOptions;
 using UnityEngine;
 
 namespace Thanking.Overrides
