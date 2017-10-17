@@ -57,18 +57,17 @@
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
+    <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\UIComponentAttribute.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\UI\RadarComponent.cs" />
-    <Compile Include="Config\Manager.cs" />
-    <Compile Include="Config\Save.cs" />
-    <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
+    <Compile Include="Managers\Main\ConfigManager.cs" />
     <Compile Include="Managers\Submanagers\ComponentManager.cs" />
     <Compile Include="Managers\Submanagers\ThreadManager.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
