@@ -63,6 +63,8 @@
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\UI\RadarComponent.cs" />
+    <Compile Include="Config\Manager.cs" />
+    <Compile Include="Config\Save.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Loader.cs" />
@@ -98,6 +100,5 @@
     <Content Include="Libraries\Assembly-CSharp.dll" />
     <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
