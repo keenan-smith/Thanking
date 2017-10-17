@@ -8,6 +8,13 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
+		public static void DrawTransform(Transform t, Material mat)
+		{
+			Bounds bounds = new Bounds(t.position + new Vector3(0, 1.1f, 0),
+				   t.localScale + new Vector3(0, .95f, 0));
+
+			DrawOutline(bounds, mat);
+		}
 		public static void DrawOutline(Bounds b, Material mat)
 		{
 			Vector3[] pts = new Vector3[8];

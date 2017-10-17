@@ -1,0 +1,42 @@
+﻿using SDG.Unturned;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Thanking.Attributes;
+using UnityEngine;
+
+namespace Thanking.Options.AimOptions
+{
+	public enum TargetPriority
+	{
+		Player,
+		Zombie,
+		Sentry,
+		Bed,
+		ClaimFlag,
+		Storage
+	}
+	public static class RaycastOptions
+	{
+		[Save]
+		public static bool Enabled = true;
+		[Save]
+		public static bool UseRandomLimb = false;
+		[Save]
+		public static bool UseTargetMaterial = true;
+		[Save]
+		public static bool UseModifiedVector = true;
+		[Save]
+		public static bool ExtendedRange = true;
+
+		[Save]
+		public static TargetPriority Target = TargetPriority.Player;
+		[Save]
+		public static EPhysicsMaterial TargetMaterial = EPhysicsMaterial.ALIEN_DYNAMIC;
+		[Save]
+		public static ELimb TargetLimb = ELimb.SKULL;
+		[Save]
+		public static Vector3 TargetRagdoll = Vector3.up * 10;
+	}
+}

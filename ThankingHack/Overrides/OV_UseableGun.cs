@@ -4,6 +4,7 @@ using Thanking.Attributes;
 using Thanking.Utilities;
 using Thanking.Options.UtilityOptions;
 using UnityEngine;
+using Thanking.Options.AimOptions;
 
 namespace Thanking.Overrides
 {
@@ -20,17 +21,24 @@ namespace Thanking.Overrides
 
 			if (Provider.modeConfigData.Gameplay.Ballistics)
 			{
-				for (int i = 0; i < Bullets.Count; i++)
+				if (RaycastOptions.Enabled)
 				{
-					BulletInfo bulletInfo = Bullets[i];
-					RaycastInfo ri = RaycastUtilities.GenerateRaycast();
-					float distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
-					if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)
+					for (int i = 0; i < Bullets.Count; i++)
 					{
-						PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
-						Player.player.input.sendRaycast(ri);
-						bulletInfo.steps = 254;
+						BulletInfo bulletInfo = Bullets[i];
+						RaycastInfo ri = RaycastUtilities.GenerateRaycast();
+						float distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
+						if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)
+						{
+							PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
+							Player.player.input.sendRaycast(ri);
+							bulletInfo.steps = 254;
+						}
 					}
+				}
+				else
+				{
+
 				}
 
 				for (int k = Bullets.Count - 1; k >= 0; k--)
@@ -43,12 +51,18 @@ namespace Thanking.Overrides
 			}
 			else
 			{
-				for (int i = 0; i < Bullets.Count; i++)
+				if (RaycastOptions.Enabled)
 				{
-						PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
-					BulletInfo bulletInfo = Bullets[i];
-					RaycastInfo ri = RaycastUtilities.GenerateRaycast();
-					Player.player.input.sendRaycast(ri);
+					for (int i = 0; i < Bullets.Count; i++)
+					{
+						BulletInfo bulletInfo = Bullets[i];
+						RaycastInfo ri = RaycastUtilities.GenerateRaycast();
+						Player.player.input.sendRaycast(ri);
+					}
+				}
+				else
+				{
+
 				}
 
 				Bullets.Clear();

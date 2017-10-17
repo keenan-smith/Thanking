@@ -15,10 +15,16 @@ namespace Thanking
 
         public static void Hook()
         {
-            HookObject = new GameObject();
+			#region Hooking
+			HookObject = new GameObject();
 			UnityEngine.Object.DontDestroyOnLoad(HookObject);
-            AttributeManager.Init();
+			#endregion
+
+			#region Manager Initialization
+			AttributeManager.Init();
 			AssetManager.Init();
-        }
+			ConfigManager.Init();
+			#endregion
+		}
     }
 }

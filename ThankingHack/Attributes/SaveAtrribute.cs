@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Thanking.Config
+namespace Thanking.Attributes
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class Save : Attribute
+    public class SaveAttribute : Attribute
     {
         
     }
