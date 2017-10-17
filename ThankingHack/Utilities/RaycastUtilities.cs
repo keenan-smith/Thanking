@@ -23,7 +23,7 @@ namespace Thanking.Utilities
 					if (p == null || p == Player.player || p.life.isDead ||
 						p.transform == null || p.quests.isMemberOfSameGroupAs(Player.player)) continue;
 
-					if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) <= currentGun.range + 18)
+					if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) <= currentGun.range + 12)
 						if (closestPlayer == null)
 							closestPlayer = p;
 						else
@@ -38,16 +38,19 @@ namespace Thanking.Utilities
 					if (closestPlayer.movement.getVehicle() != null)
 						go = IcoSphere.Create("HitSphere", 5, 3);
 					else
-						go = IcoSphere.Create("HitSphere", 15, 3);
+						go = IcoSphere.Create("HitSphere", 15f, 3);
 
 					go.transform.parent = closestPlayer.transform;
 					go.transform.localPosition = new Vector3(0, 0, 0);
-					UnityEngine.Object.Destroy(go);
 
-					Vector3 hPos = SphereUtilities.Get(go, aimPos, RayMasks.DAMAGE_SERVER | RayMasks.VEHICLE);
+					Vector3 hPos = SphereUtilities.Get(go, aimPos, RayMasks.DAMAGE_CLIENT);
+					Object.Destroy(go);
 					if (hPos != Vector3.zero)
 					{
-						Debug.Log(hPos + "," + closestPlayer.transform.position + " : " + VectorUtilities.GetDistance(hPos, closestPlayer.transform.position));
+						Debug.Log("Found a meme!");
+						if (!Provider.modeConfigData.Gameplay.Ballistics)
+							PlayerUI.hitmark(10, hPos, true, EPlayerHit.CRITICAL);
+
 						return new RaycastInfo(closestPlayer.transform)
 						{
 							point = hPos,
@@ -58,10 +61,22 @@ namespace Thanking.Utilities
 						};
 					}
 
+					if (VectorUtilities.GetDistance(Player.player.transform.position, closestPlayer.transform.position) <= 15.5f)
+						return new RaycastInfo(closestPlayer.transform)
+						{
+							point = Player.player.transform.position,
+							direction = Vector3.up * 10,
+							limb = ELimb.SKULL,
+							player = closestPlayer,
+							material = EPhysicsMaterial.ALIEN_DYNAMIC
+						};
 				}
 			}
 
-            return new RaycastInfo(Player.player.transform);
+			return new RaycastInfo(Player.player.transform)
+			{
+				point = Vector3.zero
+			};
         }
     }
 }

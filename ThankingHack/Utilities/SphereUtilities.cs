@@ -19,13 +19,8 @@ namespace Thanking.Utilities
 
 			for (int i = 0; i < verts.Length; i++)
 				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5f, mask))
-					nVerts.Add(verts[i]);
-
-			if (verts != null && verts.Length != 0)
-				return go.transform.TransformPoint(verts[0]);
-
-			Debug.Log("no moga :(");
-
+					return go.transform.TransformPoint(verts[i]);
+			
             return Vector3.zero;
         }
     }

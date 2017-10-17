@@ -16,7 +16,7 @@ namespace Thanking.Overrides
             if (((ItemGunAsset) Player.player.equipment.asset).projectile != null)
                 return;
 
-            List<BulletInfo> Bullets = (List<BulletInfo>)typeof(UseableGun).GetField("bullets", BFlags.PrivateInstance).GetValue(Player.player.equipment.useable);
+			List<BulletInfo> Bullets = (List<BulletInfo>)typeof(UseableGun).GetField("bullets", BFlags.PrivateInstance).GetValue(Player.player.equipment.useable);
 
 			if (Provider.modeConfigData.Gameplay.Ballistics)
 			{
@@ -25,7 +25,7 @@ namespace Thanking.Overrides
 					BulletInfo bulletInfo = Bullets[i];
 					RaycastInfo ri = RaycastUtilities.GenerateRaycast();
 					float distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
-					if (bulletInfo.steps * PAsset.ballisticTravel >= distance)
+					if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)
 					{
 						PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
 						Player.player.input.sendRaycast(ri);
@@ -45,6 +45,7 @@ namespace Thanking.Overrides
 			{
 				for (int i = 0; i < Bullets.Count; i++)
 				{
+						PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
 					BulletInfo bulletInfo = Bullets[i];
 					RaycastInfo ri = RaycastUtilities.GenerateRaycast();
 					Player.player.input.sendRaycast(ri);
