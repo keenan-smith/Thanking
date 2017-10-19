@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Thanking.Attributes;
 using Thanking.Utilities;
-using Thanking.Options.UtilityOptions;
 using UnityEngine;
 using Thanking.Options.AimOptions;
+using Thanking.Variables;
 
 namespace Thanking.Overrides
 {
@@ -17,7 +17,7 @@ namespace Thanking.Overrides
             if (((ItemGunAsset) Player.player.equipment.asset).projectile != null)
                 return;
 
-			List<BulletInfo> Bullets = (List<BulletInfo>)typeof(UseableGun).GetField("bullets", BFlags.PrivateInstance).GetValue(Player.player.equipment.useable);
+			List<BulletInfo> Bullets = ReflectionUtilities.GetField<List<BulletInfo>>(Player.player.equipment.useable, "bullets", ReflectionUtilities.FieldType.Private);
 
 			if (Provider.modeConfigData.Gameplay.Ballistics)
 			{

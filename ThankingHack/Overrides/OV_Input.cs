@@ -1,8 +1,8 @@
 ﻿using SDG.Unturned;
 using System.Reflection;
 using Thanking.Attributes;
-using Thanking.Options.UtilityOptions;
-using Thanking.Options.BotOptions;
+using Thanking.Options.AimOptions;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Overrides
@@ -16,7 +16,7 @@ namespace Thanking.Overrides
 				return true;
 
             return (bool)typeof(Input)
-                    .GetMethod("GetKeyInt", BFlags.PrivateStatic)
+                    .GetMethod("GetKeyInt", ReflectionVariables.PrivateStatic)
                     .Invoke(null, new object[] { (int)key });
         }
     }

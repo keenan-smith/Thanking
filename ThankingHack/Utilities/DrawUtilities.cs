@@ -8,70 +8,53 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
-		public static void DrawTransform(Transform t, Material mat)
+		public static void PrepareWorldBounds(Bounds b, Color c, Material mat)
 		{
-			Bounds bounds = new Bounds(t.position + new Vector3(0, 1.1f, 0),
-				   t.localScale + new Vector3(0, .95f, 0));
+			Vector3 v3Center = b.center;
+			Vector3 v3Extents = b.extents;
 
-			DrawOutline(bounds, mat);
-		}
-		public static void DrawOutline(Bounds b, Material mat)
-		{
-			Vector3[] pts = new Vector3[8];
-			Camera cam = Camera.main;
-			float margin = 0;
+			Vector3[] vectors = new Vector3[8];
 
-			pts[0] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y,
-				b.center.z + b.extents.z));
-			pts[1] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y,
-				b.center.z - b.extents.z));
-			pts[2] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y,
-				b.center.z + b.extents.z));
-			pts[3] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y,
-				b.center.z - b.extents.z));
-			pts[4] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y,
-				b.center.z + b.extents.z));
-			pts[5] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y,
-				b.center.z - b.extents.z));
-			pts[6] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y,
-				b.center.z + b.extents.z));
-			pts[7] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y,
-				b.center.z - b.extents.z));
+			vectors[0] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top left corner
+			vectors[1] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top right corner
+			vectors[2] = new Vector3(v3Center.x - v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z);  // Front bottom left corner
+			vectors[3] = new Vector3(v3Center.x + v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z);  // Front bottom right corner
+			vectors[4] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z);  // Back top left corner
+			vectors[5] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z);  // Back top right corner
+			vectors[6] = new Vector3(v3Center.x - v3Extents.x, v3Center.y - v3Extents.y, v3Center.z + v3Extents.z);  // Back bottom left corner
+			vectors[7] = new Vector3(v3Center.x + v3Extents.x, v3Center.y - v3Extents.y, v3Center.z + v3Extents.z);  // Back bottom right corner
 
-			for (int i = 0; i < pts.Length; i++)
-				pts[i].y = Screen.height - pts[i].y;
+			GL.Color(new Color(0, 0, 0, 0));
+			GL.Color(c);
 
-			Vector3 min = pts[0];
-			Vector3 max = pts[0];
-			for (int i = 1; i < pts.Length; i++)
-			{
-				min = Vector3.Min(min, pts[i]);
-				max = Vector3.Max(max, pts[i]);
-			}
+			GL.Vertex(vectors[0]); //front top left to front right
+			GL.Vertex(vectors[1]);
+			GL.Vertex(vectors[1]); //front top right to front bottom right
+			GL.Vertex(vectors[3]);
+			GL.Vertex(vectors[3]); //front bottom right to front bottom left
+			GL.Vertex(vectors[2]);
+			GL.Vertex(vectors[2]); //front bottom left to front top left
+			GL.Vertex(vectors[0]);
 
-			Rect r = Rect.MinMaxRect(min.x, min.y, max.x, max.y);
-			r.xMin -= margin;
-			r.xMax += margin;
-			r.yMin -= margin;
-			r.yMax += margin;
+			GL.Vertex(vectors[4]); //back top left to back top right
+			GL.Vertex(vectors[5]);
+			GL.Vertex(vectors[5]); //back top right to back bottom right
+			GL.Vertex(vectors[7]);
+			GL.Vertex(vectors[7]); //back bottom right to back bottom left
+			GL.Vertex(vectors[6]);
+			GL.Vertex(vectors[6]); //back bottom left to back top left
+			GL.Vertex(vectors[4]);
 
-			GL.PushMatrix();
-			GL.Begin(1);
-			mat.SetPass(0);
+			GL.Vertex(vectors[0]);
+			GL.Vertex(vectors[4]);
+			GL.Vertex(vectors[1]);
+			GL.Vertex(vectors[5]);
+			GL.Vertex(vectors[2]);
+			GL.Vertex(vectors[6]);
+			GL.Vertex(vectors[3]);
+			GL.Vertex(vectors[7]);
 
-			GL.Color(Color.cyan);
-
-			GL.Vertex3(r.center.x - (r.size.x / 2), r.center.y + (r.size.y / 2), 0);
-			GL.Vertex3(r.center.x + (r.size.x / 2), r.center.y + (r.size.y / 2), 0);
-			GL.Vertex3(r.center.x + (r.size.x / 2), r.center.y + (r.size.y / 2), 0);
-			GL.Vertex3(r.center.x + (r.size.x / 2), r.center.y - (r.size.y / 2), 0);
-			GL.Vertex3(r.center.x + (r.size.x / 2), r.center.y - (r.size.y / 2), 0);
-			GL.Vertex3(r.center.x - (r.size.x / 2), r.center.y - (r.size.y / 2), 0);
-			GL.Vertex3(r.center.x - (r.size.x / 2), r.center.y - (r.size.y / 2), 0);
-			GL.Vertex3(r.center.x - (r.size.x / 2), r.center.y + (r.size.y / 2), 0);
-
-			GL.End();
-			GL.PopMatrix();
+			GL.Color(new Color(0, 0, 0, 0));
 		}
 	}
 }

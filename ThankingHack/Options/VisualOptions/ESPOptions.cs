@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Thanking.Attributes;
+using Thanking.Misc;
 using UnityEngine;
 
 namespace Thanking.Options.VisualOptions
@@ -14,18 +15,9 @@ namespace Thanking.Options.VisualOptions
 		[Save]
 		public static KeyCode Toggle = KeyCode.LeftBracket;
 		[Save]
-		public static float Distance = Mathf.Infinity;
-
-		/* until you can find a better way of doing this we're sticking with a bool array
-		 * 0: players
-		 * 1: items
-		 * 2: sentries
-		 * 3: beds
-		 * 4: claim flags
-		 * 5: vehicles
-		 * 6: storage
-		 * 7: generator
-		 */
+		public static bool InfiniteDistance = true;
+		[Save]
+		public static float Distance = 500f;
 
 		[Save]
 		public static bool[] EnabledOptions =
@@ -38,6 +30,18 @@ namespace Thanking.Options.VisualOptions
 			false,
 			false,
 			false
+		};
+		[Save]
+		public static SerializableColor[] ESPColors =
+		{
+			((Color32)Color.red).ToSerializableColor(),
+			((Color32)Color.cyan).ToSerializableColor(),
+			((Color32)Color.cyan).ToSerializableColor(),
+			((Color32)Color.cyan).ToSerializableColor(),
+			((Color32)Color.cyan).ToSerializableColor(),
+			((Color32)Color.cyan).ToSerializableColor(),
+			((Color32)Color.cyan).ToSerializableColor(),
+			((Color32)Color.cyan).ToSerializableColor(),
 		};
 	}
 }

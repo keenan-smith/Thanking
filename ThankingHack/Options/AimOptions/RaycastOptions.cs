@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Thanking.Attributes;
+using Thanking.Misc;
 using UnityEngine;
 
 namespace Thanking.Options.AimOptions
@@ -37,6 +38,6 @@ namespace Thanking.Options.AimOptions
 		[Save]
 		public static ELimb TargetLimb = ELimb.SKULL;
 		[Save]
-		public static Vector3 TargetRagdoll = Vector3.up * 10;
+		public static SerializableVector TargetRagdoll = new SerializableVector(0, 10, 0);
 	}
 }

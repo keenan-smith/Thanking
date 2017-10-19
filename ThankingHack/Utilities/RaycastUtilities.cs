@@ -22,12 +22,25 @@ namespace Thanking.Utilities
 				if (p == null || p == Player.player || p.life.isDead ||
 					p.transform == null || p.quests.isMemberOfSameGroupAs(Player.player)) continue;
 
-				if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) <= currentGun.range + (RaycastOptions.ExtendedRange ? 12 : 0))
+				if (currentGun != null)
 				{
-					if (closestPlayer == null)
-						closestPlayer = p;
-					else if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) < VectorUtilities.GetDistance(Player.player.transform.position, closestPlayer.transform.position))
-						closestPlayer = p;
+					if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) <= currentGun.range + (RaycastOptions.ExtendedRange ? 12 : 0))
+					{
+						if (closestPlayer == null)
+							closestPlayer = p;
+						else if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) < VectorUtilities.GetDistance(Player.player.transform.position, closestPlayer.transform.position))
+							closestPlayer = p;
+					}
+				}
+				else
+				{
+					if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) <= 15.5f)
+					{
+						if (closestPlayer == null)
+							closestPlayer = p;
+						else if (VectorUtilities.GetDistance(Player.player.transform.position, p.transform.position) < VectorUtilities.GetDistance(Player.player.transform.position, closestPlayer.transform.position))
+							closestPlayer = p;
+					}
 				}
 			}
 
@@ -55,7 +68,7 @@ namespace Thanking.Utilities
 						return new RaycastInfo(closestPlayer.transform)
 						{
 							point = hPos,
-							direction = RaycastOptions.TargetRagdoll,
+							direction = RaycastOptions.TargetRagdoll.ToVector(),
 							limb = RaycastOptions.TargetLimb,
 							player = closestPlayer,
 							material = RaycastOptions.TargetMaterial
@@ -68,7 +81,7 @@ namespace Thanking.Utilities
 					return new RaycastInfo(closestPlayer.transform)
 					{
 						point = Player.player.transform.position,
-						direction = RaycastOptions.TargetRagdoll,
+						direction = RaycastOptions.TargetRagdoll.ToVector(),
 						limb = RaycastOptions.TargetLimb,
 						player = closestPlayer,
 						material = RaycastOptions.TargetMaterial

@@ -43,6 +43,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,16 +64,22 @@
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\UIComponentAttribute.cs" />
+    <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
-    <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\UI\RadarComponent.cs" />
+    <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
-    <Compile Include="Loader.cs" />
+    <Compile Include="Misc\Extensions.cs" />
+    <Compile Include="Misc\Loader.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Main\ConfigManager.cs" />
     <Compile Include="Managers\Submanagers\ComponentManager.cs" />
     <Compile Include="Managers\Submanagers\ThreadManager.cs" />
+    <Compile Include="Misc\Serializables.cs" />
+    <Compile Include="Options\AimOptions\RaycastOptions.cs" />
+    <Compile Include="Options\AimOptions\SphereOptions.cs" />
+    <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
     <Compile Include="Overrides\OV_Player.cs" />
@@ -84,20 +94,22 @@
     <Compile Include="Utilities\Mesh Utilities\NearestPointTest.cs" />
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
+    <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="Options\VisualOptions\ESPOptions.cs" />
     <Compile Include="Options\VisualOptions\RadarOptions.cs" />
-    <Compile Include="Options\SilentAimOptions\SphereOptions.cs" />
+    <Compile Include="Variables\ESPVariables.cs" />
+    <Compile Include="Variables\ReflectionVariables.cs" />
     <Compile Include="Wrappers\OverrideWrapper.cs" />
     <Compile Include="Utilities\RaycastUtilities.cs" />
     <Compile Include="Utilities\SphereUtilities.cs" />
-    <Compile Include="Options\UtilityOptions\BFlags.cs" />
-    <Compile Include="Options\BotOptions\TriggerbotOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
     <Content Include="Libraries\Assembly-CSharp.dll" />
+    <Content Include="Libraries\Newtonsoft.Json.dll" />
     <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

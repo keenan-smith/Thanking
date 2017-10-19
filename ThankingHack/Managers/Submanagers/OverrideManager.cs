@@ -5,7 +5,8 @@ using System.Reflection;
 using Thanking.Wrappers;
 using Thanking.Attributes;
 using UnityEngine;
-using Thanking.Options.UtilityOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 
 namespace Thanking.Managers
 {
@@ -21,14 +22,11 @@ namespace Thanking.Managers
 
         public static void Load()
         {
-            // Main code
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
                 foreach (Type tClass in asm.GetTypes())
                     if (tClass.IsClass)
-                        foreach (MethodInfo method in tClass.GetMethods(BFlags.Everything))
+                        foreach (MethodInfo method in tClass.GetMethods(ReflectionVariables.Everything))
                             LoadOverride(method);
-
-            // Set the variables
         }
         #region Public Functions
         public static void LoadOverride(MethodInfo method)

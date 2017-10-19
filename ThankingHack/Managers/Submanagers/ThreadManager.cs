@@ -2,7 +2,8 @@
 using System.Reflection;
 using System.Threading;
 using Thanking.Attributes;
-using Thanking.Options.UtilityOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 
 namespace Thanking.Managers
 {
@@ -16,7 +17,7 @@ namespace Thanking.Managers
 						if (tClass.IsDefined(typeof(ThreadAttribute), false))
 						{
 							ThreadAttribute classAttribute = Attribute.GetCustomAttribute(tClass, typeof(ThreadAttribute)) as ThreadAttribute;
-							MethodInfo ThreadStart = tClass.GetMethod(classAttribute.StartMethod, BFlags.Everything);
+							MethodInfo ThreadStart = tClass.GetMethod(classAttribute.StartMethod, ReflectionVariables.Everything);
 							Action ThreadAction = (Action)Delegate.CreateDelegate(typeof(Action), ThreadStart);
 							new Thread(new ThreadStart(ThreadAction)).Start();
 						}

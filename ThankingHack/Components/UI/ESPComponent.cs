@@ -1,7 +1,11 @@
 ﻿using SDG.Unturned;
+using System.Collections.Generic;
 using Thanking.Attributes;
+using Thanking.Components.Basic;
+using Thanking.Coroutines;
 using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Components.UI
@@ -19,54 +23,66 @@ namespace Thanking.Components.UI
 			mat.SetInt("_DstBlend", 10);
 			mat.SetInt("_Cull", 0);
 			mat.SetInt("_ZWrite", 0);
+
+			CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
 		}
 
-		public void OnGUI()	
+		public void OnGUI()
 		{
-			if (Event.current.type == EventType.Repaint && ESPOptions.Enabled)
+			if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
+				return;
+
+			int lines = (int)Mathf.Ceil(ESPVariables.Objects.Count / 16);
+
+			for (int i = 0; i < lines; i++)
 			{
-				for (int i = 0; i < ESPOptions.EnabledOptions.Length; i++)
+				int k = i * 16;
+				GL.PushMatrix();
+				GL.Begin(GL.LINES);
+				mat.SetPass(0);
+				GL.LoadIdentity();
+
+				Camera cam = Camera.main;
+				GL.LoadProjectionMatrix(cam.projectionMatrix);
+				GL.modelview = cam.worldToCameraMatrix;
+				GL.Color(new Color(0, 0, 0, 0));
+
+				for (int j = 0; j < 16; j++)
 				{
-					if (ESPOptions.EnabledOptions[i])
+					int l = k + j;
+
+					if (ESPVariables.Objects.Count <= l)
+						return;
+
+					ESPObject obj = ESPVariables.Objects[l];
+					int targ = (int)obj.Target;
+
+					if (ESPOptions.EnabledOptions[targ])
 					{
-						switch (i)
+						switch (obj.Target)
 						{
-							case 0:
-								DrawPlayers();
-								break;
-							case 1:
-							case 2:
-							case 3:
-							case 4:
-							case 5:
-							case 6:
-							case 7:
-								break;
+							case ESPTarget.Players:
+								{
+									GameObject go = ((Player)obj.Object).gameObject;
+									Renderer re = go.GetComponentInChildren<Renderer>();
+									DrawUtilities.PrepareWorldBounds(re.bounds, ESPOptions.ESPColors[targ].ToColor(), mat);
+									break;
+								}
+							case ESPTarget.Items:
+								{
+									GameObject go = ((InteractableItem)obj.Object).gameObject;
+									Renderer re = go.GetComponentInChildren<Renderer>();
+									DrawUtilities.PrepareWorldBounds(re.bounds, ESPOptions.ESPColors[targ].ToColor(), mat);
+									break;
+								}
 						}
 					}
 				}
+
+				GL.End();
+				GL.PopMatrix();
 			}
-		}
 
-		public void DrawItems()
-		{
-			InteractableItem[] items = FindObjectsOfType<InteractableItem>();
-			for (int i = 0; i < items.Length; i++)
-				DrawUtilities.DrawTransform(items[i].transform, mat);
-		}
-
-		public void DrawPlayers()
-		{
-			SteamPlayer[] players = Provider.clients.ToArray();
-			for (int index = 0; index < players.Length; index++)
-			{
-				SteamPlayer plr = players[index];
-
-				if (plr == null || plr.player == Player.player || plr.player.life.isDead ||
-					plr.player.transform == null) continue;
-
-				DrawUtilities.DrawTransform(plr.player.transform, mat);
-			}
 		}
 	}
 }
