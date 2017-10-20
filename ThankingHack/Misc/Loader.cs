@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Thanking.Managers;
+using Thanking.Managers.Main;
 using Thanking.Threads;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking
@@ -15,15 +17,15 @@ namespace Thanking
 
         public static void Hook()
         {
-			#region Hooking
+			#region Unity
 			HookObject = new GameObject();
 			UnityEngine.Object.DontDestroyOnLoad(HookObject);
 			#endregion
 
 			#region Manager Initialization
 			AttributeManager.Init();
-			AssetManager.Init();
 			ConfigManager.Init();
+			AssetManager.Init();
 			#endregion
 		}
     }

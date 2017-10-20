@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Thanking.Managers.Submanagers;
 
-namespace Thanking.Managers
+namespace Thanking.Managers.Main
 {
     public static class AttributeManager
     {

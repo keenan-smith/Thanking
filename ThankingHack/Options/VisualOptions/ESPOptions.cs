@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Thanking.Attributes;
 using Thanking.Misc;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Options.VisualOptions
@@ -20,28 +21,16 @@ namespace Thanking.Options.VisualOptions
 		public static float Distance = 500f;
 
 		[Save]
-		public static bool[] EnabledOptions =
+		public static ESPVisual[] VisualOptions =
 		{
-			true,
-			true,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false
-		};
-		[Save]
-		public static SerializableColor[] ESPColors =
-		{
-			((Color32)Color.red).ToSerializableColor(),
-			((Color32)Color.cyan).ToSerializableColor(),
-			((Color32)Color.cyan).ToSerializableColor(),
-			((Color32)Color.cyan).ToSerializableColor(),
-			((Color32)Color.cyan).ToSerializableColor(),
-			((Color32)Color.cyan).ToSerializableColor(),
-			((Color32)Color.cyan).ToSerializableColor(),
-			((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual(true, ((Color32)Color.red).ToSerializableColor(), true, LabelLocation.MiddleRight),
+			new ESPVisual(true, ((Color32)Color.cyan).ToSerializableColor(), true, LabelLocation.MiddleRight),
+			new ESPVisual(false, ((Color32)Color.cyan).ToSerializableColor(), true, LabelLocation.MiddleRight),
+			new ESPVisual(false, ((Color32)Color.cyan).ToSerializableColor(), true, LabelLocation.MiddleRight),
+			new ESPVisual(false, ((Color32)Color.cyan).ToSerializableColor(), true, LabelLocation.MiddleRight),
+			new ESPVisual(false, ((Color32)Color.cyan).ToSerializableColor(), true, LabelLocation.MiddleRight),
+			new ESPVisual(false, ((Color32)Color.cyan).ToSerializableColor(), true, LabelLocation.MiddleRight),
+			new ESPVisual(false, ((Color32)Color.cyan).ToSerializableColor(), true, LabelLocation.MiddleRight)
 		};
 	}
 }

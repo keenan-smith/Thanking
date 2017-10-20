@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Thanking.Wrappers;
-using Thanking.Managers;
+using Thanking.Managers.Submanagers;
 using System.Diagnostics;
 using Thanking.Attributes;
 using Debug = UnityEngine.Debug;

@@ -19,6 +19,7 @@ namespace Thanking.Coroutines
 	{
 		public static IEnumerator TakeScreenshot()
 		{
+			Debug.Log("TAKING SCREENSHOT");
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)

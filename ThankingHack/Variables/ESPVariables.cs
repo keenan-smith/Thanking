@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Thanking.Misc;
 using UnityEngine;
 
 namespace Thanking.Variables
@@ -17,6 +18,35 @@ namespace Thanking.Variables
 		Vehicles,
 		Storage,
 		Generators
+	}
+
+	public enum LabelLocation
+	{
+		TopRight,
+		TopMiddle,
+		TopLeft,
+		MiddleRight,
+		Center,
+		MiddleLeft,
+		BottomRight,
+		BottomMiddle,
+		BottomLeft
+	}
+
+	public class ESPVisual
+	{
+		public bool Enabled;
+		public SerializableColor Color;
+		public bool Rectangle;
+		public LabelLocation Location;
+
+		public ESPVisual(bool e, SerializableColor c, bool r, LabelLocation ll)
+		{
+			Enabled = e;
+			Color = c;
+			Rectangle = r;
+			Location = ll;
+		}
 	}
 
 	public class ESPObject
@@ -45,7 +75,14 @@ namespace Thanking.Variables
 
 	public class ESPVariables
 	{
-		public static List<ESPObject> Objects = new List<ESPObject>();
 		public static Dictionary<GameObject, LocalBounds> LBounds = new Dictionary<GameObject, LocalBounds>();
+		public static List<ESPObject> Objects = new List<ESPObject>();
+		public static List<ESPBox> DrawBuffer = new List<ESPBox>();
+	}
+
+	public class ESPBox
+	{
+		public Color Color;
+		public Vector3[] Vertices;
 	}
 }

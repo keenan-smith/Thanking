@@ -7,12 +7,15 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Thanking.Managers
+namespace Thanking.Managers.Main
 {
     public class ConfigManager
     {
-		public static void Init() =>
+		public static void Init()
+		{
+			Debug.Log("Getting Thanking configuration...");
 			LoadConfig(GetConfig());
+		}
 
         public static Dictionary<String, object> CollectConfig()
         {

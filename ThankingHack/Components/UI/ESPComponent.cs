@@ -18,12 +18,6 @@ namespace Thanking.Components.UI
 
 		public void Start()
 		{
-			mat = new Material(Shader.Find("Hidden/Internal-Colored")) { hideFlags = HideFlags.HideAndDontSave };
-			mat.SetInt("_SrcBlend", 5);
-			mat.SetInt("_DstBlend", 10);
-			mat.SetInt("_Cull", 0);
-			mat.SetInt("_ZWrite", 0);
-
 			CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
 		}
 
@@ -32,57 +26,121 @@ namespace Thanking.Components.UI
 			if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
 				return;
 
-			int lines = (int)Mathf.Ceil(ESPVariables.Objects.Count / 16);
-
-			for (int i = 0; i < lines; i++)
+			Camera cam = Camera.main;
+			for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
-				int k = i * 16;
+				ESPObject obj = ESPVariables.Objects[i];
+
+				int targ = (int)obj.Target;
+
+				ESPVisual visual = ESPOptions.VisualOptions[targ];
+				Color c = visual.Color.ToColor();
+				LabelLocation ll = visual.Location;
+
+				switch (obj.Target)
+				{
+					case ESPTarget.Players:
+						{
+							Player p = (Player)obj.Object;
+
+							if (p == null)
+								continue;
+
+							Vector3 position = p.transform.position;
+							Vector3 cpos = cam.WorldToScreenPoint(position);
+
+							if (cpos.z <= 0)
+								continue;
+							
+							string text = string.Format("<size=12><color=#{0}>{1}\n{2}</color></size>", DrawUtilities.ColorToHex(c), p.name, Mathf.Round(VectorUtilities.GetDistance(Player.player.transform.position, position)));
+
+							Bounds b = new Bounds();
+							Vector3[] vectors;
+							Vector3 LabelVector = Vector3.zero;
+							if (!visual.Rectangle)
+							{
+								Renderer re = p.GetComponentInChildren<Renderer>();
+								b = re.bounds;
+
+								vectors = DrawUtilities.GetBoxVectors(b);
+								LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
+
+								DrawUtilities.PrepareBoxLines(vectors, c);
+							}
+							else
+							{
+								b = p.GetComponentInChildren<Collider>().bounds;
+
+								vectors = DrawUtilities.GetRectangleVectors(p.transform, b);
+								LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
+
+								DrawUtilities.PrepareRectangleLines(vectors, c);
+							}
+
+							b.size = b.size / 2;
+							b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
+							
+							DrawUtilities.DrawLabel(ll, LabelVector, text);
+							break;
+						}
+					case ESPTarget.Items:
+						{
+							InteractableItem item = (InteractableItem)obj.Object;
+
+							if (item == null)
+								continue;
+
+							Vector3 position = item.transform.position;
+							Vector3 cpos = cam.WorldToScreenPoint(position);
+
+							if (cpos.z <= 0)
+								continue;
+
+							Renderer re = item.GetComponentInChildren<Renderer>();
+
+							Vector3[] vectors = DrawUtilities.GetBoxVectors(re.bounds);
+							Vector2 LabelVector = DrawUtilities.GetW2SVector(cam, re.bounds, vectors, ll);
+
+							string text = string.Format("<size=12><color=#{0}>{1}\n{2}</color></size>", DrawUtilities.ColorToHex(c), item.asset.itemName, Mathf.Round(VectorUtilities.GetDistance(Player.player.transform.position, position)));
+
+							DrawUtilities.PrepareBoxLines(vectors, c);
+							DrawUtilities.DrawLabel(ll, LabelVector, text);
+							break;
+						}
+				}
+			}
+
+			float steps = Mathf.Ceil(ESPVariables.DrawBuffer.Count / 2);
+
+			for (int i = 0; i < steps; i++)
+			{
+				int step = i * 2;
+
 				GL.PushMatrix();
 				GL.Begin(GL.LINES);
-				mat.SetPass(0);
+				AssetVariables.GLMaterial.SetPass(0);
 				GL.LoadIdentity();
 
-				Camera cam = Camera.main;
 				GL.LoadProjectionMatrix(cam.projectionMatrix);
 				GL.modelview = cam.worldToCameraMatrix;
-				GL.Color(new Color(0, 0, 0, 0));
 
-				for (int j = 0; j < 16; j++)
+				for (int j = 0; j < 2; j++)
 				{
-					int l = k + j;
+					int curr = step + j;
 
-					if (ESPVariables.Objects.Count <= l)
+					if (j >= ESPVariables.DrawBuffer.Count)
 						return;
 
-					ESPObject obj = ESPVariables.Objects[l];
-					int targ = (int)obj.Target;
-
-					if (ESPOptions.EnabledOptions[targ])
-					{
-						switch (obj.Target)
-						{
-							case ESPTarget.Players:
-								{
-									GameObject go = ((Player)obj.Object).gameObject;
-									Renderer re = go.GetComponentInChildren<Renderer>();
-									DrawUtilities.PrepareWorldBounds(re.bounds, ESPOptions.ESPColors[targ].ToColor(), mat);
-									break;
-								}
-							case ESPTarget.Items:
-								{
-									GameObject go = ((InteractableItem)obj.Object).gameObject;
-									Renderer re = go.GetComponentInChildren<Renderer>();
-									DrawUtilities.PrepareWorldBounds(re.bounds, ESPOptions.ESPColors[targ].ToColor(), mat);
-									break;
-								}
-						}
-					}
+					ESPBox box = ESPVariables.DrawBuffer[curr];
+					GL.Color(box.Color);
+					for (int k = 0; k < box.Vertices.Length; k++)
+						GL.Vertex(box.Vertices[k]);
 				}
 
 				GL.End();
 				GL.PopMatrix();
 			}
-
+			ESPVariables.DrawBuffer.Clear();
 		}
 	}
 }

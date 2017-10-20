@@ -21,9 +21,9 @@ namespace Thanking.Coroutines
 				List<ESPObject> objects = ESPVariables.Objects;
 				objects.Clear();
 
-				for (int i = 0; i < ESPOptions.EnabledOptions.Length; i++)
+				for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
 				{
-					if (ESPOptions.EnabledOptions[i])
+					if (ESPOptions.VisualOptions[i].Enabled)
 					{
 						//i would make this nicer but it looks like i can't because of generic type argument shit
 						ESPTarget target = (ESPTarget)i;

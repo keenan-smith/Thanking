@@ -5,7 +5,7 @@ using Thanking.Attributes;
 using Thanking.Utilities;
 using Thanking.Variables;
 
-namespace Thanking.Managers
+namespace Thanking.Managers.Submanagers
 {
 	public static class ThreadManager
 	{
