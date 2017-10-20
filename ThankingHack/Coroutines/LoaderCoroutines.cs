@@ -23,7 +23,7 @@ namespace Thanking.Coroutines
 			AssetVariables.GLMaterial.SetInt("_Cull", 0);
 			AssetVariables.GLMaterial.SetInt("_ZWrite", 0);
 
-			AssetVariables.Roboto = bundle.LoadAsset<Font>("Roboto-Thin");
+			AssetVariables.Roboto = bundle.LoadAsset<Font>("Roboto-Medium");
 		}
 	}
 }

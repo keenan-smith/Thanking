@@ -39,13 +39,17 @@ namespace Thanking.Variables
 		public SerializableColor Color;
 		public bool Rectangle;
 		public LabelLocation Location;
+		public bool InfiniteDistance;
+		public float Distance;
 
-		public ESPVisual(bool e, SerializableColor c, bool r, LabelLocation ll)
+		public ESPVisual(bool e, SerializableColor c, bool r, LabelLocation ll, bool id, float d)
 		{
 			Enabled = e;
 			Color = c;
 			Rectangle = r;
 			Location = ll;
+			InfiniteDistance = id;
+			Distance = d;
 		}
 	}
 

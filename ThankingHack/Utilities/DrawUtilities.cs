@@ -9,6 +9,24 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
+		public static Bounds TransformBounds(this Transform _transform, Bounds _localBounds)
+		{
+			var center = _transform.TransformPoint(_localBounds.center);
+
+			// transform the local extents' axes
+			var extents = _localBounds.extents;
+			var axisX = _transform.TransformVector(extents.x, 0, 0);
+			var axisY = _transform.TransformVector(0, extents.y, 0);
+			var axisZ = _transform.TransformVector(0, 0, extents.z);
+
+			// sum their absolute value to get the world extents
+			extents.x = Mathf.Abs(axisX.x) + Mathf.Abs(axisY.x) + Mathf.Abs(axisZ.x);
+			extents.y = Mathf.Abs(axisX.y) + Mathf.Abs(axisY.y) + Mathf.Abs(axisZ.y);
+			extents.z = Mathf.Abs(axisX.z) + Mathf.Abs(axisY.z) + Mathf.Abs(axisZ.z);
+
+			return new Bounds { center = center, extents = extents };
+		}
+
 		public static Vector2 InvertScreenSpace(Vector2 dim) =>
 			new Vector2(dim.x, Screen.height - dim.y);
 
@@ -25,7 +43,7 @@ namespace Thanking.Utilities
 
 			LabelStyle.font = AssetVariables.Roboto;
 			LabelStyle.fontSize = 12;
-			
+
 			Vector2 dim = LabelStyle.CalcSize(gcontent);
 			float width = dim.x;
 			float height = dim.y;
@@ -120,17 +138,16 @@ namespace Thanking.Utilities
 			return InvertScreenSpace(vec);
 		}
 
-		public static Vector3[] GetRectangleVectors(Transform t, Bounds b)
+		public static Vector3[] GetRectVectors(Transform t, Bounds b)
 		{
-			Vector3 v3Center = b.center;
-			Vector3 v3Extents = b.extents;
-
 			Vector3[] vectors = new Vector3[4];
 
-			vectors[0] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top left corner
-			vectors[1] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top right corner
-			vectors[2] = new Vector3(v3Center.x - v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z);  // Front bottom left corner
-			vectors[3] = new Vector3(v3Center.x + v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z);  // Front bottom right corner
+			Vector3 Center = t.InverseTransformPoint(b.center);
+
+			vectors[0] = t.TransformPoint(Center + new Vector3(-b.extents.x * 1.1f, b.extents.y * 1.1f, 0)); //upper left
+			vectors[1] = t.TransformPoint(Center + new Vector3(b.extents.x * 1.1f, b.extents.y * 1.1f, 0)); //upper right
+			vectors[2] = t.TransformPoint(Center + new Vector3(-b.extents.x * 1.1f, -b.extents.y * 1.1f, 0)); //lower left
+			vectors[3] = t.TransformPoint(Center + new Vector3(b.extents.x * 1.1f, -b.extents.y * 1.1f, 0)); //lower right
 
 			return vectors;
 		}
