@@ -132,11 +132,12 @@ namespace Thanking.Components.UI
 			}
 
 			#region Drawing
-			float steps = Mathf.Ceil(ESPVariables.DrawBuffer.Count / 8);
+			int var = 4;
+			float steps = Mathf.Ceil(ESPVariables.DrawBuffer.Count / var);
 
 			for (int i = 0; i < steps; i++)
 			{
-				int step = i * 8;
+				int step = i * var;
 
 				GL.PushMatrix();
 				GL.Begin(GL.LINES);
@@ -146,7 +147,7 @@ namespace Thanking.Components.UI
 				GL.LoadProjectionMatrix(cam.projectionMatrix);
 				GL.modelview = cam.worldToCameraMatrix;
 
-				for (int j = 0; j < 8; j++)
+				for (int j = 0; j < var; j++)
 				{
 					int curr = step + j;
 
@@ -155,9 +156,6 @@ namespace Thanking.Components.UI
 
 					ESPBox box = ESPVariables.DrawBuffer[curr];
 					GL.Color(box.Color);
-
-					for (int k = 0; k < box.Vertices.Length; k++)
-						GL.Vertex(box.Vertices[k]);
 
 					for (int k = 0; k < box.Vertices.Length; k++)
 						GL.Vertex(box.Vertices[k]);

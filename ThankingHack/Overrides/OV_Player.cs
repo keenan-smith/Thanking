@@ -16,9 +16,7 @@ namespace Thanking.Overrides
 		public void OV_askScreenshot(CSteamID steamid)
 		{
 			if (Player.player.channel.checkServer(steamid))
-			{
 				StartCoroutine(PlayerCoroutines.TakeScreenshot());
-			}
 		}
 	}
 }
