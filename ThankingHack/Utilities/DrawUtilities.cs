@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDG.Unturned;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,18 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
-		public static Bounds TransformBounds(this Transform _transform, Bounds _localBounds)
+		public static Bounds GetBoundsRecursively(GameObject go)
+		{
+			Bounds b = new Bounds();
+			MeshRenderer[] mf = go.GetComponentsInChildren<MeshRenderer>();
+
+			for (int i = 0; i < mf.Length; i++)
+				b.Encapsulate(mf[i].bounds);
+
+			return b;
+		}
+
+		public static Bounds TransformBounds(Transform _transform, Bounds _localBounds)
 		{
 			var center = _transform.TransformPoint(_localBounds.center);
 
@@ -27,6 +39,51 @@ namespace Thanking.Utilities
 			return new Bounds { center = center, extents = extents };
 		}
 
+		public static void DrawTextWithOutline(Rect centerRect, string text, GUIStyle style, Color borderColor, Color innerColor, int borderWidth)
+		{
+			// assign the border color
+			style.normal.textColor = borderColor;
+
+			// draw an outline color copy to the left and up from original
+			Rect modRect = centerRect;
+			modRect.x -= borderWidth;
+			modRect.y -= borderWidth;
+			GUI.Label(modRect, text, style);
+
+
+			// stamp copies from the top left corner to the top right corner
+			while (modRect.x <= centerRect.x + borderWidth)
+			{
+				modRect.x++;
+				GUI.Label(modRect, text, style);
+			}
+
+			// stamp copies from the top right corner to the bottom right corner
+			while (modRect.y <= centerRect.y + borderWidth)
+			{
+				modRect.y++;
+				GUI.Label(modRect, text, style);
+			}
+
+			// stamp copies from the bottom right corner to the bottom left corner
+			while (modRect.x >= centerRect.x - borderWidth)
+			{
+				modRect.x--;
+				GUI.Label(modRect, text, style);
+			}
+
+			// stamp copies from the bottom left corner to the top left corner
+			while (modRect.y >= centerRect.y - borderWidth)
+			{
+				modRect.y--;
+				GUI.Label(modRect, text, style);
+			}
+
+			// draw the inner color version in the center
+			style.normal.textColor = innerColor;
+			GUI.Label(centerRect, text, style);
+		}
+
 		public static Vector2 InvertScreenSpace(Vector2 dim) =>
 			new Vector2(dim.x, Screen.height - dim.y);
 
@@ -36,7 +93,7 @@ namespace Thanking.Utilities
 			return hex;
 		}
 
-		public static void DrawLabel(LabelLocation location, Vector2 W2SVector, string content)
+		public static void DrawLabel(LabelLocation location, Vector2 W2SVector, string content, Color bColor, Color iColor, int bWidth)
 		{
 			GUIContent gcontent = new GUIContent(content);
 			GUIStyle LabelStyle = new GUIStyle();
@@ -98,7 +155,7 @@ namespace Thanking.Utilities
 					break;
 			}
 
-			GUI.Label(rect, gcontent, LabelStyle);
+			DrawTextWithOutline(rect, gcontent.text, LabelStyle, bColor, iColor, bWidth);
 		}
 
 		public static Vector2 GetW2SVector(Camera cam, Bounds b, Vector3[] vectors, LabelLocation location)
@@ -138,20 +195,6 @@ namespace Thanking.Utilities
 			return InvertScreenSpace(vec);
 		}
 
-		public static Vector3[] GetRectVectors(Transform t, Bounds b)
-		{
-			Vector3[] vectors = new Vector3[4];
-
-			Vector3 Center = t.InverseTransformPoint(b.center);
-
-			vectors[0] = t.TransformPoint(Center + new Vector3(-b.extents.x * 1.1f, b.extents.y * 1.1f, 0)); //upper left
-			vectors[1] = t.TransformPoint(Center + new Vector3(b.extents.x * 1.1f, b.extents.y * 1.1f, 0)); //upper right
-			vectors[2] = t.TransformPoint(Center + new Vector3(-b.extents.x * 1.1f, -b.extents.y * 1.1f, 0)); //lower left
-			vectors[3] = t.TransformPoint(Center + new Vector3(b.extents.x * 1.1f, -b.extents.y * 1.1f, 0)); //lower right
-
-			return vectors;
-		}
-
 		public static Vector3[] GetBoxVectors(Bounds b)
 		{
 			Vector3 v3Center = b.center;
@@ -159,12 +202,12 @@ namespace Thanking.Utilities
 
 			Vector3[] vectors = new Vector3[8];
 
-			vectors[0] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top left corner
-			vectors[1] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top right corner
+			vectors[0] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top left corner; 2 to 0
+			vectors[1] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top right corner; 3 to 1
 			vectors[2] = new Vector3(v3Center.x - v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z);  // Front bottom left corner
 			vectors[3] = new Vector3(v3Center.x + v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z);  // Front bottom right corner
-			vectors[4] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z);  // Back top left corner
-			vectors[5] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z);  // Back top right corner
+			vectors[4] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z);  // Back top left corner; 6 to 4
+			vectors[5] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z);  // Back top right corner; 7 to 5
 			vectors[6] = new Vector3(v3Center.x - v3Extents.x, v3Center.y - v3Extents.y, v3Center.z + v3Extents.z);  // Back bottom left corner
 			vectors[7] = new Vector3(v3Center.x + v3Extents.x, v3Center.y - v3Extents.y, v3Center.z + v3Extents.z);  // Back bottom right corner
 

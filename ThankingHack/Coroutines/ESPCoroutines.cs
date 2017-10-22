@@ -19,7 +19,8 @@ namespace Thanking.Coroutines
 			while (true)
 			{
 				List<ESPObject> objects = ESPVariables.Objects;
-				objects.Clear();
+
+				Dictionary<ESPTarget, List<object>> objDict = new Dictionary<ESPTarget, List<object>>();
 
 				for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
 				{
@@ -27,10 +28,14 @@ namespace Thanking.Coroutines
 					{
 						//i would make this nicer but it looks like i can't because of generic type argument shit
 						ESPTarget target = (ESPTarget)i;
+						objDict.Add(target, null);
+
 						switch (target)
 						{
 							case ESPTarget.Players:
 								{
+									List<Player> ps = new List<Player>();
+
 									foreach (SteamPlayer player in Provider.clients)
 									{
 										Player plr = player.player;
@@ -38,92 +43,142 @@ namespace Thanking.Coroutines
 										if (plr.life.isDead || plr == Player.player)
 											continue;
 
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.Players, player.player));
+										ps.Add(plr);
 									}
+
+									ps.OrderBy(p => VectorUtilities.GetDistance(p.transform.position, Player.player.transform.position));
+
+									objDict[ESPTarget.Players] = ps.Select(p => (object)p).ToList();
 									break;
 								}
 							case ESPTarget.Items:
 								{
+									List<InteractableItem> objs = new List<InteractableItem>();
+
 									InteractableItem[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableItem>();
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableItem obj = objarr[j];
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.Items, obj));
+										objs.Add(obj);
 									}
 
+									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+
+									objDict[ESPTarget.Items] = objs.Select(o => (object)o).ToList();
 									break;
 								}
 							case ESPTarget.Sentries:
 								{
+									List<InteractableSentry> objs = new List<InteractableSentry>();
+
 									InteractableSentry[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableSentry>();
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableSentry obj = objarr[j];
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.Sentries, obj));
+										objs.Add(obj);
 									}
+
+									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+
+									objDict[ESPTarget.Sentries] = objs.Select(o => (object)o).ToList();
 
 									break;
 								}
 							case ESPTarget.Beds:
 								{
+									List<InteractableBed> objs = new List<InteractableBed>();
+
 									InteractableBed[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableBed>();
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableBed obj = objarr[j];
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.Beds, obj));
+										objs.Add(obj);
 									}
+
+									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+
+									objDict[ESPTarget.Beds] = objs.Select(o => (object)o).ToList();
 
 									break;
 								}
 							case ESPTarget.ClaimFlags:
 								{
+									List<InteractableClaim> objs = new List<InteractableClaim>();
+
 									InteractableClaim[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableClaim>();
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableClaim obj = objarr[j];
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.ClaimFlags, obj));
+										objs.Add(obj);
 									}
+
+									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+
+									objDict[ESPTarget.ClaimFlags] = objs.Select(o => (object)o).ToList();
 
 									break;
 								}
 							case ESPTarget.Vehicles:
 								{
+									List<InteractableVehicle> objs = new List<InteractableVehicle>();
+
 									InteractableVehicle[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableVehicle>();
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableVehicle obj = objarr[j];
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.Vehicles, obj));
+										objs.Add(obj);
 									}
+
+									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+
+									objDict[ESPTarget.Vehicles] = objs.Select(o => (object)o).ToList();
 
 									break;
 								}
 							case ESPTarget.Storage:
 								{
+									List<InteractableStorage> objs = new List<InteractableStorage>();
+
 									InteractableStorage[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableStorage>();
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableStorage obj = objarr[j];
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.Storage, obj));
+										objs.Add(obj);
 									}
+
+									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+
+									objDict[ESPTarget.Storage] = objs.Select(o => (object)o).ToList();
 
 									break;
 								}
 							case ESPTarget.Generators:
 								{
+									List<InteractableGenerator> objs = new List<InteractableGenerator>();
+
 									InteractableGenerator[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableGenerator>();
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableGenerator obj = objarr[j];
-										ESPVariables.Objects.Add(new ESPObject(ESPTarget.Generators, obj));
+										objs.Add(obj);
 									}
+
+									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+
+									objDict[ESPTarget.Generators] = objs.Select(o => (object)o).ToList();
 
 									break;
 								}
 						}
 					}
 				}
+				objects.Clear();
 
-				yield return new WaitForSeconds(2);
+				foreach (ESPTarget t in objDict.Keys.OrderByDescending(o => ESPOptions.PriorityTable[o]).ToList())
+					for (int i = 0; i < objDict[t].Count; i++)
+						ESPVariables.Objects.Add(new ESPObject(t, objDict[t][i]));
+
+				yield return new WaitForSeconds(5);
 			}
 		}
 	}

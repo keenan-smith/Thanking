@@ -18,12 +18,7 @@ namespace Thanking.Coroutines
 			AssetVariables.ABundle = bundle;
 
 			AssetVariables.GLMaterial = new Material(bundle.LoadAsset<Shader>("Solid")) { hideFlags = HideFlags.HideAndDontSave };
-			AssetVariables.GLMaterial.SetInt("_SrcBlend", (int)BlendMode.One);
-			AssetVariables.GLMaterial.SetInt("_DstBlend", (int)BlendMode.One);
-			AssetVariables.GLMaterial.SetInt("_Cull", 0);
-			AssetVariables.GLMaterial.SetInt("_ZWrite", 0);
-
-			AssetVariables.Roboto = bundle.LoadAsset<Font>("Roboto-Medium");
+			AssetVariables.Roboto = bundle.LoadAsset<Font>("Roboto-Light");
 		}
 	}
 }

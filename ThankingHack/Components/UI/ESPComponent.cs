@@ -1,5 +1,6 @@
 ﻿using SDG.Unturned;
 using System.Collections.Generic;
+using Thanking.Misc;
 using Thanking.Attributes;
 using Thanking.Components.Basic;
 using Thanking.Coroutines;
@@ -7,6 +8,7 @@ using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
+using System;
 
 namespace Thanking.Components.UI
 {
@@ -30,146 +32,117 @@ namespace Thanking.Components.UI
 				ESPObject obj = ESPVariables.Objects[i];
 
 				int targ = (int)obj.Target;
-
 				ESPVisual visual = ESPOptions.VisualOptions[targ];
 
 				Color c = visual.Color.ToColor();
 				LabelLocation ll = visual.Location;
 
-				switch (obj.Target)
+				try
 				{
-					#region Players
-					case ESPTarget.Players:
-						{
-							Player p = (Player)obj.Object;
-
-							if (p == null)
-								continue;
-
-							Vector3 position = p.transform.position;
-							float dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
-
-							if (dist > visual.Distance && !visual.InfiniteDistance)
-								continue;
-
-							Vector3 cpos = cam.WorldToScreenPoint(position);
-
-							if (cpos.z <= 0)
-								continue;
-
-							string text = string.Format("<size=12><color=#{0}>{1}\n{2}\n{3}</color></size>", DrawUtilities.ColorToHex(c), p.name, p.equipment.asset != null ? p.equipment.asset.itemName : "Fists", Mathf.Round(dist));
-
-							Bounds b = new Bounds();
-							Vector3 LabelVector = Vector3.zero;
-							Vector3[] vectors;
-
-							Renderer re = p.GetComponentInChildren<Renderer>();
-
-							if (!visual.Rectangle)
+					switch (obj.Target)
+					{
+						#region Players
+						case ESPTarget.Players:
 							{
-								b = re.bounds;
+								Player p = (Player)obj.Object;
+
+								if (p == null)
+									continue;
+
+								Vector3 position = p.transform.position;
+								float dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
+
+								if (dist > visual.Distance && !visual.InfiniteDistance)
+									continue;
+
+								Vector3 cpos = cam.WorldToScreenPoint(position);
+
+								if (cpos.z <= 0)
+									continue;
+
+								string text = string.Format("<size=12>{0}\n{1}\n{2}</size>", p.name, p.equipment.asset != null ? p.equipment.asset.itemName : "Fists", Mathf.Round(dist));
+								
+								Bounds b = p.GetComponentInChildren<Renderer>().bounds;
+
 								b.size = b.size / 2;
 								b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
-								vectors = DrawUtilities.GetBoxVectors(b);
 
+								Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
+
+								/*
+								if (visual.Rectangle)
+								{
+									vectors = DrawUtilities.GetRectVectors(p.transform, b, vectors);
+									DrawUtilities.PrepareRectangleLines(vectors, c);
+								}
+								else
 								DrawUtilities.PrepareBoxLines(vectors, c);
+								*/
+
+								Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
+								DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, 4);
+
+								break;
 							}
-							else
+						#endregion
+						#region Items
+						case ESPTarget.Items:
 							{
-								Transform t = Player.player.look.aim;
-								b = re.bounds;
-								b.size = b.size / 2;
-								b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
+								InteractableItem item = (InteractableItem)obj.Object;
 
-								vectors = DrawUtilities.GetRectVectors(t, b);
-								DrawUtilities.PrepareRectangleLines(vectors, c);
+								if (item == null)
+									continue;
+
+								Vector3 position = item.transform.position;
+								Vector3 cpos = cam.WorldToScreenPoint(position);
+
+								if (cpos.z <= 0)
+									continue;
+
+								Bounds b = item.GetComponentInChildren<Renderer>().bounds;
+								Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
+
+								string text = string.Format("<size=12>{0}\n{1}</size>", item.asset.itemName, Mathf.Round(VectorUtilities.GetDistance(Player.player.transform.position, position)));
+
+								/*
+								if (visual.Rectangle)
+								{
+									vectors = DrawUtilities.GetRectVectors(item.transform, b, vectors);
+									DrawUtilities.PrepareRectangleLines(vectors, c);
+								}
+								else
+								DrawUtilities.PrepareBoxLines(vectors, c);
+								*/
+
+								Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
+								DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, 4);
+								break;
 							}
-
-							LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
-							DrawUtilities.DrawLabel(ll, LabelVector, text);
-							break;
-						}
-					#endregion
-					#region Items
-					case ESPTarget.Items:
-						{
-							InteractableItem item = (InteractableItem)obj.Object;
-
-							if (item == null)
-								continue;
-
-							Vector3 position = item.transform.position;
-							Vector3 cpos = cam.WorldToScreenPoint(position);
-
-							if (cpos.z <= 0)
-								continue;
-
-							Renderer re = item.GetComponentInChildren<Renderer>();
-
-							Vector3[] vectors = DrawUtilities.GetBoxVectors(re.bounds);
-							Vector2 LabelVector = DrawUtilities.GetW2SVector(cam, re.bounds, vectors, ll);
-
-							string text = string.Format("<size=12><color=#{0}>{1}\n{2}</color></size>", DrawUtilities.ColorToHex(c), item.asset.itemName, Mathf.Round(VectorUtilities.GetDistance(Player.player.transform.position, position)));
-
-							DrawUtilities.PrepareBoxLines(vectors, c);
-							DrawUtilities.DrawLabel(ll, LabelVector, text);
-							break;
-						}
 						#endregion
-					#region Sentries  
-						#endregion
-					#region Beds
-						#endregion
-					#region Claim Flags
-						#endregion
-					#region Vehicles
-						#endregion
-					#region Storage
-						#endregion
-					#region Generators
-						#endregion
+					}
 				}
+				catch (Exception ex) { Debug.LogError(ex); }
 			}
+			
+			GL.PushMatrix();
 
-			#region Drawing
-			int var = 4;
-			float steps = Mathf.Ceil(ESPVariables.DrawBuffer.Count / var);
+			GL.LoadIdentity();
+			GL.LoadProjectionMatrix(Camera.main.projectionMatrix);
+			GL.MultMatrix(Camera.main.worldToCameraMatrix);
 
-			for (int i = 0; i < steps; i++)
+
+			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
 			{
-				int step = i * var;
+				ESPBox box = ESPVariables.DrawBuffer[i];
+				GL.Color(box.Color);
 
-				GL.PushMatrix();
-				GL.Begin(GL.LINES);
-				AssetVariables.GLMaterial.SetPass(0);
-				GL.LoadIdentity();
-
-				GL.LoadProjectionMatrix(cam.projectionMatrix);
-				GL.modelview = cam.worldToCameraMatrix;
-
-				for (int j = 0; j < var; j++)
-				{
-					int curr = step + j;
-
-					if (j >= ESPVariables.DrawBuffer.Count)
-						return;
-
-					ESPBox box = ESPVariables.DrawBuffer[curr];
-					GL.Color(box.Color);
-
-					for (int k = 0; k < box.Vertices.Length; k++)
-						GL.Vertex(box.Vertices[k]);
-
-					for (int k = 0; k < box.Vertices.Length; k++)
-						GL.Vertex(box.Vertices[k]);
-				}
-
-				GL.End();
-				GL.PopMatrix();
+				Vector3[] vertices = box.Vertices;
+				for (int j = 0; j < vertices.Length; j++)
+					GL.Vertex(vertices[j]);
 			}
 
-			ESPVariables.DrawBuffer.Clear();
-			#endregion
+			GL.PopMatrix();
+			GL.Flush();
 		}
 	}
 }

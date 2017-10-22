@@ -17,7 +17,7 @@ namespace Thanking.Overrides
             if (((ItemGunAsset) Player.player.equipment.asset).projectile != null)
                 return;
 
-			List<BulletInfo> Bullets = ReflectionUtilities.GetField<List<BulletInfo>>(Player.player.equipment.useable, "bullets", ReflectionUtilities.FieldType.Private);
+			List<BulletInfo> Bullets = Player.player.equipment.useable.GetField<List<BulletInfo>>("bullets", ReflectionUtilities.FieldType.Private);
 
 			if (Provider.modeConfigData.Gameplay.Ballistics)
 			{

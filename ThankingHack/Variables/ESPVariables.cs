@@ -79,7 +79,6 @@ namespace Thanking.Variables
 
 	public class ESPVariables
 	{
-		public static Dictionary<GameObject, LocalBounds> LBounds = new Dictionary<GameObject, LocalBounds>();
 		public static List<ESPObject> Objects = new List<ESPObject>();
 		public static List<ESPBox> DrawBuffer = new List<ESPBox>();
 	}
