@@ -9,6 +9,7 @@ namespace Thanking.Overrides
 {
     public static class OV_Input
     {
+		/*
         [Override(typeof(Input), "GetKey", BindingFlags.Public | BindingFlags.Static, 1)]
         public static bool OV_GetKey(KeyCode key)
         {
@@ -19,5 +20,6 @@ namespace Thanking.Overrides
                     .GetMethod("GetKeyInt", ReflectionVariables.PrivateStatic)
                     .Invoke(null, new object[] { (int)key });
         }
+		*/
     }
 }

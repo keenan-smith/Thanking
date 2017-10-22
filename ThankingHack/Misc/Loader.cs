@@ -23,8 +23,8 @@ namespace Thanking
 			#endregion
 
 			#region Manager Initialization
-			AttributeManager.Init();
 			ConfigManager.Init();
+			AttributeManager.Init();
 			AssetManager.Init();
 			#endregion
 		}

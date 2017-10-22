@@ -10,6 +10,12 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
+		public static void PrepareRectangleLines(Bounds tBounds, Vector3[] corners, Color c)
+		{
+			Vector3[] vectors = MathUtilities.GetRectanglePoints(Player.player.look.aim.position, corners, tBounds);
+			PrepareRectangleLines(vectors, c);
+		}
+
 		public static Bounds GetBoundsRecursively(GameObject go)
 		{
 			Bounds b = new Bounds();
@@ -222,12 +228,12 @@ namespace Thanking.Utilities
 				Vertices = new Vector3[8]
 				{
 					nvectors[0],
+					nvectors[2],
+					nvectors[2],
 					nvectors[1],
 					nvectors[1],
 					nvectors[3],
 					nvectors[3],
-					nvectors[2],
-					nvectors[2],
 					nvectors[0]
 				}
 			});

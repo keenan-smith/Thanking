@@ -46,7 +46,7 @@ namespace Thanking.Coroutines
 										ps.Add(plr);
 									}
 
-									ps.OrderBy(p => VectorUtilities.GetDistance(p.transform.position, Player.player.transform.position));
+									ps.OrderBy(p => (Player.player.transform.position - p.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.Players] = ps.Select(p => (object)p).ToList();
 									break;
@@ -62,7 +62,7 @@ namespace Thanking.Coroutines
 										objs.Add(obj);
 									}
 
-									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+									objs.OrderBy(o => (Player.player.transform.position - o.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.Items] = objs.Select(o => (object)o).ToList();
 									break;
@@ -78,7 +78,7 @@ namespace Thanking.Coroutines
 										objs.Add(obj);
 									}
 
-									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+									objs.OrderBy(o => (Player.player.transform.position - o.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.Sentries] = objs.Select(o => (object)o).ToList();
 
@@ -95,7 +95,7 @@ namespace Thanking.Coroutines
 										objs.Add(obj);
 									}
 
-									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+									objs.OrderBy(o => (Player.player.transform.position - o.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.Beds] = objs.Select(o => (object)o).ToList();
 
@@ -112,7 +112,7 @@ namespace Thanking.Coroutines
 										objs.Add(obj);
 									}
 
-									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+									objs.OrderBy(o => (Player.player.transform.position - o.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.ClaimFlags] = objs.Select(o => (object)o).ToList();
 
@@ -129,7 +129,7 @@ namespace Thanking.Coroutines
 										objs.Add(obj);
 									}
 
-									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+									objs.OrderBy(o => (Player.player.transform.position - o.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.Vehicles] = objs.Select(o => (object)o).ToList();
 
@@ -146,7 +146,7 @@ namespace Thanking.Coroutines
 										objs.Add(obj);
 									}
 
-									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+									objs.OrderBy(o => (Player.player.transform.position - o.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.Storage] = objs.Select(o => (object)o).ToList();
 
@@ -163,7 +163,7 @@ namespace Thanking.Coroutines
 										objs.Add(obj);
 									}
 
-									objs.OrderBy(o => VectorUtilities.GetDistance(Player.player.transform.position, o.transform.position));
+									objs.OrderBy(o => (Player.player.transform.position - o.transform.position).sqrMagnitude);
 
 									objDict[ESPTarget.Generators] = objs.Select(o => (object)o).ToList();
 

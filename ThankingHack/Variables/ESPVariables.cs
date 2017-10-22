@@ -36,19 +36,21 @@ namespace Thanking.Variables
 	public class ESPVisual
 	{
 		public bool Enabled;
-		public SerializableColor Color;
 		public bool Rectangle;
-		public LabelLocation Location;
 		public bool InfiniteDistance;
+		public bool LineToObject;
+		public SerializableColor Color;
+		public LabelLocation Location;
 		public float Distance;
 
-		public ESPVisual(bool e, SerializableColor c, bool r, LabelLocation ll, bool id, float d)
+		public ESPVisual(bool e, bool r, bool id, bool lto, SerializableColor c, LabelLocation ll,  float d)
 		{
 			Enabled = e;
-			Color = c;
 			Rectangle = r;
-			Location = ll;
 			InfiniteDistance = id;
+			LineToObject = lto;
+			Color = c;
+			Location = ll;
 			Distance = d;
 		}
 	}
@@ -80,12 +82,20 @@ namespace Thanking.Variables
 	public class ESPVariables
 	{
 		public static List<ESPObject> Objects = new List<ESPObject>();
+
 		public static List<ESPBox> DrawBuffer = new List<ESPBox>();
+		public static List<ESPBox2> DrawBuffer2 = new List<ESPBox2>();
 	}
 
 	public class ESPBox
 	{
 		public Color Color;
 		public Vector3[] Vertices;
+	}
+
+	public class ESPBox2
+	{
+		public Color Color;
+		public Vector2[] Vertices;
 	}
 }

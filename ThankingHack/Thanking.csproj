@@ -43,6 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="KDTree, Version=0.9.28.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\KDSharp.KDTree.0.9.28\lib\net35\KDTree.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Newtonsoft.Json.dll</HintPath>
@@ -82,9 +85,11 @@
     <Compile Include="Options\AimOptions\RaycastOptions.cs" />
     <Compile Include="Options\AimOptions\SphereOptions.cs" />
     <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
+    <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
     <Compile Include="Overrides\OV_Player.cs" />
+    <Compile Include="Overrides\OV_PlayerInteract.cs" />
     <Compile Include="Overrides\OV_PlayerPauseUI.cs" />
     <Compile Include="Overrides\OV_UseableGun.cs" />
     <Compile Include="Threads\LoaderThread.cs" />
@@ -114,6 +119,8 @@
     <Content Include="Libraries\Newtonsoft.Json.dll" />
     <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
