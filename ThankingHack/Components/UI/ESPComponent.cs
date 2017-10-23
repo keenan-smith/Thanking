@@ -73,21 +73,7 @@ namespace Thanking.Components.UI
 								DrawUtilities.PrepareRectangleLines(b, vectors, c);
 							else
 								DrawUtilities.PrepareBoxLines(vectors, c);
-
-							if (visual.LineToObject)
-							{
-								ESPVariables.DrawBuffer.Add(new ESPBox()
-								{
-									Color = c,
-									Vertices = new Vector3[2]
-									{
-										Player.player.transform.position,
-										p.transform.position
-									}
-								});
-							}
-
-
+							
 							Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
 							DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, 4);
 
@@ -118,19 +104,6 @@ namespace Thanking.Components.UI
 							else
 								DrawUtilities.PrepareBoxLines(vectors, c);
 
-							if (visual.LineToObject)
-							{
-								ESPVariables.DrawBuffer.Add(new ESPBox()
-								{
-									Color = c,
-									Vertices = new Vector3[2]
-									{
-										Player.player.transform.position,
-										item.transform.position
-									}
-								});
-							}
-
 							Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
 							DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, 4);
 							break;
@@ -140,17 +113,15 @@ namespace Thanking.Components.UI
 			}
 			
 			GL.PushMatrix();
-
-			GL.LoadIdentity();
 			GL.LoadProjectionMatrix(cam.projectionMatrix);
 			GL.modelview = cam.worldToCameraMatrix;
-
 			AssetVariables.GLMaterial.SetPass(0);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
 			{
 				ESPBox box = ESPVariables.DrawBuffer[i];
 				GL.Begin(GL.LINES);
+
 				GL.Color(box.Color);
 
 				Vector3[] vertices = box.Vertices;

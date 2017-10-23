@@ -45,8 +45,11 @@ namespace Thanking.Options.VisualOptions
 		#endregion
 
 		#region Player Options
+		[Save]
 		public static bool ShowPlayerName = true;
+		[Save]
 		public static bool ShowPlayerDistance = true;
+		[Save]
 		public static bool ShowPlayerWeapon = true;
 #endregion
 	}

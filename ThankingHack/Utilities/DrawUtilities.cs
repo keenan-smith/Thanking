@@ -228,12 +228,12 @@ namespace Thanking.Utilities
 				Vertices = new Vector3[8]
 				{
 					nvectors[0],
-					nvectors[2],
-					nvectors[2],
 					nvectors[1],
 					nvectors[1],
 					nvectors[3],
 					nvectors[3],
+					nvectors[2],
+					nvectors[2],
 					nvectors[0]
 				}
 			});

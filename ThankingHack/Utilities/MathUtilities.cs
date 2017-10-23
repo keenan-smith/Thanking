@@ -24,13 +24,7 @@ namespace Thanking.Utilities
 
 			float oDotProduct = Vector3.Dot(p0 - bCenter, oVector); //dot product between p0 and orthogonal vector
 			float lambda = -(oDotProduct / dProduct); //lambda is distance from p0 on vector from p0 to p1
-
-			if (lambda < -0.1f)
-				return false;
-
-			if ((lambda * lambda) - 0.1f > lineDir.sqrMagnitude)
-				return false;
-
+			
 			intersection = p0 + lambda * lineDir; //vector to point
 			return true;
 		}
@@ -89,9 +83,13 @@ namespace Thanking.Utilities
 					fVectors.Add(iPos); //returns vector to intercept between plane defined by oVector and bCenter, and line defined by p0 and p1. Returns false if not exist
 			}
 
-			fVectors.Add(bound.center);
+			Bounds nBound = new Bounds(bound.center, bound.size * 1.1f);
 
-			return fVectors.OrderBy(v => VectorUtilities.GetDistance(v, bound.center)).Take(4).ToArray();
+			for (int i = fVectors.Count - 1; i > -1; i--)
+				if (!nBound.Contains(fVectors[i]))
+					fVectors.RemoveAt(i);
+
+			return fVectors.ToArray();
 		}
 	}
 }
