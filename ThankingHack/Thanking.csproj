@@ -71,6 +71,7 @@
     <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
+    <Compile Include="Components\UI\LogoComponent.cs" />
     <Compile Include="Components\UI\RadarComponent.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Options\AimOptions\RaycastOptions.cs" />
     <Compile Include="Options\AimOptions\SphereOptions.cs" />
     <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
+    <Compile Include="Options\AimOptions\WeaponOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Overrides\OV_PlayerInteract.cs" />
     <Compile Include="Overrides\OV_PlayerPauseUI.cs" />
     <Compile Include="Overrides\OV_UseableGun.cs" />
+    <Compile Include="Threads\HeartbeatThread.cs" />
     <Compile Include="Threads\LoaderThread.cs" />
     <Compile Include="Managers\Main\AttributeManager.cs" />
     <Compile Include="Managers\Submanagers\OverrideManager.cs" />
@@ -105,7 +108,6 @@
     <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="Options\VisualOptions\ESPOptions.cs" />
-    <Compile Include="Options\VisualOptions\RadarOptions.cs" />
     <Compile Include="Variables\AssetVariables.cs" />
     <Compile Include="Variables\ESPVariables.cs" />
     <Compile Include="Variables\ReflectionVariables.cs" />

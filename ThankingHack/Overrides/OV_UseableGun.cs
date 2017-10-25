@@ -13,11 +13,11 @@ namespace Thanking.Overrides
         [Override(typeof(UseableGun), "ballistics", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)]
         public void OV_ballistics()
         {
-            ItemGunAsset PAsset = ((ItemGunAsset)Player.player.equipment.asset);
-            if (((ItemGunAsset) Player.player.equipment.asset).projectile != null)
-                return;
+				ItemGunAsset PAsset = ((ItemGunAsset)Player.player.equipment.asset);
+				if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
+					return;
 
-			List<BulletInfo> Bullets = Player.player.equipment.useable.GetField<List<BulletInfo>>("bullets", ReflectionUtilities.FieldType.Private);
+				List<BulletInfo> Bullets = Player.player.equipment.useable.GetField<List<BulletInfo>>("bullets", ReflectionUtilities.FieldType.Private);
 
 			if (Provider.modeConfigData.Gameplay.Ballistics)
 			{

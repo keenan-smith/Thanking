@@ -78,6 +78,7 @@ namespace Thanking.Utilities
 
 				if (VectorUtilities.GetDistance(Player.player.transform.position, closestPlayer.transform.position) <= SphereOptions.SphereRadius)
 				{
+					PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
 					return new RaycastInfo(closestPlayer.transform)
 					{
 						point = Player.player.transform.position,

@@ -83,7 +83,7 @@ namespace Thanking.Utilities
 					fVectors.Add(iPos); //returns vector to intercept between plane defined by oVector and bCenter, and line defined by p0 and p1. Returns false if not exist
 			}
 
-			Bounds nBound = new Bounds(bound.center, bound.size * 1.1f);
+			Bounds nBound = new Bounds(bound.center, bound.size * 1.2f);
 
 			for (int i = fVectors.Count - 1; i > -1; i--)
 				if (!nBound.Contains(fVectors[i]))

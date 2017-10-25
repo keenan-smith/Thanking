@@ -27,6 +27,9 @@ namespace Thanking.Components.UI
 			if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
 				return;
 
+			if (!Provider.isConnected || Provider.isLoading)
+				return;
+
 			Camera cam = Camera.main;
 			for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
@@ -37,7 +40,6 @@ namespace Thanking.Components.UI
 
 				Color c = visual.Color.ToColor();
 				LabelLocation ll = visual.Location;
-
 
 				switch (obj.Target)
 				{
@@ -59,7 +61,7 @@ namespace Thanking.Components.UI
 
 							if (cpos.z <= 0)
 								continue;
-						
+
 							string text = string.Format("<size=12>{0}\n{1}\n{2}</size>", p.name, p.equipment.asset != null ? p.equipment.asset.itemName : "Fists", Mathf.Round(dist));
 
 							Bounds b = p.GetComponentInChildren<Renderer>().bounds;
@@ -70,10 +72,10 @@ namespace Thanking.Components.UI
 							Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
 
 							if (visual.Rectangle || Input.GetKey(KeyCode.RightAlt))
-								DrawUtilities.PrepareRectangleLines(b, vectors, c);
+								DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
 							else
 								DrawUtilities.PrepareBoxLines(vectors, c);
-							
+
 							Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
 							DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, 4);
 
@@ -100,7 +102,7 @@ namespace Thanking.Components.UI
 							string text = string.Format("<size=12>{0}\n{1}</size>", item.asset.itemName, Mathf.Round(VectorUtilities.GetDistance(Player.player.transform.position, position)));
 
 							if (visual.Rectangle || Input.GetKey(KeyCode.RightAlt))
-								DrawUtilities.PrepareRectangleLines(b, vectors, c);
+								DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
 							else
 								DrawUtilities.PrepareBoxLines(vectors, c);
 
@@ -111,7 +113,7 @@ namespace Thanking.Components.UI
 						#endregion
 				}
 			}
-			
+
 			GL.PushMatrix();
 			GL.LoadProjectionMatrix(cam.projectionMatrix);
 			GL.modelview = cam.worldToCameraMatrix;
@@ -130,9 +132,29 @@ namespace Thanking.Components.UI
 
 				GL.End();
 			}
+			GL.PopMatrix();
+
+			GL.PushMatrix();
+			AssetVariables.GLMaterial.SetPass(0);
+
+			for (int i = 0; i < ESPVariables.DrawBuffer2.Count; i++)
+			{
+				ESPBox2 box = ESPVariables.DrawBuffer2[i];
+				GL.Begin(GL.LINES);
+
+				GL.Color(box.Color);
+
+				Vector2[] vertices = box.Vertices;
+				for (int j = 0; j < vertices.Length; j++)
+					GL.Vertex3(vertices[j].x, vertices[j].y, 0);
+
+				GL.End();
+			}
+			GL.PopMatrix();
+
 
 			ESPVariables.DrawBuffer.Clear();
-			GL.PopMatrix();
+			ESPVariables.DrawBuffer2.Clear();
 		}
 	}
 }

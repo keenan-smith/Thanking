@@ -10,9 +10,37 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
-		public static void PrepareRectangleLines(Bounds tBounds, Vector3[] corners, Color c)
+		public static void PrepareRectangleLines(Camera cam, Bounds b, Color c)
 		{
-			Vector3[] vectors = MathUtilities.GetRectanglePoints(Player.player.look.aim.position, corners, tBounds);
+			Vector3[] pts = new Vector3[8];
+			pts[0] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z));
+			pts[1] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z));
+			pts[2] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z));
+			pts[3] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z));
+			pts[4] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z));
+			pts[5] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z));
+			pts[6] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z));
+			pts[7] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z));
+			
+			//Get them in GUI space
+			for (int i = 0; i < pts.Length; i++)
+				pts[i].y = Screen.height - pts[i].y;
+
+			//Calculate the min and max positions
+			Vector3 min = pts[0];
+			Vector3 max = pts[0];
+			for (int i = 1; i < pts.Length; i++)
+			{
+				min = Vector3.Min(min, pts[i]);
+				max = Vector3.Max(max, pts[i]);
+			}
+
+			Vector2[] vectors = new Vector2[4];
+			vectors[0] = new Vector2(min.x, min.y);
+			vectors[1] = new Vector2(max.x, min.y);
+			vectors[2] = new Vector2(min.x, max.y);
+			vectors[3] = new Vector2(max.x, max.y);
+
 			PrepareRectangleLines(vectors, c);
 		}
 
@@ -220,12 +248,12 @@ namespace Thanking.Utilities
 			return vectors;
 		}
 
-		public static void PrepareRectangleLines(Vector3[] nvectors, Color c)
+		public static void PrepareRectangleLines(Vector2[] nvectors, Color c)
 		{
-			ESPVariables.DrawBuffer.Add(new ESPBox()
+			ESPVariables.DrawBuffer2.Add(new ESPBox2()
 			{
 				Color = c,
-				Vertices = new Vector3[8]
+				Vertices = new Vector2[8]
 				{
 					nvectors[0],
 					nvectors[1],

@@ -20,14 +20,14 @@ namespace Thanking.Options.VisualOptions
 		[Save]
 		public static ESPVisual[] VisualOptions =
 		{
-			new ESPVisual(true, true, true, true, ((Color32)Color.red).ToSerializableColor(), LabelLocation.MiddleRight, 500f), //Players
-			new ESPVisual(true, true, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Items
-			new ESPVisual(false, true, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Sentries
-			new ESPVisual(false, true, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Beds
-			new ESPVisual(false, true, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Claim Flags
-			new ESPVisual(false, true, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Vehicles
-			new ESPVisual(false, true, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Storage
-			new ESPVisual(false, true, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f) //Generators
+			new ESPVisual(true, false, true, true, ((Color32)Color.red).ToSerializableColor(), LabelLocation.MiddleRight, 500f), //Players
+			new ESPVisual(true, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Items
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Sentries
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Beds
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Claim Flags
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Vehicles
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Storage
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f) //Generators
 		};
 
 		[Save]
