@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Thanking.Threads
 {
-	[Thread("Start")]
+	//[Thread("Start")]
 	public static class HeartbeatThread
 	{
 		public static string hwid = null;

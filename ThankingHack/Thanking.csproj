@@ -99,6 +99,7 @@
     <Compile Include="Managers\Main\AttributeManager.cs" />
     <Compile Include="Managers\Submanagers\OverrideManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threads\MemeThread.cs" />
     <Compile Include="Utilities\DrawUtilities.cs" />
     <Compile Include="Utilities\MathUtilities.cs" />
     <Compile Include="Utilities\Mesh Utilities\IcoSphere.cs" />

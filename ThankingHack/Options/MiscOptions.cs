@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Thanking.Attributes;
 using Thanking.Misc;
+using UnityEngine;
 
 namespace Thanking.Options
 {
@@ -21,5 +22,15 @@ namespace Thanking.Options
 		public static bool SlowFall = false;
 		[Save]
 		public static bool AirStick = false;
+
+		[Save]
+		public static bool LogoEnabled = true;
+		[Save]
+		public static KeyCode LogoToggle = KeyCode.Slash;
+
+		[Save]
+		public static KeyCode ReloadConfig = KeyCode.Period;
+		[Save]
+		public static KeyCode SaveConfig = KeyCode.Comma;
 	}
 }

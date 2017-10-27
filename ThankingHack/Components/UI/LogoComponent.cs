@@ -12,7 +12,9 @@ namespace Thanking.Components.UI
 	[UIComponent]
 	public class LogoComponent : MonoBehaviour
 	{
-		public void OnGUI() =>
-			DrawUtilities.DrawLabel(Variables.LabelLocation.BottomRight, new Vector2(10, 10), "Thanking v2.0.1 Alpha", Color.black, Color.cyan, 4);
+		public void OnGUI()
+		{
+			DrawUtilities.DrawLabel(Variables.LabelLocation.BottomRight, new Vector2(10, 20), "Thanking v2.0.1 Alpha", Color.black, Color.cyan, 4);
+		}
 	}
 }
