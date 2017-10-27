@@ -189,6 +189,12 @@ namespace Thanking.Utilities
 					break;
 			}
 
+			if (rect.x - 10 < 0 || rect.y -10 < 0)
+				return;
+
+			if (rect.x + 10 > Screen.width || rect.y + 10 > Screen.height)
+				return;
+
 			DrawTextWithOutline(rect, gcontent.text, LabelStyle, bColor, iColor, bWidth);
 		}
 

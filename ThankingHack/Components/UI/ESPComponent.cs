@@ -46,6 +46,7 @@ namespace Thanking.Components.UI
 					#region Players
 					case ESPTarget.Players:
 						{
+							Debug.Log(0);
 							Player p = (Player)obj.Object;
 
 							if (p == null)
@@ -59,8 +60,10 @@ namespace Thanking.Components.UI
 
 							Vector3 cpos = cam.WorldToScreenPoint(position);
 
+							Debug.Log(1);
 							if (cpos.z <= 0)
 								continue;
+							Debug.Log(2);
 
 							string text = string.Format("<size=12>{0}\n{1}\n{2}</size>", p.name, p.equipment.asset != null ? p.equipment.asset.itemName : "Fists", Mathf.Round(dist));
 
@@ -76,15 +79,18 @@ namespace Thanking.Components.UI
 							else
 								DrawUtilities.PrepareBoxLines(vectors, c);
 
+							Debug.Log(3);
 							Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
 							DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, 4);
 
+							Debug.Log(4);
 							break;
 						}
 					#endregion
 					#region Items
 					case ESPTarget.Items:
 						{
+							Debug.Log(0);
 							InteractableItem item = (InteractableItem)obj.Object;
 
 							if (item == null)
@@ -93,9 +99,11 @@ namespace Thanking.Components.UI
 							Vector3 position = item.transform.position;
 							Vector3 cpos = cam.WorldToScreenPoint(position);
 
+							Debug.Log(1);
 							if (cpos.z <= 0)
 								continue;
 
+							Debug.Log(2);
 							Bounds b = item.GetComponentInChildren<Renderer>().bounds;
 							Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
 
@@ -106,8 +114,11 @@ namespace Thanking.Components.UI
 							else
 								DrawUtilities.PrepareBoxLines(vectors, c);
 
+							Debug.Log(3);
 							Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
 							DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, 4);
+
+							Debug.Log(4);
 							break;
 						}
 						#endregion
@@ -118,11 +129,11 @@ namespace Thanking.Components.UI
 			GL.LoadProjectionMatrix(cam.projectionMatrix);
 			GL.modelview = cam.worldToCameraMatrix;
 			AssetVariables.GLMaterial.SetPass(0);
+			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
 			{
 				ESPBox box = ESPVariables.DrawBuffer[i];
-				GL.Begin(GL.LINES);
 
 				GL.Color(box.Color);
 
@@ -130,17 +141,17 @@ namespace Thanking.Components.UI
 				for (int j = 0; j < vertices.Length; j++)
 					GL.Vertex(vertices[j]);
 
-				GL.End();
 			}
+			GL.End();
 			GL.PopMatrix();
 
 			GL.PushMatrix();
 			AssetVariables.GLMaterial.SetPass(0);
+			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer2.Count; i++)
 			{
 				ESPBox2 box = ESPVariables.DrawBuffer2[i];
-				GL.Begin(GL.LINES);
 
 				GL.Color(box.Color);
 
@@ -148,8 +159,8 @@ namespace Thanking.Components.UI
 				for (int j = 0; j < vertices.Length; j++)
 					GL.Vertex3(vertices[j].x, vertices[j].y, 0);
 
-				GL.End();
 			}
+			GL.End();
 			GL.PopMatrix();
 
 

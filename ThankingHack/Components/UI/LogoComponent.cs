@@ -14,7 +14,7 @@ namespace Thanking.Components.UI
 	{
 		public void OnGUI()
 		{
-			DrawUtilities.DrawLabel(Variables.LabelLocation.BottomRight, new Vector2(10, 20), "Thanking v2.0.1 Alpha", Color.black, Color.cyan, 4);
+			DrawUtilities.DrawLabel(Variables.LabelLocation.BottomRight, new Vector2(10, 20), "Thanking v2.0.2 Alpha", Color.black, Color.cyan, 4);
 		}
 	}
 }
