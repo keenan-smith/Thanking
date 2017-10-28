@@ -1,0 +1,8 @@
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Release\ThankingObfuscator.exe.config
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Release\ThankingObfuscator.exe
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Release\ThankingObfuscator.pdb
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Release\dnlib.dll
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Release\ThankingObfuscator.csproj.CoreCompileInputs.cache
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Release\ThankingObfuscator.exe
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Release\ThankingObfuscator.pdb
+C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Release\ThankingObfuscator.csprojResolveAssemblyReference.cache
