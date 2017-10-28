@@ -17,6 +17,7 @@ namespace Thanking
 
         public static void Hook()
         {
+			Debug.Log("Initializing Thanking.");
 			#region Unity
 			HookObject = new GameObject();
 			UnityEngine.Object.DontDestroyOnLoad(HookObject);
@@ -27,6 +28,7 @@ namespace Thanking
 			AttributeManager.Init();
 			AssetManager.Init();
 			#endregion
+			Debug.Log("Thanking initialized!");
 		}
     }
 }

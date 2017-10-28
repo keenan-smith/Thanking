@@ -23,7 +23,7 @@ namespace Thanking.Coroutines
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)
-						if (tClass.IsDefined(typeof(UIComponentAttribute), false))
+						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
 							UnityEngine.Object.Destroy(Loader.HookObject.GetComponent(tClass));
 
 			yield return new WaitForFixedUpdate();
@@ -70,7 +70,7 @@ namespace Thanking.Coroutines
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)
-						if (tClass.IsDefined(typeof(UIComponentAttribute), false))
+						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
 							Loader.HookObject.AddComponent(tClass);
 		}
 	}

@@ -6,7 +6,7 @@ using System.Text;
 namespace Thanking.Attributes
 {
 	[AttributeUsage(AttributeTargets.Class)]
-	public class UIComponentAttribute : Attribute
+	public class SpyComponentAttribute : Attribute
 	{
 	}
 }

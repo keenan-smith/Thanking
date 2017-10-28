@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Thanking.Components.UI
 {
-	[UIComponent]
+	[SpyComponent]
 	[Component]
 	public class RadarComponent : MonoBehaviour
 	{

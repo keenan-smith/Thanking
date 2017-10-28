@@ -15,73 +15,59 @@ using UnityEngine;
 namespace Thanking.Overrides
 {
 	public class OV_PlayerInteract
-	{	
+	{
+		#region Fields
 		public static Transform focus
 		{
-			get
-			{
-				return (Transform)typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic).GetValue(null);
-			}
-			set
-			{
+			get =>
+				(Transform)typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic).GetValue(null);
+
+			set => 
 				typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic).SetValue(null, value);
-			}
 		}
 		
 		public static Transform target
 		{
-			get
-			{
-				return (Transform)typeof(PlayerInteract).GetField("target", ReflectionVariables.PrivateStatic).GetValue(null);
-			}
-			set
-			{
+			get =>
+				(Transform)typeof(PlayerInteract).GetField("target", ReflectionVariables.PrivateStatic).GetValue(null);
+
+			set =>
 				typeof(PlayerInteract).GetField("target", ReflectionVariables.PrivateStatic).SetValue(null, value);
-			}
 		}
 
 		public static Interactable interactable
 		{
-			get
-			{
-				return (Interactable)typeof(PlayerInteract).GetField("_interactable", ReflectionVariables.PrivateStatic).GetValue(null);
-			}
-			set
-			{
+			get =>
+				(Interactable)typeof(PlayerInteract).GetField("_interactable", ReflectionVariables.PrivateStatic).GetValue(null);
+
+			set =>
 				typeof(PlayerInteract).GetField("_interactable", ReflectionVariables.PrivateStatic).SetValue(null, value);
-			}
 		}
 
 
 		public static Interactable2 interactable2
 		{
-			get
-			{
-				return (Interactable2)typeof(PlayerInteract).GetField("_interactable2", ReflectionVariables.PrivateStatic).GetValue(null);
-			}
+			get =>
+				(Interactable2)typeof(PlayerInteract).GetField("_interactable2", ReflectionVariables.PrivateStatic).GetValue(null);
 
-			set
-			{
+			set =>
 				typeof(PlayerInteract).GetField("_interactable2", ReflectionVariables.PrivateStatic).SetValue(null, value);
-			}
 		}
 
 		public static ItemAsset purchaseAsset
 		{
-			get
-			{
-				return (ItemAsset)typeof(PlayerInteract).GetField("purchaseAsset", ReflectionVariables.PrivateStatic).GetValue(null);
-			}
+			get =>
+				(ItemAsset)typeof(PlayerInteract).GetField("purchaseAsset", ReflectionVariables.PrivateStatic).GetValue(null);
 
-			set
-			{
+			set =>
 				typeof(ItemAsset).GetField("purchaseAsset", ReflectionVariables.PrivateStatic).SetValue(null, value);
-			}
 		}
 
-		private float salvageTime => MiscOptions.SalvageTime;
+		private float salvageTime => 
+			MiscOptions.SalvageTime;
 
-		private void hotkey(byte button) => VehicleManager.swapVehicle(button);
+		private void hotkey(byte button) => 
+			VehicleManager.swapVehicle(button);
 
 		private static bool isHoldingKey;
 
@@ -98,19 +84,25 @@ namespace Thanking.Overrides
 			else
 				purchaseAsset = (ItemAsset)Assets.find(EAssetType.ITEM, node.id);
 		}
-		
+
+		#endregion
+
+		#region Overriden Methods
 		[Override(typeof(PlayerInteract), "Update", BindingFlags.NonPublic | BindingFlags.Instance)]
 		private void Update() // i have no idea what any of this does tbh
 		{
+			if (!Provider.isConnected || Provider.isLoading)
+				return;
+
 			if (Player.player.stance.stance != EPlayerStance.DRIVING && Player.player.stance.stance != EPlayerStance.SITTING && !Player.player.life.isDead && !Player.player.workzone.isBuilding)
 			{
 				if (Time.realtimeSinceStartup - lastInteract > 0.1f)
 				{
 					lastInteract = Time.realtimeSinceStartup;
 					if (Player.player.look.isCam)
-						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), out hit, 20f, RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE, 0);
+						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), out hit, 20f, RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE | RayMasks.STRUCTURE | RayMasks.BARRICADE, 0);
 					else
-						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? 20 : 24), RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE, 0);
+						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? 20 : 24), RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE | RayMasks.STRUCTURE | RayMasks.BARRICADE, 0);
 				}
 				if (hit.transform != focus)
 				{
@@ -339,5 +331,6 @@ namespace Thanking.Overrides
 				}
 			}
 		}
+		#endregion
 	}
 }

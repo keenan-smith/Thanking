@@ -11,6 +11,7 @@ using UnityEngine;
 
 namespace Thanking.Components.Basic
 {
+	[SpyComponent]
 	[Component]
 	public class InputComponent : MonoBehaviour
 	{

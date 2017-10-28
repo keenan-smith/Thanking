@@ -13,7 +13,7 @@ namespace Thanking.Options.AimOptions
 		public static bool Enabled = true;
 		
 		[Save]
-		public static float SphereRadius = 15.5f;
+		public static float SphereRadius = 15f;
 		[Save]
 		public static float VehicleSphereRadius = 12f;
 		[Save]

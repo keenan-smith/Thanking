@@ -32,5 +32,8 @@ namespace Thanking.Options
 		public static KeyCode ReloadConfig = KeyCode.Period;
 		[Save]
 		public static KeyCode SaveConfig = KeyCode.Comma;
+
+		[Save]
+		public static KeyCode PanicButton = KeyCode.RightAlt;
 	}
 }

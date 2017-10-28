@@ -42,8 +42,10 @@ namespace Thanking.Variables
 		public SerializableColor Color;
 		public LabelLocation Location;
 		public float Distance;
+		public int TextSize;
+		public int BorderStrength;
 
-		public ESPVisual(bool e, bool r, bool id, bool lto, SerializableColor c, LabelLocation ll,  float d)
+		public ESPVisual(bool e, bool r, bool id, bool lto, SerializableColor c, LabelLocation ll,  float d, int ts, int bs)
 		{
 			Enabled = e;
 			Rectangle = r;
@@ -52,6 +54,8 @@ namespace Thanking.Variables
 			Color = c;
 			Location = ll;
 			Distance = d;
+			TextSize = ts;
+			BorderStrength = bs;
 		}
 	}
 
@@ -59,11 +63,13 @@ namespace Thanking.Variables
 	{
 		public ESPTarget Target;
 		public object Object;
+		public GameObject GObject;
 
-		public ESPObject(ESPTarget t, object o)
+		public ESPObject(ESPTarget t, object o, GameObject go)
 		{
 			Target = t;
 			Object = o;
+			GObject = go;
 		}
 	}
 

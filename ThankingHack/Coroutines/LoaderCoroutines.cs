@@ -14,7 +14,11 @@ namespace Thanking.Coroutines
 		public static IEnumerator LoadAssets()
 		{
 			yield return new WaitForSeconds(1);
-			AssetBundle bundle = AssetBundle.LoadFromFile(Application.dataPath + "/ThankingAssets.unity3d");
+
+			WWW loader = new WWW("https://debug.ironic.services/client/ThankingAssets.unity3d");
+			yield return loader;
+			
+			AssetBundle bundle = AssetBundle.LoadFromMemory(loader.bytes);
 			AssetVariables.ABundle = bundle;
 
 			AssetVariables.GLMaterial = new Material(bundle.LoadAsset<Shader>("Solid")) { hideFlags = HideFlags.HideAndDontSave };

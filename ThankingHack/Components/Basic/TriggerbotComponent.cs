@@ -21,10 +21,8 @@ namespace Thanking.Components.Basic
 			if (TriggerbotOptions.Enabled)
 			{
 				RaycastInfo info = RaycastUtilities.GenerateRaycast();
-				if (info.point != Vector3.zero && !TriggerbotOptions.IsFiring)
-					TriggerbotOptions.IsFiring = true;
-				else
-					TriggerbotOptions.IsFiring = false;
+
+				TriggerbotOptions.IsFiring = info.point != Vector3.zero && !TriggerbotOptions.IsFiring;
 			}
 		}
 	}

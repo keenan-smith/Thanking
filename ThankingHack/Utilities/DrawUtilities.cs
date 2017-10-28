@@ -189,7 +189,7 @@ namespace Thanking.Utilities
 					break;
 			}
 
-			if (rect.x - 10 < 0 || rect.y -10 < 0)
+			if (rect.x - 10 < 0 || rect.y - 10 < 0)
 				return;
 
 			if (rect.x + 10 > Screen.width || rect.y + 10 > Screen.height)
@@ -256,7 +256,7 @@ namespace Thanking.Utilities
 
 		public static void PrepareRectangleLines(Vector2[] nvectors, Color c)
 		{
-			ESPVariables.DrawBuffer2.Add(new ESPBox2()
+			ESPBox2 box = new ESPBox2()
 			{
 				Color = c,
 				Vertices = new Vector2[8]
@@ -270,12 +270,25 @@ namespace Thanking.Utilities
 					nvectors[2],
 					nvectors[0]
 				}
-			});
+			};
+
+			GL.PushMatrix();
+			AssetVariables.GLMaterial.SetPass(0);
+			GL.Begin(GL.LINES);
+
+			GL.Color(box.Color);
+
+			Vector2[] vertices = box.Vertices;
+			for (int j = 0; j < vertices.Length; j++)
+				GL.Vertex(vertices[j]);
+
+			GL.End();
+			GL.PopMatrix();
 		}
 
 		public static void PrepareBoxLines(Vector3[] vectors, Color c)
 		{
-			ESPVariables.DrawBuffer.Add(new ESPBox()
+			ESPBox box = new ESPBox()
 			{
 				Color = c,
 				Vertices = new Vector3[24]
@@ -305,7 +318,22 @@ namespace Thanking.Utilities
 					vectors[3], //front bottom right to back bottom right
 					vectors[7]
 				}
-			});
+			};
+
+			GL.PushMatrix();
+			GL.LoadProjectionMatrix(Camera.main.projectionMatrix);
+			GL.modelview = Camera.main.worldToCameraMatrix;
+			AssetVariables.GLMaterial.SetPass(0);
+			GL.Begin(GL.LINES);
+
+			GL.Color(box.Color);
+
+			Vector3[] vertices = box.Vertices;
+			for (int j = 0; j < vertices.Length; j++)
+				GL.Vertex(vertices[j]);
+
+			GL.End();
+			GL.PopMatrix();
 		}
 	}
 }

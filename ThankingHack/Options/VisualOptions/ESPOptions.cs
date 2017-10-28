@@ -20,14 +20,14 @@ namespace Thanking.Options.VisualOptions
 		[Save]
 		public static ESPVisual[] VisualOptions =
 		{
-			new ESPVisual(true, false, true, true, ((Color32)Color.red).ToSerializableColor(), LabelLocation.MiddleRight, 500f), //Players
-			new ESPVisual(true, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Items
-			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Sentries
-			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Beds
-			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Claim Flags
-			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Vehicles
-			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f), //Storage
-			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250f) //Generators
+			new ESPVisual(true, true, true, true, ((Color32)Color.red).ToSerializableColor(), LabelLocation.MiddleRight, 500, 12, 4), //Players
+			new ESPVisual(true, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250, 12, 4), //Items
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250, 12, 4), //Sentries
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250, 12, 4), //Beds
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250, 12, 4), //Claim Flags
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250, 12, 4), //Vehicles
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250, 12, 4), //Storage
+			new ESPVisual(false, false, true, true, ((Color32)Color.cyan).ToSerializableColor(), LabelLocation.MiddleRight, 250, 12, 4) //Generators
 		};
 
 		[Save]
@@ -51,6 +51,6 @@ namespace Thanking.Options.VisualOptions
 		public static bool ShowPlayerDistance = true;
 		[Save]
 		public static bool ShowPlayerWeapon = true;
-#endregion
+		#endregion
 	}
 }
