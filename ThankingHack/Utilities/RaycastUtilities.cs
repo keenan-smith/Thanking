@@ -1,6 +1,8 @@
 ﻿using SDG.Framework.Utilities;
 using SDG.Unturned;
 using System.Linq;
+using Thanking.Components.Basic;
+using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
@@ -96,6 +98,8 @@ namespace Thanking.Utilities
 						if (!Provider.modeConfigData.Gameplay.Ballistics)
 							PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
 
+						Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(WeaponCoroutines.CheckForDeath(closestPlayer));
+
 						return new RaycastInfo(closestPlayer.transform)
 						{
 							point = hPos,
@@ -110,6 +114,7 @@ namespace Thanking.Utilities
 				if (VectorUtilities.GetDistance(Player.player.transform.position, closestPlayer.transform.position) <= SphereOptions.SphereRadius)
 				{
 					PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
+					Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(WeaponCoroutines.CheckForDeath(closestPlayer));
 					return new RaycastInfo(closestPlayer.transform)
 					{
 						point = Player.player.transform.position,

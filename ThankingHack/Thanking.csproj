@@ -76,7 +76,9 @@
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
+    <Compile Include="Coroutines\WeaponCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
+    <Compile Include="Managers\Main\PacketManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Loader.cs" />
     <Compile Include="Managers\Main\ConfigManager.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Overrides\OV_Player.cs" />
     <Compile Include="Overrides\OV_PlayerInteract.cs" />
     <Compile Include="Overrides\OV_PlayerPauseUI.cs" />
+    <Compile Include="Overrides\OV_PlayerUI.cs" />
     <Compile Include="Overrides\OV_UseableGun.cs" />
     <Compile Include="Threads\HeartbeatThread.cs" />
     <Compile Include="Threads\LoaderThread.cs" />
@@ -105,7 +108,6 @@
     <Compile Include="Utilities\Mesh Utilities\NearestPointTest.cs" />
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
-    <Compile Include="Utilities\PlayerUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="Options\VisualOptions\ESPOptions.cs" />

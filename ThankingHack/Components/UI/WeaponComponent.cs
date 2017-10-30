@@ -87,14 +87,14 @@ namespace Thanking.Components.UI
 				PAsset.spreadAim = 0;
 				PAsset.spreadHip = 0;
 
-				PlayerUtilities.UpdateCrosshairInstant(0);
+				PlayerUI.updateCrosshair(0);
 			}
 			else
 			{
 				PAsset.spreadAim = AssetBackups[PAsset.id][5];
 				PAsset.spreadHip = AssetBackups[PAsset.id][6];
 
-				PlayerUtilities.UpdateCrosshairInstant(AssetBackups[PAsset.id][Player.player.equipment.secondary ? 5 : 6]);
+				PlayerUI.updateCrosshair(AssetBackups[PAsset.id][Player.player.equipment.secondary ? 5 : 6]);
 			}
 
 			if (WeaponOptions.NoSway)
