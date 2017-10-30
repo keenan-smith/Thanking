@@ -32,9 +32,7 @@ namespace Thanking.Components.UI
 			for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
-
-				int targ = (int)obj.Target;
-				ESPVisual visual = ESPOptions.VisualOptions[targ];
+				ESPVisual visual = ESPOptions.VisualOptions[obj.Target];
 
 				Color c = visual.Color.ToColor();
 				LabelLocation ll = visual.Location;
@@ -67,7 +65,7 @@ namespace Thanking.Components.UI
 					case ESPTarget.Players:
 						{
 							Player p = (Player)obj.Object;
-							text = "<size=" + visual.TextSize + ">";
+							text = "<size=" + DrawUtilities.GetTextSize(visual, dist) + ">";
 							
 							if (ESPOptions.ShowPlayerName)
 								text += ("\n" + p.name);
@@ -89,7 +87,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableItem item = (InteractableItem)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", item.asset.itemName, Mathf.Round(dist), visual.TextSize);
+							text = string.Format("<size={2}>{0}\n{1}</size>", item.asset.itemName, Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
 							break;
 						}
 					#endregion
@@ -98,7 +96,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableSentry sentry = (InteractableSentry)obj.Object;
 
-							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", "Sentry", sentry.displayItem != null ? Assets.find(EAssetType.ITEM, sentry.displayItem.id).name : "No Item", Mathf.Round(dist), visual.TextSize);
+							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", "Sentry", sentry.displayItem != null ? Assets.find(EAssetType.ITEM, sentry.displayItem.id).name : "<color=#ff0000ff>No Item</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
 							break;
 						}
 					#endregion
@@ -107,7 +105,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableBed bed = (InteractableBed)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Bed", Mathf.Round(dist), visual.TextSize);
+							text = string.Format("<size={2}>{0}\n{1}</size>", "Bed", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
 							break;
 						}
 					#endregion
@@ -116,7 +114,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableClaim flag = (InteractableClaim)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Claim Flag", Mathf.Round(dist), visual.TextSize);
+							text = string.Format("<size={2}>{0}\n{1}</size>", "Claim Flag", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
 							break;
 						}
 					#endregion
@@ -125,7 +123,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
 
-							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", vehicle.asset.name, vehicle.isLocked ? "LOCKED" : "UNLOCKED", Mathf.Round(dist), visual.TextSize);
+							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", vehicle.asset.name, vehicle.isLocked ? "<color=#ff0000ff>LOCKED</color>" : "<color=#00ff00ff>UNLOCKED</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
 							break;
 						}
 					#endregion
@@ -134,7 +132,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableStorage stor = (InteractableStorage)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Storage", Mathf.Round(dist), visual.TextSize);
+							text = string.Format("<size={2}>{0}\n{1}</size>", "Storage", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
 							break;
 						}
 					#endregion
@@ -143,7 +141,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableGenerator gen = (InteractableGenerator)obj.Object;
 
-							text = string.Format("<size={4}>{0}\n{1}%\n{2}\n{3}</size>", "Generator", gen.fuel / gen.capacity, gen.isPowered ? "ON" : "OFF", Mathf.Round(dist), visual.TextSize);
+							text = string.Format("<size={4}>{0}\n{1}%\n{2}\n{3}</size>", "Generator", gen.fuel / gen.capacity, gen.isPowered ? "<color=#00ff00ff>ON</color>" : "<color=#ff0000ff>OFF</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
 							break;
 						}
 						#endregion
@@ -156,7 +154,7 @@ namespace Thanking.Components.UI
 				else
 					DrawUtilities.PrepareBoxLines(vectors, c);
 
-				Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, vectors, ll);
+				Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, ll);
 				DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, visual.BorderStrength);
 
 				if (visual.LineToObject)
@@ -171,7 +169,25 @@ namespace Thanking.Components.UI
 					});
 			}
 
+			GL.PushMatrix();
+			GL.LoadProjectionMatrix(cam.projectionMatrix);
+			GL.modelview = cam.worldToCameraMatrix;
+			AssetVariables.GLMaterial.SetPass(0);
+			GL.Begin(GL.LINES);
 
+			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
+			{
+				ESPBox box = ESPVariables.DrawBuffer[i];
+
+				GL.Color(box.Color);
+
+				Vector3[] vertices = box.Vertices;
+				for (int j = 0; j < vertices.Length; j++)
+					GL.Vertex(vertices[j]);
+
+			}
+			GL.End();
+			GL.PopMatrix();
 
 			GL.PushMatrix();
 			AssetVariables.GLMaterial.SetPass(0);

@@ -10,6 +10,8 @@ namespace Thanking.Options.AimOptions
 	public static class WeaponOptions
 	{
 		[Save]
+		public static bool ShowWeaponInfo = true;
+		[Save]
 		public static bool CustomCrosshair = false;
 		[Save]
 		public static SerializableColor CrosshairColor = new SerializableColor(255, 0, 0);

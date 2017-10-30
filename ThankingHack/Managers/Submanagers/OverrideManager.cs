@@ -33,16 +33,16 @@ namespace Thanking.Managers.Submanagers
         {
             // Setup variables
             OverrideAttribute attribute = (OverrideAttribute)Attribute.GetCustomAttribute(method, typeof(OverrideAttribute));
+			
+			// Do checks
+			if (attribute == null)
+                return;
+			if (!attribute.MethodFound)
+                return;
+			if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
+                return;
 
-            // Do checks
-            if (attribute == null)
-                return;
-            if (!attribute.MethodFound)
-                return;
-            if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
-                return;
-
-            try
+			try
             {
                 OverrideWrapper wrapper = new OverrideWrapper(attribute.Method, method, attribute);
 

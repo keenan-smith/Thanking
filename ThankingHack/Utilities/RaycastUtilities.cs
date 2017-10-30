@@ -1,4 +1,5 @@
-﻿using SDG.Unturned;
+﻿using SDG.Framework.Utilities;
+using SDG.Unturned;
 using System.Linq;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities.Mesh_Utilities;
@@ -8,6 +9,36 @@ namespace Thanking.Utilities
 {
 	public static class RaycastUtilities
     {
+		public static RaycastInfo GenerateOriginalRaycast(Ray ray, float range, int mask)
+		{
+			RaycastHit hit;
+			PhysicsUtility.raycast(ray, out hit, range, mask, QueryTriggerInteraction.UseGlobal);
+			RaycastInfo raycastInfo = new RaycastInfo(hit);
+			raycastInfo.direction = ray.direction;
+			if (hit.transform != null)
+			{
+				if (hit.transform.CompareTag("Enemy"))
+					raycastInfo.player = DamageTool.getPlayer(raycastInfo.transform);
+				
+				if (hit.transform.CompareTag("Zombie"))
+					raycastInfo.zombie = DamageTool.getZombie(raycastInfo.transform);
+				if (hit.transform.CompareTag("Animal"))
+					raycastInfo.animal = DamageTool.getAnimal(raycastInfo.transform);
+
+				raycastInfo.limb = DamageTool.getLimb(raycastInfo.transform);
+
+				if (hit.transform.CompareTag("Vehicle"))
+					raycastInfo.vehicle = DamageTool.getVehicle(raycastInfo.transform);
+
+				if (raycastInfo.zombie != null && raycastInfo.zombie.isRadioactive)
+					raycastInfo.material = EPhysicsMaterial.ALIEN_DYNAMIC;
+
+				else
+					raycastInfo.material = DamageTool.getMaterial(hit.point, hit.transform, hit.collider);
+			}
+			return raycastInfo;
+		}
+
         public static RaycastInfo GenerateRaycast()
         {
             Vector3 aimPos = Player.player.look.aim.position;
@@ -63,7 +94,7 @@ namespace Thanking.Utilities
 					if (hPos != Vector3.zero)
 					{
 						if (!Provider.modeConfigData.Gameplay.Ballistics)
-							PlayerUI.hitmark(10, hPos, true, EPlayerHit.CRITICAL);
+							PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
 
 						return new RaycastInfo(closestPlayer.transform)
 						{
@@ -89,6 +120,13 @@ namespace Thanking.Utilities
 					};
 				}
 			}
+
+
+			RaycastInfo ri = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), currentGun.range, RayMasks.DAMAGE_CLIENT);
+
+			if (ri.transform != null)
+				return ri;
+
 			return new RaycastInfo(Player.player.transform);
         }
     }

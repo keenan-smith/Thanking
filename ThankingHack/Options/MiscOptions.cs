@@ -35,5 +35,7 @@ namespace Thanking.Options
 
 		[Save]
 		public static KeyCode PanicButton = KeyCode.RightAlt;
+		[Save]
+		public static bool VisualsEnabled = true;
 	}
 }

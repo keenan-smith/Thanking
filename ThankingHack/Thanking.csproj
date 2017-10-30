@@ -72,8 +72,7 @@
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
-    <Compile Include="Components\UI\Menu\Menu.cs" />
-    <Compile Include="Components\UI\RadarComponent.cs" />
+    <Compile Include="Components\UI\WeaponComponent.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
@@ -102,11 +101,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DrawUtilities.cs" />
     <Compile Include="Utilities\MathUtilities.cs" />
-    <Compile Include="Utilities\MenuUtilities.cs" />
     <Compile Include="Utilities\Mesh Utilities\IcoSphere.cs" />
     <Compile Include="Utilities\Mesh Utilities\NearestPointTest.cs" />
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
+    <Compile Include="Utilities\PlayerUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="Options\VisualOptions\ESPOptions.cs" />
@@ -126,6 +125,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
