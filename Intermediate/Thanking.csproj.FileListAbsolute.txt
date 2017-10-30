@@ -7,3 +7,5 @@ C:\Users\Keenan\Source\Repos\Thanking\Intermediate\Thanking.csprojResolveAssembl
 C:\Users\Keenan\Source\Repos\Thanking\Intermediate\Thanking.csproj.CoreCompileInputs.cache
 C:\Users\Keenan\Source\Repos\Thanking\Intermediate\Thanking.dll
 C:\Users\Keenan\Source\Repos\Thanking\Intermediate\Thanking.pdb
+C:\Users\Keenan\Source\Repos\Thanking\Binaries\Thanking.dll
+C:\Users\Keenan\Source\Repos\Thanking\Binaries\Thanking.pdb
