@@ -17,12 +17,12 @@ namespace Thanking.Coroutines
 		{
 			yield return new WaitForSeconds(1);
 
-			WWW loader = new WWW("https://debug.ironic.services/client/ThankingAssets.unity3d");
+			WWW loader = new WWW("http://debug.ironic.services/client/ThankingAssets.unity3d");
 			yield return loader;
 			
 			AssetBundle bundle = AssetBundle.LoadFromMemory(loader.bytes);
 			AssetVariables.ABundle = bundle;
-
+			
 			foreach (Shader s in bundle.LoadAllAssets<Shader>())
 				AssetVariables.Materials.Add(s.name, new Material(s) { hideFlags = HideFlags.HideAndDontSave });
 
@@ -33,11 +33,11 @@ namespace Thanking.Coroutines
 				AssetVariables.Audio.Add(ac.name, ac);
 
             foreach (Texture2D t in bundle.LoadAllAssets<Texture2D>())
-                AssetVariables.Textures.Add(t.name, t);
+				if (t.name != "Font Texture")
+					AssetVariables.Textures.Add(t.name, t);
 
-            ESPComponent.GLMat = AssetVariables.Materials["ESP"];
+			ESPComponent.GLMat = AssetVariables.Materials["ESP"];
             ESPComponent.ESPFont = AssetVariables.Fonts["Roboto-Light"];
-            ESPComponent.MainCam = Camera.main;
 
             MenuComponent._TabFont = AssetVariables.Fonts["Anton-Regular"];
             MenuComponent._TextFont = AssetVariables.Fonts["CALIBRI"];

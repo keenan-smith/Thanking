@@ -47,6 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\Tools\BundleTool.cs" />
+     <None Include="Assets\Shaders\chamsUnlit.shader" />
+     <None Include="Assets\Shaders\chamsLit.shader" />
+     <None Include="Assets\Shaders\WireframeTransparent.shader" />
+     <None Include="Assets\Shaders\WireframeTransparentCulled.shader" />
      <None Include="Assets\Shaders\ESP.shader" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
