@@ -72,6 +72,11 @@
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
+    <Compile Include="Components\UI\Menu\Drawing.cs" />
+    <Compile Include="Components\UI\Menu\MenuComponent.cs" />
+    <Compile Include="Components\UI\Menu\MenuTabs.cs" />
+    <Compile Include="Components\UI\Menu\Prefab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />
     <Compile Include="Components\UI\WeaponComponent.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
@@ -88,6 +93,10 @@
     <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
     <Compile Include="Options\AimOptions\WeaponOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
+    <Compile Include="Variables\UIVariables\ColorOption.cs" />
+    <Compile Include="Variables\UIVariables\DropDown.cs" />
+    <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
+    <Compile Include="Variables\UIVariables\SectionTab.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
     <Compile Include="Overrides\OV_Player.cs" />
@@ -101,6 +110,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DrawUtilities.cs" />
     <Compile Include="Utilities\MathUtilities.cs" />
+    <Compile Include="Utilities\MenuUtilities.cs" />
     <Compile Include="Utilities\Mesh Utilities\IcoSphere.cs" />
     <Compile Include="Utilities\Mesh Utilities\NearestPointTest.cs" />
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
