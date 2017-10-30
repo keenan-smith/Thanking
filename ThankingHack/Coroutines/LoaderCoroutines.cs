@@ -21,15 +21,14 @@ namespace Thanking.Coroutines
 			AssetBundle bundle = AssetBundle.LoadFromMemory(loader.bytes);
 			AssetVariables.ABundle = bundle;
 
-			AssetVariables.GLMaterial = new Material(bundle.LoadAsset<Shader>("Solid")) { hideFlags = HideFlags.HideAndDontSave };
-			AssetVariables.Roboto = bundle.LoadAsset<Font>("Roboto-Light");
-            AssetVariables.Anton_Regular = bundle.LoadAsset<Font>("Anton-Regular");
-            AssetVariables.Calibri = bundle.LoadAsset<Font>("CALIBRI");
-            AssetVariables.ThankingLogoLarge = bundle.LoadAsset<Texture2D>("thanking_logo_large");
-            AssetVariables.ChamsLit = bundle.LoadAsset<Shader>("chamsLit");
-            AssetVariables.ChamsUnlit = bundle.LoadAsset<Shader>("chamsUnlit");
-            AssetVariables.WireFrame = bundle.LoadAsset<Shader>("WireframeTransparent");
-            AssetVariables.WireFrameCulled = bundle.LoadAsset<Shader>("WireframeTransparentCulled");
-        }
+			foreach (Shader s in bundle.LoadAllAssets<Shader>())
+				AssetVariables.Materials.Add(s.name, new Material(s) { hideFlags = HideFlags.HideAndDontSave });
+
+			foreach (Font f in bundle.LoadAllAssets<Font>())
+				AssetVariables.Fonts.Add(f.name, f);
+
+			foreach (AudioClip ac in bundle.LoadAllAssets<AudioClip>())
+				AssetVariables.Audio.Add(ac.name, ac);
+		}
 	}
 }

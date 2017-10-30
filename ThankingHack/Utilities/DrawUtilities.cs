@@ -146,7 +146,7 @@ namespace Thanking.Utilities
 			GUIContent gcontent = new GUIContent(content);
 			GUIStyle LabelStyle = new GUIStyle();
 
-			LabelStyle.font = AssetVariables.Roboto;
+			LabelStyle.font = AssetVariables.Fonts["Roboto-Light"];
 			LabelStyle.fontSize = 12;
 
 			Vector2 dim = LabelStyle.CalcSize(gcontent);

@@ -68,17 +68,20 @@ namespace Thanking.Components.UI
 							text = "<size=" + DrawUtilities.GetTextSize(visual, dist) + ">";
 							
 							if (ESPOptions.ShowPlayerName)
-								text += ("\n" + p.name);
+								text += (p.name + "\n");
 							if (ESPOptions.ShowPlayerWeapon)
-								text += ("\n" + (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists"));
+								text += ((p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n");
 							if (ESPOptions.ShowPlayerDistance)
-								text += ("\n" + Mathf.Round(dist));
+								text += Mathf.Round(dist);
 							
 							text += "</size>";
 							
 							b.size = b.size / 2;
 							b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
-							
+
+							if (p.quests.isMemberOfSameGroupAs(Player.player) && ESPOptions.UsePlayerGroup)
+								c = ESPOptions.SameGroupColor.ToColor();
+
 							break;
 						}
 					#endregion
@@ -169,10 +172,12 @@ namespace Thanking.Components.UI
 					});
 			}
 
+			Material mat = AssetVariables.Materials["ESP"];
+
 			GL.PushMatrix();
 			GL.LoadProjectionMatrix(cam.projectionMatrix);
 			GL.modelview = cam.worldToCameraMatrix;
-			AssetVariables.GLMaterial.SetPass(0);
+			mat.SetPass(0);
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
@@ -190,7 +195,7 @@ namespace Thanking.Components.UI
 			GL.PopMatrix();
 
 			GL.PushMatrix();
-			AssetVariables.GLMaterial.SetPass(0);
+			mat.SetPass(0);
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer2.Count; i++)

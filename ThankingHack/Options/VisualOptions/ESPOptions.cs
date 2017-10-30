@@ -195,6 +195,11 @@ namespace Thanking.Options.VisualOptions
 		public static bool ShowPlayerDistance = true;
 		[Save]
 		public static bool ShowPlayerWeapon = true;
+		[Save]
+		public static bool UsePlayerGroup = true;
+
+		[Save]
+		public static SerializableColor SameGroupColor = ((Color32)Color.green).ToSerializableColor();
 		#endregion
 	}
 }
