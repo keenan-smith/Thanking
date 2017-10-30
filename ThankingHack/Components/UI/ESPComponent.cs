@@ -18,7 +18,6 @@ namespace Thanking.Components.UI
 	public class ESPComponent : MonoBehaviour
 	{
 		public static Material GLMat;
-		public static Camera MainCam;
 		public static Font ESPFont;
 
 		public void Start() =>
@@ -51,7 +50,7 @@ namespace Thanking.Components.UI
 				if (dist > visual.Distance && !visual.InfiniteDistance)
 					continue;
 
-				Vector3 cpos = MainCam.WorldToScreenPoint(position);
+				Vector3 cpos = Camera.main.WorldToScreenPoint(position);
 
 				if (cpos.z <= 0)
 					continue;
@@ -155,11 +154,11 @@ namespace Thanking.Components.UI
 				Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
 
 				if (visual.Rectangle)
-					DrawUtilities.PrepareRectangleLines(MainCam, b, c);
+					DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
 				else
 					DrawUtilities.PrepareBoxLines(vectors, c);
 
-				Vector3 LabelVector = DrawUtilities.GetW2SVector(MainCam, b, ll);
+				Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
 				DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength);
 
 				if (visual.LineToObject)
@@ -177,8 +176,8 @@ namespace Thanking.Components.UI
 			GLMat.SetPass(0);
 
 			GL.PushMatrix();
-			GL.LoadProjectionMatrix(MainCam.projectionMatrix);
-			GL.modelview = MainCam.worldToCameraMatrix;
+			GL.LoadProjectionMatrix(Camera.main.projectionMatrix);
+			GL.modelview = Camera.main.worldToCameraMatrix;
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
