@@ -111,7 +111,6 @@
     <Compile Include="Overrides\OV_PlayerUI.cs" />
     <Compile Include="Overrides\OV_UseableGun.cs" />
     <Compile Include="Threads\HeartbeatThread.cs" />
-    <Compile Include="Threads\LoaderThread.cs" />
     <Compile Include="Managers\Main\AttributeManager.cs" />
     <Compile Include="Managers\Submanagers\OverrideManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
