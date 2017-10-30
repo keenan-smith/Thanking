@@ -27,8 +27,11 @@ namespace Thanking.Coroutines
 			foreach (Font f in bundle.LoadAllAssets<Font>())
 				AssetVariables.Fonts.Add(f.name, f);
 
-			foreach (AudioClip ac in bundle.LoadAllAssets<AudioClip>())
-				AssetVariables.Audio.Add(ac.name, ac);
-		}
+            foreach (AudioClip ac in bundle.LoadAllAssets<AudioClip>())
+                AssetVariables.Audio.Add(ac.name, ac);
+
+            foreach (Texture2D t in bundle.LoadAllAssets<Texture2D>())
+                AssetVariables.Textures.Add(t.name, t);
+        }
 	}
 }

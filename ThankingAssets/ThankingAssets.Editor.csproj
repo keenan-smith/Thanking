@@ -123,7 +123,7 @@
     <Compile Include="Assets\Editor\Tools\BundleTool.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\Solid.shader" />
+    <None Include="Assets\Shaders\ESP.shader" />
     <None Include="Assets\Shaders\WireframeTransparent.shader" />
     <None Include="Assets\Shaders\WireframeTransparentCulled.shader" />
     <None Include="Assets\Shaders\chamsLit.shader" />

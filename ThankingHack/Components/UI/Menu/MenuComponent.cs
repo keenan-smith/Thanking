@@ -37,9 +37,6 @@ namespace Thanking.Components.UI.Menu
         // Use this for initialization
         void Start()
         {
-            _TabFont = AssetVariables.Anton_Regular;
-            _TextFont = AssetVariables.Calibri;
-            _LogoTexLarge = AssetVariables.ThankingLogoLarge;
 
             ColorOption.addColor(new ColorOption("_OutlineBorderBlack", "Menu - Black Outline", new Color32(3, 3, 3, 255)));
             ColorOption.addColor(new ColorOption("_OutlineBorderLightGray", "Menu - Light Gray Outline", new Color32(75, 75, 75, 255)));
