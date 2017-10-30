@@ -69,6 +69,7 @@ namespace Thanking.Components.UI.Menu
             ColorOption.addColor(new ColorOption("_TextStyleHover", "Menu Labels - Hover", new Color32(210, 210, 210, 255)));
             ColorOption.addColor(new ColorOption("_HeaderStyle", "Menu Area - Header", new Color32(210, 210, 210, 255)));
             ColorOption.addColor(new ColorOption("_ToggleBoxBG", "Menu Toggle - Background", new Color32(71, 70, 71, 255)));
+            ColorOption.addColor(new ColorOption("_ButtonBG", "Menu Button - Background", new Color32(130, 130, 130, 255)));
 
             UpdateColors();
         }
@@ -108,7 +109,7 @@ namespace Thanking.Components.UI.Menu
             btex.Apply();
             _ButtonStyle.hover.background = btex;
             var btex2 = new Texture2D(1, 1);
-            btex2.SetPixel(0, 0, ColorOption.getColor("_OutlineBorderDarkGray"));
+            btex2.SetPixel(0, 0, ColorOption.getColor("_ButtonBG"));
             btex2.Apply();
             _ButtonStyle.normal.background = btex2;
             var btex3 = new Texture2D(1, 1);
@@ -122,7 +123,7 @@ namespace Thanking.Components.UI.Menu
             _listStyle.hover.background = tex;
             _listStyle.onHover.background = tex;
             var tex2 = new Texture2D(1, 1);
-            tex2.SetPixel(0, 0, ColorOption.getColor("_OutlineBorderDarkGray"));
+            tex2.SetPixel(0, 0, ColorOption.getColor("_ButtonBG"));
             tex2.Apply();
             _listStyle.normal.background = tex2;
             _listStyle.onNormal.background = tex2;

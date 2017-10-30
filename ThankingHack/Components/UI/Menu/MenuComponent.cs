@@ -179,12 +179,13 @@ namespace Thanking.Components.UI.Menu
                 GUILayout.Space(5);
                 if (Prefab.Button("Save", 90, 25))
                 {
-                    ConfigManager.Init();
+                    ConfigManager.SaveConfig(ConfigManager.CollectConfig());
                 }
                 GUILayout.Space(5);
                 if (Prefab.Button("Load", 90, 25))
                 {
-                    ConfigManager.SaveConfig(ConfigManager.CollectConfig());
+                    ConfigManager.Init();
+                    SetGUIColors();
                 }
             });
         }

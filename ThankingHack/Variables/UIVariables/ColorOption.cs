@@ -1,18 +1,26 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Thanking.Attributes;
+using Thanking.Misc;
 using UnityEngine;
 
 namespace Thanking.Options.UIVariables
 {
+    [JsonObject]
     public class ColorOption
     {
-        public UnityEngine.Color32 color;
-        public UnityEngine.Color32 origColor;
+        [JsonProperty]
+        public SerializableColor color;
+        [JsonProperty]
+        public SerializableColor origColor;
+        [JsonProperty]
         public string name;
+        [JsonProperty]
         public string identity;
+        [JsonProperty]
         public bool disableAlpha;
 
         static ColorOption()
@@ -46,8 +54,7 @@ namespace Thanking.Options.UIVariables
             this.origColor = option.origColor;
             this.disableAlpha = option.disableAlpha;
         }
-
-        [Save]
+        
         public static Dictionary<string, ColorOption> ColorDict;
         public static List<string> keys;
         public static ColorOption errorColor;
@@ -57,7 +64,7 @@ namespace Thanking.Options.UIVariables
 
         public static implicit operator Color(ColorOption color)
         {
-            return color.color;
+            return color.color.ToColor();
         }
 
         public static implicit operator Color32(ColorOption color)
@@ -98,12 +105,12 @@ namespace Thanking.Options.UIVariables
                 return ColorToHex(errorColor);
         }
 
-        public static void setColor(string identifier, Color color)
+        public static void setColor(string identifier, Color32 color)
         {
             ColorOption co;
             if (ColorDict.TryGetValue(identifier, out co))
             {
-                co.color = color;
+                co.color = color.ToSerializableColor();
             }
         }
 
