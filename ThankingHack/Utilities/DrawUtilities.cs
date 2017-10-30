@@ -141,12 +141,12 @@ namespace Thanking.Utilities
 			return hex;
 		}
 
-		public static void DrawLabel(LabelLocation location, Vector2 W2SVector, string content, Color bColor, Color iColor, int bWidth)
+		public static void DrawLabel(Font font, LabelLocation location, Vector2 W2SVector, string content, Color bColor, Color iColor, int bWidth)
 		{
 			GUIContent gcontent = new GUIContent(content);
 			GUIStyle LabelStyle = new GUIStyle();
 
-			LabelStyle.font = AssetVariables.Fonts["Roboto-Light"];
+			LabelStyle.font = font;
 			LabelStyle.fontSize = 12;
 
 			Vector2 dim = LabelStyle.CalcSize(gcontent);

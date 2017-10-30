@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Thanking.Components.UI;
 using Thanking.Variables;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -27,11 +28,12 @@ namespace Thanking.Coroutines
 			foreach (Font f in bundle.LoadAllAssets<Font>())
 				AssetVariables.Fonts.Add(f.name, f);
 
-            foreach (AudioClip ac in bundle.LoadAllAssets<AudioClip>())
-                AssetVariables.Audio.Add(ac.name, ac);
+			foreach (AudioClip ac in bundle.LoadAllAssets<AudioClip>())
+				AssetVariables.Audio.Add(ac.name, ac);
 
-            foreach (Texture2D t in bundle.LoadAllAssets<Texture2D>())
-                AssetVariables.Textures.Add(t.name, t);
-        }
+			ESPComponent.GLMat = AssetVariables.Materials["ESP"];
+			ESPComponent.ESPFont = AssetVariables.Fonts["Roboto-Light"];
+			ESPComponent.MainCam = Camera.main;
+		}
 	}
 }

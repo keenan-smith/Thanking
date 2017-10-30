@@ -36,7 +36,7 @@ namespace Thanking.Components.UI
 			text += PAsset.range;
 			text += "</size>";
 
-			DrawUtilities.DrawLabel(Variables.LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
+			DrawUtilities.DrawLabel(ESPComponent.ESPFont, Variables.LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
 		}
 
 		public void Update()
