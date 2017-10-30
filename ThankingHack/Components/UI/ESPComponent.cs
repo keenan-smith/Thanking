@@ -40,7 +40,6 @@ namespace Thanking.Components.UI
 				Color c = visual.Color.ToColor();
 				LabelLocation ll = visual.Location;
 
-
 				GameObject go = obj.GObject;
 
 				if (go == null)
