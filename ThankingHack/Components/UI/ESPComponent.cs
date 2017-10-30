@@ -17,6 +17,10 @@ namespace Thanking.Components.UI
 	[Component]
 	public class ESPComponent : MonoBehaviour
 	{
+		public static Material GLMat;
+		public static Camera MainCam;
+		public static Font ESPFont;
+
 		public void Start() =>
 			CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
 
@@ -27,8 +31,7 @@ namespace Thanking.Components.UI
 
 			if (!Provider.isConnected || Provider.isLoading)
 				return;
-
-			Camera cam = Camera.main;
+			
 			for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
@@ -49,7 +52,7 @@ namespace Thanking.Components.UI
 				if (dist > visual.Distance && !visual.InfiniteDistance)
 					continue;
 
-				Vector3 cpos = cam.WorldToScreenPoint(position);
+				Vector3 cpos = MainCam.WorldToScreenPoint(position);
 
 				if (cpos.z <= 0)
 					continue;
@@ -153,12 +156,12 @@ namespace Thanking.Components.UI
 				Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
 
 				if (visual.Rectangle)
-					DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
+					DrawUtilities.PrepareRectangleLines(MainCam, b, c);
 				else
 					DrawUtilities.PrepareBoxLines(vectors, c);
 
-				Vector3 LabelVector = DrawUtilities.GetW2SVector(cam, b, ll);
-				DrawUtilities.DrawLabel(ll, LabelVector, text, Color.black, c, visual.BorderStrength);
+				Vector3 LabelVector = DrawUtilities.GetW2SVector(MainCam, b, ll);
+				DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength);
 
 				if (visual.LineToObject)
 					ESPVariables.DrawBuffer2.Add(new ESPBox2()
@@ -171,13 +174,12 @@ namespace Thanking.Components.UI
 						}
 					});
 			}
-
-			Material mat = AssetVariables.Materials["ESP"];
+			
+			GLMat.SetPass(0);
 
 			GL.PushMatrix();
-			GL.LoadProjectionMatrix(cam.projectionMatrix);
-			GL.modelview = cam.worldToCameraMatrix;
-			mat.SetPass(0);
+			GL.LoadProjectionMatrix(MainCam.projectionMatrix);
+			GL.modelview = MainCam.worldToCameraMatrix;
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
@@ -195,7 +197,6 @@ namespace Thanking.Components.UI
 			GL.PopMatrix();
 
 			GL.PushMatrix();
-			mat.SetPass(0);
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer2.Count; i++)
