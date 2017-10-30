@@ -18,106 +18,124 @@ namespace Thanking.Coroutines
 		{
 			while (true)
 			{
-				List<ESPObject> objects = ESPVariables.Objects;
-				
-				objects.Clear();
-
-				for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+				if (!Provider.isConnected || Provider.isLoading)
 				{
-					if (!ESPOptions.VisualOptions[i].Enabled)
-						continue;
+					yield return new WaitForSeconds(2);
+					continue;
+				}
 
-					ESPTarget target = (ESPTarget)i;
+				try
+				{
+					List<ESPObject> objects = ESPVariables.Objects;
+					objects.Clear();
 
-					switch (target)
+					List<ESPTarget> targets = ESPOptions.PriorityTable.Keys.OrderByDescending(k => ESPOptions.PriorityTable[k]).ToList();
+
+					for (int i = 0; i < targets.Count; i++)
 					{
-						case ESPTarget.Players:
-							{
-								foreach (SteamPlayer player in Provider.clients)
-								{
-									Player plr = player.player;
+						ESPTarget target = targets[i];
 
-									if (plr.life.isDead || plr == Player.player)
-										continue;
+						if (!ESPOptions.VisualOptions[target].Enabled)
+							continue;
 
-									objects.Add(new ESPObject(target, plr, plr.gameObject));
-								}
+						Vector3 pPos = Player.player.transform.position;
 
-								break;
-							}
-						case ESPTarget.Items:
-							{
-								InteractableItem[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableItem>();
-								for (int j = 0; j < objarr.Length; j++)
+						switch (target)
+						{
+							case ESPTarget.Players:
 								{
-									InteractableItem obj = objarr[j];
-									objects.Add(new ESPObject(target, obj, obj.gameObject));
-								}
-								break;
-							}
-						case ESPTarget.Sentries:
-							{
-								InteractableSentry[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableSentry>();
-								for (int j = 0; j < objarr.Length; j++)
-								{
-									InteractableSentry obj = objarr[j];
-									objects.Add(new ESPObject(target, obj, obj.gameObject));
-								}
-								break;
-							}
-						case ESPTarget.Beds:
-							{
-								InteractableBed[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableBed>();
-								for (int j = 0; j < objarr.Length; j++)
-								{
-									InteractableBed obj = objarr[j];
-									objects.Add(new ESPObject(target, obj, obj.gameObject));
-								}
-								break;
-							}
-						case ESPTarget.ClaimFlags:
-							{
-								InteractableClaim[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableClaim>();
-								for (int j = 0; j < objarr.Length; j++)
-								{
-									InteractableClaim obj = objarr[j];
-									objects.Add(new ESPObject(target, obj, obj.gameObject));
-								}
-								break;
-							}
-						case ESPTarget.Vehicles:
-							{
-								InteractableVehicle[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableVehicle>();
-								for (int j = 0; j < objarr.Length; j++)
-								{
-									InteractableVehicle obj = objarr[j];
-									objects.Add(new ESPObject(target, obj, obj.gameObject));
-								}
-								break;
-							}
-						case ESPTarget.Storage:
-							{
-								InteractableStorage[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableStorage>();
-								for (int j = 0; j < objarr.Length; j++)
-								{
-									InteractableStorage obj = objarr[j];
-									objects.Add(new ESPObject(target, obj, obj.gameObject));
-								}
-								break;
-							}
-						case ESPTarget.Generators:
-							{
-								InteractableGenerator[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableGenerator>();
-								for (int j = 0; j < objarr.Length; j++)
-								{
-									InteractableGenerator obj = objarr[j];
-									objects.Add(new ESPObject(target, obj, obj.gameObject));
-								}
+									foreach (SteamPlayer player in Provider.clients.OrderByDescending(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)))
+									{
+										Player plr = player.player;
 
-								break;
-							}
+										if (plr.life.isDead || plr == Player.player)
+											continue;
+
+										objects.Add(new ESPObject(target, plr, plr.gameObject));
+									}
+
+									break;
+								}
+							case ESPTarget.Items:
+								{
+									InteractableItem[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableItem>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										InteractableItem obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+									break;
+								}
+							case ESPTarget.Sentries:
+								{
+									InteractableSentry[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableSentry>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										InteractableSentry obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+									break;
+								}
+							case ESPTarget.Beds:
+								{
+									InteractableBed[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableBed>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										InteractableBed obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+									break;
+								}
+							case ESPTarget.ClaimFlags:
+								{
+									InteractableClaim[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableClaim>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										InteractableClaim obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+									break;
+								}
+							case ESPTarget.Vehicles:
+								{
+									InteractableVehicle[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableVehicle>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										InteractableVehicle obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+									break;
+								}
+							case ESPTarget.Storage:
+								{
+									InteractableStorage[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableStorage>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										InteractableStorage obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+									break;
+								}
+							case ESPTarget.Generators:
+								{
+									InteractableGenerator[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableGenerator>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										InteractableGenerator obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+
+									break;
+								}
+						}
 					}
 				}
+				catch(Exception e)
+				{
+					Debug.LogError("Error Updating ESP Objects:");
+					Debug.LogError(e);
+				}
+
 				yield return new WaitForSeconds(5);
 			}
 		}

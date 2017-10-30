@@ -39,24 +39,19 @@ namespace Thanking.Variables
 		public bool Rectangle;
 		public bool InfiniteDistance;
 		public bool LineToObject;
+		public bool TextScaling;
+
 		public SerializableColor Color;
 		public LabelLocation Location;
 		public float Distance;
-		public int TextSize;
-		public int BorderStrength;
+		public float MinTextSizeDistance;
 
-		public ESPVisual(bool e, bool r, bool id, bool lto, SerializableColor c, LabelLocation ll,  float d, int ts, int bs)
-		{
-			Enabled = e;
-			Rectangle = r;
-			InfiniteDistance = id;
-			LineToObject = lto;
-			Color = c;
-			Location = ll;
-			Distance = d;
-			TextSize = ts;
-			BorderStrength = bs;
-		}
+		public int BorderStrength;
+		public int FixedTextSize;
+		public int MinTextSize;
+		public int MaxTextSize;
+
+		public ESPVisual() { }
 	}
 
 	public class ESPObject

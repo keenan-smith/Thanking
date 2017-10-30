@@ -26,6 +26,23 @@ namespace Thanking.Coroutines
 						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
 							UnityEngine.Object.Destroy(Loader.HookObject.GetComponent(tClass));
 
+			if (Player.player.equipment.secondary)
+			{
+				if (Player.player.equipment.asset is ItemGunAsset)
+				{
+					ItemGunAsset PAsset = Player.player.equipment.asset as ItemGunAsset;
+					PlayerUtilities.UpdateCrosshairInstant(WeaponComponent.AssetBackups[PAsset.id][5]);
+				}
+			}
+			else
+			{
+				if (Player.player.equipment.asset is ItemGunAsset)
+				{
+					ItemGunAsset PAsset = Player.player.equipment.asset as ItemGunAsset;
+					PlayerUtilities.UpdateCrosshairInstant(WeaponComponent.AssetBackups[PAsset.id][6]);
+				}
+			}
+
 			yield return new WaitForFixedUpdate();
 
 			#region Take Screenshot

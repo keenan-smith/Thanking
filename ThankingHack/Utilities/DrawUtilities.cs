@@ -10,6 +10,20 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
+		public static int GetTextSize(ESPVisual vis, float dist)
+		{
+			if (!vis.TextScaling)
+				return vis.FixedTextSize;
+
+			if (dist > vis.MinTextSizeDistance)
+				return vis.MinTextSize;
+
+			int variable = vis.MaxTextSize - vis.MinTextSize; //17 - 8 = 9
+			float ratio = vis.MinTextSizeDistance / variable; //900 / 9 = 100
+
+			return vis.MaxTextSize - Mathf.RoundToInt(dist / ratio); // 400 / 100 = 4 -> 17 - 4 = 13
+		}
+
 		public static void PrepareRectangleLines(Camera cam, Bounds b, Color c)
 		{
 			Vector3[] pts = new Vector3[8];
@@ -198,37 +212,25 @@ namespace Thanking.Utilities
 			DrawTextWithOutline(rect, gcontent.text, LabelStyle, bColor, iColor, bWidth);
 		}
 
-		public static Vector2 GetW2SVector(Camera cam, Bounds b, Vector3[] vectors, LabelLocation location)
+		public static Vector2 GetW2SVector(Camera cam, Bounds b, LabelLocation location)
 		{
 			Vector2 vec = Vector2.zero;
 			switch (location)
 			{
 				case LabelLocation.BottomLeft:
-					vec = cam.WorldToScreenPoint(vectors[2]);
-					break;
 				case LabelLocation.BottomMiddle:
-					vec = cam.WorldToScreenPoint(new Vector3(b.center.x, vectors[3].y, vectors[3].z));
-					break;
 				case LabelLocation.BottomRight:
-					vec = cam.WorldToScreenPoint(vectors[3]);
+					vec = cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z));
 					break;
 				case LabelLocation.Center:
+				case LabelLocation.MiddleLeft:
+				case LabelLocation.MiddleRight:
 					vec = cam.WorldToScreenPoint(b.center);
 					break;
-				case LabelLocation.MiddleLeft:
-					vec = cam.WorldToScreenPoint(new Vector3(vectors[0].x, b.center.y, vectors[0].z));
-					break;
-				case LabelLocation.MiddleRight:
-					vec = cam.WorldToScreenPoint(new Vector3(vectors[1].x, b.center.y, vectors[1].z));
-					break;
 				case LabelLocation.TopLeft:
-					vec = cam.WorldToScreenPoint(vectors[0]);
-					break;
 				case LabelLocation.TopMiddle:
-					vec = cam.WorldToScreenPoint(new Vector3(b.center.x, vectors[1].y, vectors[1].z));
-					break;
 				case LabelLocation.TopRight:
-					vec = cam.WorldToScreenPoint(vectors[1]);
+					vec = cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z));
 					break;
 			}
 
@@ -256,7 +258,7 @@ namespace Thanking.Utilities
 
 		public static void PrepareRectangleLines(Vector2[] nvectors, Color c)
 		{
-			ESPBox2 box = new ESPBox2()
+			ESPVariables.DrawBuffer2.Add(new ESPBox2()
 			{
 				Color = c,
 				Vertices = new Vector2[8]
@@ -270,25 +272,12 @@ namespace Thanking.Utilities
 					nvectors[2],
 					nvectors[0]
 				}
-			};
-
-			GL.PushMatrix();
-			AssetVariables.GLMaterial.SetPass(0);
-			GL.Begin(GL.LINES);
-
-			GL.Color(box.Color);
-
-			Vector2[] vertices = box.Vertices;
-			for (int j = 0; j < vertices.Length; j++)
-				GL.Vertex(vertices[j]);
-
-			GL.End();
-			GL.PopMatrix();
+			});
 		}
 
 		public static void PrepareBoxLines(Vector3[] vectors, Color c)
 		{
-			ESPBox box = new ESPBox()
+			ESPVariables.DrawBuffer.Add(new ESPBox()
 			{
 				Color = c,
 				Vertices = new Vector3[24]
@@ -318,22 +307,7 @@ namespace Thanking.Utilities
 					vectors[3], //front bottom right to back bottom right
 					vectors[7]
 				}
-			};
-
-			GL.PushMatrix();
-			GL.LoadProjectionMatrix(Camera.main.projectionMatrix);
-			GL.modelview = Camera.main.worldToCameraMatrix;
-			AssetVariables.GLMaterial.SetPass(0);
-			GL.Begin(GL.LINES);
-
-			GL.Color(box.Color);
-
-			Vector3[] vertices = box.Vertices;
-			for (int j = 0; j < vertices.Length; j++)
-				GL.Vertex(vertices[j]);
-
-			GL.End();
-			GL.PopMatrix();
+			});
 		}
 	}
 }

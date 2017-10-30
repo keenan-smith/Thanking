@@ -72,7 +72,7 @@
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
-    <Compile Include="Components\UI\RadarComponent.cs" />
+    <Compile Include="Components\UI\WeaponComponent.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
@@ -105,6 +105,7 @@
     <Compile Include="Utilities\Mesh Utilities\NearestPointTest.cs" />
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
+    <Compile Include="Utilities\PlayerUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="Options\VisualOptions\ESPOptions.cs" />
