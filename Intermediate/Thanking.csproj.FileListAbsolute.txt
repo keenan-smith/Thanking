@@ -1,0 +1,5 @@
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Binaries\Thanking.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Binaries\Thanking.pdb
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Intermediate\Thanking.csproj.CoreCompileInputs.cache
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Intermediate\Thanking.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Intermediate\Thanking.pdb
