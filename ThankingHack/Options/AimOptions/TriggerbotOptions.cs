@@ -11,7 +11,6 @@ namespace Thanking.Options.AimOptions
 	{
 		[Save]
 		public static bool Enabled = false;
-		[Save]
 		public static bool IsFiring = false;
 
 		[Save]

@@ -58,7 +58,13 @@ namespace Thanking.Components.UI.Menu
         void Update()
         {
             if (Input.GetKeyDown(MenuKey))
+            {
                 IsInMenu = !IsInMenu;
+                if (IsInMenu)
+                {
+                    SectionTab.CurrentSectionTab = null;
+                }
+            }
         }
 
         void OnGUI()

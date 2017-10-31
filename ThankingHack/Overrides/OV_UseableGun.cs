@@ -30,7 +30,8 @@ namespace Thanking.Overrides
 						float distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
 						if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)
 						{
-							PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
+                            if (ri.animal || ri.player || ri.zombie)
+							    PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
 							Player.player.input.sendRaycast(ri);
 							bulletInfo.steps = 254;
 						}

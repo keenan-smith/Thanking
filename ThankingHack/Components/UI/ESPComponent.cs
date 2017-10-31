@@ -59,7 +59,7 @@ namespace Thanking.Components.UI
 				string text = "";
 				Bounds b = go.GetComponentInChildren<Renderer>().bounds;
 
-				Debug.Log(obj.Target);
+				//Debug.Log(obj.Target);
 				switch (obj.Target)
 				{
 					#region Players
