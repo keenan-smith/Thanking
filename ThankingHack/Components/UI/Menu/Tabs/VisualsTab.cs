@@ -17,7 +17,18 @@ namespace Thanking.Components.UI.Menu.Tabs
             {
                 Prefab.SectionTabButton("Players", () =>
                 {
+                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginVertical(GUILayout.Width(240));
                     BasicControls(ESPTarget.Players);
+                    GUILayout.EndVertical();
+                    GUILayout.BeginVertical();
+                    Prefab.Toggle("Show Player Name", ref ESPOptions.ShowPlayerName);
+                    Prefab.Toggle("Show Player Distance", ref ESPOptions.ShowPlayerDistance);
+                    Prefab.Toggle("Show Player Weapon", ref ESPOptions.ShowPlayerWeapon);
+                    Prefab.Toggle("Use Player Group", ref ESPOptions.UsePlayerGroup);
+                    GUILayout.EndVertical();
+                    GUILayout.FlexibleSpace();
+                    GUILayout.EndHorizontal();
                 });
                 Prefab.SectionTabButton("Zombies", () =>
                 {
@@ -96,10 +107,10 @@ namespace Thanking.Components.UI.Menu.Tabs
             GUILayout.Space(3);
             ESPOptions.VisualOptions[target].BorderStrength = Prefab.TextField(ESPOptions.VisualOptions[target].BorderStrength, "Border Strength:", 30);
             GUILayout.Space(3);
-            GUILayout.Label("Minimum Text Size Distance: " + ESPOptions.VisualOptions[target].MinTextSizeDistance, Prefab._TextStyle);
+            GUILayout.Label("Text Scaling Falloff Distance: " + Mathf.RoundToInt(ESPOptions.VisualOptions[target].MinTextSizeDistance), Prefab._TextStyle);
             Prefab.Slider(0, 1000, ref ESPOptions.VisualOptions[target].MinTextSizeDistance, 200);
             GUILayout.Space(3);
-            GUILayout.Label("Object Distance: " + ESPOptions.VisualOptions[target].Distance, Prefab._TextStyle);
+            GUILayout.Label("ESP Distance: " + Mathf.RoundToInt(ESPOptions.VisualOptions[target].Distance), Prefab._TextStyle);
             Prefab.Slider(0, 4000, ref ESPOptions.VisualOptions[target].Distance, 200);
             GUILayout.Space(3);
             GUIContent[] LabelLocations = new GUIContent[] { new GUIContent("Top Right"), new GUIContent("Top Middle"), new GUIContent("Top Left"), new GUIContent("Middle Right"), new GUIContent("Center"), new GUIContent("Middle Left"), new GUIContent("Bottom Right"), new GUIContent("Bottom Middle"), new GUIContent("Bottom Left"), };
