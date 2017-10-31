@@ -11,6 +11,7 @@ namespace Thanking.Variables
 	public enum ESPTarget
 	{
 		Players,
+        Zombies,
 		Items,
 		Sentries,
 		Beds,
@@ -36,7 +37,9 @@ namespace Thanking.Variables
 	public class ESPVisual
 	{
 		public bool Enabled;
-		public bool Rectangle;
+        public bool Boxes;
+        public bool Labels;
+		public bool TwoDimensional;
 		public bool InfiniteDistance;
 		public bool LineToObject;
 		public bool TextScaling;

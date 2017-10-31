@@ -17,32 +17,57 @@ namespace Thanking.Options.VisualOptions
 		[Save]
 		public static KeyCode Toggle = KeyCode.LeftBracket;
 
-		[Save]
-		public static Dictionary<ESPTarget, ESPVisual> VisualOptions = new Dictionary<ESPTarget, ESPVisual>()
-		{
-			{ ESPTarget.Players, new ESPVisual()
-				{
-					Enabled = true,
-					Rectangle = true,
-					InfiniteDistance = true,
-					LineToObject = false,
-					TextScaling = true,
+        [Save]
+        public static Dictionary<ESPTarget, ESPVisual> VisualOptions = new Dictionary<ESPTarget, ESPVisual>()
+        {
+            { ESPTarget.Players, new ESPVisual()
+                {
+                    Enabled = true,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = true,
+                    InfiniteDistance = true,
+                    LineToObject = false,
+                    TextScaling = true,
 
-					Distance = 500,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.red).ToSerializableColor(),
+                    Distance = 500,
+                    Location = LabelLocation.BottomMiddle,
+                    Color = ((Color32)Color.red).ToSerializableColor(),
 
-					FixedTextSize = 12,
-					MinTextSize = 8,
-					MaxTextSize = 17,
-					MinTextSizeDistance = 900,
-					BorderStrength = 2
-				}
-			}, //Players
+                    FixedTextSize = 12,
+                    MinTextSize = 8,
+                    MaxTextSize = 17,
+                    MinTextSizeDistance = 900,
+                    BorderStrength = 2
+                }
+            }, //Players
+            { ESPTarget.Zombies, new ESPVisual()
+                {
+                    Enabled = true,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = true,
+                    InfiniteDistance = true,
+                    LineToObject = false,
+                    TextScaling = true,
+
+                    Distance = 500,
+                    Location = LabelLocation.BottomMiddle,
+                    Color = ((Color32)Color.red).ToSerializableColor(),
+
+                    FixedTextSize = 12,
+                    MinTextSize = 8,
+                    MaxTextSize = 17,
+                    MinTextSizeDistance = 900,
+                    BorderStrength = 2
+                }
+            }, //Zombies
 			{ ESPTarget.Items, new ESPVisual()
 				{
 					Enabled = true,
-					Rectangle = false,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = false,
 					InfiniteDistance = false,
 					LineToObject = false,
 					TextScaling = true,
@@ -61,7 +86,9 @@ namespace Thanking.Options.VisualOptions
 			{ ESPTarget.Sentries, new ESPVisual()
 				{
 					Enabled = false,
-					Rectangle = false,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = false,
 					InfiniteDistance = false,
 					LineToObject = false,
 					TextScaling = true,
@@ -80,7 +107,9 @@ namespace Thanking.Options.VisualOptions
 			{ ESPTarget.Beds, new ESPVisual()
 				{
 					Enabled = false,
-					Rectangle = false,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = false,
 					InfiniteDistance = false,
 					LineToObject = false,
 					TextScaling = true,
@@ -99,7 +128,9 @@ namespace Thanking.Options.VisualOptions
 			{ ESPTarget.ClaimFlags, new ESPVisual()
 				{
 					Enabled = false,
-					Rectangle = false,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = false,
 					InfiniteDistance = false,
 					LineToObject = false,
 					TextScaling = true,
@@ -118,7 +149,9 @@ namespace Thanking.Options.VisualOptions
 			{ ESPTarget.Vehicles, new ESPVisual()
 				{
 					Enabled = false,
-					Rectangle = false,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = false,
 					InfiniteDistance = false,
 					LineToObject = false,
 					TextScaling = true,
@@ -137,7 +170,9 @@ namespace Thanking.Options.VisualOptions
 			{ ESPTarget.Storage, new ESPVisual()
 				{
 					Enabled = false,
-					Rectangle = false,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = false,
 					InfiniteDistance = false,
 					LineToObject = false,
 					TextScaling = true,
@@ -156,7 +191,9 @@ namespace Thanking.Options.VisualOptions
 			{ ESPTarget.Generators, new ESPVisual()
 				{
 					Enabled = false,
-					Rectangle = false,
+                    Labels = true,
+                    Boxes = true,
+                    TwoDimensional = false,
 					InfiniteDistance = false,
 					LineToObject = false,
 					TextScaling = true,

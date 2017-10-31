@@ -153,13 +153,19 @@ namespace Thanking.Components.UI
 
 				Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
 
-				if (visual.Rectangle)
-					DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
-				else
-					DrawUtilities.PrepareBoxLines(vectors, c);
+                if (visual.Boxes)
+                {
+                    if (visual.TwoDimensional)
+                        DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
+                    else
+                        DrawUtilities.PrepareBoxLines(vectors, c);
+                }
 
-				Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
-				DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength);
+                if (visual.Labels)
+                {
+                    Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
+                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength);
+                }
 
 				if (visual.LineToObject)
 					ESPVariables.DrawBuffer2.Add(new ESPBox2()

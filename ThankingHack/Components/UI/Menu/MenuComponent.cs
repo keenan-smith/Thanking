@@ -63,7 +63,7 @@ namespace Thanking.Components.UI.Menu
 
         void OnGUI()
         {
-            if (IsInMenu)
+            if (IsInMenu && _LogoTexLarge != null)
             {
                 if (PlayerUI.window != null)
                     PlayerUI.window.showCursor = true;
@@ -174,7 +174,7 @@ namespace Thanking.Components.UI.Menu
 
         void DoConfigButtons()
         {
-            Prefab.MenuArea(new Rect(18, 370, 125, 91), "Config", () =>
+            Prefab.MenuArea(new Rect(18, 370, 125, 91), "CONFIG", () =>
             {
                 GUILayout.Space(5);
                 if (Prefab.Button("Save", 90, 25))
