@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Thanking.Options;
 using Thanking.Options.UIVariables;
 using Thanking.Options.VisualOptions;
 using Thanking.Variables;
@@ -86,6 +87,8 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(225 + 5, 120 + 5 + 120 + 5, 466 - 225 - 5, 436 - 245 - 5), "TOGGLE", () =>
             {
                 Prefab.Toggle("ESP", ref ESPOptions.Enabled);
+                Prefab.Toggle("No Rain", ref MiscOptions.NoRain);
+                Prefab.Toggle("No Snow", ref MiscOptions.NoSnow);
             });
         }
 

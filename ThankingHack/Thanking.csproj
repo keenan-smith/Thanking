@@ -82,6 +82,7 @@
     <Compile Include="Components\UI\Menu\Prefab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\WeaponsTab.cs" />
     <Compile Include="Components\UI\WeaponComponent.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />

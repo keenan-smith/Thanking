@@ -100,9 +100,9 @@ namespace Thanking.Overrides
 				{
 					lastInteract = Time.realtimeSinceStartup;
 					if (Player.player.look.isCam)
-						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), out hit, 20f, RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE | RayMasks.STRUCTURE | RayMasks.BARRICADE, 0);
+						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), out hit, 20f, RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE | RayMasks.BARRICADE, 0);
 					else
-						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? 20 : 24), RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE | RayMasks.STRUCTURE | RayMasks.BARRICADE, 0);
+						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? 20 : 24), RayMasks.ITEM | RayMasks.RESOURCE | RayMasks.VEHICLE | RayMasks.BARRICADE, 0);
 				}
 				if (hit.transform != focus)
 				{

@@ -9,7 +9,11 @@ using UnityEngine;
 namespace Thanking.Options
 {
 	public static class MiscOptions
-	{
+    {
+        [Save]
+        public static bool NoSnow = false;
+        [Save]
+        public static bool NoRain = false;
 		[Save]
 		public static float SalvageTime = 1f;
 

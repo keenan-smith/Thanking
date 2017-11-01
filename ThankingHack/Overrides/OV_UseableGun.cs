@@ -39,8 +39,21 @@ namespace Thanking.Overrides
 				}
 				else
 				{
-
-				}
+                    for (int i = 0; i < Bullets.Count; i++)
+                    {
+                        BulletInfo bulletInfo = Bullets[i];
+                        RaycastInfo ri = RaycastUtilities.GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), PAsset.range, RayMasks.DAMAGE_CLIENT);
+                        float distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
+                        if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)
+                        {
+                            if (ri.animal || ri.player || ri.zombie)
+                                PlayerUI.hitmark(0, Vector3.zero, false, EPlayerHit.CRITICAL);
+                            Player.player.input.sendRaycast(ri);
+                            bulletInfo.steps = 254;
+                        }
+                        
+                    }
+                }
 
 				for (int k = Bullets.Count - 1; k >= 0; k--)
 				{
@@ -62,9 +75,14 @@ namespace Thanking.Overrides
 					}
 				}
 				else
-				{
-
-				}
+                {
+                    for (int i = 0; i < Bullets.Count; i++)
+                    {
+                        BulletInfo bulletInfo = Bullets[i];
+                        RaycastInfo ri = RaycastUtilities.GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), PAsset.range, RayMasks.DAMAGE_CLIENT);
+                        Player.player.input.sendRaycast(ri);
+                    }
+                }
 
 				Bullets.Clear();
 			}

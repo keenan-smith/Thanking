@@ -10,6 +10,7 @@ using Thanking.Variables;
 using UnityEngine;
 using System;
 using Thanking.Managers.Main;
+using Thanking.Options;
 
 namespace Thanking.Components.UI
 {
@@ -22,6 +23,14 @@ namespace Thanking.Components.UI
 
 		public void Start() =>
 			CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
+
+        public void Update()
+        {
+            if (MiscOptions.NoRain)
+                LevelLighting.rainyness = ELightingRain.NONE;
+            if (MiscOptions.NoSnow)
+                LevelLighting.snowyness = ELightingSnow.NONE;
+        }
 
 		public void OnGUI()
 		{
