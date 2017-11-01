@@ -83,9 +83,22 @@ namespace Thanking.Variables
 		}
 	}
 
-	public class ESPVariables
+	public class ThreadBuffer
+	{
+		public Bounds bounds;
+		public Color color;
+
+		public ThreadBuffer(Bounds b, Color c)
+		{
+			bounds = b;
+			color = c;
+		}
+	}
+
+	public static class ESPVariables
 	{
 		public static List<ESPObject> Objects = new List<ESPObject>();
+		public static List<ThreadBuffer> TBuffer = new List<ThreadBuffer>();
 
 		public static List<ESPBox> DrawBuffer = new List<ESPBox>();
 		public static List<ESPBox2> DrawBuffer2 = new List<ESPBox2>();

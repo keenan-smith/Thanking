@@ -9,6 +9,26 @@ namespace Thanking.Utilities
 {
 	public static class MathUtilities
 	{
+		public static Vector3 WorldToScreen(Matrix4x4 VP, Vector3 CamPos, Vector3 WorldPos)
+		{
+			// Calculate Screen Point of Object.
+			Vector3 pointOnScreen = Vector3.zero;
+			Vector4 v = VP * new Vector4(WorldPos.x, WorldPos.y, WorldPos.z, 1);
+			Vector3 _ViewPortPoint = v / -v.w;
+
+			// Will keep _ViewPort Under 1 for multiplication.
+			Vector3 normalized_ViewPort = new Vector3(_ViewPortPoint.x + 1, _ViewPortPoint.y + 1, 0);
+			normalized_ViewPort /= 2;
+
+			// Get Vector (Distance essentially to use in Dot Product).
+			Vector3 heading = WorldPos - CamPos;
+			// Check is object is behind camera.
+
+			pointOnScreen.x = normalized_ViewPort.x * Screen.width;
+			pointOnScreen.y = normalized_ViewPort.y * Screen.height;
+
+			return pointOnScreen;
+		}
 		public static bool Intersect(Vector3 p0, Vector3 p1, Vector3 oVector, Vector3 bCenter, out Vector3 intersection) //dad helped me with this, let's pray it works
 		{
 			//if intersects return true

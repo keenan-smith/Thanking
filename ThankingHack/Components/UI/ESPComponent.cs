@@ -20,9 +20,16 @@ namespace Thanking.Components.UI
 	{
 		public static Material GLMat;
 		public static Font ESPFont;
+		public static Matrix4x4 CamVP;
+		public static Vector3 CamPos;
 
-		public void Start() =>
+		public void Start()
+		{
+			CamVP = Camera.main.projectionMatrix * Camera.main.transform.worldToLocalMatrix;
+			CamPos = Camera.main.transform.position;
+			
 			CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
+		}
 
         public void Update()
         {
@@ -162,6 +169,7 @@ namespace Thanking.Components.UI
 
 				Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
 
+<<<<<<< Updated upstream
                 if (visual.Boxes)
                 {
                     if (visual.TwoDimensional)
@@ -175,6 +183,15 @@ namespace Thanking.Components.UI
                     Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
                     DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength);
                 }
+=======
+				if (visual.Rectangle)
+					DrawUtilities.PrepareRectangleLines(b, c);
+				else
+					DrawUtilities.PrepareBoxLines(vectors, c);
+
+				Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
+				DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength);
+>>>>>>> Stashed changes
 
 				if (visual.LineToObject)
 					ESPVariables.DrawBuffer2.Add(new ESPBox2()
