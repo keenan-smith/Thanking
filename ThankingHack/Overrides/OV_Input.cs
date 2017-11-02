@@ -1,7 +1,10 @@
 ﻿using SDG.Unturned;
+using System.Linq;
 using System.Reflection;
 using Thanking.Attributes;
+using Thanking.Managers.Submanagers;
 using Thanking.Options.AimOptions;
+using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 
@@ -15,9 +18,8 @@ namespace Thanking.Overrides
 			if (key == ControlsSettings.primary && TriggerbotOptions.IsFiring)
 				return true;
 
-            return (bool)typeof(Input)
-                    .GetMethod("GetKeyInt", ReflectionVariables.PrivateStatic)
-                    .Invoke(null, new object[] { (int)key });
-        }
+            return 
+				(bool)OverrideUtilities.CallOriginal(OverrideManager.Overrides.Keys.First(o => o.MethodName == "GetKey").Method);
+		}
     }
 }

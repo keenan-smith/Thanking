@@ -73,9 +73,9 @@ namespace Thanking.Threads
 						DrawUtilities.PrepareRectangleLines(vectors, tb.color);
 					}
 				}
-				catch
+				catch(Exception e)
 				{
-
+					Debug.Log(e);
 				}
 			}
 		}
