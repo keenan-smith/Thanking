@@ -22,7 +22,7 @@ namespace Thanking.Utilities
         /// <param name="instance">The instance for the method(null if static)</param>
         /// <param name="args">The arguments for the method</param>
         /// <returns>The value that the original function returns</returns>
-        public static object CallOriginal(MethodInfo method, object instance = null, params object[] args)
+        public static object CallOriginalFunc(MethodInfo method, object instance = null, params object[] args)
         {
             // Set the variables
             OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == method).Value;
