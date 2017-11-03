@@ -102,11 +102,11 @@
     <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
     <Compile Include="Options\AimOptions\WeaponOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
+    <Compile Include="Threads\ESPThread.cs" />
     <Compile Include="Variables\UIVariables\ColorOption.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
     <Compile Include="Variables\UIVariables\SectionTab.cs" />
-    <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
     <Compile Include="Overrides\OV_Player.cs" />
     <Compile Include="Overrides\OV_PlayerInteract.cs" />
