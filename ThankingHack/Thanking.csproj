@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
+    <Compile Include="Attributes\OnSpyAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />

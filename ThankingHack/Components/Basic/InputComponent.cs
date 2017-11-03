@@ -19,7 +19,8 @@ namespace Thanking.Components.Basic
 	[Component]
 	public class InputComponent : MonoBehaviour
 	{
-		public void Update()
+		public void 
+            Update()
 		{
 			if (Input.GetKeyDown(TriggerbotOptions.Toggle))
 			{

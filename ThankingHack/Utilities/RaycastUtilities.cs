@@ -129,15 +129,7 @@ namespace Thanking.Utilities
 
 			RaycastInfo ri = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), currentGun.range, RayMasks.DAMAGE_CLIENT);
 
-            Debug.Log(ri.point);
-
-            //Debug.Log("Logging Closest Player:");
-            //Debug.Log(closestPlayer.name);
-
-			//if (ri.transform != null || closestPlayer == null)
 			return ri;
-
-			//return new RaycastInfo(Player.player.transform);
         }
     }
 }

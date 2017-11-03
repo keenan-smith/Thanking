@@ -8,7 +8,12 @@ namespace Thanking.Utilities
 {
 	public static class ReflectionUtilities
 	{
-		public static T GetField<T>(this object Pointer, string Variable, FieldType fieldType)
+        public static MethodInfo GetPrivateFunction(this object ptr, string name)
+        {
+            return ptr.GetType().GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic);
+        }
+
+        public static T GetField<T>(this object Pointer, string Variable, FieldType fieldType)
 		{
 			BindingFlags bindingFlags = GetBindingFlags(fieldType);
 			return (T)(Pointer.GetType().GetField(Variable, bindingFlags).GetValue(Pointer));
