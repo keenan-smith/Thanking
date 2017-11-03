@@ -25,7 +25,7 @@ namespace Thanking.Overrides
 				PlayerLifeUI.crosshairUpImage.positionOffset_Y = ((int)(-spread * 400f) - 4);
 
 				PlayerLifeUI.crosshairDownImage.positionOffset_X = -4;
-				PlayerLifeUI.crosshairDownImage.positionOffset_Y = ((int)(spread * 400f) - 4);
+				PlayerLifeUI.crosshairDownImage.positionOffset_Y = (-(int)(spread * 400f) - 4);
 			}
 		}
 	}

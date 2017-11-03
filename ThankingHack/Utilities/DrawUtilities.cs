@@ -24,8 +24,39 @@ namespace Thanking.Utilities
 			return vis.MaxTextSize - Mathf.RoundToInt(dist / ratio); // 400 / 100 = 4 -> 17 - 4 = 13
 		}
 
-		public static void PrepareRectangleLines(Bounds b, Color c) =>
-			ESPVariables.TBuffer.Add(new ThreadBuffer(b, c));
+		public static void PrepareRectangleLines(Camera cam, Bounds b, Color c)
+		{
+			Vector3[] pts = new Vector3[8];
+			pts[0] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z));
+			pts[1] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z));
+			pts[2] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z));
+			pts[3] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z));
+			pts[4] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z));
+			pts[5] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z));
+			pts[6] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z));
+			pts[7] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z));
+			
+			//Get them in GUI space
+			for (int i = 0; i < pts.Length; i++)
+				pts[i].y = Screen.height - pts[i].y;
+
+			//Calculate the min and max positions
+			Vector3 min = pts[0];
+			Vector3 max = pts[0];
+			for (int i = 1; i < pts.Length; i++)
+			{
+				min = Vector3.Min(min, pts[i]);
+				max = Vector3.Max(max, pts[i]);
+			}
+
+			Vector2[] vectors = new Vector2[4];
+			vectors[0] = new Vector2(min.x, min.y);
+			vectors[1] = new Vector2(max.x, min.y);
+			vectors[2] = new Vector2(min.x, max.y);
+			vectors[3] = new Vector2(max.x, max.y);
+
+			PrepareRectangleLines(vectors, c);
+		}
 
 		public static Bounds GetBoundsRecursively(GameObject go)
 		{
