@@ -107,6 +107,7 @@
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
     <Compile Include="Variables\UIVariables\SectionTab.cs" />
+    <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
     <Compile Include="Overrides\OV_Player.cs" />
     <Compile Include="Overrides\OV_PlayerInteract.cs" />
