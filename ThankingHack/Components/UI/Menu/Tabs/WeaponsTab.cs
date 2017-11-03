@@ -14,6 +14,7 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "WEAPONS", () =>
             {
                 Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
+                Prefab.Toggle("Triggerbot", ref TriggerbotOptions.Enabled);
                 Prefab.Toggle("No Recoil", ref WeaponOptions.NoRecoil);
                 Prefab.Toggle("No Spread", ref WeaponOptions.NoSpread);
                 Prefab.Toggle("No Sway", ref WeaponOptions.NoSway);

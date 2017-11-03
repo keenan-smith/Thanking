@@ -96,7 +96,7 @@ namespace Thanking.Utilities
 					if (hPos != Vector3.zero)
 					{
 						if (!Provider.modeConfigData.Gameplay.Ballistics)
-							PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
+							//PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
 
 						Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(WeaponCoroutines.CheckForDeath(closestPlayer));
 
@@ -113,7 +113,7 @@ namespace Thanking.Utilities
 
 				if (VectorUtilities.GetDistance(Player.player.transform.position, closestPlayer.transform.position) <= SphereOptions.SphereRadius)
 				{
-					PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
+					//PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
 					Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(WeaponCoroutines.CheckForDeath(closestPlayer));
 					return new RaycastInfo(closestPlayer.transform)
 					{

@@ -22,7 +22,7 @@ namespace Thanking.Components.Basic
 			{
 				RaycastInfo info = RaycastUtilities.GenerateRaycast();
 
-				TriggerbotOptions.IsFiring = info.point != Vector3.zero && !TriggerbotOptions.IsFiring;
+				TriggerbotOptions.IsFiring = info.player != null && !TriggerbotOptions.IsFiring;
 			}
 		}
 	}

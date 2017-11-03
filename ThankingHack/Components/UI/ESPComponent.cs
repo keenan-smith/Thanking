@@ -43,7 +43,7 @@ namespace Thanking.Components.UI
 			for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
-				ESPVisual visual = ESPOptions.VisualOptions[obj.Target];
+				ESPVisual visual = ESPOptions.VisualOptions[(int)obj.Target];
 
 				Color c = visual.Color.ToColor();
 				LabelLocation ll = visual.Location;

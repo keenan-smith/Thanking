@@ -35,7 +35,7 @@ namespace Thanking.Coroutines
 					{
 						ESPTarget target = targets[i];
 
-						if (!ESPOptions.VisualOptions[target].Enabled)
+						if (!ESPOptions.VisualOptions[(int)target].Enabled)
 							continue;
 
 						Vector3 pPos = Player.player.transform.position;

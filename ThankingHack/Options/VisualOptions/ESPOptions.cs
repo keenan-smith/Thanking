@@ -17,198 +17,199 @@ namespace Thanking.Options.VisualOptions
 		[Save]
 		public static KeyCode Toggle = KeyCode.LeftBracket;
 
+        public static string[] asd = new string[] { "asd", "asd" };
+
         [Save]
-        public static Dictionary<ESPTarget, ESPVisual> VisualOptions = new Dictionary<ESPTarget, ESPVisual>()
+        public static ESPVisual[] VisualOptions = new ESPVisual[]
         {
-            { ESPTarget.Players, new ESPVisual()
-                {
-                    Enabled = true,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = true,
-                    InfiniteDistance = true,
-                    LineToObject = false,
-                    TextScaling = true,
+            new ESPVisual()
+        {
+                Enabled = true,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = true,
+                InfiniteDistance = true,
+                LineToObject = false,
+                TextScaling = true,
 
-                    Distance = 500,
-                    Location = LabelLocation.BottomMiddle,
-                    Color = ((Color32)Color.red).ToSerializableColor(),
+                Distance = 500,
+                Location = LabelLocation.BottomMiddle,
+                Color = ((Color32)Color.red).ToSerializableColor(),
 
-                    FixedTextSize = 12,
-                    MinTextSize = 8,
-                    MaxTextSize = 17,
-                    MinTextSizeDistance = 900,
-                    BorderStrength = 2
-                }
-            }, //Players
-            { ESPTarget.Zombies, new ESPVisual()
-                {
-                    Enabled = true,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = true,
-                    InfiniteDistance = true,
-                    LineToObject = false,
-                    TextScaling = true,
+                FixedTextSize = 12,
+                MinTextSize = 8,
+                MaxTextSize = 17,
+                MinTextSizeDistance = 900,
+                BorderStrength = 2
+            },//Players
 
-                    Distance = 500,
-                    Location = LabelLocation.BottomMiddle,
-                    Color = ((Color32)Color.red).ToSerializableColor(),
+            new ESPVisual()
+            {
+                Enabled = true,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = true,
+                InfiniteDistance = true,
+                LineToObject = false,
+                TextScaling = true,
 
-                    FixedTextSize = 12,
-                    MinTextSize = 8,
-                    MaxTextSize = 17,
-                    MinTextSizeDistance = 900,
-                    BorderStrength = 2
-                }
+                Distance = 500,
+                Location = LabelLocation.BottomMiddle,
+                Color = ((Color32)Color.red).ToSerializableColor(),
+
+                FixedTextSize = 12,
+                MinTextSize = 8,
+                MaxTextSize = 17,
+                MinTextSizeDistance = 900,
+                BorderStrength = 2
             }, //Zombies
-			{ ESPTarget.Items, new ESPVisual()
-				{
-					Enabled = true,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = false,
-					InfiniteDistance = false,
-					LineToObject = false,
-					TextScaling = true,
 
-					Distance = 250,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual()
+			{
+				Enabled = true,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = false,
+				InfiniteDistance = false,
+				LineToObject = false,
+				TextScaling = true,
 
-					FixedTextSize = 11,
-					MinTextSize = 8,
-					MaxTextSize = 14,
-					MinTextSizeDistance = 800,
-					BorderStrength = 2
-				}
+				Distance = 250,
+				Location = LabelLocation.BottomMiddle,
+				Color = ((Color32)Color.cyan).ToSerializableColor(),
+
+				FixedTextSize = 11,
+				MinTextSize = 8,
+				MaxTextSize = 14,
+				MinTextSizeDistance = 800,
+				BorderStrength = 2
 			}, //Items
-			{ ESPTarget.Sentries, new ESPVisual()
-				{
-					Enabled = false,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = false,
-					InfiniteDistance = false,
-					LineToObject = false,
-					TextScaling = true,
 
-					Distance = 250,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual()
+			{
+				Enabled = false,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = false,
+				InfiniteDistance = false,
+				LineToObject = false,
+				TextScaling = true,
 
-					FixedTextSize = 11,
-					MinTextSize = 8,
-					MaxTextSize = 11,
-					MinTextSizeDistance = 800,
-					BorderStrength = 2
-				}
+				Distance = 250,
+				Location = LabelLocation.BottomMiddle,
+				Color = ((Color32)Color.cyan).ToSerializableColor(),
+
+				FixedTextSize = 11,
+				MinTextSize = 8,
+				MaxTextSize = 11,
+				MinTextSizeDistance = 800,
+				BorderStrength = 2
 			}, //Sentries
-			{ ESPTarget.Beds, new ESPVisual()
-				{
-					Enabled = false,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = false,
-					InfiniteDistance = false,
-					LineToObject = false,
-					TextScaling = true,
 
-					Distance = 250,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual()
+			{
+				Enabled = false,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = false,
+				InfiniteDistance = false,
+				LineToObject = false,
+				TextScaling = true,
 
-					FixedTextSize = 11,
-					MinTextSize = 8,
-					MaxTextSize = 11,
-					MinTextSizeDistance = 800,
-					BorderStrength = 2
-				}
+				Distance = 250,
+				Location = LabelLocation.BottomMiddle,
+				Color = ((Color32)Color.cyan).ToSerializableColor(),
+
+				FixedTextSize = 11,
+				MinTextSize = 8,
+				MaxTextSize = 11,
+				MinTextSizeDistance = 800,
+				BorderStrength = 2
 			}, //Beds
-			{ ESPTarget.ClaimFlags, new ESPVisual()
-				{
-					Enabled = false,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = false,
-					InfiniteDistance = false,
-					LineToObject = false,
-					TextScaling = true,
 
-					Distance = 250,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual()
+			{
+				Enabled = false,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = false,
+				InfiniteDistance = false,
+				LineToObject = false,
+				TextScaling = true,
 
-					FixedTextSize = 11,
-					MinTextSize = 8,
-					MaxTextSize = 11,
-					MinTextSizeDistance = 800,
-					BorderStrength = 2
-				}
+				Distance = 250,
+				Location = LabelLocation.BottomMiddle,
+				Color = ((Color32)Color.cyan).ToSerializableColor(),
+
+				FixedTextSize = 11,
+				MinTextSize = 8,
+				MaxTextSize = 11,
+				MinTextSizeDistance = 800,
+				BorderStrength = 2
 			}, //Claim Flags
-			{ ESPTarget.Vehicles, new ESPVisual()
-				{
-					Enabled = false,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = false,
-					InfiniteDistance = false,
-					LineToObject = false,
-					TextScaling = true,
 
-					Distance = 250,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual()
+			{
+				Enabled = false,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = false,
+				InfiniteDistance = false,
+				LineToObject = false,
+				TextScaling = true,
 
-					FixedTextSize = 11,
-					MinTextSize = 8,
-					MaxTextSize = 11,
-					MinTextSizeDistance = 800,
-					BorderStrength = 2
-				}
+				Distance = 250,
+				Location = LabelLocation.BottomMiddle,
+				Color = ((Color32)Color.cyan).ToSerializableColor(),
+
+				FixedTextSize = 11,
+				MinTextSize = 8,
+				MaxTextSize = 11,
+				MinTextSizeDistance = 800,
+				BorderStrength = 2
 			}, //Vehicles
-			{ ESPTarget.Storage, new ESPVisual()
-				{
-					Enabled = false,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = false,
-					InfiniteDistance = false,
-					LineToObject = false,
-					TextScaling = true,
 
-					Distance = 250,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual()
+			{
+				Enabled = false,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = false,
+				InfiniteDistance = false,
+				LineToObject = false,
+				TextScaling = true,
 
-					FixedTextSize = 11,
-					MinTextSize = 8,
-					MaxTextSize = 11,
-					MinTextSizeDistance = 800,
-					BorderStrength = 2
-				}
+				Distance = 250,
+				Location = LabelLocation.BottomMiddle,
+				Color = ((Color32)Color.cyan).ToSerializableColor(),
+
+				FixedTextSize = 11,
+				MinTextSize = 8,
+				MaxTextSize = 11,
+				MinTextSizeDistance = 800,
+				BorderStrength = 2
 			}, //Storage
-			{ ESPTarget.Generators, new ESPVisual()
-				{
-					Enabled = false,
-                    Labels = true,
-                    Boxes = true,
-                    TwoDimensional = false,
-					InfiniteDistance = false,
-					LineToObject = false,
-					TextScaling = true,
 
-					Distance = 250,
-					Location = LabelLocation.BottomMiddle,
-					Color = ((Color32)Color.cyan).ToSerializableColor(),
+			new ESPVisual()
+			{
+				Enabled = false,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = false,
+				InfiniteDistance = false,
+				LineToObject = false,
+				TextScaling = true,
 
-					FixedTextSize = 11,
-					MinTextSize = 8,
-					MaxTextSize = 11,
-					MinTextSizeDistance = 800,
-					BorderStrength = 2
-				}
-			} //Generators
+				Distance = 250,
+				Location = LabelLocation.BottomMiddle,
+				Color = ((Color32)Color.cyan).ToSerializableColor(),
+
+				FixedTextSize = 11,
+				MinTextSize = 8,
+				MaxTextSize = 11,
+				MinTextSizeDistance = 800,
+				BorderStrength = 2
+			}//Generators
 		};
 
 		[Save]

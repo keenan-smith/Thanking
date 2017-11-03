@@ -92,8 +92,9 @@ namespace Thanking.Components.UI.Menu.Tabs
             });
         }
 
-        private static void BasicControls(ESPTarget target)
+        private static void BasicControls(ESPTarget esptarget)
         {
+            int target = (int)esptarget;
             Prefab.Toggle("Enabled", ref ESPOptions.VisualOptions[target].Enabled);
             Prefab.Toggle("Labels", ref ESPOptions.VisualOptions[target].Labels);
             Prefab.Toggle("Box ESP", ref ESPOptions.VisualOptions[target].Boxes);

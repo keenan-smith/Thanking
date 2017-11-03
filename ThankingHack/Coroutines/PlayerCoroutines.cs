@@ -17,9 +17,13 @@ namespace Thanking.Coroutines
 {
 	public static class PlayerCoroutines
 	{
+        public static bool IsSpying = false;
+
 		public static IEnumerator TakeScreenshot()
 		{
-			Debug.Log("TAKING SCREENSHOT");
+            IsSpying = true;
+
+            Debug.Log("TAKING SCREENSHOT");
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)
@@ -82,6 +86,8 @@ namespace Thanking.Coroutines
 					if (tClass.IsClass)
 						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
 							Loader.HookObject.AddComponent(tClass);
+
+            IsSpying = false;
 		}
 	}
 }
