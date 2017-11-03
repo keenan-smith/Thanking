@@ -19,7 +19,7 @@ namespace Thanking.Overrides
 				return true;
 
             return 
-				(bool)OverrideUtilities.CallOriginal(null, key);
+				(bool)OverrideUtilities.CallOriginal(OverrideManager.Overrides.Keys.First(o => o.MethodName == "GetKey").Method);
 		}
     }
 }
