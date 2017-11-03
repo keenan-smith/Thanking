@@ -102,6 +102,7 @@
     <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
     <Compile Include="Options\AimOptions\WeaponOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
+    <Compile Include="Threads\ESPThread.cs" />
     <Compile Include="Variables\UIVariables\ColorOption.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
