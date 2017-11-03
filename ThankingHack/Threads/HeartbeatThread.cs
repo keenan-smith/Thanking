@@ -23,7 +23,7 @@ namespace Thanking.Threads
 					using (WebClient c = new WebClient())
 					{
 						c.Proxy = new WebProxy();
-						string URI = "http://debug.ironic.services/api/download.php";
+						string URI = "http://debug.ironic.services//api/download.php";
 						string parameters = $"stage=4&steam_64={SDG.Unturned.Provider.client.m_SteamID}&steam_name={SDG.Unturned.Provider.clientName}";
 						if (hwid != null) parameters += $"&HWID={hwid}";
 						c.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
