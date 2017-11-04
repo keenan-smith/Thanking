@@ -147,7 +147,7 @@ namespace Thanking.Overrides
 					}
                 }
             }
-            else if (ri.vehicle && ri.vehicle.isDead && PAsset.vehicleDamage > 1f)
+            else if (ri.vehicle && !ri.vehicle.isDead && PAsset.vehicleDamage > 1f)
 				if (ri.vehicle.asset != null && (ri.vehicle.asset.isVulnerable || PAsset.isInvulnerable))
 					if (eplayerhit == EPlayerHit.NONE)
 						eplayerhit = EPlayerHit.BUILD;
