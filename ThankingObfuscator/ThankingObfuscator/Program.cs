@@ -7,9 +7,9 @@ namespace ThankingObfuscator
     {
         static void Main(string[] args)
         {
-            ModuleDefMD module = ModuleDefMD.Load(args[0]);
+            ModuleDefMD module = ModuleDefMD.Load("Thanking.dll");
             Symbols.Run(module);
-            module.Write(args[0] + "_Renamed");
+            module.Write("Thanking_Obfuscated.dll");
         }
     }
 }

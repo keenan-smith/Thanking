@@ -262,7 +262,7 @@ namespace Thanking.Utilities
 
 		public static void PrepareRectangleLines(Vector2[] nvectors, Color c)
 		{
-			ESPVariables.DrawBuffer2.Add(new ESPBox2()
+			ESPVariables.DrawBuffer2.Enqueue(new ESPBox2()
 			{
 				Color = c,
 				Vertices = new []
@@ -281,7 +281,7 @@ namespace Thanking.Utilities
 
 		public static void PrepareBoxLines(Vector3[] vectors, Color c)
 		{
-			ESPVariables.DrawBuffer.Add(new ESPBox()
+			ESPVariables.DrawBuffer.Enqueue(new ESPBox()
 			{
 				Color = c,
 				Vertices = new []

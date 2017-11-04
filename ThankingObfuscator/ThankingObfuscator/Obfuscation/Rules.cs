@@ -17,7 +17,8 @@ namespace SymbolRenamer.SymbolRenaming
                 type.IsGlobalModuleType ||
                 type.Name == "VoidCodeAttribute" ||
                 type.InheritsFrom("System.Configuration.SettingsBase") ||
-                type.IsImport)
+                type.IsImport || 
+				type.Name == "")
                 return false;
             else
                 return true;
@@ -39,7 +40,8 @@ namespace SymbolRenamer.SymbolRenaming
                 method.IsAbstract ||
                 method.Name.EndsWith("GetEnumerator") ||
                 method.DeclaringType.IsDelegate() ||
-                method.DeclaringType.IsComImport() && !method.HasAttribute("System.Runtime.InteropServices.DispIdAttribute"))
+                method.DeclaringType.IsComImport() && !method.HasAttribute("System.Runtime.InteropServices.DispIdAttribute") || 
+				method.Name.Contains("Hook"))
                 return false;
             else
                 return true;

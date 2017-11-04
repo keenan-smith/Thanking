@@ -83,8 +83,8 @@ namespace Thanking.Variables
 	{
 		public static List<ESPObject> Objects = new List<ESPObject>();
 
-		public static List<ESPBox> DrawBuffer = new List<ESPBox>();
-		public static List<ESPBox2> DrawBuffer2 = new List<ESPBox2>();
+		public static Queue<ESPBox> DrawBuffer = new Queue<ESPBox>();
+		public static Queue<ESPBox2> DrawBuffer2 = new Queue<ESPBox2>();
 	}
 
 	public class ESPBox

@@ -187,7 +187,7 @@ namespace Thanking.Components.UI
                 }
 
 				if (visual.LineToObject)
-					ESPVariables.DrawBuffer2.Add(new ESPBox2()
+					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2()
 					{
 						Color = visual.Color.ToColor(),
 						Vertices = new Vector2[]
@@ -207,7 +207,7 @@ namespace Thanking.Components.UI
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
 			{
-				ESPBox box = ESPVariables.DrawBuffer[i];
+				ESPBox box = ESPVariables.DrawBuffer.Dequeue();
 
 				GL.Color(box.Color);
 
@@ -224,7 +224,7 @@ namespace Thanking.Components.UI
 
 			for (int i = 0; i < ESPVariables.DrawBuffer2.Count; i++)
 			{
-				ESPBox2 box = ESPVariables.DrawBuffer2[i];
+				ESPBox2 box = ESPVariables.DrawBuffer2.Dequeue();
 
 				GL.Color(box.Color);
 
@@ -235,10 +235,6 @@ namespace Thanking.Components.UI
 			}
 			GL.End();
 			GL.PopMatrix();
-
-
-			ESPVariables.DrawBuffer.Clear();
-			ESPVariables.DrawBuffer2.Clear();
 		}
 
 		public static String SentryName(Item DisplayItem) => DisplayItem != null

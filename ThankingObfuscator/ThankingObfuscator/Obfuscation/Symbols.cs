@@ -14,7 +14,7 @@ namespace SymbolRenamer.SymbolRenaming
         /// <summary>
         /// What kind of symbols should be used for renaming.
         /// </summary>
-        private static SymbolStyle symbolStyle = SymbolStyle.Unreadable;
+        private static SymbolStyle symbolStyle = SymbolStyle.FuckYou;
 
         /// <summary>
         /// Supported symbol styles.
@@ -23,7 +23,8 @@ namespace SymbolRenamer.SymbolRenaming
         {
             Unreadable = 0,
             Chinese = 1,
-            Emojis = 2
+            Emojis = 2,
+			FuckYou = 3
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace SymbolRenamer.SymbolRenaming
         {
 
             // The charset which holds the characters allowed for renaming 
-            char[] charMap = null;
+            string[] charMap = null;
 
             // StringBuilder to generate a string from the charMap
             StringBuilder stringBuilder;
@@ -58,21 +59,24 @@ namespace SymbolRenamer.SymbolRenaming
             switch (symbolStyle)
             {
                 case SymbolStyle.Unreadable:
-                        charMap = "̽˱˲`ʭˆ˺˩˨˥˭ʺ˾˫̪ ˽̟ !;˪╒╨ױ̄̚".ToCharArray();
+                        charMap = "̽˱˲`ʭˆ˺˩˨˥˭ʺ˾˫̪ ˽̟ !;˪╒╨ױ̄̚".ToCharArray().Select(a => a.ToString()).ToArray();
                         break;
                 case SymbolStyle.Chinese:
-                    charMap = "這是驚人的我喜歡看到人們的笑容美國死亡淨混淆他媽的佩爾松低音蟾蜍你是如何科網喜歡這個地方他媽的".ToCharArray();
+                    charMap = "這是驚人的我喜歡看到人們的笑容美國死亡淨混淆他媽的佩爾松低音蟾蜍你是如何科網喜歡這個地方他媽的".ToCharArray().Select(a => a.ToString()).ToArray();
                     break;
                 case SymbolStyle.Emojis:
-                    charMap = "🖕😍😘".ToCharArray(); //🖕 "😀😃😄😁😆😅😂🤣☺️😊😇🙂🙃😉😌😍😘😗😙😚😋😜😝😛🤑🤗🤓😎🤡🤠😏😒😞😔😟😕🙁😣😖😫😩😤😠😡😶😐😑😯😦😧😮😲😵😳😱😨😰😢😥🤤😭😓😪😴🙄🤔🤥😬🤐🤢🤧😷🤒🤕😈👿👹👺💩👻💀☠️👽👾🤖🎃😺😸😹😻😼😽🙀😿😾👐🙌👏🙏🤝👍👎👊✊🤛🤜🤞✌️🤘👌👈👉👆👇☝️✋🤚🖐🖖👋🤙💪🖕💅🖖💄💋👄👅👂👃👣👁👀🗣👤👥👶👦👧👨👩👱‍🌎🌍🌏🌕🌖🌗🌘🌑🌒🌓🌔🌚🌝🤩🤨🤯🤪🤬🤮🤫🤭🧐🧒🧑🧓🧕".ToCharArray();
+                    charMap = "🖕😍😘".ToCharArray().Select(a => a.ToString()).ToArray(); //🖕 "😀😃😄😁😆😅😂🤣☺️😊😇🙂🙃😉😌😍😘😗😙😚😋😜😝😛🤑🤗🤓😎🤡🤠😏😒😞😔😟😕🙁😣😖😫😩😤😠😡😶😐😑😯😦😧😮😲😵😳😱😨😰😢😥🤤😭😓😪😴🙄🤔🤥😬🤐🤢🤧😷🤒🤕😈👿👹👺💩👻💀☠️👽👾🤖🎃😺😸😹😻😼😽🙀😿😾👐🙌👏🙏🤝👍👎👊✊🤛🤜🤞✌️🤘👌👈👉👆👇☝️✋🤚🖐🖖👋🤙💪🖕💅🖖💄💋👄👅👂👃👣👁👀🗣👤👥👶👦👧👨👩👱‍🌎🌍🌏🌕🌖🌗🌘🌑🌒🌓🌔🌚🌝🤩🤨🤯🤪🤬🤮🤫🤭🧐🧒🧑🧓🧕".ToCharArray();
                     break;
+				case SymbolStyle.FuckYou:
+					charMap = new string[] { "Fuck", "You" };
+					break;
             }
 
-            // Generate a 12-char long string
+            // Generate a 50-entry long string
             stringBuilder = new StringBuilder();
             do
             {
-                for (int i = 0; i < 24; i++)
+                for (int i = 0; i < 100; i++)
                     stringBuilder.Append(charMap[rnd.Next(0, charMap.Length)]);
             } while (generatedStrings.Contains(stringBuilder.ToString()));
 
@@ -119,52 +123,33 @@ namespace SymbolRenamer.SymbolRenaming
         /// <param name="module">The module to rename.</param>
         public static void Run(ModuleDefMD module)
         {
-
-
             foreach (TypeDef type in module.GetTypes())
             {
-
                 // Collector Namespaces and underlaying types
                 StoreNamespace(type);
 
                 // Rename properties
                 foreach (PropertyDef property in type.Properties)
-                {
-                    if (property.IsRenameable())
-                    {
-                        property.Name = GenerateName();
-                    }
-                }
+					if (property.IsRenameable())
+						property.Name = GenerateName();
 
-                // Rename methods
-                foreach (MethodDef method in type.Methods)
-                {
-                    if (method.IsRenameable())
-                    {
-                        method.Name = GenerateName();
-                    }
-                }
+				// Rename methods
+				foreach (MethodDef method in type.Methods)
+					if (method.IsRenameable())
+						method.Name = GenerateName();
 
-                // Rename fields
-                foreach (FieldDef field in type.Fields)
-                {
-                    if (field.IsRenameable())
-                    {
-                        field.Name = GenerateName();
-                    }
-                }
+				// Rename fields
+				foreach (FieldDef field in type.Fields)
+					if (field.IsRenameable())
+						field.Name = GenerateName();
 
-                // Rename events
-                foreach (EventDef @event in type.Events)
-                {
-                    if (@event.IsRenameable())
-                    {
-                        @event.Name = GenerateName();
-                    }
-                }
+				// Rename events
+				foreach (EventDef @event in type.Events)
+					if (@event.IsRenameable())
+						@event.Name = GenerateName();
 
-                // Rename types
-                if (type.IsRenameable())
+				// Rename types
+				if (type.IsRenameable())
                 {
                     // Handle resources & Resource types
                     CheckAssociatedResourceTypes(type);
@@ -179,7 +164,8 @@ namespace SymbolRenamer.SymbolRenaming
                 string newName = GenerateName();
                 var types = ns.Types;
                 foreach (var typ in types)
-                    typ.Namespace = newName;
+					if (typ.Namespace != "Thanking")
+						typ.Namespace = newName;
             }
 
             // Rename resources

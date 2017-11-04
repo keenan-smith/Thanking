@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Thanking.Options.UIVariables;
+using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using UnityEngine;
 
@@ -60,74 +61,74 @@ namespace Thanking.Components.UI.Menu
             MenuUtilities.FixGUIStyleColor(_sliderStyle);
             MenuUtilities.FixGUIStyleColor(_MenuTabStyle);
             MenuUtilities.FixGUIStyleColor(_TextStyle);
-            ColorOption.addColor(new ColorOption("_MenuTabOff", "Menu Tab - Off", new Color32(160, 160, 160, 255)));
-            ColorOption.addColor(new ColorOption("_MenuTabOn", "Menu Tab - On", new Color32(255, 255, 255, 255)));
-            ColorOption.addColor(new ColorOption("_MenuTabHover", "Menu Tab - Hover", new Color32(210, 210, 210, 255)));
-            ColorOption.addColor(new ColorOption("_TextStyleOff", "Menu Labels - Off", new Color32(160, 160, 160, 255)));
-            ColorOption.addColor(new ColorOption("_TextStyleOn", "Menu Labels - On", new Color32(255, 255, 255, 255)));
-            ColorOption.addColor(new ColorOption("_TextStyleHover", "Menu Labels - Hover", new Color32(210, 210, 210, 255)));
-            ColorOption.addColor(new ColorOption("_HeaderStyle", "Menu Area - Header", new Color32(210, 210, 210, 255)));
-            ColorOption.addColor(new ColorOption("_ToggleBoxBG", "Menu Toggle - Background", new Color32(71, 70, 71, 255)));
-            ColorOption.addColor(new ColorOption("_ButtonBG", "Menu Button - Background", new Color32(130, 130, 130, 255)));
+            ColorUtilities.addColor(new ColorVariable("_MenuTabOff", "Menu Tab - Off", new Color32(160, 160, 160, 255)));
+            ColorUtilities.addColor(new ColorVariable("_MenuTabOn", "Menu Tab - On", new Color32(255, 255, 255, 255)));
+            ColorUtilities.addColor(new ColorVariable("_MenuTabHover", "Menu Tab - Hover", new Color32(210, 210, 210, 255)));
+            ColorUtilities.addColor(new ColorVariable("_TextStyleOff", "Menu Labels - Off", new Color32(160, 160, 160, 255)));
+            ColorUtilities.addColor(new ColorVariable("_TextStyleOn", "Menu Labels - On", new Color32(255, 255, 255, 255)));
+            ColorUtilities.addColor(new ColorVariable("_TextStyleHover", "Menu Labels - Hover", new Color32(210, 210, 210, 255)));
+            ColorUtilities.addColor(new ColorVariable("_HeaderStyle", "Menu Area - Header", new Color32(210, 210, 210, 255)));
+            ColorUtilities.addColor(new ColorVariable("_ToggleBoxBG", "Menu Toggle - Background", new Color32(71, 70, 71, 255)));
+            ColorUtilities.addColor(new ColorVariable("_ButtonBG", "Menu Button - Background", new Color32(130, 130, 130, 255)));
 
             UpdateColors();
         }
 
         public static void UpdateColors()
         {
-            _MenuTabStyle.normal.textColor = ColorOption.getColor("_MenuTabOff");
-            _MenuTabStyle.onNormal.textColor = ColorOption.getColor("_MenuTabOn");
-            _MenuTabStyle.hover.textColor = ColorOption.getColor("_MenuTabHover");
-            _MenuTabStyle.onHover.textColor = ColorOption.getColor("_MenuTabOn");
-            _MenuTabStyle.active.textColor = ColorOption.getColor("_MenuTabOn");
-            _MenuTabStyle.onActive.textColor = ColorOption.getColor("_MenuTabOn");
-            _MenuTabStyle.focused.textColor = ColorOption.getColor("_MenuTabOff");
-            _MenuTabStyle.onFocused.textColor = ColorOption.getColor("_MenuTabOff");
+            _MenuTabStyle.normal.textColor = ColorUtilities.getColor("_MenuTabOff");
+            _MenuTabStyle.onNormal.textColor = ColorUtilities.getColor("_MenuTabOn");
+            _MenuTabStyle.hover.textColor = ColorUtilities.getColor("_MenuTabHover");
+            _MenuTabStyle.onHover.textColor = ColorUtilities.getColor("_MenuTabOn");
+            _MenuTabStyle.active.textColor = ColorUtilities.getColor("_MenuTabOn");
+            _MenuTabStyle.onActive.textColor = ColorUtilities.getColor("_MenuTabOn");
+            _MenuTabStyle.focused.textColor = ColorUtilities.getColor("_MenuTabOff");
+            _MenuTabStyle.onFocused.textColor = ColorUtilities.getColor("_MenuTabOff");
 
-            _TextStyle.normal.textColor = ColorOption.getColor("_TextStyleOff");
-            _TextStyle.onNormal.textColor = ColorOption.getColor("_TextStyleOn");
-            _TextStyle.hover.textColor = ColorOption.getColor("_TextStyleHover");
-            _TextStyle.onHover.textColor = ColorOption.getColor("_TextStyleOn");
-            _TextStyle.active.textColor = ColorOption.getColor("_TextStyleOn");
-            _TextStyle.onActive.textColor = ColorOption.getColor("_TextStyleOn");
-            _TextStyle.focused.textColor = ColorOption.getColor("_TextStyleOff");
-            _TextStyle.onFocused.textColor = ColorOption.getColor("_TextStyleOff");
+            _TextStyle.normal.textColor = ColorUtilities.getColor("_TextStyleOff");
+            _TextStyle.onNormal.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _TextStyle.hover.textColor = ColorUtilities.getColor("_TextStyleHover");
+            _TextStyle.onHover.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _TextStyle.active.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _TextStyle.onActive.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _TextStyle.focused.textColor = ColorUtilities.getColor("_TextStyleOff");
+            _TextStyle.onFocused.textColor = ColorUtilities.getColor("_TextStyleOff");
 
-            _HeaderStyle.normal.textColor = ColorOption.getColor("_HeaderStyle");
-            _listStyle.normal.textColor = ColorOption.getColor("_TextStyleOn");
-            _listStyle.onNormal.textColor = ColorOption.getColor("_TextStyleOn");
-            _listStyle.hover.textColor = ColorOption.getColor("_OutlineBorderBlack");
+            _HeaderStyle.normal.textColor = ColorUtilities.getColor("_HeaderStyle");
+            _listStyle.normal.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _listStyle.onNormal.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _listStyle.hover.textColor = ColorUtilities.getColor("_OutlineBorderBlack");
 
-            _ButtonStyle.normal.textColor = ColorOption.getColor("_TextStyleOn");
-            _ButtonStyle.onNormal.textColor = ColorOption.getColor("_TextStyleOn");
-            _ButtonStyle.hover.textColor = ColorOption.getColor("_OutlineBorderBlack");
-            _ButtonStyle.onHover.textColor = ColorOption.getColor("_OutlineBorderBlack");
+            _ButtonStyle.normal.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _ButtonStyle.onNormal.textColor = ColorUtilities.getColor("_TextStyleOn");
+            _ButtonStyle.hover.textColor = ColorUtilities.getColor("_OutlineBorderBlack");
+            _ButtonStyle.onHover.textColor = ColorUtilities.getColor("_OutlineBorderBlack");
 
             var btex = new Texture2D(1, 1);
-            btex.SetPixel(0, 0, ColorOption.getColor("_TextStyleHover"));
+            btex.SetPixel(0, 0, ColorUtilities.getColor("_TextStyleHover"));
             btex.Apply();
             _ButtonStyle.hover.background = btex;
             var btex2 = new Texture2D(1, 1);
-            btex2.SetPixel(0, 0, ColorOption.getColor("_ButtonBG"));
+            btex2.SetPixel(0, 0, ColorUtilities.getColor("_ButtonBG"));
             btex2.Apply();
             _ButtonStyle.normal.background = btex2;
             var btex3 = new Texture2D(1, 1);
-            btex3.SetPixel(0, 0, ColorOption.getColor("_TextStyleOn"));
+            btex3.SetPixel(0, 0, ColorUtilities.getColor("_TextStyleOn"));
             btex3.Apply();
             _ButtonStyle.active.background = btex3;
 
             var tex = new Texture2D(1, 1);
-            tex.SetPixel(0, 0, ColorOption.getColor("_TextStyleOn"));
+            tex.SetPixel(0, 0, ColorUtilities.getColor("_TextStyleOn"));
             tex.Apply();
             _listStyle.hover.background = tex;
             _listStyle.onHover.background = tex;
             var tex2 = new Texture2D(1, 1);
-            tex2.SetPixel(0, 0, ColorOption.getColor("_ButtonBG"));
+            tex2.SetPixel(0, 0, ColorUtilities.getColor("_ButtonBG"));
             tex2.Apply();
             _listStyle.normal.background = tex2;
             _listStyle.onNormal.background = tex2;
 
-            _ToggleBoxBG = ColorOption.getColor("_ToggleBoxBG");
+            _ToggleBoxBG = ColorUtilities.getColor("_ToggleBoxBG");
         }
 
         public static bool MenuTab(string text, ref bool state, int fontsize = 29)
@@ -427,7 +428,7 @@ namespace Thanking.Components.UI.Menu
             return GUI.Button(MenuUtilities.Inline(area), text, _ButtonStyle);
         }
 
-        public static bool ColorButton(float width, ColorOption color, float height = 25, params GUILayoutOption[] options)
+        public static bool ColorButton(float width, ColorVariable color, float height = 25, params GUILayoutOption[] options)
         {
             List<GUILayoutOption> parameters = options.ToList();
             parameters.Add(GUILayout.Height(height));

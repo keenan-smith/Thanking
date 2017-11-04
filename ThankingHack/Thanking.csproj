@@ -119,7 +119,9 @@
     <Compile Include="Options\AimOptions\WeaponOptions.cs" />
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
-    <Compile Include="Variables\UIVariables\ColorOption.cs" />
+    <Compile Include="Options\VisualOptions\ColorOptions.cs" />
+    <Compile Include="Utilities\ColorUtilities.cs" />
+    <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
     <Compile Include="Variables\UIVariables\SectionTab.cs" />
