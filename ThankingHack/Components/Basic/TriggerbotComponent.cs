@@ -23,7 +23,11 @@ namespace Thanking.Components.Basic
 				RaycastInfo info = RaycastUtilities.GenerateRaycast();
 
 				TriggerbotOptions.IsFiring = info.player != null && !TriggerbotOptions.IsFiring;
-			}
-		}
+            }
+            else
+            {
+                TriggerbotOptions.IsFiring = false;
+            }
+        }
 	}
 }
