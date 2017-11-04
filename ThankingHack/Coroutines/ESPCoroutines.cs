@@ -54,6 +54,16 @@ namespace Thanking.Coroutines
 
 									break;
 								}
+							case ESPTarget.Zombies:
+								{
+									Zombie[] objarr = ZombieManager.tickingZombies.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										Zombie obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
+									break;
+								}
 							case ESPTarget.Items:
 								{
 									InteractableItem[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableItem>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
