@@ -18,7 +18,7 @@ namespace Thanking.Overrides
 		public static void Load()
 		{
 			BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
-			Trace = typeof(UseableGun).GetMethod("Trace", ReflectionVariables.PrivateInstance);
+			Trace = typeof(UseableGun).GetMethod("trace", ReflectionVariables.PrivateInstance);
 		}
 
 		[Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
