@@ -6,3 +6,10 @@ C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\bin
 C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Debug\dnlib.dll
 C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Debug\ThankingObfuscator.exe
 C:\Users\ic3w0lf\Google Drive\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Debug\ThankingObfuscator.pdb
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Debug\ThankingObfuscator.exe.config
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Debug\ThankingObfuscator.exe
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Debug\ThankingObfuscator.pdb
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\ThankingObfuscator\ThankingObfuscator\bin\Debug\dnlib.dll
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Debug\ThankingObfuscator.csproj.CoreCompileInputs.cache
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Debug\ThankingObfuscator.exe
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\ThankingObfuscator\ThankingObfuscator\obj\Debug\ThankingObfuscator.pdb

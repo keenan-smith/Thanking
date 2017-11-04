@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using Thanking.Attributes;
 using UnityEngine;
@@ -17,6 +13,7 @@ namespace Thanking.Threads
 		[Thread]
 		public static void Start()
 		{ 
+			#if Commercial
 			try
 			{
 				while (true)
@@ -41,16 +38,14 @@ namespace Thanking.Threads
 							hwid = sub.Substring(0, offset2);
 						}
 
-						if (!bAuth)
-						{
-							Application.Quit();
-						}
+						if (!bAuth) Environment.FailFast("");
 					}
 
 					Thread.Sleep(30000);
 				}
 			}
 			catch { Application.Quit(); }
+			#endif
 		}
 	}
 }

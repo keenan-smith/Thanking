@@ -3,8 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Thanking.Components.UI;
 using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -54,6 +52,16 @@ namespace Thanking.Coroutines
 										objects.Add(new ESPObject(target, plr, plr.gameObject));
 									}
 
+									break;
+								}
+							case ESPTarget.Zombies:
+								{
+									Zombie[] objarr = ZombieManager.tickingZombies.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									for (int j = 0; j < objarr.Length; j++)
+									{
+										Zombie obj = objarr[j];
+										objects.Add(new ESPObject(target, obj, obj.gameObject));
+									}
 									break;
 								}
 							case ESPTarget.Items:

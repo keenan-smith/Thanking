@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using System.Text;
-using Thanking.Variables;
+﻿using UnityEngine;
 
 namespace Thanking.Misc
 {

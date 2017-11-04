@@ -45,15 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Obfuscation\NamespaceTypeCollector.cs" />
-    <Compile Include="Obfuscation\NamespaceTypeStore.cs" />
-    <Compile Include="Obfuscation\RenamingUtils.cs" />
-    <Compile Include="Obfuscation\ResourceRenaming.cs" />
-    <Compile Include="Obfuscation\ResourceTypeCollector.cs" />
-    <Compile Include="Obfuscation\Rules.cs" />
-    <Compile Include="Obfuscation\Symbols.cs" />
+    <Compile Include="Protection\AntiTamper\EOFAntiTamp.cs" />
+    <Compile Include="Protection\AntiTamper\EOFHelper.cs" />
+    <Compile Include="Renaming\NamespaceTypeCollector.cs" />
+    <Compile Include="Renaming\NamespaceTypeStore.cs" />
+    <Compile Include="Renaming\RenamingUtils.cs" />
+    <Compile Include="Renaming\ResourceRenaming.cs" />
+    <Compile Include="Renaming\ResourceTypeCollector.cs" />
+    <Compile Include="Renaming\Rules.cs" />
+    <Compile Include="Renaming\Symbols.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\InjectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

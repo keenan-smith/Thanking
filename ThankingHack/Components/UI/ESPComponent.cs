@@ -1,6 +1,4 @@
 ﻿using SDG.Unturned;
-using System.Collections.Generic;
-using Thanking.Misc;
 using Thanking.Attributes;
 using Thanking.Components.Basic;
 using Thanking.Coroutines;
@@ -9,7 +7,6 @@ using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 using System;
-using Thanking.Managers.Main;
 using Thanking.Options;
 
 namespace Thanking.Components.UI
@@ -54,7 +51,7 @@ namespace Thanking.Components.UI
 					continue;
 
 				Vector3 position = go.transform.position;
-				float dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
+				double dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
 
 				if (dist > visual.Distance && !visual.InfiniteDistance)
 					continue;
@@ -66,11 +63,13 @@ namespace Thanking.Components.UI
 
 
 				string text = "";
-				Bounds b = new Bounds();
-				if (obj.Target == ESPTarget.Players)
-					b = new Bounds(position, go.transform.localScale);
-				else
-					b = go.GetComponent<Collider>().bounds;
+				
+				Bounds b = obj.Target == ESPTarget.Players
+					? new Bounds(position, go.transform.localScale)
+					: go.GetComponent<Collider>().bounds;
+				
+				int size = DrawUtilities.GetTextSize(visual, dist);
+				double rounded = Math.Round(dist);
 
 				//Debug.Log(obj.Target);
 				switch (obj.Target)
@@ -79,14 +78,14 @@ namespace Thanking.Components.UI
 					case ESPTarget.Players:
 						{
 							Player p = (Player)obj.Object;
-							text = "<size=" + DrawUtilities.GetTextSize(visual, dist) + ">";
+							text = $"<size={size}>";
 							
 							if (ESPOptions.ShowPlayerName)
-								text += (p.name + "\n");
+								text += p.name + "\n";
 							if (ESPOptions.ShowPlayerWeapon)
-								text += ((p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n");
+								text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
 							if (ESPOptions.ShowPlayerDistance)
-								text += Mathf.Round(dist);
+								text += Math.Round(dist);
 							
 							text += "</size>";
 							
@@ -99,66 +98,73 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
+					#region Zombies
+					case ESPTarget.Zombies:
+						{
+							text = $"<size={size}>Zombie\n{rounded}</size>";
+							break;
+						}
+					#endregion
 					#region Items
 					case ESPTarget.Items:
 						{
 							InteractableItem item = (InteractableItem)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", item.asset.itemName, Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>{item.asset.itemName}\n{rounded}</size>";
 							break;
 						}
 					#endregion
-					#region Items
+					#region Sentries
 					case ESPTarget.Sentries:
 						{
 							InteractableSentry sentry = (InteractableSentry)obj.Object;
 
-							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", "Sentry", sentry.displayItem != null ? Assets.find(EAssetType.ITEM, sentry.displayItem.id).name : "<color=#ff0000ff>No Item</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Sentry\n{SentryName(sentry.displayItem)}\n{rounded}</size>";
 							break;
 						}
 					#endregion
-					#region Items
+					#region Beds
 					case ESPTarget.Beds:
 						{
 							InteractableBed bed = (InteractableBed)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Bed", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Bed\n{rounded}</size>";
 							break;
 						}
 					#endregion
-					#region Items
+					#region Claim Flags
 					case ESPTarget.ClaimFlags:
 						{
 							InteractableClaim flag = (InteractableClaim)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Claim Flag", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Claim Flag\n{rounded}</size>";
 							break;
 						}
 					#endregion
-					#region Items
+					#region Vehicles
 					case ESPTarget.Vehicles:
 						{
 							InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
 
-							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", vehicle.asset.name, vehicle.isLocked ? "<color=#ff0000ff>LOCKED</color>" : "<color=#00ff00ff>UNLOCKED</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle)}\n{rounded}</size>";
 							break;
 						}
 					#endregion
-					#region Items
+					#region Storage
 					case ESPTarget.Storage:
 						{
 							InteractableStorage stor = (InteractableStorage)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Storage", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Storage\n{rounded}</size>";
 							break;
 						}
 					#endregion
-					#region Items
+					#region Generators
 					case ESPTarget.Generators:
 						{
 							InteractableGenerator gen = (InteractableGenerator)obj.Object;
 
-							text = string.Format("<size={4}>{0}\n{1}%\n{2}\n{3}</size>", "Generator", gen.fuel / gen.capacity, gen.isPowered ? "<color=#00ff00ff>ON</color>" : "<color=#ff0000ff>OFF</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Generator\n{gen.fuel / gen.capacity}%\n{GetPowered(gen)}\n{rounded}</size>";
 							break;
 						}
 						#endregion
@@ -181,7 +187,7 @@ namespace Thanking.Components.UI
                 }
 
 				if (visual.LineToObject)
-					ESPVariables.DrawBuffer2.Add(new ESPBox2()
+					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2()
 					{
 						Color = visual.Color.ToColor(),
 						Vertices = new Vector2[]
@@ -201,7 +207,7 @@ namespace Thanking.Components.UI
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
 			{
-				ESPBox box = ESPVariables.DrawBuffer[i];
+				ESPBox box = ESPVariables.DrawBuffer.Dequeue();
 
 				GL.Color(box.Color);
 
@@ -218,7 +224,7 @@ namespace Thanking.Components.UI
 
 			for (int i = 0; i < ESPVariables.DrawBuffer2.Count; i++)
 			{
-				ESPBox2 box = ESPVariables.DrawBuffer2[i];
+				ESPBox2 box = ESPVariables.DrawBuffer2.Dequeue();
 
 				GL.Color(box.Color);
 
@@ -229,10 +235,16 @@ namespace Thanking.Components.UI
 			}
 			GL.End();
 			GL.PopMatrix();
-
-
-			ESPVariables.DrawBuffer.Clear();
-			ESPVariables.DrawBuffer2.Clear();
 		}
+
+		public static String SentryName(Item DisplayItem) => DisplayItem != null
+			? Assets.find(EAssetType.ITEM, DisplayItem.id).name
+			: "<color=#ff0000ff>No Item</color>";
+
+		public static String GetLocked(InteractableVehicle Vehicle) =>
+			Vehicle.isLocked ? "<color=#ff0000ff>LOCKED</color>" : "<color=#00ff00ff>UNLOCKED</color>";
+
+		public static String GetPowered(InteractableGenerator Generator) =>
+			Generator.isPowered ? "<color=#00ff00ff>ON</color>" : "<color=#ff0000ff>OFF</color>";
 	}
 }

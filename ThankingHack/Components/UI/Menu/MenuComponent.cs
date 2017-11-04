@@ -1,13 +1,8 @@
 ﻿using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Thanking.Attributes;
 using Thanking.Managers.Main;
 using Thanking.Options.UIVariables;
 using Thanking.Utilities;
-using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu
@@ -42,12 +37,12 @@ namespace Thanking.Components.UI.Menu
         void Start()
         {
 
-            ColorOption.addColor(new ColorOption("_OutlineBorderBlack", "Menu - Black Outline", new Color32(3, 3, 3, 255)));
-            ColorOption.addColor(new ColorOption("_OutlineBorderLightGray", "Menu - Light Gray Outline", new Color32(75, 75, 75, 255)));
-            ColorOption.addColor(new ColorOption("_OutlineBorderDarkGray", "Menu - Dark Gray Outline", new Color32(55, 55, 55, 255)));
-            ColorOption.addColor(new ColorOption("_FillLightBlack", "Menu - Light Black Filler", new Color32(30, 30, 30, 255)));
-            ColorOption.addColor(new ColorOption("_Accent1", "Menu - Accent 1", new Color32(244, 155, 66, 255)));
-            ColorOption.addColor(new ColorOption("_Accent2", "Menu - Accent 2", new Color32(160, 107, 54, 255)));
+            ColorUtilities.addColor(new ColorVariable("_OutlineBorderBlack", "Menu - Black Outline", new Color32(3, 3, 3, 255)));
+            ColorUtilities.addColor(new ColorVariable("_OutlineBorderLightGray", "Menu - Light Gray Outline", new Color32(75, 75, 75, 255)));
+            ColorUtilities.addColor(new ColorVariable("_OutlineBorderDarkGray", "Menu - Dark Gray Outline", new Color32(55, 55, 55, 255)));
+            ColorUtilities.addColor(new ColorVariable("_FillLightBlack", "Menu - Light Black Filler", new Color32(30, 30, 30, 255)));
+            ColorUtilities.addColor(new ColorVariable("_Accent1", "Menu - Accent 1", new Color32(244, 155, 66, 255)));
+            ColorUtilities.addColor(new ColorVariable("_Accent2", "Menu - Accent 2", new Color32(160, 107, 54, 255)));
 
             UpdateColors();
 
@@ -212,12 +207,12 @@ namespace Thanking.Components.UI.Menu
 
         public static void UpdateColors()
         {
-            _OutlineBorderBlack = ColorOption.getColor("_OutlineBorderBlack");
-            _OutlineBorderLightGray = ColorOption.getColor("_OutlineBorderLightGray");
-            _OutlineBorderDarkGray = ColorOption.getColor("_OutlineBorderDarkGray");
-            _FillLightBlack = ColorOption.getColor("_FillLightBlack");
-            _Accent1 = ColorOption.getColor("_Accent1");
-            _Accent2 = ColorOption.getColor("_Accent2");
+            _OutlineBorderBlack = ColorUtilities.getColor("_OutlineBorderBlack");
+            _OutlineBorderLightGray = ColorUtilities.getColor("_OutlineBorderLightGray");
+            _OutlineBorderDarkGray = ColorUtilities.getColor("_OutlineBorderDarkGray");
+            _FillLightBlack = ColorUtilities.getColor("_FillLightBlack");
+            _Accent1 = ColorUtilities.getColor("_Accent1");
+            _Accent2 = ColorUtilities.getColor("_Accent2");
         }
 
         public static void SetGUIColors()
