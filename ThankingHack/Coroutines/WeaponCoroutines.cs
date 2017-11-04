@@ -1,13 +1,9 @@
 ﻿using SDG.Unturned;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Thanking.Options.AimOptions;
 using Thanking.Variables;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Thanking.Coroutines
 {

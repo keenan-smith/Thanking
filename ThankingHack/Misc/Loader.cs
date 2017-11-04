@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Thanking.Managers;
 using Thanking.Managers.Main;
-using Thanking.Threads;
-using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking

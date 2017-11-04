@@ -1,9 +1,4 @@
-﻿using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Thanking.Variables;
+﻿using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Utilities
@@ -26,15 +21,17 @@ namespace Thanking.Utilities
 
 		public static void PrepareRectangleLines(Camera cam, Bounds b, Color c)
 		{
-			Vector3[] pts = new Vector3[8];
-			pts[0] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z));
-			pts[1] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z));
-			pts[2] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z));
-			pts[3] = cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z));
-			pts[4] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z));
-			pts[5] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z));
-			pts[6] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z));
-			pts[7] = cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z));
+			Vector3[] pts = new Vector3[8]
+			{
+				cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z)),
+				cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z)),
+				cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z)),
+				cam.WorldToScreenPoint(new Vector3(b.center.x + b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z)),
+				cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z + b.extents.z)),
+				cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y + b.extents.y, b.center.z - b.extents.z)),
+				cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z + b.extents.z)),
+				cam.WorldToScreenPoint(new Vector3(b.center.x - b.extents.x, b.center.y - b.extents.y, b.center.z - b.extents.z))
+			};
 			
 			//Get them in GUI space
 			for (int i = 0; i < pts.Length; i++)
@@ -49,11 +46,13 @@ namespace Thanking.Utilities
 				max = Vector3.Max(max, pts[i]);
 			}
 
-			Vector2[] vectors = new Vector2[4];
-			vectors[0] = new Vector2(min.x, min.y);
-			vectors[1] = new Vector2(max.x, min.y);
-			vectors[2] = new Vector2(min.x, max.y);
-			vectors[3] = new Vector2(max.x, max.y);
+			Vector2[] vectors = new Vector2[4]
+			{
+				new Vector2(min.x, min.y),
+				new Vector2(max.x, min.y),
+				new Vector2(min.x, max.y),
+				new Vector2(max.x, max.y)
+			};
 
 			PrepareRectangleLines(vectors, c);
 		}
@@ -71,13 +70,13 @@ namespace Thanking.Utilities
 
 		public static Bounds TransformBounds(Transform _transform, Bounds _localBounds)
 		{
-			var center = _transform.TransformPoint(_localBounds.center);
+			Vector3 center = _transform.TransformPoint(_localBounds.center);
 
 			// transform the local extents' axes
-			var extents = _localBounds.extents;
-			var axisX = _transform.TransformVector(extents.x, 0, 0);
-			var axisY = _transform.TransformVector(0, extents.y, 0);
-			var axisZ = _transform.TransformVector(0, 0, extents.z);
+			Vector3 extents = _localBounds.extents;
+			Vector3 axisX = _transform.TransformVector(extents.x, 0, 0);
+			Vector3 axisY = _transform.TransformVector(0, extents.y, 0);
+			Vector3 axisZ = _transform.TransformVector(0, 0, extents.z);
 
 			// sum their absolute value to get the world extents
 			extents.x = Mathf.Abs(axisX.x) + Mathf.Abs(axisY.x) + Mathf.Abs(axisZ.x);
@@ -261,7 +260,7 @@ namespace Thanking.Utilities
 			ESPVariables.DrawBuffer2.Add(new ESPBox2()
 			{
 				Color = c,
-				Vertices = new Vector2[8]
+				Vertices = new []
 				{
 					nvectors[0],
 					nvectors[1],
@@ -280,7 +279,7 @@ namespace Thanking.Utilities
 			ESPVariables.DrawBuffer.Add(new ESPBox()
 			{
 				Color = c,
-				Vertices = new Vector3[24]
+				Vertices = new []
 				{
 					vectors[0], //front top left to front right
 					vectors[1],

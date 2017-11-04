@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Thanking.Options.UIVariables;
 using Thanking.Utilities;
 using UnityEngine;

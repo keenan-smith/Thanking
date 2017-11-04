@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Thanking.Options;
+﻿using Thanking.Options;
 using Thanking.Options.UIVariables;
 using Thanking.Options.VisualOptions;
 using Thanking.Variables;

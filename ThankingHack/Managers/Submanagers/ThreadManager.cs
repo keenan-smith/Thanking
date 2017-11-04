@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Threading;
 using Thanking.Attributes;
-using Thanking.Utilities;
 using Thanking.Variables;
 
 namespace Thanking.Managers.Submanagers

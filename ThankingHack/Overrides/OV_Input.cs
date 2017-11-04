@@ -2,7 +2,6 @@
 using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Options.AimOptions;
-using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 

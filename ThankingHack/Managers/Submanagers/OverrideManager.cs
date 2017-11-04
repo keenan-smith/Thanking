@@ -5,7 +5,6 @@ using System.Reflection;
 using Thanking.Wrappers;
 using Thanking.Attributes;
 using UnityEngine;
-using Thanking.Utilities;
 using Thanking.Variables;
 
 namespace Thanking.Managers.Submanagers

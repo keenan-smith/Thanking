@@ -1,9 +1,5 @@
 ﻿using SDG.Unturned;
 using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Thanking.Attributes;
 using Thanking.Coroutines;
 using UnityEngine;

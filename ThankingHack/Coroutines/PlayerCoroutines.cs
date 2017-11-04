@@ -1,16 +1,9 @@
 ﻿using SDG.Unturned;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Thanking.Attributes;
-using Thanking.Components.Basic;
 using Thanking.Components.UI;
-using Thanking.Options.VisualOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Coroutines

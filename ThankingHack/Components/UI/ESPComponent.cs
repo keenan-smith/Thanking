@@ -1,6 +1,4 @@
 ﻿using SDG.Unturned;
-using System.Collections.Generic;
-using Thanking.Misc;
 using Thanking.Attributes;
 using Thanking.Components.Basic;
 using Thanking.Coroutines;
@@ -9,7 +7,6 @@ using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 using System;
-using Thanking.Managers.Main;
 using Thanking.Options;
 
 namespace Thanking.Components.UI
