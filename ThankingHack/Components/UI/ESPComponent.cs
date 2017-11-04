@@ -71,6 +71,9 @@ namespace Thanking.Components.UI
 					b = new Bounds(position, go.transform.localScale);
 				else
 					b = go.GetComponent<Collider>().bounds;
+				
+				int size = DrawUtilities.GetTextSize(visual, dist);
+				double rounded = Math.Round(dist);
 
 				//Debug.Log(obj.Target);
 				switch (obj.Target)
@@ -79,14 +82,14 @@ namespace Thanking.Components.UI
 					case ESPTarget.Players:
 						{
 							Player p = (Player)obj.Object;
-							text = "<size=" + DrawUtilities.GetTextSize(visual, dist) + ">";
+							text = $"<size={size}>";
 							
 							if (ESPOptions.ShowPlayerName)
-								text += (p.name + "\n");
+								text += p.name + "\n";
 							if (ESPOptions.ShowPlayerWeapon)
-								text += ((p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n");
+								text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
 							if (ESPOptions.ShowPlayerDistance)
-								text += Mathf.Round(dist);
+								text += Math.Round(dist);
 							
 							text += "</size>";
 							
@@ -104,7 +107,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableItem item = (InteractableItem)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", item.asset.itemName, Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>{item.asset.itemName}\n{rounded}</size>";
 							break;
 						}
 					#endregion
@@ -113,7 +116,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableSentry sentry = (InteractableSentry)obj.Object;
 
-							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", "Sentry", sentry.displayItem != null ? Assets.find(EAssetType.ITEM, sentry.displayItem.id).name : "<color=#ff0000ff>No Item</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Sentry\n{SentryName(sentry.displayItem)}\n{rounded}</size>";
 							break;
 						}
 					#endregion
@@ -122,7 +125,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableBed bed = (InteractableBed)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Bed", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Bed\n{rounded}</size>";
 							break;
 						}
 					#endregion
@@ -131,7 +134,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableClaim flag = (InteractableClaim)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Claim Flag", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Claim Flag\n{rounded}</size>";
 							break;
 						}
 					#endregion
@@ -140,7 +143,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
 
-							text = string.Format("<size={3}>{0}\n{1}\n{2}</size>", vehicle.asset.name, vehicle.isLocked ? "<color=#ff0000ff>LOCKED</color>" : "<color=#00ff00ff>UNLOCKED</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle)}\n{rounded}</size>";
 							break;
 						}
 					#endregion
@@ -149,7 +152,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableStorage stor = (InteractableStorage)obj.Object;
 
-							text = string.Format("<size={2}>{0}\n{1}</size>", "Storage", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Storage\n{rounded}</size>";
 							break;
 						}
 					#endregion
@@ -158,7 +161,7 @@ namespace Thanking.Components.UI
 						{
 							InteractableGenerator gen = (InteractableGenerator)obj.Object;
 
-							text = string.Format("<size={4}>{0}\n{1}%\n{2}\n{3}</size>", "Generator", gen.fuel / gen.capacity, gen.isPowered ? "<color=#00ff00ff>ON</color>" : "<color=#ff0000ff>OFF</color>", Mathf.Round(dist), DrawUtilities.GetTextSize(visual, dist));
+							text = $"<size={size}>Generator\n{gen.fuel / gen.capacity}%\n{GetPowered(gen)}\n{rounded}</size>";
 							break;
 						}
 						#endregion
@@ -234,5 +237,15 @@ namespace Thanking.Components.UI
 			ESPVariables.DrawBuffer.Clear();
 			ESPVariables.DrawBuffer2.Clear();
 		}
+
+		public static String SentryName(Item DisplayItem) => DisplayItem != null
+			? Assets.find(EAssetType.ITEM, DisplayItem.id).name
+			: "<color=#ff0000ff>No Item</color>";
+
+		public static String GetLocked(InteractableVehicle Vehicle) =>
+			Vehicle.isLocked ? "<color=#ff0000ff>LOCKED</color>" : "<color=#00ff00ff>UNLOCKED</color>";
+
+		public static String GetPowered(InteractableGenerator Generator) =>
+			Generator.isPowered ? "<color=#00ff00ff>ON</color>" : "<color=#ff0000ff>OFF</color>";
 	}
 }

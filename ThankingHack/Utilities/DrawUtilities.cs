@@ -10,7 +10,7 @@ namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
-		public static int GetTextSize(ESPVisual vis, float dist)
+		public static int GetTextSize(ESPVisual vis, double dist)
 		{
 			if (!vis.TextScaling)
 				return vis.FixedTextSize;
@@ -19,9 +19,9 @@ namespace Thanking.Utilities
 				return vis.MinTextSize;
 
 			int variable = vis.MaxTextSize - vis.MinTextSize; //17 - 8 = 9
-			float ratio = vis.MinTextSizeDistance / variable; //900 / 9 = 100
+			double ratio = vis.MinTextSizeDistance / variable; //900 / 9 = 100
 
-			return vis.MaxTextSize - Mathf.RoundToInt(dist / ratio); // 400 / 100 = 4 -> 17 - 4 = 13
+			return vis.MaxTextSize - (int)(dist / ratio); // 400 / 100 = 4 -> 17 - 4 = 13
 		}
 
 		public static void PrepareRectangleLines(Camera cam, Bounds b, Color c)
