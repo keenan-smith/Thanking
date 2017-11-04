@@ -19,6 +19,7 @@ namespace ThankingObfuscator.Protection.AntiTamper
 			AddCall(mod);
 			var opts = new ModuleWriterOptions(mod);
 			opts.Logger = DummyLogger.NoThrowInstance;
+
 			mod.Write(filename, opts);
 			SHA256(filename);
 		}

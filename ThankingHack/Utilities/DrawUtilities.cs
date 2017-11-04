@@ -217,19 +217,19 @@ namespace Thanking.Utilities
 				case LabelLocation.BottomLeft:
 				case LabelLocation.BottomMiddle:
 				case LabelLocation.BottomRight:
-					return cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z));
+					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z)));
 				case LabelLocation.Center:
 				case LabelLocation.MiddleLeft:
 				case LabelLocation.MiddleRight:
-					return cam.WorldToScreenPoint(b.center);
+					return InvertScreenSpace(cam.WorldToScreenPoint(b.center));
 				case LabelLocation.TopLeft:
 				case LabelLocation.TopMiddle:
 				case LabelLocation.TopRight:
-					return cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z));
+					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z)));
 				default:
 					return Vector2.zero;
 			}
-		}
+		}	
 
 		public static Vector3[] GetBoxVectors(Bounds b)
 		{
