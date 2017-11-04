@@ -13,12 +13,10 @@ namespace Thanking.Managers.Submanagers
 		{
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
-					if (tClass.IsClass)
-						if (tClass.IsDefined(typeof(ThreadAttribute), false))
+					foreach (MethodInfo tMethod in tClass.GetMethods(ReflectionVariables.Everything))
+						if (tMethod.IsDefined(typeof(ThreadAttribute), false))
 						{
-							ThreadAttribute classAttribute = Attribute.GetCustomAttribute(tClass, typeof(ThreadAttribute)) as ThreadAttribute;
-							MethodInfo ThreadStart = tClass.GetMethod(classAttribute.StartMethod, ReflectionVariables.Everything);
-							Action ThreadAction = (Action)Delegate.CreateDelegate(typeof(Action), ThreadStart);
+							Action ThreadAction = (Action)Delegate.CreateDelegate(typeof(Action), tMethod);
 							new Thread(new ThreadStart(ThreadAction)).Start();
 						}
 

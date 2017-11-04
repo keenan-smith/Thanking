@@ -66,7 +66,11 @@ namespace Thanking.Components.UI
 
 
 				string text = "";
-				Bounds b = go.GetComponentInChildren<Renderer>().bounds;
+				Bounds b = new Bounds();
+				if (obj.Target == ESPTarget.Players)
+					b = new Bounds(position, go.transform.localScale);
+				else
+					b = go.GetComponent<Collider>().bounds;
 
 				//Debug.Log(obj.Target);
 				switch (obj.Target)

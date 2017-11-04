@@ -11,7 +11,17 @@ namespace Thanking.Overrides
 {
     public class OV_UseableGun
     {
-		[Override(typeof(UseableGun), "ballistics", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)]
+		private static FieldInfo BulletsField;
+		private static MethodInfo Trace;
+
+		[Initializer]
+		public static void Load()
+		{
+			BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
+			Trace = typeof(UseableGun).GetMethod("Trace", ReflectionVariables.PrivateInstance);
+		}
+
+		[Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_ballistics()
         {
             if (RaycastOptions.Enabled)
@@ -20,9 +30,9 @@ namespace Thanking.Overrides
                 if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
                     return;
 
-                List<BulletInfo> Bullets = Player.player.equipment.useable.GetField<List<BulletInfo>>("bullets", ReflectionUtilities.FieldType.Private);
+				Useable PlayerUse = Player.player.equipment.useable;
+				List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
 
-				MethodInfo trace = this.GetPrivateFunction("trace");
 				if (Provider.modeConfigData.Gameplay.Ballistics)
                 {
                     for (int i = 0; i < Bullets.Count; i++)
@@ -34,9 +44,9 @@ namespace Thanking.Overrides
                         if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
                         {
 							if (PAsset.ballisticTravel < 32f)
-								trace.Invoke(this, new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir });
+								Trace.Invoke(PlayerUse, new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir });
 							else
-								trace.Invoke(this, new object[] { bulletInfo.pos + bulletInfo.dir * UnityEngine.Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir });
+								Trace.Invoke(PlayerUse, new object[] { bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir });
 						}
 
                         if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)

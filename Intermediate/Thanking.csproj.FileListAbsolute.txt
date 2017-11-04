@@ -9,3 +9,4 @@ C:\Users\Keenan\Source\Repos\Thanking\Intermediate\Thanking.pdb
 C:\Users\Keenan\Source\Repos\Thanking\Binaries\Thanking.dll
 C:\Users\Keenan\Source\Repos\Thanking\Binaries\Thanking.pdb
 C:\Users\Keenan\Source\Repos\Thanking\Intermediate\Thanking.csprojResolveAssemblyReference.cache
+C:\Users\DefCon42\Documents\Unturned Stuff\Thanking\Intermediate\Thanking.csprojResolveAssemblyReference.cache

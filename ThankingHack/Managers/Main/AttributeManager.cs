@@ -7,10 +7,11 @@ namespace Thanking.Managers.Main
     {
         public static void Init()
         {
-            Debug.Log("Initializing attribute manager...");
-            ComponentManager.Load();
+			Debug.Log("Initializing attribute manager...");
+			InitializationManager.Load();
+			ComponentManager.Load();
             OverrideManager.Load();
 			ThreadManager.Load();
-        }
+		}
     }
 }

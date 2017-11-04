@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
+    <Compile Include="Attributes\InitializerAttribute.cs" />
     <Compile Include="Attributes\OnSpyAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\SaveAtrribute.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Coroutines\WeaponCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Main\PacketManager.cs" />
+    <Compile Include="Managers\Submanagers\InitializationManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Loader.cs" />
     <Compile Include="Managers\Main\ConfigManager.cs" />
@@ -124,7 +126,6 @@
     <Compile Include="Utilities\Mesh Utilities\NearestPointTest.cs" />
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
-    <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="Options\VisualOptions\ESPOptions.cs" />
     <Compile Include="Variables\AssetVariables.cs" />

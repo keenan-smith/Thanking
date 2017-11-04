@@ -16,51 +16,67 @@ namespace Thanking.Overrides
 {
 	public class OV_PlayerInteract
 	{
+		private static FieldInfo FocusField;
+		private static FieldInfo TargetField;
+		private static FieldInfo InteractableField;
+		private static FieldInfo Interactable2Field;
+		private static FieldInfo PurchaseAssetField;
+
+		[Initializer]
+		public static void Init()
+		{
+			FocusField = typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic);
+			TargetField = typeof(PlayerInteract).GetField("target", ReflectionVariables.PrivateStatic);
+			InteractableField = typeof(PlayerInteract).GetField("_interactable", ReflectionVariables.PrivateStatic);
+			Interactable2Field = typeof(PlayerInteract).GetField("_interactable2", ReflectionVariables.PrivateStatic);
+			PurchaseAssetField = typeof(PlayerInteract).GetField("purchaseAsset", ReflectionVariables.PrivateStatic);
+		}
+
 		#region Fields
 		public static Transform focus
 		{
 			get =>
-				(Transform)typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic).GetValue(null);
+				(Transform)FocusField.GetValue(null);
 
 			set => 
-				typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic).SetValue(null, value);
+				FocusField.SetValue(null, value);
 		}
 		
 		public static Transform target
 		{
 			get =>
-				(Transform)typeof(PlayerInteract).GetField("target", ReflectionVariables.PrivateStatic).GetValue(null);
+				(Transform)TargetField.GetValue(null);
 
 			set =>
-				typeof(PlayerInteract).GetField("target", ReflectionVariables.PrivateStatic).SetValue(null, value);
+				TargetField.SetValue(null, value);
 		}
 
 		public static Interactable interactable
 		{
 			get =>
-				(Interactable)typeof(PlayerInteract).GetField("_interactable", ReflectionVariables.PrivateStatic).GetValue(null);
+				(Interactable)InteractableField.GetValue(null);
 
 			set =>
-				typeof(PlayerInteract).GetField("_interactable", ReflectionVariables.PrivateStatic).SetValue(null, value);
+				InteractableField.SetValue(null, value);
 		}
 
 
 		public static Interactable2 interactable2
 		{
 			get =>
-				(Interactable2)typeof(PlayerInteract).GetField("_interactable2", ReflectionVariables.PrivateStatic).GetValue(null);
+				(Interactable2)Interactable2Field.GetValue(null);
 
 			set =>
-				typeof(PlayerInteract).GetField("_interactable2", ReflectionVariables.PrivateStatic).SetValue(null, value);
+				Interactable2Field.SetValue(null, value);
 		}
 
 		public static ItemAsset purchaseAsset
 		{
 			get =>
-				(ItemAsset)typeof(PlayerInteract).GetField("purchaseAsset", ReflectionVariables.PrivateStatic).GetValue(null);
+				(ItemAsset)PurchaseAssetField.GetValue(null);
 
 			set =>
-				typeof(ItemAsset).GetField("purchaseAsset", ReflectionVariables.PrivateStatic).SetValue(null, value);
+				PurchaseAssetField.SetValue(null, value);
 		}
 
 		private float salvageTime => 
