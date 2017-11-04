@@ -63,11 +63,10 @@ namespace Thanking.Components.UI
 
 
 				string text = "";
-				Bounds b = new Bounds();
-				if (obj.Target == ESPTarget.Players)
-					b = new Bounds(position, go.transform.localScale);
-				else
-					b = go.GetComponent<Collider>().bounds;
+				
+				Bounds b = obj.Target == ESPTarget.Players
+					? new Bounds(position, go.transform.localScale)
+					: go.GetComponent<Collider>().bounds;
 				
 				int size = DrawUtilities.GetTextSize(visual, dist);
 				double rounded = Math.Round(dist);

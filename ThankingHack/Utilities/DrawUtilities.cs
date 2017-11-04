@@ -134,26 +134,25 @@ namespace Thanking.Utilities
 		public static Vector2 InvertScreenSpace(Vector2 dim) =>
 			new Vector2(dim.x, Screen.height - dim.y);
 
-		public static string ColorToHex(Color32 color)
-		{
-			string hex = color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + color.a.ToString("X2");
-			return hex;
-		}
+		public static string ColorToHex(Color32 color) =>
+			color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + color.a.ToString("X2");
 
-		public static void DrawLabel(Font font, LabelLocation location, Vector2 W2SVector, string content, Color bColor, Color iColor, int bWidth)
+		public static void DrawLabel(Font Font, LabelLocation Location, Vector2 W2SVector, string Content, Color BorderColor, Color InnerColor, int BorderWidth)
 		{
-			GUIContent gcontent = new GUIContent(content);
-			GUIStyle LabelStyle = new GUIStyle();
+			GUIContent gcontent = new GUIContent(Content);
+			GUIStyle LabelStyle = new GUIStyle
+			{
+				font = Font,
+				fontSize = 12
+			};
 
-			LabelStyle.font = font;
-			LabelStyle.fontSize = 12;
 
 			Vector2 dim = LabelStyle.CalcSize(gcontent);
 			float width = dim.x;
 			float height = dim.y;
 			Rect rect = new Rect(0, 0, width, height);
 
-			switch (location)
+			switch (Location)
 			{
 				case LabelLocation.BottomLeft:
 					rect.x = W2SVector.x - width;
@@ -208,32 +207,28 @@ namespace Thanking.Utilities
 			if (rect.x + 10 > Screen.width || rect.y + 10 > Screen.height)
 				return;
 
-			DrawTextWithOutline(rect, gcontent.text, LabelStyle, bColor, iColor, bWidth);
+			DrawTextWithOutline(rect, gcontent.text, LabelStyle, BorderColor, InnerColor, BorderWidth);
 		}
 
 		public static Vector2 GetW2SVector(Camera cam, Bounds b, LabelLocation location)
 		{
-			Vector2 vec = Vector2.zero;
 			switch (location)
 			{
 				case LabelLocation.BottomLeft:
 				case LabelLocation.BottomMiddle:
 				case LabelLocation.BottomRight:
-					vec = cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z));
-					break;
+					return cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z));
 				case LabelLocation.Center:
 				case LabelLocation.MiddleLeft:
 				case LabelLocation.MiddleRight:
-					vec = cam.WorldToScreenPoint(b.center);
-					break;
+					return cam.WorldToScreenPoint(b.center);
 				case LabelLocation.TopLeft:
 				case LabelLocation.TopMiddle:
 				case LabelLocation.TopRight:
-					vec = cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z));
-					break;
+					return cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z));
+				default:
+					return Vector2.zero;
 			}
-
-			return InvertScreenSpace(vec);
 		}
 
 		public static Vector3[] GetBoxVectors(Bounds b)
@@ -241,7 +236,17 @@ namespace Thanking.Utilities
 			Vector3 v3Center = b.center;
 			Vector3 v3Extents = b.extents;
 
-			Vector3[] vectors = new Vector3[8];
+			Vector3[] vectors = new Vector3[8]
+			{
+				new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z),  // Front top left corner; 2 to 0
+				new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z),  // Front top right corner; 3 to 1
+				new Vector3(v3Center.x - v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z),  // Front bottom left corner
+				new Vector3(v3Center.x + v3Extents.x, v3Center.y - v3Extents.y, v3Center.z - v3Extents.z),  // Front bottom right corner
+				new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z),  // Back top left corner; 6 to 4
+				new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z + v3Extents.z),  // Back top right corner; 7 to 5
+				new Vector3(v3Center.x - v3Extents.x, v3Center.y - v3Extents.y, v3Center.z + v3Extents.z),  // Back bottom left corner
+				new Vector3(v3Center.x + v3Extents.x, v3Center.y - v3Extents.y, v3Center.z + v3Extents.z)  // Back bottom right corner
+			};
 
 			vectors[0] = new Vector3(v3Center.x - v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top left corner; 2 to 0
 			vectors[1] = new Vector3(v3Center.x + v3Extents.x, v3Center.y + v3Extents.y, v3Center.z - v3Extents.z);  // Front top right corner; 3 to 1
