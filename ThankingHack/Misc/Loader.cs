@@ -12,50 +12,32 @@ namespace Thanking
         public static void Hook()
         {
 			Debug.Log("Initializing Thanking...");
-			#region Unity
+            
 			HookObject = new GameObject();
 			UnityEngine.Object.DontDestroyOnLoad(HookObject);
-			#endregion
 
-			#region Manager Initialization
 			ConfigManager.Init();
 			AttributeManager.Init();
 			AssetManager.Init();
-			#endregion
 			Debug.Log("Thanking initialized!");
 		}
 
         public static void HookThread()
         {
-            try
+            while (true)
             {
-                while (true)
-                {
-                    System.Threading.Thread.Sleep(2000);
-                    if (HookObject == null)
-                    {
-                        Debug.Log("Initializing Thanking...");
-                        #region Unity
-                        HookObject = new GameObject();
-                        UnityEngine.Object.DontDestroyOnLoad(HookObject);
-                        #endregion
+                System.Threading.Thread.Sleep(2000);
 
-                        #region Manager Initialization
-                        ConfigManager.Init();
-                        AttributeManager.Init();
-                        AssetManager.Init();
-                        #endregion
-                        Debug.Log("Thanking initialized!");
-                    }
-                    System.Threading.Thread.Sleep(5000);
-                }
+                if (HookObject == null)
+                    Hook();
+
+                System.Threading.Thread.Sleep(5000);
             }
-            catch (Exception ex) { UnityEngine.Debug.LogException(ex); }
         }
 
         public static void Thread()
         {
-            Thread thread = new System.Threading.Thread(new ThreadStart(Hook));
+            Thread thread = new Thread(HookThread);
             thread.Start();
         }
     }
