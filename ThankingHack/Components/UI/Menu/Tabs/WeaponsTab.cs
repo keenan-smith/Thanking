@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Thanking.Options.AimOptions;
+﻿using Thanking.Options.AimOptions;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs

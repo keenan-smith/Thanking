@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using Thanking.Wrappers;
 using Thanking.Managers.Submanagers;

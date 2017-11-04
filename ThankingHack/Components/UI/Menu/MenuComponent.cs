@@ -1,13 +1,8 @@
 ﻿using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Thanking.Attributes;
 using Thanking.Managers.Main;
 using Thanking.Options.UIVariables;
 using Thanking.Utilities;
-using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu

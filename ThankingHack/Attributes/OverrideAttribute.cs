@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Linq;
-using System.Collections.Generic;
-using Thanking.Variables;
 
 namespace Thanking.Attributes
 {

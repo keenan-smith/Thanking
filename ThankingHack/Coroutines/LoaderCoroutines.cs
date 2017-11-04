@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
 using Thanking.Components.UI;
 using Thanking.Components.UI.Menu;
 using Thanking.Variables;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Thanking.Coroutines
 {

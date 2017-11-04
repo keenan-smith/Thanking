@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Thanking.Attributes;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using Thanking.Managers;
 using Thanking.Utilities;
 
 namespace Thanking.Wrappers

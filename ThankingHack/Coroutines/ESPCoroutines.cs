@@ -3,8 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Thanking.Components.UI;
 using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
