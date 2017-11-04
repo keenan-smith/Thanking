@@ -98,6 +98,13 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
+					#region Zombies
+					case ESPTarget.Zombies:
+						{
+							text = $"<size={size}>Zombie\n{rounded}</size>";
+							break;
+						}
+					#endregion
 					#region Items
 					case ESPTarget.Items:
 						{
@@ -107,7 +114,7 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
-					#region Items
+					#region Sentries
 					case ESPTarget.Sentries:
 						{
 							InteractableSentry sentry = (InteractableSentry)obj.Object;
@@ -116,7 +123,7 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
-					#region Items
+					#region Beds
 					case ESPTarget.Beds:
 						{
 							InteractableBed bed = (InteractableBed)obj.Object;
@@ -125,7 +132,7 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
-					#region Items
+					#region Claim Flags
 					case ESPTarget.ClaimFlags:
 						{
 							InteractableClaim flag = (InteractableClaim)obj.Object;
@@ -134,7 +141,7 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
-					#region Items
+					#region Vehicles
 					case ESPTarget.Vehicles:
 						{
 							InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
@@ -143,7 +150,7 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
-					#region Items
+					#region Storage
 					case ESPTarget.Storage:
 						{
 							InteractableStorage stor = (InteractableStorage)obj.Object;
@@ -152,7 +159,7 @@ namespace Thanking.Components.UI
 							break;
 						}
 					#endregion
-					#region Items
+					#region Generators
 					case ESPTarget.Generators:
 						{
 							InteractableGenerator gen = (InteractableGenerator)obj.Object;
