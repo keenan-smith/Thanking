@@ -39,7 +39,7 @@ namespace Thanking.Overrides
                     {
                         BulletInfo bulletInfo = Bullets[i];
                         RaycastInfo ri = RaycastUtilities.GenerateRaycast();
-                        float distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
+                        double distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
 
                         if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
                         {

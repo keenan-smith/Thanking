@@ -54,7 +54,7 @@ namespace Thanking.Components.UI
 					continue;
 
 				Vector3 position = go.transform.position;
-				float dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
+				double dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
 
 				if (dist > visual.Distance && !visual.InfiniteDistance)
 					continue;

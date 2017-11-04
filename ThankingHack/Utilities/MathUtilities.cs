@@ -31,9 +31,9 @@ namespace Thanking.Utilities
 		public static Vector3 GetOrthogonalVector(Vector3 vCenter, Vector3 vPoint)
 		{
 			Vector3 ortho = vCenter - vPoint;
-			float magnitude = VectorUtilities.GetDistance(vCenter, vPoint);
+			double magnitude = VectorUtilities.GetDistance(vCenter, vPoint);
 			//Debug.Log("Original ortho vector: " + ortho);
-			return ortho / magnitude;
+			return ortho / (float)magnitude;
 		}
 
 		public static Vector3[] GetRectanglePoints(Vector3 playerPos, Vector3[] bCorners, Bounds bound)
