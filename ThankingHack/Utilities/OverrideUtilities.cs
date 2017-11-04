@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Thanking.Wrappers;
-using Thanking.Managers;
+using Thanking.Managers.Submanagers;
 using System.Diagnostics;
 using Thanking.Attributes;
 using Debug = UnityEngine.Debug;
@@ -117,6 +117,12 @@ namespace Thanking.Utilities
                             *ptrFrom = 0x68; // PUSH
                             *((uint*)(ptrFrom + 1)) = (uint)ptrModified.ToInt32(); // Pointer
                             *(ptrFrom + 5) = 0xC3; // RETN
+
+                            /* push, offset
+                             * retn
+                             * 
+                             * 
+                             */
                         }
                         break;
                     case sizeof(Int64):
@@ -126,11 +132,16 @@ namespace Thanking.Utilities
 
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            *ptrFrom = 0x48; // REX.W
-                            *(ptrFrom + 1) = 0xB8; // MOV
+                            *ptrFrom = 0x48; 
+                            *(ptrFrom + 1) = 0xB8;
                             *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64(); // Pointer
-                            *(ptrFrom + 10) = 0xFF; // INC 1
-                            *(ptrFrom + 11) = 0xE0; // LOOPE
+                            *(ptrFrom + 10) = 0xFF;
+                            *(ptrFrom + 11) = 0xE0;
+
+                            /* mov rax, offset
+                             * jmp rax
+                             * 
+                             */
                         }
                         break;
                     default:

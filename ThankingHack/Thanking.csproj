@@ -22,14 +22,18 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
+    <IntermediateOutputPath>..\Intermediate</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Binaries\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+    <IntermediateOutputPath>..\Intermediate</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -42,6 +46,13 @@
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="KDTree, Version=0.9.28.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\KDSharp.KDTree.0.9.28\lib\net35\KDTree.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,48 +67,82 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
+    <Compile Include="Attributes\InitializerAttribute.cs" />
+    <Compile Include="Attributes\OnSpyAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
+    <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
-    <Compile Include="Attributes\UIComponentAttribute.cs" />
+    <Compile Include="Attributes\SpyComponentAttribute.cs" />
+    <Compile Include="Components\Basic\CoroutineComponent.cs" />
+    <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
-    <Compile Include="Components\Basic\InputComponent.cs" />
-    <Compile Include="Components\UI\RadarComponent.cs" />
+    <Compile Include="Components\UI\LogoComponent.cs" />
+    <Compile Include="Components\UI\Menu\Drawing.cs" />
+    <Compile Include="Components\UI\Menu\MenuComponent.cs" />
+    <Compile Include="Components\UI\Menu\MenuTabs.cs" />
+    <Compile Include="Components\UI\Menu\Prefab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\WeaponsTab.cs" />
+    <Compile Include="Components\UI\WeaponComponent.cs" />
+    <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
-    <Compile Include="Loader.cs" />
+    <Compile Include="Coroutines\WeaponCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
+    <Compile Include="Managers\Main\PacketManager.cs" />
+    <Compile Include="Managers\Submanagers\InitializationManager.cs" />
+    <Compile Include="Misc\Extensions.cs" />
+    <Compile Include="Misc\Loader.cs" />
+    <Compile Include="Managers\Main\ConfigManager.cs" />
     <Compile Include="Managers\Submanagers\ComponentManager.cs" />
     <Compile Include="Managers\Submanagers\ThreadManager.cs" />
+    <Compile Include="Misc\Serializables.cs" />
+    <Compile Include="Options\AimOptions\RaycastOptions.cs" />
+    <Compile Include="Options\AimOptions\SphereOptions.cs" />
+    <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
+    <Compile Include="Options\AimOptions\WeaponOptions.cs" />
+    <Compile Include="Options\MiscOptions.cs" />
+    <Compile Include="Variables\UIVariables\ColorOption.cs" />
+    <Compile Include="Variables\UIVariables\DropDown.cs" />
+    <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
+    <Compile Include="Variables\UIVariables\SectionTab.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_Input.cs" />
     <Compile Include="Overrides\OV_Player.cs" />
+    <Compile Include="Overrides\OV_PlayerInteract.cs" />
     <Compile Include="Overrides\OV_PlayerPauseUI.cs" />
+    <Compile Include="Overrides\OV_PlayerUI.cs" />
     <Compile Include="Overrides\OV_UseableGun.cs" />
-    <Compile Include="Threads\LoaderThread.cs" />
+    <Compile Include="Threads\HeartbeatThread.cs" />
     <Compile Include="Managers\Main\AttributeManager.cs" />
     <Compile Include="Managers\Submanagers\OverrideManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DrawUtilities.cs" />
+    <Compile Include="Utilities\MathUtilities.cs" />
+    <Compile Include="Utilities\MenuUtilities.cs" />
     <Compile Include="Utilities\Mesh Utilities\IcoSphere.cs" />
     <Compile Include="Utilities\Mesh Utilities\NearestPointTest.cs" />
     <Compile Include="Utilities\Mesh Utilities\VertTriList.cs" />
     <Compile Include="Utilities\OverrideUtilities.cs" />
     <Compile Include="Utilities\VectorUtilities.cs" />
     <Compile Include="Options\VisualOptions\ESPOptions.cs" />
-    <Compile Include="Options\VisualOptions\RadarOptions.cs" />
-    <Compile Include="Options\SilentAimOptions\SphereOptions.cs" />
+    <Compile Include="Variables\AssetVariables.cs" />
+    <Compile Include="Variables\ESPVariables.cs" />
+    <Compile Include="Variables\ReflectionVariables.cs" />
     <Compile Include="Wrappers\OverrideWrapper.cs" />
     <Compile Include="Utilities\RaycastUtilities.cs" />
     <Compile Include="Utilities\SphereUtilities.cs" />
-    <Compile Include="Options\UtilityOptions\BFlags.cs" />
-    <Compile Include="Options\BotOptions\TriggerbotOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
     <Content Include="Libraries\Assembly-CSharp.dll" />
+    <Content Include="Libraries\Newtonsoft.Json.dll" />
     <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

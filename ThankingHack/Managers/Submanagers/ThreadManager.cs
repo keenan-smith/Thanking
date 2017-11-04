@@ -2,9 +2,10 @@
 using System.Reflection;
 using System.Threading;
 using Thanking.Attributes;
-using Thanking.Options.UtilityOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 
-namespace Thanking.Managers
+namespace Thanking.Managers.Submanagers
 {
 	public static class ThreadManager
 	{
@@ -12,12 +13,10 @@ namespace Thanking.Managers
 		{
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
-					if (tClass.IsClass)
-						if (tClass.IsDefined(typeof(ThreadAttribute), false))
+					foreach (MethodInfo tMethod in tClass.GetMethods(ReflectionVariables.Everything))
+						if (tMethod.IsDefined(typeof(ThreadAttribute), false))
 						{
-							ThreadAttribute classAttribute = Attribute.GetCustomAttribute(tClass, typeof(ThreadAttribute)) as ThreadAttribute;
-							MethodInfo ThreadStart = tClass.GetMethod(classAttribute.StartMethod, BFlags.Everything);
-							Action ThreadAction = (Action)Delegate.CreateDelegate(typeof(Action), ThreadStart);
+							Action ThreadAction = (Action)Delegate.CreateDelegate(typeof(Action), tMethod);
 							new Thread(new ThreadStart(ThreadAction)).Start();
 						}
 

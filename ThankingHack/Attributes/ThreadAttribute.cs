@@ -5,12 +5,9 @@ using System.Text;
 
 namespace Thanking.Attributes
 {
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Method)]
 	public class ThreadAttribute : Attribute
 	{
-		public string StartMethod;
 
-		public ThreadAttribute(string method) => 
-			StartMethod = method;
 	}
 }

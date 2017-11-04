@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using System.Linq;
+using System.Collections.Generic;
+using Thanking.Variables;
 
 namespace Thanking.Attributes
 {
@@ -50,7 +52,8 @@ namespace Thanking.Attributes
             try
             {
                 Method = Class.GetMethods(flags).Where(a => a.Name == method).ToArray()[index];
-                MethodFound = true;
+
+				MethodFound = true;
             }
             catch (Exception ex)
             {

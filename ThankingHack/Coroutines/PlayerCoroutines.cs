@@ -6,21 +6,43 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Thanking.Attributes;
+using Thanking.Components.Basic;
+using Thanking.Components.UI;
+using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Coroutines
 {
 	public static class PlayerCoroutines
 	{
+        public static bool IsSpying = false;
+
 		public static IEnumerator TakeScreenshot()
 		{
+            IsSpying = true;
+
+            Debug.Log("TAKING SCREENSHOT");
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)
-						if (tClass.IsDefined(typeof(UIComponentAttribute), false))
+						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
 							UnityEngine.Object.Destroy(Loader.HookObject.GetComponent(tClass));
 
+			if (Player.player.equipment.asset is ItemGunAsset)
+			{
+				ItemGunAsset PAsset = Player.player.equipment.asset as ItemGunAsset;
+				UseableGun PGun = Player.player.equipment.useable as UseableGun;
+				if (PGun.isAiming)
+					PlayerUI.updateCrosshair(WeaponComponent.AssetBackups[PAsset.id][5]);
+				else
+					PlayerUI.updateCrosshair(WeaponComponent.AssetBackups[PAsset.id][6]);
+			}
+
+			yield return new WaitForFixedUpdate();
+
+			#region Take Screenshot
 			yield return new WaitForEndOfFrame();
 			Texture2D screenshotRaw = new Texture2D(Screen.width, Screen.height, (TextureFormat)3, false);
 			screenshotRaw.name = "Screenshot_Raw";
@@ -55,14 +77,17 @@ namespace Thanking.Coroutines
 				Player.player.channel.closeWrite("tellScreenshotRelay", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER);
 				Player.player.channel.longBinaryData = false;
 			}
+			#endregion
 
+			yield return new WaitForFixedUpdate();
 
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)
-						if (tClass.IsDefined(typeof(UIComponentAttribute), false))
+						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
 							Loader.HookObject.AddComponent(tClass);
-			yield break;
+
+            IsSpying = false;
 		}
 	}
 }

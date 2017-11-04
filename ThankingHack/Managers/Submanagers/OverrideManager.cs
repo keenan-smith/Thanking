@@ -5,9 +5,10 @@ using System.Reflection;
 using Thanking.Wrappers;
 using Thanking.Attributes;
 using UnityEngine;
-using Thanking.Options.UtilityOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 
-namespace Thanking.Managers
+namespace Thanking.Managers.Submanagers
 {
     public static class OverrideManager
     {
@@ -21,30 +22,27 @@ namespace Thanking.Managers
 
         public static void Load()
         {
-            // Main code
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
                 foreach (Type tClass in asm.GetTypes())
                     if (tClass.IsClass)
-                        foreach (MethodInfo method in tClass.GetMethods(BFlags.Everything))
+                        foreach (MethodInfo method in tClass.GetMethods(ReflectionVariables.Everything))
                             LoadOverride(method);
-
-            // Set the variables
         }
         #region Public Functions
         public static void LoadOverride(MethodInfo method)
         {
             // Setup variables
             OverrideAttribute attribute = (OverrideAttribute)Attribute.GetCustomAttribute(method, typeof(OverrideAttribute));
+			
+			// Do checks
+			if (attribute == null)
+                return;
+			if (!attribute.MethodFound)
+                return;
+			if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
+                return;
 
-            // Do checks
-            if (attribute == null)
-                return;
-            if (!attribute.MethodFound)
-                return;
-            if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
-                return;
-
-            try
+			try
             {
                 OverrideWrapper wrapper = new OverrideWrapper(attribute.Method, method, attribute);
 

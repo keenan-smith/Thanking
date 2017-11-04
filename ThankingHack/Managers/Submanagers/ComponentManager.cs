@@ -2,7 +2,7 @@
 using System.Reflection;
 using Thanking.Attributes;
 
-namespace Thanking.Managers
+namespace Thanking.Managers.Submanagers
 {
     public static class ComponentManager
     {
