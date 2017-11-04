@@ -13,6 +13,7 @@ namespace Thanking.Threads
 		[Thread]
 		public static void Start()
 		{ 
+			#if Commercial
 			try
 			{
 				while (true)
@@ -44,6 +45,7 @@ namespace Thanking.Threads
 				}
 			}
 			catch { Application.Quit(); }
+			#endif
 		}
 	}
 }
