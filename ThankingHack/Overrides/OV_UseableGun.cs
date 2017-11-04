@@ -5,6 +5,7 @@ using Thanking.Utilities;
 using UnityEngine;
 using Thanking.Options.AimOptions;
 using Thanking.Variables;
+using System.Reflection;
 
 namespace Thanking.Overrides
 {
@@ -21,7 +22,8 @@ namespace Thanking.Overrides
 
                 List<BulletInfo> Bullets = Player.player.equipment.useable.GetField<List<BulletInfo>>("bullets", ReflectionUtilities.FieldType.Private);
 
-                if (Provider.modeConfigData.Gameplay.Ballistics)
+				MethodInfo trace = this.GetPrivateFunction("trace");
+				if (Provider.modeConfigData.Gameplay.Ballistics)
                 {
                     for (int i = 0; i < Bullets.Count; i++)
                     {
@@ -31,15 +33,11 @@ namespace Thanking.Overrides
 
                         if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
                         {
-                            if (PAsset.ballisticTravel < 32f)
-                            {
-                                this.GetPrivateFunction("trace").Invoke(this, new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir });
-                            }
-                            else
-                            {
-                                this.GetPrivateFunction("trace").Invoke(this, new object[] { bulletInfo.pos + bulletInfo.dir * UnityEngine.Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir });
-                            }
-                        }
+							if (PAsset.ballisticTravel < 32f)
+								trace.Invoke(this, new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir });
+							else
+								trace.Invoke(this, new object[] { bulletInfo.pos + bulletInfo.dir * UnityEngine.Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir });
+						}
 
                         if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)
                         {
@@ -74,11 +72,8 @@ namespace Thanking.Overrides
                 }
             }
             else
-            {
-                OverrideUtilities.CallOriginal(this);
-            }
-            
-        }
+				OverrideUtilities.CallOriginal(this);
+		}
 
         public static EPlayerHit CalcHitMarker(ItemGunAsset PAsset, ref RaycastInfo ri)
         {
@@ -95,21 +90,16 @@ namespace Thanking.Overrides
                 {
                     InteractableDoorHinge component = ri.transform.GetComponent<InteractableDoorHinge>();
                     if (component != null)
-                    {
-                        ri.transform = component.transform.parent.parent;
-                    }
-                    ushort id;
+						ri.transform = component.transform.parent.parent;
+
+					ushort id;
                     if (ushort.TryParse(ri.transform.name, out id))
                     {
                         ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset)Assets.find(EAssetType.ITEM, id);
                         if (itemBarricadeAsset != null && (itemBarricadeAsset.isVulnerable || PAsset.isInvulnerable))
-                        {
-                            if (eplayerhit == EPlayerHit.NONE)
-                            {
-                                eplayerhit = EPlayerHit.BUILD;
-                            }
-                        }
-                    }
+							if (eplayerhit == EPlayerHit.NONE)
+								eplayerhit = EPlayerHit.BUILD;
+					}
                 }
                 else if (ri.transform.CompareTag("Structure") && PAsset.structureDamage > 1f)
                 {
@@ -118,13 +108,9 @@ namespace Thanking.Overrides
                     {
                         ItemStructureAsset itemStructureAsset = (ItemStructureAsset)Assets.find(EAssetType.ITEM, id2);
                         if (itemStructureAsset != null && (itemStructureAsset.isVulnerable || PAsset.isInvulnerable))
-                        {
-                            if (eplayerhit == EPlayerHit.NONE)
-                            {
-                                eplayerhit = EPlayerHit.BUILD;
-                            }
-                        }
-                    }
+							if (eplayerhit == EPlayerHit.NONE)
+								eplayerhit = EPlayerHit.BUILD;
+					}
                 }
                 else if (ri.transform.CompareTag("Resource") && PAsset.resourceDamage > 1f)
                 {
@@ -135,13 +121,9 @@ namespace Thanking.Overrides
                     {
                         ResourceSpawnpoint resourceSpawnpoint = ResourceManager.getResourceSpawnpoint(x, y, index);
                         if (resourceSpawnpoint != null && !resourceSpawnpoint.isDead && resourceSpawnpoint.asset.bladeID == PAsset.bladeID)
-                        {
-                            if (eplayerhit == EPlayerHit.NONE)
-                            {
-                                eplayerhit = EPlayerHit.BUILD;
-                            }
-                        }
-                    }
+							if (eplayerhit == EPlayerHit.NONE)
+								eplayerhit = EPlayerHit.BUILD;
+					}
                 }
                 else if (PAsset.objectDamage > 1f)
                 {
@@ -150,27 +132,17 @@ namespace Thanking.Overrides
                     {
                         ri.section = component2.getSection(ri.collider.transform);
                         if (!component2.isSectionDead(ri.section) && (component2.asset.rubbleIsVulnerable || PAsset.isInvulnerable))
-                        {
-                            if (eplayerhit == EPlayerHit.NONE)
-                            {
-                                eplayerhit = EPlayerHit.BUILD;
-                            }
-                        }
-                    }
+							if (eplayerhit == EPlayerHit.NONE)
+								eplayerhit = EPlayerHit.BUILD;
+					}
                 }
             }
             else if (ri.vehicle && ri.vehicle.isDead && PAsset.vehicleDamage > 1f)
-            {
-                if (ri.vehicle.asset != null && (ri.vehicle.asset.isVulnerable || PAsset.isInvulnerable))
-                {
-                    if (eplayerhit == EPlayerHit.NONE)
-                    {
-                        eplayerhit = EPlayerHit.BUILD;
-                    }
-                }
-            }
+				if (ri.vehicle.asset != null && (ri.vehicle.asset.isVulnerable || PAsset.isInvulnerable))
+					if (eplayerhit == EPlayerHit.NONE)
+						eplayerhit = EPlayerHit.BUILD;
 
-            return eplayerhit;
+			return eplayerhit;
         }
     }
 }
