@@ -1,5 +1,6 @@
 ﻿using dnlib.DotNet;
 using SymbolRenamer.SymbolRenaming;
+using ThankingObfuscator.Protection.AntiTamper;
 
 namespace ThankingObfuscator
 {
@@ -9,7 +10,7 @@ namespace ThankingObfuscator
         {
             ModuleDefMD module = ModuleDefMD.Load("Thanking.dll");
             Symbols.Run(module);
-            module.Write("Thanking_Obfuscated.dll");
+			EOFHelper.Run("Thanking_Obfuscated.dll", module);
         }
     }
 }
