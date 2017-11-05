@@ -14,7 +14,6 @@ namespace Thanking.Utilities
 		public static void addColor(ColorVariable ColorVariable)
 		{
 			ColorOptions.ColorDict.Add(ColorVariable.identity, ColorVariable);
-			ColorOptions.keys.Add(ColorVariable.identity);
 		}
 
 		public static ColorVariable getColor(string identifier)

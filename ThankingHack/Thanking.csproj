@@ -89,6 +89,7 @@
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
+    <Compile Include="Components\Basic\MiscComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Components\UI\Menu\Prefab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ItemFilterTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\MiscTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\WeaponsTab.cs" />
     <Compile Include="Components\UI\WeaponComponent.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
+    <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />

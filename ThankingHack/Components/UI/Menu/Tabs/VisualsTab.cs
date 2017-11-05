@@ -66,7 +66,8 @@ namespace Thanking.Components.UI.Menu.Tabs
             {
                 Prefab.SectionTabButton("Spammer", () =>
                 {
-                    GUILayout.Label("hehe xd");
+                    GUILayout.Space(5);
+                    
                 });
 
                 Prefab.SectionTabButton("Radar", () =>
