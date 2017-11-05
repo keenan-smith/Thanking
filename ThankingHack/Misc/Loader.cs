@@ -20,7 +20,6 @@ namespace Thanking
 			ConfigManager.Init();
 			AttributeManager.Init();
 			AssetManager.Init();
-			Profiler.Init();
 			Debug.Log("Thanking initialized!");
 		}
 

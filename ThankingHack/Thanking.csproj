@@ -120,7 +120,6 @@
     <Compile Include="Managers\Main\ConfigManager.cs" />
     <Compile Include="Managers\Submanagers\ComponentManager.cs" />
     <Compile Include="Managers\Submanagers\ThreadManager.cs" />
-    <Compile Include="Misc\Profiler.cs" />
     <Compile Include="Misc\Serializables.cs" />
     <Compile Include="Options\AimOptions\RaycastOptions.cs" />
     <Compile Include="Options\AimOptions\SphereOptions.cs" />
