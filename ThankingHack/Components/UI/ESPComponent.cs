@@ -93,7 +93,7 @@ namespace Thanking.Components.UI
 							b.size = b.size / 2;
 							b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
 
-							if (p.quests.isMemberOfSameGroupAs(Player.player) && ESPOptions.UsePlayerGroup)
+							if (FriendUtilities.IsFriendly(p) && ESPOptions.UsePlayerGroup)
 								c = ESPOptions.SameGroupColor.ToColor();
 
 							break;

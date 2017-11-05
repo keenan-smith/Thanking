@@ -6,4 +6,9 @@ namespace Thanking.Attributes
     public class OnSpyAttribute : Attribute
     {
     }
+    
+    [AttributeUsage(AttributeTargets.Method)]
+    public class OffSpyAttribute : Attribute
+    {
+    }
 }

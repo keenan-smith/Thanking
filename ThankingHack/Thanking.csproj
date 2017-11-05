@@ -82,11 +82,12 @@
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
     <Compile Include="Attributes\InitializerAttribute.cs" />
-    <Compile Include="Attributes\OnSpyAttribute.cs" />
+    <Compile Include="Attributes\SpyAttributes.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
+    <Compile Include="Components\Basic\ChamsComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
@@ -124,8 +125,8 @@
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
-    <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
+    <Compile Include="Utilities\FriendUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />

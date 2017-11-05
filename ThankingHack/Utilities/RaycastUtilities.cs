@@ -53,7 +53,7 @@ namespace Thanking.Utilities
 				Player p = Provider.clients[i].player;
 
 				if (p == null || p == Player.player || p.life.isDead ||
-					p.transform == null || p.quests.isMemberOfSameGroupAs(Player.player)) continue;
+					p.transform == null || FriendUtilities.IsFriendly(p)) continue;
 
 				if (currentGun != null)
 				{

@@ -17,11 +17,14 @@ namespace Thanking.Coroutines
 			
 			AssetBundle bundle = AssetBundle.LoadFromMemory(loader.bytes);
 			AssetVariables.ABundle = bundle;
-			
-			foreach (Shader s in bundle.LoadAllAssets<Shader>())
-				AssetVariables.Materials.Add(s.name, new Material(s) { hideFlags = HideFlags.HideAndDontSave });
 
-			foreach (Font f in bundle.LoadAllAssets<Font>())
+            foreach (Shader s in bundle.LoadAllAssets<Shader>())
+                AssetVariables.Materials.Add(s.name, new Material(s) { hideFlags = HideFlags.HideAndDontSave });
+                    
+            foreach (Shader s in bundle.LoadAllAssets<Shader>())
+                AssetVariables.Shaders.Add(s.name, s);
+
+            foreach (Font f in bundle.LoadAllAssets<Font>())
 				AssetVariables.Fonts.Add(f.name, f);
 
 			foreach (AudioClip ac in bundle.LoadAllAssets<AudioClip>())
@@ -37,6 +40,10 @@ namespace Thanking.Coroutines
             MenuComponent._TabFont = AssetVariables.Fonts["Anton-Regular"];
             MenuComponent._TextFont = AssetVariables.Fonts["CALIBRI"];
             MenuComponent._LogoTexLarge = AssetVariables.Textures["thanking_logo_large"];
+
+            ESPCoroutines.Normal = Shader.Find("Standard");
+            ESPCoroutines.LitChams = AssetVariables.Shaders["chamsLit"];
+            ESPCoroutines.UnlitChams = AssetVariables.Shaders["chamsUnlit"];
         }
 	}
 }

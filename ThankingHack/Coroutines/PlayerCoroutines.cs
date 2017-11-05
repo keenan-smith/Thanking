@@ -4,6 +4,7 @@ using System.Collections;
 using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Components.UI;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Coroutines
@@ -17,7 +18,14 @@ namespace Thanking.Coroutines
             IsSpying = true;
 
             Debug.Log("TAKING SCREENSHOT");
-			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (Type tClass in asm.GetTypes())
+                    foreach (MethodInfo tMethod in tClass.GetMethods(ReflectionVariables.Everything))
+                        if (tMethod.IsDefined(typeof(OnSpyAttribute), false))
+                            tMethod.Invoke(null, null);
+
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 				foreach (Type tClass in asm.GetTypes())
 					if (tClass.IsClass)
 						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
@@ -80,7 +88,13 @@ namespace Thanking.Coroutines
 						if (tClass.IsDefined(typeof(SpyComponentAttribute), false))
 							Loader.HookObject.AddComponent(tClass);
 
-            IsSpying = false;
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (Type tClass in asm.GetTypes())
+                    foreach (MethodInfo tMethod in tClass.GetMethods(ReflectionVariables.Everything))
+                        if (tMethod.IsDefined(typeof(OffSpyAttribute), false))
+                            tMethod.Invoke(null, null);
+
+                            IsSpying = false;
 		}
 	}
 }
