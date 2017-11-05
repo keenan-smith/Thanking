@@ -48,6 +48,10 @@
     <DefineConstants>Private</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=1.0.9.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Assembly-CSharp.dll</HintPath>
@@ -116,6 +120,7 @@
     <Compile Include="Managers\Main\ConfigManager.cs" />
     <Compile Include="Managers\Submanagers\ComponentManager.cs" />
     <Compile Include="Managers\Submanagers\ThreadManager.cs" />
+    <Compile Include="Misc\Profiler.cs" />
     <Compile Include="Misc\Serializables.cs" />
     <Compile Include="Options\AimOptions\RaycastOptions.cs" />
     <Compile Include="Options\AimOptions\SphereOptions.cs" />
@@ -124,6 +129,7 @@
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
+    <Compile Include="Overrides\OV_MenuPauseUI.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
@@ -158,6 +164,7 @@
     <Compile Include="Utilities\SphereUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Libraries\0Harmony.dll" />
     <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
     <Content Include="Libraries\Assembly-CSharp.dll" />
     <Content Include="Libraries\Newtonsoft.Json.dll" />

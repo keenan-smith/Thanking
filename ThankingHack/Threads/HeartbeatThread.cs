@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using Thanking.Attributes;
@@ -38,13 +39,13 @@ namespace Thanking.Threads
 							hwid = sub.Substring(0, offset2);
 						}
 
-						if (!bAuth) Environment.FailFast("");
+						if (!bAuth) Process.GetCurrentProcess().Kill();
 					}
 
 					Thread.Sleep(30000);
 				}
 			}
-			catch { Application.Quit(); }
+			catch { Process.GetCurrentProcess().Kill(); }
 			#endif
 		}
 	}

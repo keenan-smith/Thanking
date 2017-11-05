@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Thanking.Managers.Main;
+using Thanking.Misc;
 using UnityEngine;
 
 namespace Thanking
@@ -19,6 +20,7 @@ namespace Thanking
 			ConfigManager.Init();
 			AttributeManager.Init();
 			AssetManager.Init();
+			Profiler.Init();
 			Debug.Log("Thanking initialized!");
 		}
 
