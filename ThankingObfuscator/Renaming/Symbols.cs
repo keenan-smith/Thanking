@@ -1,10 +1,10 @@
-﻿using dnlib.DotNet;
-using dnlib.DotNet.Emit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using dnlib.DotNet;
+using dnlib.DotNet.Emit;
 
 namespace SymbolRenamer.SymbolRenaming
 {
@@ -40,7 +40,7 @@ namespace SymbolRenamer.SymbolRenaming
         /// <summary>
         /// The counter for the renamed symbols.
         /// </summary>
-        private static int renamedSymbols = 0;
+        private static int renamedSymbols;
 
         /// <summary>
         /// Generate a random string from one of the symbol charsets.
@@ -68,7 +68,7 @@ namespace SymbolRenamer.SymbolRenaming
                     charMap = "🖕😍😘".ToCharArray().Select(a => a.ToString()).ToArray(); //🖕 "😀😃😄😁😆😅😂🤣☺️😊😇🙂🙃😉😌😍😘😗😙😚😋😜😝😛🤑🤗🤓😎🤡🤠😏😒😞😔😟😕🙁😣😖😫😩😤😠😡😶😐😑😯😦😧😮😲😵😳😱😨😰😢😥🤤😭😓😪😴🙄🤔🤥😬🤐🤢🤧😷🤒🤕😈👿👹👺💩👻💀☠️👽👾🤖🎃😺😸😹😻😼😽🙀😿😾👐🙌👏🙏🤝👍👎👊✊🤛🤜🤞✌️🤘👌👈👉👆👇☝️✋🤚🖐🖖👋🤙💪🖕💅🖖💄💋👄👅👂👃👣👁👀🗣👤👥👶👦👧👨👩👱‍🌎🌍🌏🌕🌖🌗🌘🌑🌒🌓🌔🌚🌝🤩🤨🤯🤪🤬🤮🤫🤭🧐🧒🧑🧓🧕".ToCharArray();
                     break;
 				case SymbolStyle.FuckYou:
-					charMap = new string[] { "Fuck", "You" };
+					charMap = new[] { "Fuck", "You" };
 					break;
             }
 
@@ -111,7 +111,7 @@ namespace SymbolRenamer.SymbolRenaming
                 }
             if (!foundNs)
             {
-                NamespaceTypeCollector newNsStore = new NamespaceTypeCollector() { NamespaceName = type.Namespace };
+                NamespaceTypeCollector newNsStore = new NamespaceTypeCollector { NamespaceName = type.Namespace };
                 newNsStore.Types.Add(type);
                 namespaceTypeColelctor.Add(newNsStore);
             }
@@ -172,7 +172,7 @@ namespace SymbolRenamer.SymbolRenaming
             RenameResources();
 
             // Log results
-            Console.WriteLine(string.Format("Renamed {0} symbols.", renamedSymbols));
+            Console.WriteLine("Renamed {0} symbols.", renamedSymbols);
 
         }
 
@@ -198,7 +198,7 @@ namespace SymbolRenamer.SymbolRenaming
                     continue;
                 if (string.IsNullOrEmpty(new Regex(string.Format("^{0}.{1}\\.resources$", type.Namespace, type.Name)).Match(resource.Name).Value))
                     continue;
-                storedResources.Add(new ResourceTypeCollector() { Type = type, Resource = resource as EmbeddedResource });
+                storedResources.Add(new ResourceTypeCollector { Type = type, Resource = resource as EmbeddedResource });
             }
         }
      

@@ -46,7 +46,10 @@ namespace Thanking.Utilities.Mesh_Utilities
 
                 if (!(possNearestSqDist < nearestSqDist)) continue;
 
-                Debug.Log("Found possible point! " + possNearestPt);
+                #if DEBUG
+                DebugUtilities.Log("Found possible point! " + possNearestPt);
+                #endif
+    
                 nearestPt = possNearestPt;
                 nearestSqDist = possNearestSqDist;
             }

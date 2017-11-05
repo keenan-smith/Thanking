@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Thanking.Options;
+﻿using Thanking.Options;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs
@@ -19,7 +15,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     GUILayout.Space(5);
                     MiscOptions.SpamText = Prefab.TextField(MiscOptions.SpamText, "Text: ", 150);
                     GUILayout.Space(10);
-                    GUILayout.Label("Delay: " + (int)MiscOptions.SpammerDelay + "ms", Prefab._TextStyle);
+                    GUILayout.Label("Delay: " + MiscOptions.SpammerDelay + "ms", Prefab._TextStyle);
                     GUILayout.Space(5);
                     MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 3000, MiscOptions.SpammerDelay, 175);
                 });

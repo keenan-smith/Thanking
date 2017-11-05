@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
 using Thanking.Misc;
 using UnityEngine;
 
@@ -29,17 +27,17 @@ namespace Thanking.Options.UIVariables
             this.identity = identity;
             this.name = name;
             this.color = color;
-            this.origColor = color;
+            origColor = color;
             this.disableAlpha = disableAlpha;
         }
 
         public ColorVariable(ColorVariable option)
         {
-            this.identity = option.identity;
-            this.name = option.name;
-            this.color = option.color;
-            this.origColor = option.origColor;
-            this.disableAlpha = option.disableAlpha;
+            identity = option.identity;
+            name = option.name;
+            color = option.color;
+            origColor = option.origColor;
+            disableAlpha = option.disableAlpha;
         }
 
 		public static implicit operator Color(ColorVariable color) =>

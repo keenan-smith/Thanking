@@ -1,4 +1,5 @@
-﻿using SDG.Unturned;
+﻿using System;
+using SDG.Unturned;
 using Thanking.Options.AimOptions;
 using Thanking.Options.UIVariables;
 using UnityEngine;
@@ -24,16 +25,15 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Normal Material", ref RaycastOptions.UseTargetMaterial);
                 Prefab.Toggle("Extended Range", ref RaycastOptions.ExtendedRange);
                 GUILayout.Space(5);
-                GUILayout.Label("Sphere Radius: " + System.Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
+                GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
                 Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
-                GUILayout.Label("Vehicle Sphere Radius: " + System.Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m", Prefab._TextStyle);
+                GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m", Prefab._TextStyle);
                 Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
                 GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
                 SphereOptions.RecursionLevel = (int)Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
                 GUILayout.Space(20);
 
-                GUIContent[] TargetPriorities = new GUIContent[]
-                {
+                GUIContent[] TargetPriorities = {
                     new GUIContent("Player"),
                     new GUIContent("Zombie"),
                     new GUIContent("Sentry"),
@@ -47,8 +47,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     RaycastOptions.Target = (TargetPriority)DropDown.Get("_TargetPriority").ListIndex;
                 }
 
-                GUIContent[] Limbs = new GUIContent[]
-                {
+                GUIContent[] Limbs = {
                     new GUIContent("Left Foot"),
                     new GUIContent("Left Leg"),
                     new GUIContent("Right Foot"),
@@ -70,8 +69,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     RaycastOptions.TargetLimb = (ELimb)DropDown.Get("_TargetLimb").ListIndex;
                 }
 
-                GUIContent[] Materials = new GUIContent[]
-                {
+                GUIContent[] Materials = {
                     new GUIContent("None"),
                     new GUIContent("Cloth Dynamic"),
                     new GUIContent("Cloth Static"),

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Globalization;
 using System.Linq;
-using System.Text;
 using Thanking.Misc;
 using Thanking.Options.UIVariables;
 using Thanking.Options.VisualOptions;
@@ -24,8 +22,7 @@ namespace Thanking.Utilities
 			ColorVariable toret;
 			if (ColorOptions.ColorDict.TryGetValue(identifier, out toret))
 				return toret;
-			else
-				return ColorOptions.errorColor;
+			return ColorOptions.errorColor;
 		}
 
 		public static string getHex(string identifier)
@@ -33,8 +30,7 @@ namespace Thanking.Utilities
 			ColorVariable toret;
 			if (ColorOptions.ColorDict.TryGetValue(identifier, out toret))
 				return ColorToHex(toret);
-			else
-				return ColorToHex(ColorOptions.errorColor);
+			return ColorToHex(ColorOptions.errorColor);
 		}
 
 		public static void setColor(string identifier, Color32 color)
@@ -59,9 +55,9 @@ namespace Thanking.Utilities
 
 		public static Color32 HexToColor(string hex)
 		{
-			byte r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
-			byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
-			byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+			byte r = byte.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+			byte g = byte.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+			byte b = byte.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
 			return new Color32(r, g, b, 255);
 		}
 	}

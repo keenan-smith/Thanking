@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 
 namespace Thanking.Attributes
 {
     /// <summary>
     /// Used to detour a specific function
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class OverrideAttribute : Attribute
     {
         #region Properties

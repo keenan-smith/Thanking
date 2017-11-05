@@ -1,13 +1,13 @@
-﻿using SDG.Unturned;
+﻿using System;
+using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Components.Basic;
 using Thanking.Coroutines;
+using Thanking.Options;
 using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
-using System;
-using Thanking.Options;
 
 namespace Thanking.Components.UI
 {
@@ -74,7 +74,10 @@ namespace Thanking.Components.UI
 				int size = DrawUtilities.GetTextSize(visual, dist);
 				double rounded = Math.Round(dist);
 
-				//Debug.Log(obj.Target);
+				/*#if DEBUG
+				DebugUtilities.Log(obj.Target.ToString()); //Holy fuck nuggets this is laggy
+				#endif*/
+				
 				switch (obj.Target)
 				{
 					#region Players
@@ -192,10 +195,10 @@ namespace Thanking.Components.UI
                 }
 
 				if (visual.LineToObject)
-					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2()
+					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2
 					{
 						Color = visual.Color.ToColor(),
-						Vertices = new Vector2[]
+						Vertices = new[]
 						{
 							new Vector2(Screen.width / 2, Screen.height),
 							new Vector2(cpos.x, Screen.height - cpos.y)

@@ -1,6 +1,6 @@
-﻿using dnlib.DotNet;
-using System;
+﻿using System;
 using System.Linq;
+using dnlib.DotNet;
 
 namespace SymbolRenamer.SymbolRenaming
 {

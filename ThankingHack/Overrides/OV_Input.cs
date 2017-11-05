@@ -1,5 +1,5 @@
-﻿using SDG.Unturned;
-using System.Reflection;
+﻿using System.Reflection;
+using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options.AimOptions;
 using Thanking.Variables;

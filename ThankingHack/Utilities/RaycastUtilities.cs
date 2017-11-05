@@ -1,6 +1,6 @@
-﻿using SDG.Framework.Utilities;
+﻿using System.Linq;
+using SDG.Framework.Utilities;
 using SDG.Unturned;
-using System.Linq;
 using Thanking.Components.Basic;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;

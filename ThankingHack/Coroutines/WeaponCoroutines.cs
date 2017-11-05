@@ -1,6 +1,6 @@
-﻿using SDG.Unturned;
-using System;
+﻿using System;
 using System.Collections;
+using SDG.Unturned;
 using Thanking.Options.AimOptions;
 using Thanking.Variables;
 using UnityEngine;

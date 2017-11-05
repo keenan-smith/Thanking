@@ -28,18 +28,26 @@ namespace Thanking.Utilities
 		{
 			Vector3 ortho = vCenter - vPoint;
 			double magnitude = VectorUtilities.GetDistance(vCenter, vPoint);
-			//Debug.Log("Original ortho vector: " + ortho);
+			
+			#if DEBUG
+			DebugUtilities.Log("Original ortho vector: " + ortho);
+			#endif		
+	
 			return ortho / (float)magnitude;
 		}
 
 		public static Vector3[] GetRectanglePoints(Vector3 playerPos, Vector3[] bCorners, Bounds bound)
 		{
-			//Debug.Log("Player position:" + playerPos);
-
+			#if DEBUG
+			DebugUtilities.Log("Player position:" + playerPos);
+			#endif
+	
 			Vector3 oVector = GetOrthogonalVector(bound.center, playerPos);
-			//Debug.Log("Ortho vector: " + oVector);
 			
-			//Debug.Log("Plane center:" + bound.center);
+			#if DEBUG
+			DebugUtilities.Log("Ortho vector: " + oVector);
+			DebugUtilities.Log("Plane center:" + bound.center);
+			#endif
 
 			List<Vector3> fVectors = new List<Vector3>();
 			Vector3[] Vertices = new Vector3[24]

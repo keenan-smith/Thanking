@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Thanking.Wrappers;
-using Thanking.Managers.Submanagers;
-using System.Diagnostics;
 using Thanking.Attributes;
+using Thanking.Managers.Submanagers;
+using Thanking.Wrappers;
 using Debug = UnityEngine.Debug;
 
 namespace Thanking.Utilities
@@ -76,14 +76,11 @@ namespace Thanking.Utilities
             OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == method).Value;
 
             // Do the checks
-            if (wrapper == null)
-                return false;
-
-            return wrapper.Override();
+            return wrapper != null && wrapper.Override();
         }
 
         /// <summary>
-        /// Disables the pverride of a method(WARNING: The method needs to have been overridden atleast once!)
+        /// Disables the override of a method(WARNING: The method needs to have been overridden atleast once!)
         /// </summary>
         /// <param name="method">The original method that was Overrideed</param>
         /// <returns>If the Override was disabled successfully</returns>
@@ -93,10 +90,7 @@ namespace Thanking.Utilities
             OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == method).Value;
 
             // Do the checks
-            if (wrapper == null)
-                return false;
-
-            return wrapper.Revert();
+            return wrapper != null && wrapper.Revert();
         }
         #region Public Functions
         public static bool OverrideFunction(IntPtr ptrOriginal, IntPtr ptrModified)
@@ -149,7 +143,7 @@ namespace Thanking.Utilities
             }
             catch (Exception ex)
             {
-                Debug.Log(ex);
+                Debug.LogException(ex);
                 return false;
             }
         }

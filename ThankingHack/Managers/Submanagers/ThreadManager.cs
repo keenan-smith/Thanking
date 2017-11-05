@@ -18,7 +18,6 @@ namespace Thanking.Managers.Submanagers
 					Action ThreadAction = (Action) Delegate.CreateDelegate(typeof(Action), tMethod);
 					new Thread(new ThreadStart(ThreadAction)).Start();
 				}
-
 		}
 	}
 }

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Thanking.Managers.Main;
-using Thanking.Misc;
+using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking
@@ -12,15 +11,21 @@ namespace Thanking
 
         public static void Hook()
         {
-			Debug.Log("Initializing Thanking...");
-            
+            #if DEBUG
+			DebugUtilities.Log("Initializing Thanking...");
+            #endif        
+    
 			HookObject = new GameObject();
-			UnityEngine.Object.DontDestroyOnLoad(HookObject);
+			Object.DontDestroyOnLoad(HookObject);
 
+            DebugUtilities.Init();
 			ConfigManager.Init();
 			AttributeManager.Init();
 			AssetManager.Init();
-			Debug.Log("Thanking initialized!");
+            
+            #if DEBUG
+			DebugUtilities.Log("Thanking initialized!");
+            #endif
 		}
 
         public static void HookThread()

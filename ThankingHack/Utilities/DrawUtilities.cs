@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Thanking.Variables;
+﻿using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Utilities
@@ -266,7 +265,7 @@ namespace Thanking.Utilities
 
 		public static void PrepareRectangleLines(Vector2[] nvectors, Color c)
 		{
-			ESPVariables.DrawBuffer2.Enqueue(new ESPBox2()
+			ESPVariables.DrawBuffer2.Enqueue(new ESPBox2
 			{
 				Color = c,
 				Vertices = new []
@@ -285,7 +284,7 @@ namespace Thanking.Utilities
 
 		public static void PrepareBoxLines(Vector3[] vectors, Color c)
 		{
-			ESPVariables.DrawBuffer.Enqueue(new ESPBox()
+			ESPVariables.DrawBuffer.Enqueue(new ESPBox
 			{
 				Color = c,
 				Vertices = new []

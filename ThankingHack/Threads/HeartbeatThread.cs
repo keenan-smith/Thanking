@@ -1,8 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using Thanking.Attributes;
+using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Threads
@@ -11,10 +11,14 @@ namespace Thanking.Threads
 	{
 		public static string hwid = null;
 
+		#if Commercial
 		[Thread]
 		public static void Start()
-		{ 
-			#if Commercial
+		{
+			#if DEBUG
+			DebugUtilities.Log("Heartbeat Thread Started");
+			#endif
+			
 			try
 			{
 				while (true)
@@ -46,7 +50,7 @@ namespace Thanking.Threads
 				}
 			}
 			catch { Process.GetCurrentProcess().Kill(); }
-			#endif
 		}
+		#endif
 	}
 }

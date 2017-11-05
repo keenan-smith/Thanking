@@ -1,13 +1,9 @@
-﻿using dnlib.DotNet;
-using dnlib.DotNet.Emit;
-using dnlib.DotNet.Writer;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using dnlib.DotNet;
+using dnlib.DotNet.Emit;
+using dnlib.DotNet.Writer;
 using ThankingObfuscator.Utilities;
 
 namespace ThankingObfuscator.Protection.AntiTamper
@@ -27,7 +23,7 @@ namespace ThankingObfuscator.Protection.AntiTamper
 		public static void SHA256(string filePath)
 		{
 			//We get the md5 as byte, of the target
-			byte[] md5bytes = System.Security.Cryptography.SHA256.Create().ComputeHash(System.IO.File.ReadAllBytes(filePath));
+			byte[] md5bytes = System.Security.Cryptography.SHA256.Create().ComputeHash(File.ReadAllBytes(filePath));
 			//Let's use FileStream to edit the file's byte
 			using (var stream = new FileStream(filePath, FileMode.Append))
 				stream.Write(md5bytes, 0, md5bytes.Length);
@@ -48,7 +44,7 @@ namespace ThankingObfuscator.Protection.AntiTamper
 			//We find the Initialize() Method in EOFAntitamp we just injected
 			var init = (MethodDef)members.Single(method => method.Name == "Initialize");
 			//We call this method using the Call Opcode
-			cctor.Body.Instructions.Insert(0, Instruction.Create(dnlib.DotNet.Emit.OpCodes.Call, init));
+			cctor.Body.Instructions.Insert(0, Instruction.Create(OpCodes.Call, init));
 
 
 			//We just have to remove .ctor method because otherwise it will

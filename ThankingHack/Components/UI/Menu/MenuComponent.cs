@@ -17,7 +17,7 @@ namespace Thanking.Components.UI.Menu
         public static Font _TextFont;
         public static Texture2D _LogoTexLarge;
 
-        public static bool IsInMenu = false;
+        public static bool IsInMenu;
         public static KeyCode MenuKey = KeyCode.F1;
 
         public static Rect MenuRect = new Rect(29, 29, 640, 480);

@@ -21,12 +21,9 @@ namespace Thanking.Options.UIVariables
             {
                 return dropdown;
             }
-            else
-            {
-                dropdown = new DropDown();
-                DropDownManager.Add(identifier, dropdown);
-                return dropdown;
-            }
+            dropdown = new DropDown();
+            DropDownManager.Add(identifier, dropdown);
+            return dropdown;
         }
 
     }

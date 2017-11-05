@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Thanking.Wrappers;
 using Thanking.Attributes;
-using UnityEngine;
 using Thanking.Variables;
+using Thanking.Wrappers;
+using UnityEngine;
 
 namespace Thanking.Managers.Submanagers
 {
@@ -49,10 +49,7 @@ namespace Thanking.Managers.Submanagers
 
                 Overrides.Add(attribute, wrapper);
             }
-            catch (Exception ex)
-            {
-                Debug.Log(ex);
-            }
+            catch (Exception ex) { Debug.LogException(ex); }
         }
 #endregion
     }

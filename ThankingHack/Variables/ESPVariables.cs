@@ -51,8 +51,6 @@ namespace Thanking.Variables
 		public int MinTextSize;
 		public int MaxTextSize;
 		public int ObjectCap;
-
-		public ESPVisual() { }
 	}
 
 	public class ESPObject

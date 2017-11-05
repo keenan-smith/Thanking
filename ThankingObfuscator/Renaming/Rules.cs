@@ -20,8 +20,7 @@ namespace SymbolRenamer.SymbolRenaming
                 type.IsImport || 
 				type.Name == "")
                 return false;
-            else
-                return true;
+            return true;
         }
 
 
@@ -43,8 +42,7 @@ namespace SymbolRenamer.SymbolRenaming
                 method.DeclaringType.IsComImport() && !method.HasAttribute("System.Runtime.InteropServices.DispIdAttribute") || 
 				method.Name.Contains("Hook"))
                 return false;
-            else
-                return true;
+            return true;
         }
 
 
@@ -61,8 +59,7 @@ namespace SymbolRenamer.SymbolRenaming
                 field.IsPinvokeImpl ||
                 (field.DeclaringType.IsSerializable && !field.IsNotSerialized))
                 return false;
-            else
-                return true;
+            return true;
         }
 
 
@@ -77,8 +74,7 @@ namespace SymbolRenamer.SymbolRenaming
                 property.DeclaringType.Implements("System.ComponentModel.INotifyPropertyChanged") ||
                 property.DeclaringType.Name.String.Contains("AnonymousType"))
                 return false;
-            else
-                return true;
+            return true;
         }
 
 
@@ -92,8 +88,7 @@ namespace SymbolRenamer.SymbolRenaming
             if (@event.IsRuntimeSpecialName ||
                 @event.IsSpecialName)
                 return false;
-            else
-                return true;
+            return true;
         }
 
 

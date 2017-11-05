@@ -93,7 +93,6 @@
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
-    <Compile Include="Components\Basic\MiscComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="Components\UI\WeaponComponent.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
-    <Compile Include="Coroutines\MiscCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Coroutines\WeaponCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
@@ -129,7 +127,9 @@
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
+    <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
+    <Compile Include="Utilities\DebugUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
@@ -160,7 +160,8 @@
     <Compile Include="Wrappers\OverrideWrapper.cs" />
     <Compile Include="Utilities\RaycastUtilities.cs" />
     <Compile Include="Utilities\SphereUtilities.cs" />
-    <Compile Include="Utilities\FriendUtilities.cs"></Compile>
+    <Compile Include="Utilities\FriendUtilities.cs">
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\0Harmony.dll" />

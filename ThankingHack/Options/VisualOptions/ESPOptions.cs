@@ -38,7 +38,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 17,
 				MinTextSizeDistance = 900,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Players
 
 			new ESPVisual
@@ -61,7 +61,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 17,
 				MinTextSizeDistance = 900,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Zombies
 
 			new ESPVisual
@@ -84,7 +84,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 14,
 				MinTextSizeDistance = 800,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Items
 
 			new ESPVisual
@@ -107,7 +107,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Sentries
 
 			new ESPVisual
@@ -130,7 +130,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Beds
 
 			new ESPVisual
@@ -153,7 +153,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Claim Flags
 
 			new ESPVisual
@@ -176,7 +176,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Vehicles
 
 			new ESPVisual
@@ -199,7 +199,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			}, //Storage
 
 			new ESPVisual
@@ -222,7 +222,7 @@ namespace Thanking.Options.VisualOptions
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
 				BorderStrength = 2,
-				ObjectCap = 24,
+				ObjectCap = 24
 			} //Generators
 		};
 

@@ -1,7 +1,7 @@
 ﻿using System;
-using Thanking.Attributes;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Thanking.Attributes;
 using Thanking.Utilities;
 
 namespace Thanking.Wrappers

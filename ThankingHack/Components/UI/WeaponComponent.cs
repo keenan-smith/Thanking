@@ -1,8 +1,9 @@
-﻿using SDG.Unturned;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Components.UI
@@ -17,8 +18,7 @@ namespace Thanking.Components.UI
 
 		public void OnGUI()
 		{
-			if (!WeaponOptions.ShowWeaponInfo)
-				return;
+			if (!WeaponOptions.ShowWeaponInfo) return;
 
 			if (!Provider.isConnected || Provider.isLoading)
 				return;
@@ -27,13 +27,13 @@ namespace Thanking.Components.UI
 				return;
 
 			GUI.depth = 0;
-			ItemGunAsset PAsset = Player.player.equipment.asset as ItemGunAsset;
+			ItemGunAsset PAsset = (ItemGunAsset) Player.player.equipment.asset;
 			string text = "<size=15>";
 			text += (PAsset.itemName + "\n");
 			text += PAsset.range;
 			text += "</size>";
 
-			DrawUtilities.DrawLabel(ESPComponent.ESPFont, Variables.LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
+			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
 		}
 
 		public void Update()

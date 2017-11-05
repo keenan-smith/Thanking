@@ -1,14 +1,14 @@
-﻿using SDG.Unturned;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options.VisualOptions;
-using Thanking.Overrides;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Thanking.Coroutines
 {
@@ -198,7 +198,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.Items:
 								{
-									InteractableItem[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableItem>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									InteractableItem[] objarr = Object.FindObjectsOfType<InteractableItem>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
@@ -212,7 +212,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.Sentries:
 								{
-									InteractableSentry[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableSentry>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									InteractableSentry[] objarr = Object.FindObjectsOfType<InteractableSentry>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
@@ -226,7 +226,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.Beds:
 								{
-									InteractableBed[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableBed>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									InteractableBed[] objarr = Object.FindObjectsOfType<InteractableBed>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
@@ -240,7 +240,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.ClaimFlags:
 								{
-									InteractableClaim[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableClaim>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									InteractableClaim[] objarr = Object.FindObjectsOfType<InteractableClaim>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
@@ -254,7 +254,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.Vehicles:
 								{
-									InteractableVehicle[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableVehicle>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									InteractableVehicle[] objarr = Object.FindObjectsOfType<InteractableVehicle>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
@@ -271,7 +271,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.Storage:
 								{
-									InteractableStorage[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableStorage>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									InteractableStorage[] objarr = Object.FindObjectsOfType<InteractableStorage>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
@@ -285,7 +285,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.Generators:
 								{
-									InteractableGenerator[] objarr = UnityEngine.Object.FindObjectsOfType<InteractableGenerator>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									InteractableGenerator[] objarr = Object.FindObjectsOfType<InteractableGenerator>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);

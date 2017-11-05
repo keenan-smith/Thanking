@@ -1,5 +1,6 @@
 ﻿using Thanking.Components.Basic;
 using Thanking.Coroutines;
+using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Managers.Main
@@ -8,7 +9,10 @@ namespace Thanking.Managers.Main
 	{
 		public static void Init()
 		{
-			Debug.Log("Starting asset manager...");
+			#if DEBUG
+			DebugUtilities.Log("Starting asset manager...");
+			#endif
+			
 			Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(LoaderCoroutines.LoadAssets());
 		}
 	}

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Thanking.Attributes;
-using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Thanking.Attributes;
+using Thanking.Utilities;
+using UnityEngine;
 
 namespace Thanking.Managers.Main
 {
@@ -14,7 +15,10 @@ namespace Thanking.Managers.Main
     {
 		public static void Init()
 		{
-			Debug.Log("Getting Thanking configuration...");
+			#if DEBUG
+			DebugUtilities.Log("Getting Thanking configuration...");
+			#endif
+			
 			LoadConfig(GetConfig());
 		}
 
@@ -46,7 +50,7 @@ namespace Thanking.Managers.Main
 			if (!File.Exists(Path))
 				SaveConfig(CollectConfig());
 
-			return JsonConvert.DeserializeObject<Dictionary<String, object>>(File.ReadAllText(Path), new JsonSerializerSettings() { Formatting = Formatting.Indented });
+			return JsonConvert.DeserializeObject<Dictionary<String, object>>(File.ReadAllText(Path), new JsonSerializerSettings { Formatting = Formatting.Indented });
 		}
 
 		public static void SaveConfig(Dictionary<String, object> Config)

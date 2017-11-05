@@ -1,6 +1,6 @@
-﻿using SDG.Framework.Utilities;
+﻿using System.Reflection;
+using SDG.Framework.Utilities;
 using SDG.Unturned;
-using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Options;
 using Thanking.Variables;
@@ -214,31 +214,20 @@ namespace Thanking.Overrides
 					{
 						if (PlayerInteract.interactable.CompareTag("Item"))
 						{
-							PlayerUI.hint((!(target != null)) ? focus : target, message, text, color2, new object[]
-							{
-								((InteractableItem)PlayerInteract.interactable).item,
-								((InteractableItem)PlayerInteract.interactable).asset
-							});
+							PlayerUI.hint((!(target != null)) ? focus : target, message, text, color2, ((InteractableItem)PlayerInteract.interactable).item, ((InteractableItem)PlayerInteract.interactable).asset);
 						}
 						else
-							PlayerUI.hint((!(target != null)) ? focus : target, message, text, color2, new object[0]);
+							PlayerUI.hint((!(target != null)) ? focus : target, message, text, color2);
 					}
 				}
 				else if (purchaseAsset != null && Player.player.movement.purchaseNode != null && !PlayerUI.window.showCursor)
-					PlayerUI.hint(null, EPlayerMessage.PURCHASE, string.Empty, Color.white, new object[]
-						{
-						purchaseAsset.itemName,
-						Player.player.movement.purchaseNode.cost
-						});
+					PlayerUI.hint(null, EPlayerMessage.PURCHASE, string.Empty, Color.white, purchaseAsset.itemName, Player.player.movement.purchaseNode.cost);
 				else if (focus != null && focus.CompareTag("Enemy"))
 				{
 					Player player = DamageTool.getPlayer(focus);
 					if (player != null && player != Player.player && !PlayerUI.window.showCursor)
 					{
-						PlayerUI.hint(null, EPlayerMessage.ENEMY, string.Empty, Color.white, new object[]
-						{
-							player.channel.owner
-						});
+						PlayerUI.hint(null, EPlayerMessage.ENEMY, string.Empty, Color.white, player.channel.owner);
 					}
 				}
 				EPlayerMessage message2;
@@ -284,7 +273,7 @@ namespace Thanking.Overrides
 					isHoldingKey = true;
 				}
 				if (Input.GetKeyDown(ControlsSettings.inspect) && ControlsSettings.inspect != ControlsSettings.interact && Player.player.equipment.canInspect)
-					Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER, new object[0]);
+					Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
 				if (isHoldingKey)
 				{
 					if (Input.GetKeyUp(ControlsSettings.interact))
@@ -347,7 +336,7 @@ namespace Thanking.Overrides
 								Player.player.skills.sendPurchase(Player.player.movement.purchaseNode);
 						}
 						else if (ControlsSettings.inspect == ControlsSettings.interact && Player.player.equipment.canInspect)
-							Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER, new object[0]);
+							Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
 					}
 					else if (Time.realtimeSinceStartup - lastKeyDown > salvageTime)
 					{

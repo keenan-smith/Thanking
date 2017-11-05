@@ -1,6 +1,4 @@
-﻿using dnlib.DotNet;
-
-namespace SymbolRenamer.SymbolRenaming
+﻿namespace SymbolRenamer.SymbolRenaming
 {
     class ResourceRenaming
     {
