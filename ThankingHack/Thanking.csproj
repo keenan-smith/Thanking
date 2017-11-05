@@ -87,6 +87,7 @@
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
+    <Compile Include="Components\Basic\ChamsComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
