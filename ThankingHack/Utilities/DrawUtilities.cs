@@ -1,4 +1,5 @@
-﻿using Thanking.Variables;
+﻿using System.Text.RegularExpressions;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Utilities
@@ -86,8 +87,11 @@ namespace Thanking.Utilities
 			return new Bounds { center = center, extents = extents };
 		}
 
-		public static void DrawTextWithOutline(Rect centerRect, string text, GUIStyle style, Color borderColor, Color innerColor, int borderWidth)
+		public static void DrawTextWithOutline(Rect centerRect, string text, GUIStyle style, Color borderColor, Color innerColor, int borderWidth, string outlineText = null)
 		{
+			if (outlineText == null)
+				outlineText = text;
+
 			// assign the border color
 			style.normal.textColor = borderColor;
 
@@ -102,28 +106,28 @@ namespace Thanking.Utilities
 			while (modRect.x <= centerRect.x + borderWidth)
 			{
 				modRect.x++;
-				GUI.Label(modRect, text, style);
+				GUI.Label(modRect, outlineText, style);
 			}
 
 			// stamp copies from the top right corner to the bottom right corner
 			while (modRect.y <= centerRect.y + borderWidth)
 			{
 				modRect.y++;
-				GUI.Label(modRect, text, style);
+				GUI.Label(modRect, outlineText, style);
 			}
 
 			// stamp copies from the bottom right corner to the bottom left corner
 			while (modRect.x >= centerRect.x - borderWidth)
 			{
 				modRect.x--;
-				GUI.Label(modRect, text, style);
+				GUI.Label(modRect, outlineText, style);
 			}
 
 			// stamp copies from the bottom left corner to the top left corner
 			while (modRect.y >= centerRect.y - borderWidth)
 			{
 				modRect.y--;
-				GUI.Label(modRect, text, style);
+				GUI.Label(modRect, outlineText, style);
 			}
 
 			// draw the inner color version in the center
@@ -137,7 +141,7 @@ namespace Thanking.Utilities
 		public static string ColorToHex(Color32 color) =>
 			color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + color.a.ToString("X2");
 
-		public static void DrawLabel(Font Font, LabelLocation Location, Vector2 W2SVector, string Content, Color BorderColor, Color InnerColor, int BorderWidth)
+		public static void DrawLabel(Font Font, LabelLocation Location, Vector2 W2SVector, string Content, Color BorderColor, Color InnerColor, int BorderWidth, string outerContent = null)
 		{
 			GUIContent gcontent = new GUIContent(Content);
 			GUIStyle LabelStyle = new GUIStyle
@@ -207,7 +211,7 @@ namespace Thanking.Utilities
 			if (rect.x + 10 > Screen.width || rect.y + 10 > Screen.height)
 				return;
 
-			DrawTextWithOutline(rect, gcontent.text, LabelStyle, BorderColor, InnerColor, BorderWidth);
+			DrawTextWithOutline(rect, gcontent.text, LabelStyle, BorderColor, InnerColor, BorderWidth, outerContent);
 		}
 
 		public static Vector2 GetW2SVector(Camera cam, Bounds b, LabelLocation location)

@@ -95,7 +95,7 @@ namespace Thanking.Utilities
 					Object.Destroy(go);
 					if (hPos != Vector3.zero)
 					{
-						if (!Provider.modeConfigData.Gameplay.Ballistics)
+						//if (!Provider.modeConfigData.Gameplay.Ballistics)
 							//PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
 
 						Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(WeaponCoroutines.CheckForDeath(closestPlayer));

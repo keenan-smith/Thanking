@@ -63,9 +63,10 @@ namespace Thanking.Components.UI
 
 
 				string text = "";
-				
+				string outerText = null;
+
 				Bounds b = obj.Target == ESPTarget.Players
-					? new Bounds(position, go.transform.localScale)
+					? new Bounds(go.transform.position + new Vector3(0, 1.1f, 0), go.transform.localScale + new Vector3(0, .95f, 0))
 					: go.GetComponent<Collider>().bounds;
 				
 				int size = DrawUtilities.GetTextSize(visual, dist);
@@ -146,7 +147,8 @@ namespace Thanking.Components.UI
 						{
 							InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
 
-							text = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle)}\n{rounded}</size>";
+							text = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle, true)}\n{rounded}</size>";
+							outerText = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle, false)}\n{rounded}</size>";
 							break;
 						}
 					#endregion
@@ -164,7 +166,8 @@ namespace Thanking.Components.UI
 						{
 							InteractableGenerator gen = (InteractableGenerator)obj.Object;
 
-							text = $"<size={size}>Generator\n{gen.fuel / gen.capacity}%\n{GetPowered(gen)}\n{rounded}</size>";
+							text = $"<size={size}>Generator\n{gen.fuel / gen.capacity}%\n{GetPowered(gen, true)}\n{rounded}</size>";
+							outerText = $"<size={size}>Generator\n{gen.fuel / gen.capacity}%\n{GetPowered(gen, false)}\n{rounded}</size>";
 							break;
 						}
 						#endregion
@@ -183,7 +186,7 @@ namespace Thanking.Components.UI
                 if (visual.Labels)
                 {
                     Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
-                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength);
+                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength, outerText);
                 }
 
 				if (visual.LineToObject)
@@ -241,10 +244,10 @@ namespace Thanking.Components.UI
 			? Assets.find(EAssetType.ITEM, DisplayItem.id).name
 			: "<color=#ff0000ff>No Item</color>";
 
-		public static String GetLocked(InteractableVehicle Vehicle) =>
-			Vehicle.isLocked ? "<color=#ff0000ff>LOCKED</color>" : "<color=#00ff00ff>UNLOCKED</color>";
+		public static String GetLocked(InteractableVehicle Vehicle, bool color) =>
+			Vehicle.isLocked ? color ? "<color=#ff0000ff>LOCKED</color>" : "LOCKED" : color ? "<color=#00ff00ff>UNLOCKED</color>" : "LOCKED";
 
-		public static String GetPowered(InteractableGenerator Generator) =>
-			Generator.isPowered ? "<color=#00ff00ff>ON</color>" : "<color=#ff0000ff>OFF</color>";
+		public static String GetPowered(InteractableGenerator Generator, bool color) =>
+			Generator.isPowered ? color ? "<color=#00ff00ff>ON</color>" : "ON" : color ? "<color=#ff0000ff>OFF</color>" : "OFF";
 	}
 }
