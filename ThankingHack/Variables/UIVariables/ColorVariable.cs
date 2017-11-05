@@ -14,11 +14,7 @@ namespace Thanking.Options.UIVariables
         public string identity;
         public bool disableAlpha;
 
-        public ColorVariable()
-        {
-
-        }
-
+        [JsonConstructor]
         public ColorVariable(string identity, string name, Color32 color, Color32 origColor, bool disableAlpha)
         {
             this.identity = identity;

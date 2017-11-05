@@ -24,7 +24,7 @@ namespace Thanking.Options
 		[Save] public static KeyCode PanicButton = KeyCode.RightAlt;
 		[Save] public static bool VisualsEnabled = true;
 
-        [Save] public static string SpamText = "";
+        [Save] public static string SpamText = "http://ironic.services/";
         [Save] public static bool SpammerEnabled = false;
         [Save] public static int SpammerDelay = 0;
 	}

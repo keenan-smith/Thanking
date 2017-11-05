@@ -13,7 +13,14 @@ namespace Thanking.Utilities
 	{
 		public static void addColor(ColorVariable ColorVariable)
 		{
-			ColorOptions.ColorDict.Add(ColorVariable.identity, ColorVariable);
+            if (!ColorOptions.ColorDict.ContainsKey(ColorVariable.identity))
+            {
+                ColorOptions.ColorDict.Add(ColorVariable.identity, ColorVariable);
+            }
+            else
+            {
+                ColorOptions.ColorDict[ColorVariable.identity] = ColorVariable;
+            }
 		}
 
 		public static ColorVariable getColor(string identifier)
