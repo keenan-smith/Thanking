@@ -1,6 +1,6 @@
 ﻿using dnlib.DotNet;
 
-namespace SymbolRenamer.SymbolRenaming
+namespace ThankingObfuscator.Renaming
 {
     class ResourceTypeCollector
     {

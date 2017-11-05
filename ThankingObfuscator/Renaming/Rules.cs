@@ -1,6 +1,6 @@
 ﻿using dnlib.DotNet;
 
-namespace SymbolRenamer.SymbolRenaming
+namespace ThankingObfuscator.Renaming
 {
     public static class Rules
     {
@@ -18,7 +18,7 @@ namespace SymbolRenamer.SymbolRenaming
                 type.Name == "VoidCodeAttribute" ||
                 type.InheritsFrom("System.Configuration.SettingsBase") ||
                 type.IsImport || 
-				type.Name == "")
+				type.Name == "Loader")
                 return false;
             return true;
         }

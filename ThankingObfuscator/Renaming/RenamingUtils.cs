@@ -2,7 +2,7 @@
 using System.Linq;
 using dnlib.DotNet;
 
-namespace SymbolRenamer.SymbolRenaming
+namespace ThankingObfuscator.Renaming
 {
     public static class RenamingUtils
     {

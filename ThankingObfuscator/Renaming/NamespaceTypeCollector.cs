@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using dnlib.DotNet;
 
-namespace SymbolRenamer.SymbolRenaming
+namespace ThankingObfuscator.Renaming
 {
     class NamespaceTypeCollector
     {

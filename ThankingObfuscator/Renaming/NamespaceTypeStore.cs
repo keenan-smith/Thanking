@@ -1,4 +1,9 @@
-﻿namespace SymbolRenamer.SymbolRenaming
+﻿﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ThankingObfuscator.Renaming
 {
     class NamespaceTypeStore
     {
