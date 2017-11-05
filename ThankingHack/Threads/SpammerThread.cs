@@ -11,7 +11,7 @@ namespace Thanking.Threads
 {
     public static class SpammerThread
     {
-        [Thread]
+        //[Thread]
         public static void Start()
         {
             while(true)

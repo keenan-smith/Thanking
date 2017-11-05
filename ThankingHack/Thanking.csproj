@@ -105,6 +105,7 @@
     <Compile Include="Components\UI\WeaponComponent.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
+    <Compile Include="Coroutines\MiscCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Coroutines\WeaponCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />

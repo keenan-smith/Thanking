@@ -7,5 +7,6 @@ namespace Thanking.Components.Basic
 	public class CoroutineComponent : MonoBehaviour
 	{
 		public static Coroutine ESPCoroutine;
+        public static Coroutine SpammerCoroutine;
 	}
 }

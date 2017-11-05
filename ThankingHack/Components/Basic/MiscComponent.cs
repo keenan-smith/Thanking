@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Thanking.Attributes;
+using Thanking.Coroutines;
 using UnityEngine;
 
 namespace Thanking.Components.Basic
@@ -12,7 +13,7 @@ namespace Thanking.Components.Basic
     {
         public void Start()
         {
-
+            CoroutineComponent.SpammerCoroutine = StartCoroutine(MiscCoroutines.Spammer());
         }
     }
 }
