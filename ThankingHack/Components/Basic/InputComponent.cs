@@ -72,12 +72,6 @@ namespace Thanking.Components.Basic
 					}
 				}
 			}
-
-			if (Input.GetKeyDown(KeyCode.KeypadMinus))
-				Profiler.Start();
-
-			if (Input.GetKeyDown(KeyCode.KeypadPeriod))
-				Profiler.Dump();
 		}
 	}
 }
