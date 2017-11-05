@@ -39,18 +39,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Protection\AntiTamper\EOFAntiTamp.cs" />
-    <Compile Include="Protection\AntiTamper\EOFHelper.cs" />
+    <Compile Include="Protection\JunkCode\MalformedMethodGenerator.cs" />
     <Compile Include="Renaming\NamespaceTypeCollector.cs" />
     <Compile Include="Renaming\NamespaceTypeStore.cs" />
     <Compile Include="Renaming\RenamingUtils.cs" />
-    <Compile Include="Renaming\ResourceRenaming.cs" />
     <Compile Include="Renaming\ResourceTypeCollector.cs" />
     <Compile Include="Renaming\Rules.cs" />
     <Compile Include="Renaming\Symbols.cs" />

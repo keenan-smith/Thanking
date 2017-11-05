@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace SymbolRenamer.SymbolRenaming
+namespace ThankingObfuscator.Renaming
 {
     public static class RenamingUtils
     {

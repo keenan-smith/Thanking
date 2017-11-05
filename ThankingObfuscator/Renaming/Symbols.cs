@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SymbolRenamer.SymbolRenaming
+namespace ThankingObfuscator.Renaming
 {
     class Symbols
     {
@@ -46,7 +46,7 @@ namespace SymbolRenamer.SymbolRenaming
         /// Generate a random string from one of the symbol charsets.
         /// </summary>
         /// <returns>Random string.</returns>
-        private static string GenerateName()
+        public static string GenerateName()
         {
 
             // The charset which holds the characters allowed for renaming 
@@ -125,9 +125,6 @@ namespace SymbolRenamer.SymbolRenaming
         {
             foreach (TypeDef type in module.GetTypes())
             {
-                // Collector Namespaces and underlaying types
-                StoreNamespace(type);
-
                 // Rename properties
                 foreach (PropertyDef property in type.Properties)
 					if (property.IsRenameable())
@@ -147,7 +144,7 @@ namespace SymbolRenamer.SymbolRenaming
 				foreach (EventDef @event in type.Events)
 					if (@event.IsRenameable())
 						@event.Name = GenerateName();
-
+				
 				// Rename types
 				if (type.IsRenameable())
                 {
@@ -155,17 +152,9 @@ namespace SymbolRenamer.SymbolRenaming
                     CheckAssociatedResourceTypes(type);
                     type.Name = GenerateName();
                     RenameResourceManager(type);
-                }
-            }
 
-            // Rename namespaces
-            foreach (NamespaceTypeCollector ns in namespaceTypeColelctor)
-            {
-                string newName = GenerateName();
-                var types = ns.Types;
-                foreach (var typ in types)
-					if (typ.Namespace != "Thanking")
-						typ.Namespace = newName;
+					type.Namespace = GenerateName();
+				}
             }
 
             // Rename resources
