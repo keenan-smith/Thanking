@@ -36,7 +36,9 @@ namespace Thanking.Components.UI
 
 			if (!Provider.isConnected || Provider.isLoading)
 				return;
-			
+
+			GUI.depth = 1;
+
 			for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
