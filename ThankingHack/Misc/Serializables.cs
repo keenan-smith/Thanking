@@ -39,22 +39,13 @@ namespace Thanking.Misc
 			a = 255;
 		}
 
-        public static implicit operator Color32(SerializableColor color)
-        {
-            return color.ToColor();
-        }
+        public static implicit operator Color32(SerializableColor color) => color.ToColor();
 
-        public static implicit operator Color(SerializableColor color)
-        {
-            return color.ToColor();
-        }
+		public static implicit operator Color(SerializableColor color) => color.ToColor();
 
-        public static implicit operator SerializableColor(Color32 color)
-        {
-            return color.ToSerializableColor();
-        }
+		public static implicit operator SerializableColor(Color32 color) => color.ToSerializableColor();
 
-        public Color32 ToColor() =>
+		public Color32 ToColor() =>
 			new Color32((byte)r, (byte)g, (byte)b, (byte)a);
 	}
 }
