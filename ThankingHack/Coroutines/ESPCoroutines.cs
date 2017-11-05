@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Thanking.Attributes;
 using Thanking.Options.VisualOptions;
+using Thanking.Overrides;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
@@ -11,8 +13,128 @@ using UnityEngine;
 namespace Thanking.Coroutines
 {
 	public static class ESPCoroutines
-	{
-		public static IEnumerator UpdateObjectList()
+    {
+        public static Shader LitChams;
+        public static Shader UnlitChams;
+        public static Shader Normal;
+
+        public static IEnumerator DoChams()
+        {
+            while (true)
+            {
+                if (!Provider.isConnected || Provider.isLoading || LoadingUI.isBlocked ||
+                    Player.player == null || Provider.clients == null || Provider.clients.Count < 1 || PlayerCoroutines.IsSpying || UnlitChams == null)
+                {
+                    yield return new WaitForSeconds(1f);
+
+                    continue;
+                }
+                try
+                {
+                    if (ESPOptions.ChamsEnabled)
+                    {
+                        EnableChams();
+                    }
+                    else
+                    {
+                        DisableChams();
+                    }
+                }
+                catch(Exception e) { Debug.LogException(e); }
+                yield return new WaitForSeconds(5);
+            }
+        }
+
+        public static void DoChamsGameObject(GameObject pgo, Color32 front, Color32 behind)
+        {
+            if (UnlitChams == null) return;
+
+            Renderer[] rds = pgo.GetComponentsInChildren<Renderer>();
+
+            for (int j = 0; j < rds.Length; j++)
+            {
+                if (rds[j].material.shader != LitChams | UnlitChams)
+                {
+                    Material[] materials = rds[j].materials;
+
+                    for (int k = 0; k < materials.Length; k++)
+                    {
+                        if (materials[k].shader != (ESPOptions.ChamsFlat ? UnlitChams : LitChams))
+                        {
+                            if (ESPOptions.ChamsFlat)
+                            {
+                                materials[k].shader = UnlitChams;
+                                materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
+                                materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
+                            }
+                            else
+                            {
+                                materials[k].shader = LitChams;
+                                materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
+                                materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        [OffSpy]
+        public static void EnableChams()
+        {
+            if (ESPOptions.ChamsEnabled)
+            {
+                Color32 friendly_front = new Color32(0, 255, 0, 255);
+                Color32 friendly_back = new Color32(0, 0, 255, 255);
+                Color32 enemy_front = new Color32(255, 255, 0, 255);
+                Color32 enemy_back = new Color32(255, 0, 0, 255);
+
+                SteamPlayer[] players = Provider.clients.ToArray();
+                for (int index = 0; index < players.Length; index++)
+                {
+                    SteamPlayer p = players[index];
+                    Color32 front = FriendUtilities.IsFriendly(p.player) ? friendly_front : enemy_front;
+                    Color32 back = FriendUtilities.IsFriendly(p.player) ? friendly_back : enemy_back;
+
+                    Player plr = p.player;
+
+                    if (plr == null || plr == Player.player || plr.gameObject == null || plr.life == null ||
+                        plr.life.isDead) continue;
+
+                    GameObject pgo = plr.gameObject;
+                    DoChamsGameObject(pgo, front, back);
+                }
+            }
+        }
+
+        [OnSpy]
+        public static void DisableChams()
+        {
+            if (Normal == null) return;
+
+            for (int index = 0; index < Provider.clients.ToArray().Length; index++)
+            {
+                Player plr = Provider.clients.ToArray()[index].player;
+
+                if (plr == null || plr == Player.player || plr.gameObject == null || plr.life == null ||
+                    plr.life.isDead) continue;
+
+                GameObject pgo = plr.gameObject;
+
+                Renderer[] renderers = pgo.GetComponentsInChildren<Renderer>();
+
+                for (int j = 0; j < renderers.Length; j++)
+                {
+                    Material[] materials = renderers[j].materials;
+
+                    for (int k = 0; k < materials.Length; k++)
+                        if (materials[k].shader != Normal)
+                            materials[k].shader = Normal;
+                }
+            }
+        }
+
+        public static IEnumerator UpdateObjectList()
 		{
 			while (true)
 			{

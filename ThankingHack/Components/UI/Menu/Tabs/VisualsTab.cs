@@ -64,12 +64,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 
             Prefab.MenuArea(new Rect(225 + 5, 0, 466 - 225 - 5, 245), "OTHER", () =>
             {
-                Prefab.SectionTabButton("Spammer", () =>
-                {
-                    GUILayout.Space(5);
-                    
-                });
-
                 Prefab.SectionTabButton("Radar", () =>
                 {
                     GUILayout.Label("lol");
@@ -84,6 +78,8 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(225 + 5, 120 + 5 + 120 + 5, 466 - 225 - 5, 436 - 245 - 5), "TOGGLE", () =>
             {
                 Prefab.Toggle("ESP", ref ESPOptions.Enabled);
+                Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled);
+                Prefab.Toggle("Flat Chams", ref ESPOptions.ChamsFlat);
                 Prefab.Toggle("No Rain", ref MiscOptions.NoRain);
                 Prefab.Toggle("No Snow", ref MiscOptions.NoSnow);
             });
@@ -113,6 +109,8 @@ namespace Thanking.Components.UI.Menu.Tabs
             GUILayout.Space(3);
             GUILayout.Label("ESP Distance: " + Mathf.RoundToInt(ESPOptions.VisualOptions[target].Distance), Prefab._TextStyle);
             Prefab.Slider(0, 4000, ref ESPOptions.VisualOptions[target].Distance, 200);
+            GUILayout.Space(3);
+            //ESPOptions.VisualOptions[target]
             GUILayout.Space(3);
             GUIContent[] LabelLocations = new GUIContent[] { new GUIContent("Top Right"), new GUIContent("Top Middle"), new GUIContent("Top Left"), new GUIContent("Middle Right"), new GUIContent("Center"), new GUIContent("Middle Left"), new GUIContent("Bottom Right"), new GUIContent("Bottom Middle"), new GUIContent("Bottom Left"), };
             if (Prefab.List(200, "_LabelLocations", new GUIContent("Label Location: " + LabelLocations[DropDown.Get("_LabelLocations").ListIndex].text), LabelLocations))

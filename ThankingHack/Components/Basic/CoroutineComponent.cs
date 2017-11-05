@@ -8,5 +8,6 @@ namespace Thanking.Components.Basic
 	{
 		public static Coroutine ESPCoroutine;
         public static Coroutine SpammerCoroutine;
-	}
+        public static Coroutine ChamsCoroutine;
+    }
 }

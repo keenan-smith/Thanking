@@ -82,7 +82,7 @@
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
     <Compile Include="Attributes\InitializerAttribute.cs" />
-    <Compile Include="Attributes\OnSpyAttribute.cs" />
+    <Compile Include="Attributes\SpyAttributes.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
@@ -125,7 +125,6 @@
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
-    <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
@@ -157,6 +156,7 @@
     <Compile Include="Wrappers\OverrideWrapper.cs" />
     <Compile Include="Utilities\RaycastUtilities.cs" />
     <Compile Include="Utilities\SphereUtilities.cs" />
+    <Compile Include="Utilities\FriendUtilities.cs"></Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
