@@ -27,6 +27,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = true,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = false,
 
 				Distance = 500,
 				Location = LabelLocation.BottomMiddle,
@@ -36,7 +37,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 17,
 				MinTextSizeDistance = 900,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Players
 
 			new ESPVisual
@@ -48,6 +50,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = true,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 500,
 				Location = LabelLocation.BottomMiddle,
@@ -57,7 +60,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 17,
 				MinTextSizeDistance = 900,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Zombies
 
 			new ESPVisual
@@ -69,6 +73,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 250,
 				Location = LabelLocation.BottomMiddle,
@@ -78,7 +83,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 14,
 				MinTextSizeDistance = 800,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Items
 
 			new ESPVisual
@@ -90,6 +96,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 250,
 				Location = LabelLocation.BottomMiddle,
@@ -99,7 +106,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Sentries
 
 			new ESPVisual
@@ -111,6 +119,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 250,
 				Location = LabelLocation.BottomMiddle,
@@ -120,7 +129,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Beds
 
 			new ESPVisual
@@ -132,6 +142,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 250,
 				Location = LabelLocation.BottomMiddle,
@@ -141,7 +152,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Claim Flags
 
 			new ESPVisual
@@ -153,6 +165,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 250,
 				Location = LabelLocation.BottomMiddle,
@@ -162,7 +175,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Vehicles
 
 			new ESPVisual
@@ -174,6 +188,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 250,
 				Location = LabelLocation.BottomMiddle,
@@ -183,7 +198,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			}, //Storage
 
 			new ESPVisual
@@ -195,6 +211,7 @@ namespace Thanking.Options.VisualOptions
 				InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
+				UseObjectCap = true,
 
 				Distance = 250,
 				Location = LabelLocation.BottomMiddle,
@@ -204,7 +221,8 @@ namespace Thanking.Options.VisualOptions
 				MinTextSize = 8,
 				MaxTextSize = 11,
 				MinTextSizeDistance = 800,
-				BorderStrength = 2
+				BorderStrength = 2,
+				ObjectCap = 24,
 			} //Generators
 		};
 

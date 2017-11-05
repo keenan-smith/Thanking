@@ -48,6 +48,10 @@
     <DefineConstants>Private</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=1.0.9.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Assembly-CSharp.dll</HintPath>
@@ -82,12 +86,11 @@
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
     <Compile Include="Attributes\InitializerAttribute.cs" />
-    <Compile Include="Attributes\SpyAttributes.cs" />
+    <Compile Include="Attributes\OnSpyAttribute.cs" />
     <Compile Include="Attributes\OverrideAttribute.cs" />
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
-    <Compile Include="Components\Basic\ChamsComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
@@ -125,8 +128,9 @@
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
+    <Compile Include="Overrides\OV_MenuPauseUI.cs" />
+    <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
-    <Compile Include="Utilities\FriendUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
@@ -159,6 +163,7 @@
     <Compile Include="Utilities\SphereUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Libraries\0Harmony.dll" />
     <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
     <Content Include="Libraries\Assembly-CSharp.dll" />
     <Content Include="Libraries\Newtonsoft.Json.dll" />

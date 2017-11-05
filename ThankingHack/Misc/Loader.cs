@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Thanking.Managers.Main;
+using Thanking.Misc;
 using UnityEngine;
 
 namespace Thanking

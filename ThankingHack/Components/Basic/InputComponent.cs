@@ -4,6 +4,7 @@ using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Components.UI;
 using Thanking.Managers.Main;
+using Thanking.Misc;
 using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Options.VisualOptions;

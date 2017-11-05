@@ -36,7 +36,9 @@ namespace Thanking.Components.UI
 
 			if (!Provider.isConnected || Provider.isLoading)
 				return;
-			
+
+			GUI.depth = 1;
+
 			for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
@@ -66,7 +68,7 @@ namespace Thanking.Components.UI
 				string outerText = null;
 
 				Bounds b = obj.Target == ESPTarget.Players
-					? new Bounds(go.transform.position + new Vector3(0, 1.1f, 0), go.transform.localScale + new Vector3(0, .95f, 0))
+					? new Bounds(go.transform.position + new Vector3(0, 1.1f, 0), go.transform.localScale + new Vector3(0.2f, 1.1f, 0))
 					: go.GetComponent<Collider>().bounds;
 				
 				int size = DrawUtilities.GetTextSize(visual, dist);

@@ -26,6 +26,7 @@ namespace Thanking.Components.UI
 			if (!(Player.player.equipment.asset is ItemGunAsset))
 				return;
 
+			GUI.depth = 0;
 			ItemGunAsset PAsset = Player.player.equipment.asset as ItemGunAsset;
 			string text = "<size=15>";
 			text += (PAsset.itemName + "\n");

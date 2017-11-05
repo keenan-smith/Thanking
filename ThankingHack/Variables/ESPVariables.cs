@@ -39,6 +39,7 @@ namespace Thanking.Variables
 		public bool InfiniteDistance;
 		public bool LineToObject;
 		public bool TextScaling;
+		public bool UseObjectCap;
 
 		public SerializableColor Color;
 		public LabelLocation Location;
@@ -49,6 +50,7 @@ namespace Thanking.Variables
 		public int FixedTextSize;
 		public int MinTextSize;
 		public int MaxTextSize;
+		public int ObjectCap;
 
 		public ESPVisual() { }
 	}
