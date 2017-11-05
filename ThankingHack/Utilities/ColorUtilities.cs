@@ -17,10 +17,6 @@ namespace Thanking.Utilities
             {
                 ColorOptions.ColorDict.Add(ColorVariable.identity, ColorVariable);
             }
-            else
-            {
-                ColorOptions.ColorDict[ColorVariable.identity] = ColorVariable;
-            }
 		}
 
 		public static ColorVariable getColor(string identifier)
