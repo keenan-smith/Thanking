@@ -13,11 +13,14 @@ namespace Thanking.Coroutines
     {
         public static IEnumerator Spammer()
         {
-            if (MiscOptions.SpammerEnabled)
+            while(true)
             {
-                ChatManager.sendChat(EChatMode.GLOBAL, MiscOptions.SpamText);
+                if (MiscOptions.SpammerEnabled)
+                {
+                    ChatManager.sendChat(EChatMode.GLOBAL, MiscOptions.SpamText);
+                }
+                yield return new WaitForSecondsRealtime(MiscOptions.SpammerDelay / 1000);
             }
-            yield return new WaitForSecondsRealtime(MiscOptions.SpammerDelay);
         }
     }
 }
