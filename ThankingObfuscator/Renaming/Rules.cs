@@ -57,7 +57,7 @@ namespace ThankingObfuscator.Renaming
                 field.IsSpecialName ||
                 field.DeclaringType.HasGenericParameters ||
                 field.IsPinvokeImpl ||
-                (field.DeclaringType.IsSerializable && !field.IsNotSerialized))
+                field.DeclaringType.IsSerializable && !field.IsNotSerialized)
                 return false;
             return true;
         }

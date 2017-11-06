@@ -215,7 +215,7 @@ namespace Thanking.Components.UI.Menu
             if (Event.current.type == EventType.Repaint)
             {
                 bool hover = area.Contains(Event.current.mousePosition);
-                bool active = (hover && Input.GetMouseButton(0));
+                bool active = hover && Input.GetMouseButton(0);
                 _TextStyle.Draw(new Rect(area.x + 20, area.y, 130, boxsize), text, hover, active, false, false);
             }
             _TextStyle.fontSize = lastfontsize;
@@ -329,7 +329,7 @@ namespace Thanking.Components.UI.Menu
                 GUILayout.EndHorizontal();
                 GUILayout.Space(1);
                 Drawing.DrawRect(new Rect(rects.x + rects.width - 16, rects.y, 16, rects.height), MenuComponent._FillLightBlack);
-                if ((inner.height - rects.height) > 0)
+                if (inner.height - rects.height > 0)
                     VerticalSlider(new Rect(rects.x + 4, rects.y + 8, 12, rects.height - 14), 0, inner.height - rects.height, ref scrollpos.y);
             }
             GUILayout.EndArea();

@@ -26,7 +26,7 @@ namespace Thanking.Overrides
         {
             if (RaycastOptions.Enabled)
             {
-                ItemGunAsset PAsset = ((ItemGunAsset)Player.player.equipment.asset);
+                ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
                 if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
                     return;
 
@@ -43,19 +43,21 @@ namespace Thanking.Overrides
 
                         if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
                         {
-							if (PAsset.ballisticTravel < 32f)
-								Trace.Invoke(PlayerUse, new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir });
-							else
-								Trace.Invoke(PlayerUse, new object[] { bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir });
-						}
-
-                        if (bulletInfo.steps * PAsset.ballisticTravel >= distance && ri.point != Vector3.zero)
-                        {
-                            EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
-                            PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-                            Player.player.input.sendRaycast(ri);
-                            bulletInfo.steps = 254;
+	                        Trace.Invoke(PlayerUse,
+		                        PAsset.ballisticTravel < 32f
+			                        ? new object[] {bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir}
+			                        : new object[]
+			                        {
+				                        bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir
+			                        });
                         }
+
+	                    if (!(bulletInfo.steps * PAsset.ballisticTravel >= distance) || ri.point == Vector3.zero) continue;
+	                    
+	                    EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
+	                    PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
+	                    Player.player.input.sendRaycast(ri);
+	                    bulletInfo.steps = 254;
                     }
                     
 
@@ -102,49 +104,54 @@ namespace Thanking.Overrides
                     if (component != null)
 						ri.transform = component.transform.parent.parent;
 
-					ushort id;
-                    if (ushort.TryParse(ri.transform.name, out id))
-                    {
-                        ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset)Assets.find(EAssetType.ITEM, id);
-                        if (itemBarricadeAsset != null && (itemBarricadeAsset.isVulnerable || PAsset.isInvulnerable))
-							if (eplayerhit == EPlayerHit.NONE)
-								eplayerhit = EPlayerHit.BUILD;
-					}
+	                if (!ushort.TryParse(ri.transform.name, out ushort id)) return eplayerhit;
+	                
+	                ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset)Assets.find(EAssetType.ITEM, id);
+	                
+	                if (itemBarricadeAsset == null || !itemBarricadeAsset.isVulnerable && !PAsset.isInvulnerable)
+		                return eplayerhit;
+	                
+	                if (eplayerhit == EPlayerHit.NONE)
+		                eplayerhit = EPlayerHit.BUILD;
                 }
                 else if (ri.transform.CompareTag("Structure") && PAsset.structureDamage > 1f)
                 {
-                    ushort id2;
-                    if (ushort.TryParse(ri.transform.name, out id2))
-                    {
-                        ItemStructureAsset itemStructureAsset = (ItemStructureAsset)Assets.find(EAssetType.ITEM, id2);
-                        if (itemStructureAsset != null && (itemStructureAsset.isVulnerable || PAsset.isInvulnerable))
-							if (eplayerhit == EPlayerHit.NONE)
-								eplayerhit = EPlayerHit.BUILD;
-					}
+	                if (!ushort.TryParse(ri.transform.name, out ushort id2)) return eplayerhit;
+	                
+	                ItemStructureAsset itemStructureAsset = (ItemStructureAsset)Assets.find(EAssetType.ITEM, id2);
+
+	                if (itemStructureAsset == null || !itemStructureAsset.isVulnerable && !PAsset.isInvulnerable)
+		                return eplayerhit;
+	                
+	                if (eplayerhit == EPlayerHit.NONE)
+		                eplayerhit = EPlayerHit.BUILD;
                 }
                 else if (ri.transform.CompareTag("Resource") && PAsset.resourceDamage > 1f)
                 {
-                    byte x;
-                    byte y;
-                    ushort index;
-                    if (ResourceManager.tryGetRegion(ri.transform, out x, out y, out index))
-                    {
-                        ResourceSpawnpoint resourceSpawnpoint = ResourceManager.getResourceSpawnpoint(x, y, index);
-                        if (resourceSpawnpoint != null && !resourceSpawnpoint.isDead && resourceSpawnpoint.asset.bladeID == PAsset.bladeID)
-							if (eplayerhit == EPlayerHit.NONE)
-								eplayerhit = EPlayerHit.BUILD;
-					}
+	                if (!ResourceManager.tryGetRegion(ri.transform, out byte x, out byte y, out ushort index))
+		                return eplayerhit;
+	                
+	                ResourceSpawnpoint resourceSpawnpoint = ResourceManager.getResourceSpawnpoint(x, y, index);
+
+	                if (resourceSpawnpoint == null || resourceSpawnpoint.isDead ||
+	                    resourceSpawnpoint.asset.bladeID != PAsset.bladeID) return eplayerhit;
+	                
+	                if (eplayerhit == EPlayerHit.NONE)
+		                eplayerhit = EPlayerHit.BUILD;
                 }
                 else if (PAsset.objectDamage > 1f)
                 {
                     InteractableObjectRubble component2 = ri.transform.GetComponent<InteractableObjectRubble>();
-                    if (component2 != null)
-                    {
-                        ri.section = component2.getSection(ri.collider.transform);
-                        if (!component2.isSectionDead(ri.section) && (component2.asset.rubbleIsVulnerable || PAsset.isInvulnerable))
-							if (eplayerhit == EPlayerHit.NONE)
-								eplayerhit = EPlayerHit.BUILD;
-					}
+	                
+	                if (component2 == null) return eplayerhit;
+	                
+	                ri.section = component2.getSection(ri.collider.transform);
+
+	                if (component2.isSectionDead(ri.section) ||
+	                    !component2.asset.rubbleIsVulnerable && !PAsset.isInvulnerable) return eplayerhit;
+	                
+	                if (eplayerhit == EPlayerHit.NONE)
+		                eplayerhit = EPlayerHit.BUILD;
                 }
             }
             else if (ri.vehicle && !ri.vehicle.isDead && PAsset.vehicleDamage > 1f)
