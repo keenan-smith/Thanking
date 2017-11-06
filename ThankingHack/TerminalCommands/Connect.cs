@@ -12,19 +12,17 @@ namespace Thanking.TerminalCommands
         [Initializer]
         public static void RegisterCommand()
         {
-            TerminalCommandMethodInfo MInfo = new TerminalCommandMethodInfo("connect", "connect a server",
+            TerminalCommandMethodInfo MInfo = new TerminalCommandMethodInfo("thanking.connect", "connect a server",
                 typeof(Connect).GetMethod("DoConnection", ReflectionVariables.PublicStatic));
 
-            TerminalCommandParameterInfo IPInfo =
-                new TerminalCommandParameterInfo("IP", "IP of server to connect to", typeof(String), "127.0.0.0");
+            TerminalCommandParameterInfo[] Properties =
+            {
+                new TerminalCommandParameterInfo("IP", "IP of server to connect to", typeof(String), "127.0.0.1"),
+                new TerminalCommandParameterInfo("Port", "Port of server to connect to", typeof(ushort), "27045"),
+                new TerminalCommandParameterInfo("Password", "Password of server to connect to", typeof(String), "")
+            };
 
-            TerminalCommandParameterInfo PortInfo =
-                new TerminalCommandParameterInfo("Port", "Port of server to connect to", typeof(ushort), "27045");
-
-            TerminalCommandParameterInfo PasswordInfo =
-                new TerminalCommandParameterInfo("Password", "Password of server to connect to", typeof(String), "");
-
-            TerminalCommand ConnectCommand = new TerminalCommand(MInfo, new[] {IPInfo, PortInfo, PasswordInfo});
+            TerminalCommand ConnectCommand = new TerminalCommand(MInfo, Properties);
             
             Terminal.registerCommand(ConnectCommand);
         }
