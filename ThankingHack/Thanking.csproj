@@ -124,6 +124,7 @@
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
+    <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />

@@ -12,13 +12,13 @@ namespace Thanking
         public static void Hook()
         {
             #if DEBUG
+            DebugUtilities.Init();
 			DebugUtilities.Log("Initializing Thanking...");
             #endif        
     
 			HookObject = new GameObject();
 			Object.DontDestroyOnLoad(HookObject);
-
-            DebugUtilities.Init();
+            
 			ConfigManager.Init();
 			AttributeManager.Init();
 			AssetManager.Init();
