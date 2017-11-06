@@ -109,6 +109,7 @@
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Main\PacketManager.cs" />
     <Compile Include="Managers\Submanagers\InitializationManager.cs" />
+    <Compile Include="Managers\Submanagers\SpyManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Loader.cs" />
     <Compile Include="Managers\Main\ConfigManager.cs" />
