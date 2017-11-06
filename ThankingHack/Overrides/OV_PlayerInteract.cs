@@ -127,9 +127,9 @@ namespace Thanking.Overrides
 
 					lastInteract = Time.realtimeSinceStartup;
 					if (Player.player.look.isCam)
-						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), out hit, 20f, Mask, 0);
+						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), out hit, 20f, Mask);
 					else
-						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? 20 : 24), Mask, 0);
+						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? 20 : 24), Mask);
 				}
 				if (hit.transform != focus)
 				{

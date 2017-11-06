@@ -178,12 +178,12 @@ namespace Thanking.Components.UI.Menu
             Prefab.MenuArea(new Rect(18, 370, 125, 91), "CONFIG", () =>
             {
                 GUILayout.Space(5);
-                if (Prefab.Button("Save", 90, 25))
+                if (Prefab.Button("Save", 90))
                 {
                     ConfigManager.SaveConfig(ConfigManager.CollectConfig());
                 }
                 GUILayout.Space(5);
-                if (Prefab.Button("Load", 90, 25))
+                if (Prefab.Button("Load", 90))
                 {
                     ConfigManager.Init();
                     SetGUIColors();
