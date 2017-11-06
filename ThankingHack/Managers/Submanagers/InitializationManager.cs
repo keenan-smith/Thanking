@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Thanking.Attributes;
-using Thanking.Variables;
 
 namespace Thanking.Managers.Submanagers
 {
@@ -9,12 +9,16 @@ namespace Thanking.Managers.Submanagers
 	{
 		public static void Load()
 		{
-			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
-				foreach (Type tClass in asm.GetTypes())
-					if (tClass.IsClass)
-						foreach (MethodInfo method in tClass.GetMethods(ReflectionVariables.Everything))
-							if (method.IsDefined(typeof(InitializerAttribute), false))
-								method.Invoke(null, null);
+			Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
+
+			for (int i = 0; i < Types.Length; i++)
+			{
+				MethodInfo[] Methods = Types[i].GetMethods().Where(M => M.IsDefined(typeof(InitializerAttribute), false))
+					.ToArray();
+
+				for (int o = 0; o < Methods.Length; o++)
+					Methods[o].Invoke(null, null);
+			}
 		}
 	}
 }
