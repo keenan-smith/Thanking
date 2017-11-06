@@ -27,19 +27,20 @@ namespace Thanking.Overrides
 		}
 
 		#region Fields
+
 		public static Transform focus
 		{
 			get =>
-				(Transform)FocusField.GetValue(null);
+				(Transform) FocusField.GetValue(null);
 
-			set => 
+			set =>
 				FocusField.SetValue(null, value);
 		}
-		
+
 		public static Transform target
 		{
 			get =>
-				(Transform)TargetField.GetValue(null);
+				(Transform) TargetField.GetValue(null);
 
 			set =>
 				TargetField.SetValue(null, value);
@@ -48,7 +49,7 @@ namespace Thanking.Overrides
 		public static Interactable interactable
 		{
 			get =>
-				(Interactable)InteractableField.GetValue(null);
+				(Interactable) InteractableField.GetValue(null);
 
 			set =>
 				InteractableField.SetValue(null, value);
@@ -58,7 +59,7 @@ namespace Thanking.Overrides
 		public static Interactable2 interactable2
 		{
 			get =>
-				(Interactable2)Interactable2Field.GetValue(null);
+				(Interactable2) Interactable2Field.GetValue(null);
 
 			set =>
 				Interactable2Field.SetValue(null, value);
@@ -67,16 +68,16 @@ namespace Thanking.Overrides
 		public static ItemAsset purchaseAsset
 		{
 			get =>
-				(ItemAsset)PurchaseAssetField.GetValue(null);
+				(ItemAsset) PurchaseAssetField.GetValue(null);
 
 			set =>
 				PurchaseAssetField.SetValue(null, value);
 		}
 
-		private float salvageTime => 
+		private float salvageTime =>
 			MiscOptions.SalvageTime;
 
-		private void hotkey(byte button) => 
+		private void hotkey(byte button) =>
 			VehicleManager.swapVehicle(button);
 
 		private static bool isHoldingKey;
@@ -92,19 +93,21 @@ namespace Thanking.Overrides
 			if (node == null)
 				purchaseAsset = null;
 			else
-				purchaseAsset = (ItemAsset)Assets.find(EAssetType.ITEM, node.id);
+				purchaseAsset = (ItemAsset) Assets.find(EAssetType.ITEM, node.id);
 		}
 
 		#endregion
 
 		#region Overriden Methods
+
 		[Override(typeof(PlayerInteract), "Update", BindingFlags.NonPublic | BindingFlags.Instance)]
 		private void Update() // i have no idea what any of this does tbh
 		{
 			if (!Provider.isConnected || Provider.isLoading)
 				return;
 
-			if (Player.player.stance.stance != EPlayerStance.DRIVING && Player.player.stance.stance != EPlayerStance.SITTING && !Player.player.life.isDead && !Player.player.workzone.isBuilding)
+			if (Player.player.stance.stance != EPlayerStance.DRIVING && Player.player.stance.stance != EPlayerStance.SITTING &&
+			    !Player.player.life.isDead && !Player.player.workzone.isBuilding)
 			{
 				if (Time.realtimeSinceStartup - lastInteract > 0.1f)
 				{
@@ -126,56 +129,56 @@ namespace Thanking.Overrides
 						Mask = Mask | RayMasks.VEHICLE;
 
 					lastInteract = Time.realtimeSinceStartup;
+
 					if (Player.player.look.isCam)
-						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), out hit, 20f, Mask, 0);
+						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
+							out hit, 20f, Mask);
 					else
-						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? 20 : 24), Mask, 0);
+						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward),
+							out hit, Player.player.look.perspective != EPlayerPerspective.THIRD ? 20 : 24, Mask);
 				}
+				
 				if (hit.transform != focus)
 				{
 					if (focus != null && PlayerInteract.interactable != null)
 					{
 						InteractableDoorHinge component = focus.GetComponent<InteractableDoorHinge>();
-						if (component != null)
-							HighlighterTool.unhighlight(focus.parent.parent);
-						else
-							HighlighterTool.unhighlight(focus);
+
+						HighlighterTool.unhighlight(component != null ? focus.parent.parent : focus);
 					}
+					
 					focus = null;
 					target = null;
 					interactable = null;
 					interactable2 = null;
+					
 					if (hit.transform != null)
 					{
 						focus = hit.transform;
 						interactable = focus.GetComponent<Interactable>();
 						interactable2 = focus.GetComponent<Interactable2>();
+						
 						if (PlayerInteract.interactable != null)
 						{
 							target = focus.FindChildRecursive("Target");
+							
 							if (PlayerInteract.interactable.checkInteractable())
 							{
 								if (PlayerUI.window.isEnabled)
 								{
 									if (PlayerInteract.interactable.checkUseable())
 									{
-										Color color;
-										if (!PlayerInteract.interactable.checkHighlight(out color))
+										if (!PlayerInteract.interactable.checkHighlight(out Color color))
 											color = Color.green;
+										
 										InteractableDoorHinge component2 = focus.GetComponent<InteractableDoorHinge>();
-										if (component2 != null)
-											HighlighterTool.highlight(focus.parent.parent, color);
-										else
-											HighlighterTool.highlight(focus, color);
+										HighlighterTool.highlight(component2 != null ? focus.parent.parent : focus, color);
 									}
 									else
 									{
 										Color color = Color.red;
 										InteractableDoorHinge component3 = focus.GetComponent<InteractableDoorHinge>();
-										if (component3 != null)
-											HighlighterTool.highlight(focus.parent.parent, color);
-										else
-											HighlighterTool.highlight(focus, color);
+										HighlighterTool.highlight(component3 != null ? focus.parent.parent : focus, color);
 									}
 								}
 							}
@@ -193,160 +196,169 @@ namespace Thanking.Overrides
 				if (focus != null && PlayerInteract.interactable != null)
 				{
 					InteractableDoorHinge component4 = focus.GetComponent<InteractableDoorHinge>();
-					if (component4 != null)
-						HighlighterTool.unhighlight(focus.parent.parent);
-					else
-						HighlighterTool.unhighlight(focus);
+					HighlighterTool.unhighlight(component4 != null ? focus.parent.parent : focus);
 				}
+				
 				focus = null;
 				target = null;
 				interactable = null;
 				interactable2 = null;
 			}
-			if (!Player.player.life.isDead)
+			
+			if (Player.player.life.isDead) return;
+			
+			if (PlayerInteract.interactable != null)
 			{
-				if (PlayerInteract.interactable != null)
+				if (PlayerInteract.interactable.checkHint(out EPlayerMessage message, out string text, out Color color2)
+				    && !PlayerUI.window.showCursor)
 				{
-					EPlayerMessage message;
-					string text;
-					Color color2;
-					if (PlayerInteract.interactable.checkHint(out message, out text, out color2) && !PlayerUI.window.showCursor)
+					if (PlayerInteract.interactable.CompareTag("Item"))
 					{
-						if (PlayerInteract.interactable.CompareTag("Item"))
-						{
-							PlayerUI.hint((!(target != null)) ? focus : target, message, text, color2, ((InteractableItem)PlayerInteract.interactable).item, ((InteractableItem)PlayerInteract.interactable).asset);
-						}
-						else
-							PlayerUI.hint((!(target != null)) ? focus : target, message, text, color2);
+						PlayerUI.hint(!(target != null) ? focus : target, message, text, color2,
+							((InteractableItem) PlayerInteract.interactable).item, ((InteractableItem) PlayerInteract.interactable).asset);
 					}
-				}
-				else if (purchaseAsset != null && Player.player.movement.purchaseNode != null && !PlayerUI.window.showCursor)
-					PlayerUI.hint(null, EPlayerMessage.PURCHASE, string.Empty, Color.white, purchaseAsset.itemName, Player.player.movement.purchaseNode.cost);
-				else if (focus != null && focus.CompareTag("Enemy"))
-				{
-					Player player = DamageTool.getPlayer(focus);
-					if (player != null && player != Player.player && !PlayerUI.window.showCursor)
-					{
-						PlayerUI.hint(null, EPlayerMessage.ENEMY, string.Empty, Color.white, player.channel.owner);
-					}
-				}
-				EPlayerMessage message2;
-				float data;
-				if (PlayerInteract.interactable2 != null && PlayerInteract.interactable2.checkHint(out message2, out data) && !PlayerUI.window.showCursor)
-					PlayerUI.hint2(message2, (!isHoldingKey) ? 0f : ((Time.realtimeSinceStartup - lastKeyDown) / salvageTime), data);
-
-				if ((Player.player.stance.stance == EPlayerStance.DRIVING || Player.player.stance.stance == EPlayerStance.SITTING) && !Input.GetKey(KeyCode.LeftShift))
-				{
-					if (Input.GetKeyDown(KeyCode.F1))
-						hotkey(0);
-
-					if (Input.GetKeyDown(KeyCode.F2))
-						hotkey(1);
-
-					if (Input.GetKeyDown(KeyCode.F3))
-						hotkey(2);
-
-					if (Input.GetKeyDown(KeyCode.F4))
-						hotkey(3);
-
-					if (Input.GetKeyDown(KeyCode.F5))
-						hotkey(4);
-					
-					if (Input.GetKeyDown(KeyCode.F6))
-						hotkey(5);
-
-					if (Input.GetKeyDown(KeyCode.F7))
-						hotkey(6);
-
-					if (Input.GetKeyDown(KeyCode.F8))
-						hotkey(7);
-
-					if (Input.GetKeyDown(KeyCode.F9))
-						hotkey(8);
-
-					if (Input.GetKeyDown(KeyCode.F10))
-						hotkey(9);
-				}
-				if (Input.GetKeyDown(ControlsSettings.interact))
-				{
-					lastKeyDown = Time.realtimeSinceStartup;
-					isHoldingKey = true;
-				}
-				if (Input.GetKeyDown(ControlsSettings.inspect) && ControlsSettings.inspect != ControlsSettings.interact && Player.player.equipment.canInspect)
-					Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
-				if (isHoldingKey)
-				{
-					if (Input.GetKeyUp(ControlsSettings.interact))
-					{
-						isHoldingKey = false;
-						if (PlayerUI.window.showCursor)
-						{
-							if (Player.player.inventory.isStoring)
-							{
-								PlayerDashboardUI.close();
-								PlayerLifeUI.open();
-							}
-							else if (PlayerBarricadeSignUI.active)
-							{
-								PlayerBarricadeSignUI.close();
-								PlayerLifeUI.open();
-							}
-							else if (PlayerBarricadeStereoUI.active)
-							{
-								PlayerBarricadeStereoUI.close();
-								PlayerLifeUI.open();
-							}
-							else if (PlayerBarricadeLibraryUI.active)
-							{
-								PlayerBarricadeLibraryUI.close();
-								PlayerLifeUI.open();
-							}
-							else if (PlayerBarricadeMannequinUI.active)
-							{
-								PlayerBarricadeMannequinUI.close();
-								PlayerLifeUI.open();
-							}
-							else if (PlayerNPCDialogueUI.active)
-							{
-								if (PlayerNPCDialogueUI.dialogueAnimating)
-									PlayerNPCDialogueUI.skipText();
-								else if (PlayerNPCDialogueUI.dialogueHasNextPage)
-									PlayerNPCDialogueUI.nextPage();
-								else
-								{
-									PlayerNPCDialogueUI.close();
-									PlayerLifeUI.open();
-								}
-							}
-							else if (PlayerNPCQuestUI.active)
-								PlayerNPCQuestUI.closeNicely();
-							else if (PlayerNPCVendorUI.active)
-								PlayerNPCVendorUI.closeNicely();
-						}
-						else if (Player.player.stance.stance == EPlayerStance.DRIVING || Player.player.stance.stance == EPlayerStance.SITTING)
-							VehicleManager.exitVehicle();
-						else if (focus != null && PlayerInteract.interactable != null)
-						{
-							if (PlayerInteract.interactable.checkUseable())
-								PlayerInteract.interactable.use();
-						}
-						else if (purchaseAsset != null)
-						{
-							if (Player.player.skills.experience >= Player.player.movement.purchaseNode.cost)
-								Player.player.skills.sendPurchase(Player.player.movement.purchaseNode);
-						}
-						else if (ControlsSettings.inspect == ControlsSettings.interact && Player.player.equipment.canInspect)
-							Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
-					}
-					else if (Time.realtimeSinceStartup - lastKeyDown > salvageTime)
-					{
-						isHoldingKey = false;
-						if (!PlayerUI.window.showCursor && PlayerInteract.interactable2 != null)
-							PlayerInteract.interactable2.use();
-					}
+					else
+						PlayerUI.hint(!(target != null) ? focus : target, message, text, color2);
 				}
 			}
+			else if (purchaseAsset != null && Player.player.movement.purchaseNode != null && !PlayerUI.window.showCursor)
+				PlayerUI.hint(null, EPlayerMessage.PURCHASE, string.Empty, Color.white, purchaseAsset.itemName,
+					Player.player.movement.purchaseNode.cost);
+			else if (focus != null && focus.CompareTag("Enemy"))
+			{
+				Player player = DamageTool.getPlayer(focus);
+
+				if (player != null && player != Player.player && !PlayerUI.window.showCursor)
+					PlayerUI.hint(null, EPlayerMessage.ENEMY, string.Empty, Color.white, player.channel.owner);
+			}
+			if (PlayerInteract.interactable2 != null && PlayerInteract.interactable2.checkHint(out EPlayerMessage message2,
+				    out float data) && !PlayerUI.window.showCursor)
+				PlayerUI.hint2(message2, !isHoldingKey ? 0f : (Time.realtimeSinceStartup - lastKeyDown) / salvageTime, data);
+
+			if ((Player.player.stance.stance == EPlayerStance.DRIVING ||
+			     Player.player.stance.stance == EPlayerStance.SITTING) && !Input.GetKey(KeyCode.LeftShift))
+			{
+				if (Input.GetKeyDown(KeyCode.F1))
+					hotkey(0);
+
+				if (Input.GetKeyDown(KeyCode.F2))
+					hotkey(1);
+
+				if (Input.GetKeyDown(KeyCode.F3))
+					hotkey(2);
+
+				if (Input.GetKeyDown(KeyCode.F4))
+					hotkey(3);
+
+				if (Input.GetKeyDown(KeyCode.F5))
+					hotkey(4);
+
+				if (Input.GetKeyDown(KeyCode.F6))
+					hotkey(5);
+
+				if (Input.GetKeyDown(KeyCode.F7))
+					hotkey(6);
+
+				if (Input.GetKeyDown(KeyCode.F8))
+					hotkey(7);
+
+				if (Input.GetKeyDown(KeyCode.F9))
+					hotkey(8);
+
+				if (Input.GetKeyDown(KeyCode.F10))
+					hotkey(9);
+			}
+			
+			if (Input.GetKeyDown(ControlsSettings.interact))
+			{
+				lastKeyDown = Time.realtimeSinceStartup;
+				isHoldingKey = true;
+			}
+			
+			if (Input.GetKeyDown(ControlsSettings.inspect) && ControlsSettings.inspect != ControlsSettings.interact &&
+			    Player.player.equipment.canInspect)
+				Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
+			
+			if (!isHoldingKey) return;
+			
+			if (Input.GetKeyUp(ControlsSettings.interact))
+			{
+				isHoldingKey = false;
+				
+				if (PlayerUI.window.showCursor)
+				{
+					if (Player.player.inventory.isStoring)
+					{
+						PlayerDashboardUI.close();
+						PlayerLifeUI.open();
+					}
+					
+					else if (PlayerBarricadeSignUI.active)
+					{
+						PlayerBarricadeSignUI.close();
+						PlayerLifeUI.open();
+					}
+					
+					else if (PlayerBarricadeStereoUI.active)
+					{
+						PlayerBarricadeStereoUI.close();
+						PlayerLifeUI.open();
+					}
+					
+					else if (PlayerBarricadeLibraryUI.active)
+					{
+						PlayerBarricadeLibraryUI.close();
+						PlayerLifeUI.open();
+					}
+					
+					else if (PlayerBarricadeMannequinUI.active)
+					{
+						PlayerBarricadeMannequinUI.close();
+						PlayerLifeUI.open();
+					}
+					
+					else if (PlayerNPCDialogueUI.active)
+					{
+						if (PlayerNPCDialogueUI.dialogueAnimating)
+							PlayerNPCDialogueUI.skipText();
+						else if (PlayerNPCDialogueUI.dialogueHasNextPage)
+							PlayerNPCDialogueUI.nextPage();
+						else
+						{
+							PlayerNPCDialogueUI.close();
+							PlayerLifeUI.open();
+						}
+					}
+					else if (PlayerNPCQuestUI.active)
+						PlayerNPCQuestUI.closeNicely();
+					else if (PlayerNPCVendorUI.active)
+						PlayerNPCVendorUI.closeNicely();
+				}
+				else if (Player.player.stance.stance == EPlayerStance.DRIVING ||
+				         Player.player.stance.stance == EPlayerStance.SITTING)
+					VehicleManager.exitVehicle();
+				else if (focus != null && PlayerInteract.interactable != null)
+				{
+					if (PlayerInteract.interactable.checkUseable())
+						PlayerInteract.interactable.use();
+				}
+				else if (purchaseAsset != null)
+				{
+					if (Player.player.skills.experience >= Player.player.movement.purchaseNode.cost)
+						Player.player.skills.sendPurchase(Player.player.movement.purchaseNode);
+				}
+				else if (ControlsSettings.inspect == ControlsSettings.interact && Player.player.equipment.canInspect)
+					Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
+			}
+			else if (Time.realtimeSinceStartup - lastKeyDown > salvageTime)
+			{
+				isHoldingKey = false;
+				
+				if (!PlayerUI.window.showCursor && PlayerInteract.interactable2 != null)
+					PlayerInteract.interactable2.use();
+			}
 		}
+
 		#endregion
 	}
 }
