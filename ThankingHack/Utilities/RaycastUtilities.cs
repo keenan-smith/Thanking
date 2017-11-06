@@ -13,8 +13,7 @@ namespace Thanking.Utilities
     {
 		public static RaycastInfo GenerateOriginalRaycast(Ray ray, float range, int mask)
 		{
-			RaycastHit hit;
-			PhysicsUtility.raycast(ray, out hit, range, mask);
+			PhysicsUtility.raycast(ray, out RaycastHit hit, range, mask);
 			RaycastInfo raycastInfo = new RaycastInfo(hit) {direction = ray.direction};
 
 			if (hit.transform == null) return raycastInfo;
@@ -37,6 +36,7 @@ namespace Thanking.Utilities
 
 			else
 				raycastInfo.material = DamageTool.getMaterial(hit.point, hit.transform, hit.collider);
+			
 			return raycastInfo;
 		}
 
@@ -46,10 +46,19 @@ namespace Thanking.Utilities
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
 
 	        SteamPlayer[] Players = Provider.clients.Where(p => p.player != null && p.player != Player.player &&
-	                                							p.player.life.isDead && p.player.transform != null &&
+	                                							!p.player.life.isDead && p.player.transform != null &&
 	                                                            !FriendUtilities.IsFriendly(p.player)).ToArray();
-	        double ClosestDistance = 0;
-	        Player ClosestPlayer = GetClosestPlayer(Players, ref ClosestDistance);
+	        
+	        #if DEBUG
+	        DebugUtilities.Log($"Players[] Length: {Players.Length}");
+			#endif
+	        
+	        Player ClosestPlayer = GetClosestPlayer(Players, out double ClosestDistance);
+	        
+			#if DEBUG
+	        DebugUtilities.Log($"Closest Player Name: {ClosestPlayer.name}");
+	        DebugUtilities.Log($"Closest Distance: {ClosestDistance}");
+			#endif
 
 	        if (ClosestPlayer == null)
 		        return GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
@@ -101,10 +110,10 @@ namespace Thanking.Utilities
 	        };
         }
 	    
-	    private static Player GetClosestPlayer(SteamPlayer[] Players, ref double closestDistance)
+	    private static Player GetClosestPlayer(SteamPlayer[] Players, out double closestDistance)
 	    {
 		    Player ClosestPlayer = null;
-		    double ClosestDistance = 0;
+		    double ClosestDistance = 1337420;
 		    ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
 		    
 
