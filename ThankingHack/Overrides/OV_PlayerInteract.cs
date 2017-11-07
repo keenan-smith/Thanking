@@ -5,6 +5,7 @@ using Thanking.Attributes;
 using Thanking.Options;
 using Thanking.Variables;
 using UnityEngine;
+using Thanking.Utilities;
 
 namespace Thanking.Overrides
 {
@@ -18,13 +19,13 @@ namespace Thanking.Overrides
 
 		[Initializer]
 		public static void Init()
-		{
-			FocusField = typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic);
+        {
+            FocusField = typeof(PlayerInteract).GetField("focus", ReflectionVariables.PrivateStatic);
 			TargetField = typeof(PlayerInteract).GetField("target", ReflectionVariables.PrivateStatic);
 			InteractableField = typeof(PlayerInteract).GetField("_interactable", ReflectionVariables.PrivateStatic);
 			Interactable2Field = typeof(PlayerInteract).GetField("_interactable2", ReflectionVariables.PrivateStatic);
 			PurchaseAssetField = typeof(PlayerInteract).GetField("purchaseAsset", ReflectionVariables.PrivateStatic);
-		}
+        }
 
 		#region Fields
 
@@ -101,8 +102,9 @@ namespace Thanking.Overrides
 		#region Overriden Methods
 
 		[Override(typeof(PlayerInteract), "Update", BindingFlags.NonPublic | BindingFlags.Instance)]
-		private void Update() // i have no idea what any of this does tbh
+		public void OV_Update() // i have no idea what any of this does tbh
 		{
+
 			if (!Provider.isConnected || Provider.isLoading)
 				return;
 

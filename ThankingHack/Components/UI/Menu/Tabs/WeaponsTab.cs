@@ -32,7 +32,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
                 GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
                 SphereOptions.RecursionLevel = (int)Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
-                GUILayout.Space(20);
 
                 GUIContent[] TargetPriorities = {
                     new GUIContent("Player"),
