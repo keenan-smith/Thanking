@@ -8,6 +8,7 @@ using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace Thanking.Components.UI
 {
@@ -33,8 +34,8 @@ namespace Thanking.Components.UI
         }
 
 		public void OnGUI()
-		{
-			if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
+        {
+            if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
 				return;
 
 			if (!Provider.isConnected || Provider.isLoading)
@@ -42,7 +43,10 @@ namespace Thanking.Components.UI
 
 			GUI.depth = 1;
 
-			for (int i = 0; i < ESPVariables.Objects.Count; i++)
+            Camera mainCam = Camera.main;
+            Vector3 localPos = Player.player.transform.position;
+
+            for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
 				ESPVisual visual = ESPOptions.VisualOptions[(int)obj.Target];
@@ -56,12 +60,12 @@ namespace Thanking.Components.UI
 					continue;
 
 				Vector3 position = go.transform.position;
-				double dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
+				double dist = VectorUtilities.GetDistance(position, localPos);
 
 				if (dist > visual.Distance && !visual.InfiniteDistance)
 					continue;
 
-				Vector3 cpos = Camera.main.WorldToScreenPoint(position);
+				Vector3 cpos = mainCam.WorldToScreenPoint(position);
 
 				if (cpos.z <= 0)
 					continue;
@@ -73,8 +77,8 @@ namespace Thanking.Components.UI
 				Bounds b = obj.Target == ESPTarget.Players
 					? new Bounds(go.transform.position + new Vector3(0, 1.1f, 0), go.transform.localScale + new Vector3(0.2f, 1.1f, 0))
 					: go.GetComponent<Collider>().bounds;
-				
-				int size = DrawUtilities.GetTextSize(visual, dist);
+
+                int size = DrawUtilities.GetTextSize(visual, dist);
 				double rounded = Math.Round(dist);
 
 				/*#if DEBUG
@@ -246,7 +250,7 @@ namespace Thanking.Components.UI
 			}
 			GL.End();
 			GL.PopMatrix();
-		}
+        }
 
 		public static String SentryName(Item DisplayItem) => DisplayItem != null
 			? Assets.find(EAssetType.ITEM, DisplayItem.id).name
