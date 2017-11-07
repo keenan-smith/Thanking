@@ -32,10 +32,7 @@ namespace Thanking.Components.UI
 
 			GUI.depth = 0;
 			ItemGunAsset PAsset = (ItemGunAsset) Player.player.equipment.asset;
-			string text = "<size=15>";
-			text += PAsset.itemName + "\n";
-			text += PAsset.range;
-			text += "</size>";
+			string text = $"<size=15>{PAsset.itemName}\n{PAsset.range}</size>";
 
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
 		}
