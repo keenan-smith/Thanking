@@ -110,6 +110,7 @@
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Main\PacketManager.cs" />
     <Compile Include="Managers\Submanagers\InitializationManager.cs" />
+    <Compile Include="Managers\Submanagers\SpyManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Loader.cs" />
     <Compile Include="Managers\Main\ConfigManager.cs" />
@@ -123,7 +124,9 @@
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
+    <Compile Include="Overrides\OV_ChatManager.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
+    <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />

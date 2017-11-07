@@ -9,20 +9,19 @@ namespace Thanking.Overrides
 		[Override(typeof(PlayerUI), "updateCrosshair", BindingFlags.Public | BindingFlags.Static)]
 		public static void updateCrosshair(float spread)
 		{
-			if (Provider.modeConfigData.Gameplay.Crosshair)
-			{
-				PlayerLifeUI.crosshairLeftImage.positionOffset_X = ((int)(-spread * 400f) - 4);
-				PlayerLifeUI.crosshairLeftImage.positionOffset_Y = -4;
+			if (!Provider.modeConfigData.Gameplay.Crosshair) return;
+			
+			PlayerLifeUI.crosshairLeftImage.positionOffset_X = (int)(-spread * 400f) - 4;
+			PlayerLifeUI.crosshairLeftImage.positionOffset_Y = -4;
 
-				PlayerLifeUI.crosshairRightImage.positionOffset_X = ((int)(spread * 400f) - 4);
-				PlayerLifeUI.crosshairRightImage.positionOffset_Y = -4;
+			PlayerLifeUI.crosshairRightImage.positionOffset_X = (int)(spread * 400f) - 4;
+			PlayerLifeUI.crosshairRightImage.positionOffset_Y = -4;
 
-				PlayerLifeUI.crosshairUpImage.positionOffset_X = -4;
-				PlayerLifeUI.crosshairUpImage.positionOffset_Y = ((int)(-spread * 400f) - 4);
+			PlayerLifeUI.crosshairUpImage.positionOffset_X = -4;
+			PlayerLifeUI.crosshairUpImage.positionOffset_Y = (int)(-spread * 400f) - 4;
 
-				PlayerLifeUI.crosshairDownImage.positionOffset_X = -4;
-				PlayerLifeUI.crosshairDownImage.positionOffset_Y = (-(int)(spread * 400f) - 4);
-			}
+			PlayerLifeUI.crosshairDownImage.positionOffset_X = -4;
+			PlayerLifeUI.crosshairDownImage.positionOffset_Y = -(int)(spread * 400f) - 4;
 		}
 	}
 }

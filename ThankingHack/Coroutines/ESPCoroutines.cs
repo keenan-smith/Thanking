@@ -31,14 +31,10 @@ namespace Thanking.Coroutines
                 }
                 try
                 {
-                    if (ESPOptions.ChamsEnabled)
-                    {
-                        EnableChams();
-                    }
-                    else
-                    {
-                        DisableChams();
-                    }
+	                if (ESPOptions.ChamsEnabled)
+		                EnableChams();
+	                else
+		                DisableChams();
                 }
                 catch(Exception e) { Debug.LogException(e); }
                 yield return new WaitForSeconds(5);
@@ -53,58 +49,55 @@ namespace Thanking.Coroutines
 
             for (int j = 0; j < rds.Length; j++)
             {
-                if (rds[j].material.shader != LitChams | UnlitChams)
-                {
-                    Material[] materials = rds[j].materials;
+	            if (!(rds[j].material.shader != LitChams | UnlitChams)) continue;
+	            
+	            Material[] materials = rds[j].materials;
 
-                    for (int k = 0; k < materials.Length; k++)
-                    {
-                        if (materials[k].shader != (ESPOptions.ChamsFlat ? UnlitChams : LitChams))
-                        {
-                            if (ESPOptions.ChamsFlat)
-                            {
-                                materials[k].shader = UnlitChams;
-                                materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
-                                materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
-                            }
-                            else
-                            {
-                                materials[k].shader = LitChams;
-                                materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
-                                materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
-                            }
-                        }
-                    }
-                }
+	            for (int k = 0; k < materials.Length; k++)
+	            {
+		            if (materials[k].shader == (ESPOptions.ChamsFlat ? UnlitChams : LitChams)) continue;
+		            
+		            if (ESPOptions.ChamsFlat)
+		            {
+			            materials[k].shader = UnlitChams;
+			            materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
+			            materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
+		            }
+		            else
+		            {
+			            materials[k].shader = LitChams;
+			            materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
+			            materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
+		            }
+	            }
             }
         }
 
         [OffSpy]
         public static void EnableChams()
         {
-            if (ESPOptions.ChamsEnabled)
-            {
-                Color32 friendly_front = new Color32(0, 255, 0, 255);
-                Color32 friendly_back = new Color32(0, 0, 255, 255);
-                Color32 enemy_front = new Color32(255, 255, 0, 255);
-                Color32 enemy_back = new Color32(255, 0, 0, 255);
+	        if (!ESPOptions.ChamsEnabled) return;
+	        
+	        Color32 friendly_front = new Color32(0, 255, 0, 255);
+	        Color32 friendly_back = new Color32(0, 0, 255, 255);
+	        Color32 enemy_front = new Color32(255, 255, 0, 255);
+	        Color32 enemy_back = new Color32(255, 0, 0, 255);
 
-                SteamPlayer[] players = Provider.clients.ToArray();
-                for (int index = 0; index < players.Length; index++)
-                {
-                    SteamPlayer p = players[index];
-                    Color32 front = FriendUtilities.IsFriendly(p.player) ? friendly_front : enemy_front;
-                    Color32 back = FriendUtilities.IsFriendly(p.player) ? friendly_back : enemy_back;
+	        SteamPlayer[] players = Provider.clients.ToArray();
+	        for (int index = 0; index < players.Length; index++)
+	        {
+		        SteamPlayer p = players[index];
+		        Color32 front = FriendUtilities.IsFriendly(p.player) ? friendly_front : enemy_front;
+		        Color32 back = FriendUtilities.IsFriendly(p.player) ? friendly_back : enemy_back;
 
-                    Player plr = p.player;
+		        Player plr = p.player;
 
-                    if (plr == null || plr == Player.player || plr.gameObject == null || plr.life == null ||
-                        plr.life.isDead) continue;
+		        if (plr == null || plr == Player.player || plr.gameObject == null || plr.life == null ||
+		            plr.life.isDead) continue;
 
-                    GameObject pgo = plr.gameObject;
-                    DoChamsGameObject(pgo, front, back);
-                }
-            }
+		        GameObject pgo = plr.gameObject;
+		        DoChamsGameObject(pgo, front, back);
+	        }
         }
 
         [OnSpy]
@@ -156,8 +149,7 @@ namespace Thanking.Coroutines
 						ESPTarget target = targets[i];
 						ESPVisual vis = ESPOptions.VisualOptions[(int)target];
 
-						if (!vis.Enabled)
-							continue;
+						if (!vis.Enabled) continue;
 
 						Vector3 pPos = Player.player.transform.position;
 
@@ -170,8 +162,9 @@ namespace Thanking.Coroutines
 									if (vis.UseObjectCap)
 										objarray.Take(vis.ObjectCap);
 
-									foreach (SteamPlayer player in objarray)
+									for (int j = 0; j < objarray.Length; j++)
 									{
+										SteamPlayer player = objarray[j];
 										Player plr = player.player;
 
 										if (plr.life.isDead || plr == Player.player)
@@ -179,7 +172,6 @@ namespace Thanking.Coroutines
 
 										objects.Add(new ESPObject(target, plr, plr.gameObject));
 									}
-
 									break;
 								}
 							case ESPTarget.Zombies:
@@ -295,7 +287,6 @@ namespace Thanking.Coroutines
 										InteractableGenerator obj = objarr[j];
 										objects.Add(new ESPObject(target, obj, obj.gameObject));
 									}
-
 									break;
 								}
 						}

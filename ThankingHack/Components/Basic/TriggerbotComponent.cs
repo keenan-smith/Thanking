@@ -14,6 +14,9 @@ namespace Thanking.Components.Basic
 
 		public void Check()
 		{
+            if (!Provider.isConnected || Provider.isLoading)
+                return;
+
 			if (TriggerbotOptions.Enabled)
 			{
 				RaycastInfo info = RaycastUtilities.GenerateRaycast();

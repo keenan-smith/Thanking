@@ -8,8 +8,11 @@ namespace Thanking.Utilities
     {
         public static String DebugPath = $"{Application.dataPath}/Thanking.log";
         
-        public static void Log(String Output) => 
+        public static void Log(object Output) => 
             File.AppendAllText(DebugPath, $"{Output}\r\n");
+        
+        public static void LogException(Exception Exception) =>
+            File.AppendAllText(DebugPath, $"\r\nBEGIN EXCEPTION\r\n{Exception}\r\nEND EXCEPTION\r\n");
 
         public static void Init() =>
             File.WriteAllText(DebugPath, $"{DateTime.Now.ToString()}\r\n");

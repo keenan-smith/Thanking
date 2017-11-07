@@ -16,6 +16,7 @@ namespace Thanking.Managers.Main
 			ComponentManager.Load();
             OverrideManager.Load();
 			ThreadManager.Load();
+	        SpyManager.Load();
 		}
     }
 }

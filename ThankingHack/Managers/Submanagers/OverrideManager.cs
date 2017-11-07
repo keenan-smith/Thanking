@@ -21,11 +21,16 @@ namespace Thanking.Managers.Submanagers
 
         public static void Load()
         {
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
-                foreach (Type tClass in asm.GetTypes())
-                    if (tClass.IsClass)
-                        foreach (MethodInfo method in tClass.GetMethods(ReflectionVariables.Everything))
-                            LoadOverride(method);
+            Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
+
+            for (int i = 0; i < Types.Length; i++)
+            {
+                MethodInfo[] Methods = Types[i].GetMethods().Where(M => M.IsDefined(typeof(OverrideAttribute), false))
+                    .ToArray();
+
+                for (int o = 0; o < Methods.Length; o++)
+                    LoadOverride(Methods[o]);
+            }
         }
         #region Public Functions
         public static void LoadOverride(MethodInfo method)
@@ -34,10 +39,7 @@ namespace Thanking.Managers.Submanagers
             OverrideAttribute attribute = (OverrideAttribute)Attribute.GetCustomAttribute(method, typeof(OverrideAttribute));
 			
 			// Do checks
-			if (attribute == null)
-                return;
-			if (!attribute.MethodFound)
-                return;
+            
 			if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
                 return;
 

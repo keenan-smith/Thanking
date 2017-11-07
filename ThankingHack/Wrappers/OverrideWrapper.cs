@@ -30,7 +30,7 @@ namespace Thanking.Wrappers
             Modified = modified;
             Instance = instance;
             Attribute = attribute;
-            Local = (Modified.DeclaringType.Assembly == Assembly.GetExecutingAssembly());
+            Local = Modified.DeclaringType.Assembly == Assembly.GetExecutingAssembly();
 
             RuntimeHelpers.PrepareMethod(original.MethodHandle);
             RuntimeHelpers.PrepareMethod(modified.MethodHandle);

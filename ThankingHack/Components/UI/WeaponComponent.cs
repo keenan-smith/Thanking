@@ -29,7 +29,7 @@ namespace Thanking.Components.UI
 			GUI.depth = 0;
 			ItemGunAsset PAsset = (ItemGunAsset) Player.player.equipment.asset;
 			string text = "<size=15>";
-			text += (PAsset.itemName + "\n");
+			text += PAsset.itemName + "\n";
 			text += PAsset.range;
 			text += "</size>";
 
@@ -59,7 +59,7 @@ namespace Thanking.Components.UI
 
 				AssetBackups.Add(PAsset.id, Backups);
 
-				SwayBackup = (Player.player.animator.viewSway == Vector3.zero ? SwayBackup : Player.player.animator.viewSway);
+				SwayBackup = Player.player.animator.viewSway == Vector3.zero ? SwayBackup : Player.player.animator.viewSway;
 			}
 
 			if (WeaponOptions.NoRecoil)
