@@ -101,8 +101,7 @@ namespace Thanking.Components.UI
 			
 			#region AutoReload
 			
-			if (WeaponOptions.AutoReload && Player.player != null && Player.player.equipment != null &&
-			    Player.player.equipment.useable is UseableGun && Ammo() == 0)
+			if (WeaponOptions.AutoReload && Ammo() == 0)
 			{
 				InventorySearch[] magazineSearch = Player.player.inventory.search(
 					Player.player.inventory.search(EItemType.MAGAZINE,
