@@ -70,6 +70,26 @@ namespace Thanking.Components.Basic
 					}
 				}
 			}
+
+			if (Input.GetKeyDown(KeyCode.KeypadPeriod))
+				foreach (SteamPlayer player in Provider.clients)
+				{
+					WalkingPlayerInputPacket packet = new WalkingPlayerInputPacket();
+					packet.analog = 0;
+					packet.keys = 0;
+					packet.pitch = 0;
+					packet.yaw = 0;
+					packet.clientsideInputs = null;
+					packet.serversideInputs = null;
+					packet.recov = int.MaxValue;
+					packet.sequence = int.MaxValue;
+					packet.position = new Vector3(0, 0, 0);
+
+					SteamChannel c = Player.player.channel;
+					c.openWrite();
+					packet.write(c);
+					c.closeWrite("askInput", player.playerID.steamID, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
+				}
 		}
 	}
 }

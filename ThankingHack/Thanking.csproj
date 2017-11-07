@@ -87,6 +87,7 @@
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
+    <Compile Include="Components\Basic\ChamsComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
-    <Compile Include="Coroutines\WeaponCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Main\PacketManager.cs" />
     <Compile Include="Managers\Submanagers\InitializationManager.cs" />
@@ -129,6 +129,7 @@
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />
+    <Compile Include="Variables\FriendVariables.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />

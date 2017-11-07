@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Protection\JunkCode\MalformedMethodGenerator.cs" />
+    <Compile Include="Protection\MethodObfuscation\FakeAttributes.cs" />
     <Compile Include="Renaming\NamespaceTypeCollector.cs" />
     <Compile Include="Renaming\NamespaceTypeStore.cs" />
     <Compile Include="Renaming\RenamingUtils.cs" />
@@ -57,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Protection\Generators\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

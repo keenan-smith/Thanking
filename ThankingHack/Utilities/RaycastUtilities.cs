@@ -79,10 +79,7 @@ namespace Thanking.Utilities
 		        {
 			        //if (!Provider.modeConfigData.Gameplay.Ballistics)
 			        //PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
-
-			        Loader.HookObject.GetComponent<CoroutineComponent>()
-				        .StartCoroutine(WeaponCoroutines.CheckForDeath(ClosestPlayer));
-
+					
 			        return new RaycastInfo(ClosestPlayer.transform)
 			        {
 				        point = hPos,
@@ -99,7 +96,6 @@ namespace Thanking.Utilities
 			        currentGun.range, RayMasks.DAMAGE_CLIENT);
 				
 	        //PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
-	        Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(WeaponCoroutines.CheckForDeath(ClosestPlayer));
 	        return new RaycastInfo(ClosestPlayer.transform)
 	        {
 		        point = Player.player.transform.position,

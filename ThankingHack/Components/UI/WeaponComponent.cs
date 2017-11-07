@@ -17,7 +17,7 @@ namespace Thanking.Components.UI
 		public static Vector3 SwayBackup;
 		public static ItemWeaponAsset CurrentWeapon;
 
-		private Byte Ammo() => (Byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PublicInstance)
+		private byte Ammo() => (byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
 			.GetValue(Player.player.equipment.useable);
 		
 		public void OnGUI()
@@ -32,10 +32,7 @@ namespace Thanking.Components.UI
 
 			GUI.depth = 0;
 			ItemGunAsset PAsset = (ItemGunAsset) Player.player.equipment.asset;
-			string text = "<size=15>";
-			text += PAsset.itemName + "\n";
-			text += PAsset.range;
-			text += "</size>";
+			string text = $"<size=15>{PAsset.itemName}\n{PAsset.range}</size>";
 
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
 		}
@@ -104,8 +101,7 @@ namespace Thanking.Components.UI
 			
 			#region AutoReload
 			
-			if (WeaponOptions.AutoReload && Player.player != null && Player.player.equipment != null &&
-			    Player.player.equipment.useable is UseableGun && Ammo() == 0)
+			if (WeaponOptions.AutoReload && Ammo() == 0)
 			{
 				InventorySearch[] magazineSearch = Player.player.inventory.search(
 					Player.player.inventory.search(EItemType.MAGAZINE,
