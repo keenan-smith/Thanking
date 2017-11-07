@@ -18,8 +18,11 @@ namespace Thanking.Components.UI
 		public static Material GLMat;
 		public static Font ESPFont;
 
-		public void Start() =>
-			CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
+		public void Start()
+        {
+            CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
+            CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
+        }
 
         public void Update()
         {
