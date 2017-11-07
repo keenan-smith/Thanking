@@ -190,14 +190,14 @@ namespace Thanking.Components.UI
                 if (visual.Boxes)
                 {
                     if (visual.TwoDimensional)
-                        DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
+                        DrawUtilities.PrepareRectangleLines(mainCam, b, c);
                     else
                         DrawUtilities.PrepareBoxLines(vectors, c);
                 }
 
                 if (visual.Labels)
                 {
-                    Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
+                    Vector3 LabelVector = DrawUtilities.GetW2SVector(mainCam, b, ll);
                     DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength, outerText);
                 }
 
@@ -216,8 +216,8 @@ namespace Thanking.Components.UI
 			GLMat.SetPass(0);
 
 			GL.PushMatrix();
-			GL.LoadProjectionMatrix(Camera.main.projectionMatrix);
-			GL.modelview = Camera.main.worldToCameraMatrix;
+			GL.LoadProjectionMatrix(mainCam.projectionMatrix);
+			GL.modelview = mainCam.worldToCameraMatrix;
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
