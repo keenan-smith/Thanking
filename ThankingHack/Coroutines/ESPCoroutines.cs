@@ -55,8 +55,6 @@ namespace Thanking.Coroutines
 
 	            for (int k = 0; k < materials.Length; k++)
 	            {
-		            if (materials[k].shader == (ESPOptions.ChamsFlat ? UnlitChams : LitChams)) continue;
-		            
 		            if (ESPOptions.ChamsFlat)
 		            {
 			            materials[k].shader = UnlitChams;

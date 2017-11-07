@@ -51,6 +51,10 @@ namespace Thanking.Components.UI
 				ESPObject obj = ESPVariables.Objects[i];
 				ESPVisual visual = ESPOptions.VisualOptions[(int)obj.Target];
 
+                if (obj.Target == ESPTarget.Items && ESPOptions.FilterItems)
+                    if (!ItemUtilities.Whitelisted(((InteractableItem)obj.Object).asset))
+                        continue;
+
 				Color c = visual.Color.ToColor();
 				LabelLocation ll = visual.Location;
 

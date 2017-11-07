@@ -9,7 +9,7 @@ namespace Thanking.Components.UI.Menu
         {
             MenuTabOption.Add(new MenuTabOption("visuals", VisualsTab.Tab));
             MenuTabOption.Add(new MenuTabOption("weapons", WeaponsTab.Tab));
-            //MenuTabOption.Add(new MenuTabOption("item filter", ItemFilterTab.Tab));
+            MenuTabOption.Add(new MenuTabOption("item filter", ItemFilterTab.Tab));
             MenuTabOption.Add(new MenuTabOption("misc", MiscTab.Tab));
             MenuTabOption.Add(new MenuTabOption("colors", ColorsTab.Tab));
         }

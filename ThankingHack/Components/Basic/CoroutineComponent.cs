@@ -9,5 +9,6 @@ namespace Thanking.Components.Basic
 	{
 		public static Coroutine ESPCoroutine;
         public static Coroutine ChamsCoroutine;
+        public static Coroutine ItemPickupCoroutine;
     }
 }

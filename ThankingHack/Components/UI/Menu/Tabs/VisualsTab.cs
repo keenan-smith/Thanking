@@ -38,6 +38,8 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.SectionTabButton("Items", () =>
                 {
                     BasicControls(ESPTarget.Items);
+                    GUILayout.Space(5);
+                    Prefab.Toggle("Filter Items", ref ESPOptions.FilterItems);
                 });
                 Prefab.SectionTabButton("Storages", () =>
                 {

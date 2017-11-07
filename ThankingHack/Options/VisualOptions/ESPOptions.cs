@@ -249,6 +249,12 @@ namespace Thanking.Options.VisualOptions
 
 		[Save] public static SerializableColor SameGroupColor = ((Color32) Color.green).ToSerializableColor();
 
-		#endregion
-	}
+        #endregion
+
+        #region Item Options
+
+        [Save] public static bool FilterItems = false;
+
+        #endregion
+    }
 }
