@@ -14,7 +14,18 @@ namespace Thanking.Options.UIVariables
 
         public static void Add(MenuTabOption tab)
         {
-            tabs.Add(tab);
+            if (!Contains(tab))
+                tabs.Add(tab);
+        }
+
+        public static bool Contains(MenuTabOption tab)
+        {
+            bool contains = false;
+            foreach (MenuTabOption menutab in tabs)
+            {
+                if (tab.name == menutab.name) contains = true;
+            }
+            return contains;
         }
 
         public MenuTabOption(string name, MenuTab tab)
