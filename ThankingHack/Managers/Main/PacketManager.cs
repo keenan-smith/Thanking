@@ -1,5 +1,8 @@
 ﻿using SDG.Unturned;
 using Steamworks;
+using Thanking.Options.AimOptions;
+using Thanking.Variables;
+using UnityEngine;
 
 namespace Thanking.Managers.Main
 {
@@ -7,7 +10,7 @@ namespace Thanking.Managers.Main
 	{
 		public static void Init()
 		{
-
+			SteamChannel.onTriggerReceive += OnReceivePacket;
 		}
 
 		public static void OnReceivePacket(SteamChannel channel, CSteamID steamID, byte[] packet, int offset, int size)
@@ -21,10 +24,21 @@ namespace Thanking.Managers.Main
 			if (esteamPacket == ESteamPacket.UPDATE_VOICE)
 				return;
 
-			object[] objects = SteamPacker.getObjects(steamID, offset, 2, packet, channel.calls[num].types);
-			string call = channel.calls[num].method.Name;
-			
-			//do shit here xd
+			SteamChannelMethod method = channel.calls[num];
+
+			string call = method.method.Name;
+			switch (call)
+			{
+				case "tellDead":
+					{
+						object[] objects = SteamPacker.getObjects(steamID, offset, 2, packet, method.types);
+
+						Vector3 Ragdoll = (Vector3)objects[1];
+						if (Ragdoll == RaycastOptions.TargetRagdoll.ToVector())
+							AudioSource.PlayClipAtPoint(AssetVariables.Audio["oof"], Player.player.look.aim.position);
+					}
+					break;
+			}
 		}
 	}
 }

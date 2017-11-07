@@ -17,7 +17,7 @@ namespace Thanking.Components.UI
 		public static Vector3 SwayBackup;
 		public static ItemWeaponAsset CurrentWeapon;
 
-		private Byte Ammo() => (Byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PublicInstance)
+		private byte Ammo() => (byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
 			.GetValue(Player.player.equipment.useable);
 		
 		public void OnGUI()
