@@ -88,7 +88,7 @@ namespace Thanking.Components.Basic
 					SteamChannel c = Player.player.channel;
 					c.openWrite();
 					packet.write(c);
-					c.closeWrite("askInput", player.playerID.steamID, ESteamPacket.UPDATE_RELIABLE_BUFFER);
+					c.closeWrite("askInput", player.playerID.steamID, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
 				}
 		}
 	}
