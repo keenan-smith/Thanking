@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options.AimOptions;
@@ -16,6 +17,9 @@ namespace Thanking.Components.UI
 		public static Vector3 SwayBackup;
 		public static ItemWeaponAsset CurrentWeapon;
 
+		private Byte Ammo() => (Byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PublicInstance)
+			.GetValue(Player.player.equipment.useable);
+		
 		public void OnGUI()
 		{
 			if (!WeaponOptions.ShowWeaponInfo) return;
@@ -44,17 +48,21 @@ namespace Thanking.Components.UI
 			if (!(Player.player.equipment.asset is ItemGunAsset))
 				return;
 
-			ItemGunAsset PAsset = Player.player.equipment.asset as ItemGunAsset;
+			ItemGunAsset PAsset = (ItemGunAsset) Player.player.equipment.asset;
 			
 			if (!AssetBackups.ContainsKey(PAsset.id))
 			{
-				float[] Backups = new float[7];
-				Backups[0] = PAsset.recoilAim;
-				Backups[1] = PAsset.recoilMax_x;
-				Backups[2] = PAsset.recoilMax_y;
-				Backups[3] = PAsset.recoilMin_x;
-				Backups[4] = PAsset.recoilMin_y;
-				Backups[5] = PAsset.spreadAim;
+				float[] Backups = new float[7]
+				{
+					PAsset.recoilAim,
+					PAsset.recoilMax_x,
+					PAsset.recoilMax_y,
+					PAsset.recoilMin_x,
+					PAsset.recoilMin_y,
+					PAsset.spreadAim,
+					PAsset.spreadHip
+				};
+				
 				Backups[6] = PAsset.spreadHip;
 
 				AssetBackups.Add(PAsset.id, Backups);
@@ -93,11 +101,42 @@ namespace Thanking.Components.UI
 
 				PlayerUI.updateCrosshair(AssetBackups[PAsset.id][Player.player.equipment.secondary ? 5 : 6]);
 			}
+			
+			#region AutoReload
+			
+			if (WeaponOptions.AutoReload && Player.player != null && Player.player.equipment != null &&
+			    Player.player.equipment.useable is UseableGun && Ammo() == 0)
+			{
+				InventorySearch[] magazineSearch = Player.player.inventory.search(
+					Player.player.inventory.search(EItemType.MAGAZINE,
+						((ItemGunAsset) Player.player.equipment.asset).magazineCalibers)).ToArray();
+				
+				if (magazineSearch.Length > 0)
+				{
+					Byte b = 0;
+					Byte b2 = 255;
 
-			if (WeaponOptions.NoSway)
-				Player.player.animator.viewSway = Vector3.zero;
-			else
-				Player.player.animator.viewSway = SwayBackup;
+					for (Byte i = 0; i < magazineSearch.Length; i++)
+					{
+						if (magazineSearch[i].jar.item.amount > b)
+						{
+							b = magazineSearch[i].jar.item.amount;
+							b2 = i;
+						}
+					}
+
+					if (b2 != 255)
+					{
+						Player.player.channel.send("askAttachMagazine", ESteamCall.SERVER,
+							ESteamPacket.UPDATE_UNRELIABLE_BUFFER, magazineSearch[b2].page, magazineSearch[b2].jar.x,
+							magazineSearch[b2].jar.y);
+					}
+				}
+			}
+			
+			#endregion
+
+			Player.player.animator.viewSway = WeaponOptions.NoSway ? Vector3.zero : SwayBackup;
 		}
 	}
 }

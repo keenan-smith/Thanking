@@ -8,6 +8,7 @@ using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace Thanking.Components.UI
 {
@@ -18,8 +19,11 @@ namespace Thanking.Components.UI
 		public static Material GLMat;
 		public static Font ESPFont;
 
-		public void Start() =>
-			CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
+		public void Start()
+        {
+            CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
+            CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
+        }
 
         public void Update()
         {
@@ -30,8 +34,8 @@ namespace Thanking.Components.UI
         }
 
 		public void OnGUI()
-		{
-			if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
+        {
+            if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
 				return;
 
 			if (!Provider.isConnected || Provider.isLoading)
@@ -39,7 +43,10 @@ namespace Thanking.Components.UI
 
 			GUI.depth = 1;
 
-			for (int i = 0; i < ESPVariables.Objects.Count; i++)
+            Camera mainCam = Camera.main;
+            Vector3 localPos = Player.player.transform.position;
+
+            for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
 				ESPVisual visual = ESPOptions.VisualOptions[(int)obj.Target];
@@ -53,12 +60,12 @@ namespace Thanking.Components.UI
 					continue;
 
 				Vector3 position = go.transform.position;
-				double dist = VectorUtilities.GetDistance(position, Player.player.transform.position);
+				double dist = VectorUtilities.GetDistance(position, localPos);
 
 				if (dist > visual.Distance && !visual.InfiniteDistance)
 					continue;
 
-				Vector3 cpos = Camera.main.WorldToScreenPoint(position);
+				Vector3 cpos = mainCam.WorldToScreenPoint(position);
 
 				if (cpos.z <= 0)
 					continue;
@@ -70,8 +77,8 @@ namespace Thanking.Components.UI
 				Bounds b = obj.Target == ESPTarget.Players
 					? new Bounds(go.transform.position + new Vector3(0, 1.1f, 0), go.transform.localScale + new Vector3(0.2f, 1.1f, 0))
 					: go.GetComponent<Collider>().bounds;
-				
-				int size = DrawUtilities.GetTextSize(visual, dist);
+
+                int size = DrawUtilities.GetTextSize(visual, dist);
 				double rounded = Math.Round(dist);
 
 				/*#if DEBUG
@@ -183,14 +190,14 @@ namespace Thanking.Components.UI
                 if (visual.Boxes)
                 {
                     if (visual.TwoDimensional)
-                        DrawUtilities.PrepareRectangleLines(Camera.main, b, c);
+                        DrawUtilities.PrepareRectangleLines(mainCam, b, c);
                     else
                         DrawUtilities.PrepareBoxLines(vectors, c);
                 }
 
                 if (visual.Labels)
                 {
-                    Vector3 LabelVector = DrawUtilities.GetW2SVector(Camera.main, b, ll);
+                    Vector3 LabelVector = DrawUtilities.GetW2SVector(mainCam, b, ll);
                     DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength, outerText);
                 }
 
@@ -209,8 +216,8 @@ namespace Thanking.Components.UI
 			GLMat.SetPass(0);
 
 			GL.PushMatrix();
-			GL.LoadProjectionMatrix(Camera.main.projectionMatrix);
-			GL.modelview = Camera.main.worldToCameraMatrix;
+			GL.LoadProjectionMatrix(mainCam.projectionMatrix);
+			GL.modelview = mainCam.worldToCameraMatrix;
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
@@ -243,7 +250,7 @@ namespace Thanking.Components.UI
 			}
 			GL.End();
 			GL.PopMatrix();
-		}
+        }
 
 		public static String SentryName(Item DisplayItem) => DisplayItem != null
 			? Assets.find(EAssetType.ITEM, DisplayItem.id).name
