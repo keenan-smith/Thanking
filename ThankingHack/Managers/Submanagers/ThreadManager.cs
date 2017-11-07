@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Thanking.Attributes;
+using Thanking.Variables;
 
 namespace Thanking.Managers.Submanagers
 {
@@ -14,7 +15,7 @@ namespace Thanking.Managers.Submanagers
 
 			for (int i = 0; i < Types.Length; i++)
 			{
-				MethodInfo[] Methods = Types[i].GetMethods().Where(M => M.IsDefined(typeof(ThreadAttribute), false))
+				MethodInfo[] Methods = Types[i].GetMethods(ReflectionVariables.Everything).Where(M => M.IsDefined(typeof(ThreadAttribute), false))
 					.ToArray();
 
 				for (int o = 0; o < Methods.Length; o++)

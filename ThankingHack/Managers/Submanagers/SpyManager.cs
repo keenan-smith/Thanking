@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Utilities;
+using Thanking.Variables;
 using Object = UnityEngine.Object;
 
 namespace Thanking.Managers.Submanagers
@@ -29,7 +30,7 @@ namespace Thanking.Managers.Submanagers
                 if (Type.IsDefined(typeof(SpyComponentAttribute), false))
                     Comps.Add(Type);
 
-                MethodInfo[] Methods = Types[i].GetMethods();
+                MethodInfo[] Methods = Types[i].GetMethods(ReflectionVariables.Everything);
 
                 for (int o = 0; o < Methods.Length; o++)
                 {
