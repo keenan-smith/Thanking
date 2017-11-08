@@ -1,4 +1,5 @@
-﻿using Thanking.Options;
+﻿using System;
+using Thanking.Options;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs
@@ -9,6 +10,11 @@ namespace Thanking.Components.UI.Menu.Tabs
         {
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MISC", () =>
             {
+                Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
+                GUILayout.Space(2);
+                GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
+                GUILayout.Space(2);
+                MiscOptions.SpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
                 Prefab.MenuArea(new Rect(10, 436 - 125 - 10, 220, 125), "SPAMMER", () =>
                 {
                     Prefab.Toggle("Enabled", ref MiscOptions.SpammerEnabled);

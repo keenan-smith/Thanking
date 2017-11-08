@@ -27,5 +27,20 @@ namespace Thanking.Options
         [Save] public static string SpamText = "http://ironic.services/";
         [Save] public static bool SpammerEnabled = false;
         [Save] public static int SpammerDelay = 0;
-	}
+
+        [Save] public static bool VehicleFly = false;
+        [Save] public static float SpeedMultiplier = 1f;
+        [Save] public static KeyCode StrafeUp = KeyCode.RightControl;
+        [Save] public static KeyCode StrafeDown = KeyCode.LeftControl;
+        [Save] public static KeyCode StrafeLeft = KeyCode.LeftBracket;
+        [Save] public static KeyCode StrafeRight = KeyCode.RightBracket;
+        [Save] public static KeyCode MoveForward = KeyCode.W;
+        [Save] public static KeyCode MoveBackward = KeyCode.S;
+        [Save] public static KeyCode RotateLeft = KeyCode.A;
+        [Save] public static KeyCode RotateRight = KeyCode.D;
+        [Save] public static KeyCode RollLeft = KeyCode.Q;
+        [Save] public static KeyCode RollRight = KeyCode.E;
+        [Save] public static KeyCode RotateUp = KeyCode.Space;
+        [Save] public static KeyCode RotateDown = KeyCode.LeftShift;
+    }
 }
