@@ -88,6 +88,7 @@
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\AimbotComponent.cs" />
+    <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\UI\ChamsComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\InputComponent.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Options\ItemOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
+    <Compile Include="Options\VisualOptions\MirrorCameraOptions.cs" />
     <Compile Include="Overrides\OV_ChatManager.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
