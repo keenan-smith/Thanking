@@ -13,7 +13,7 @@ namespace Thanking.Components.Basic
     [Component]
     public class MiscComponent : MonoBehaviour
     {
-        public void FixedUpdate() =>
+        public void Update() =>
 			VehicleFlight();
 
 		public static void VehicleFlight()
