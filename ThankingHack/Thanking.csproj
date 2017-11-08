@@ -134,7 +134,6 @@
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />
     <Compile Include="Utilities\ItemUtilities.cs" />
-    <Compile Include="Variables\FriendVariables.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />

@@ -105,7 +105,7 @@ namespace Thanking.Overrides
 		public void OV_Update() // i have no idea what any of this does tbh
 		{
 
-			if (!Provider.isConnected || Provider.isLoading)
+			if (!DrawUtilities.ShouldRun())
 				return;
 
 			if (Player.player.stance.stance != EPlayerStance.DRIVING && Player.player.stance.stance != EPlayerStance.SITTING &&

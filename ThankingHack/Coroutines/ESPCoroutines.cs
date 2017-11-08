@@ -22,8 +22,7 @@ namespace Thanking.Coroutines
         {
             while (true)
             {
-                if (!Provider.isConnected || Provider.isLoading || LoadingUI.isBlocked ||
-                    Player.player == null || Provider.clients == null || Provider.clients.Count < 1 || PlayerCoroutines.IsSpying || UnlitChams == null)
+                if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying || UnlitChams == null)
                 {
                     yield return new WaitForSeconds(1f);
 
@@ -129,7 +128,7 @@ namespace Thanking.Coroutines
 		{
 			while (true)
 			{
-				if (!Provider.isConnected || Provider.isLoading)
+				if (!DrawUtilities.ShouldRun())
 				{
 					yield return new WaitForSeconds(2);
 					continue;

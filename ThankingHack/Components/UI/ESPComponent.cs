@@ -38,7 +38,7 @@ namespace Thanking.Components.UI
             if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
 				return;
 
-			if (!Provider.isConnected || Provider.isLoading)
+			if (!DrawUtilities.ShouldRun())
 				return;
 
 			GUI.depth = 1;

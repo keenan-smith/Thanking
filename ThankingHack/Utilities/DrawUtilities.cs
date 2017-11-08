@@ -1,10 +1,16 @@
-﻿using Thanking.Variables;
+﻿using SDG.Unturned;
+using Thanking.Coroutines;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
+		public static bool ShouldRun() =>
+			!(!Provider.isConnected || Provider.isLoading || LoadingUI.isBlocked ||
+					Player.player == null || Provider.clients == null || Provider.clients.Count == 0);
+
 		public static int GetTextSize(ESPVisual vis, double dist)
 		{
 			if (!vis.TextScaling)
@@ -220,7 +226,7 @@ namespace Thanking.Utilities
 				case LabelLocation.BottomLeft:
 				case LabelLocation.BottomMiddle:
 				case LabelLocation.BottomRight:
-					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z)));
+					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z)));
 				case LabelLocation.Center:
 				case LabelLocation.MiddleLeft:
 				case LabelLocation.MiddleRight:
@@ -228,7 +234,7 @@ namespace Thanking.Utilities
 				case LabelLocation.TopLeft:
 				case LabelLocation.TopMiddle:
 				case LabelLocation.TopRight:
-					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z)));
+					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z)));
 				default:
 					return Vector2.zero;
 			}
