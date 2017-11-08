@@ -38,7 +38,7 @@ namespace Thanking.Components.UI
             if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
 				return;
 
-			if (!Provider.isConnected || Provider.isLoading)
+			if (!DrawUtilities.ShouldRun())
 				return;
 
 			GUI.depth = 1;
@@ -79,7 +79,7 @@ namespace Thanking.Components.UI
 				string outerText = null;
 
 				Bounds b = obj.Target == ESPTarget.Players
-					? new Bounds(go.transform.position + new Vector3(0, 1.1f, 0), go.transform.localScale + new Vector3(0.2f, 1.1f, 0))
+					? new Bounds(go.transform.position + new Vector3(0, 1, 0), go.transform.localScale + new Vector3(0.4f, 1.5f, 0))
 					: go.GetComponent<Collider>().bounds;
 
                 int size = DrawUtilities.GetTextSize(visual, dist);

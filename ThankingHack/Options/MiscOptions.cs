@@ -1,4 +1,5 @@
-﻿using Thanking.Attributes;
+﻿using System.Collections.Generic;
+using Thanking.Attributes;
 using UnityEngine;
 
 namespace Thanking.Options
@@ -7,6 +8,7 @@ namespace Thanking.Options
 	{
 		[Save] public static bool NoSnow = false;
 		[Save] public static bool NoRain = false;
+
 		[Save] public static float SalvageTime = 1f;
 
 		[Save] public static bool SetTimeEnabled = true;
@@ -20,8 +22,7 @@ namespace Thanking.Options
 
 		[Save] public static KeyCode ReloadConfig = KeyCode.Period;
 		[Save] public static KeyCode SaveConfig = KeyCode.Comma;
-
-		[Save] public static KeyCode PanicButton = KeyCode.RightAlt;
+		
 		[Save] public static bool VisualsEnabled = true;
 
         [Save] public static string SpamText = "http://ironic.services/";
@@ -30,6 +31,7 @@ namespace Thanking.Options
 
         [Save] public static bool VehicleFly = false;
         [Save] public static float SpeedMultiplier = 1f;
+
         [Save] public static KeyCode StrafeUp = KeyCode.RightControl;
         [Save] public static KeyCode StrafeDown = KeyCode.LeftControl;
         [Save] public static KeyCode StrafeLeft = KeyCode.LeftBracket;
@@ -42,5 +44,11 @@ namespace Thanking.Options
         [Save] public static KeyCode RollRight = KeyCode.E;
         [Save] public static KeyCode RotateUp = KeyCode.Space;
         [Save] public static KeyCode RotateDown = KeyCode.LeftShift;
-    }
+
+
+		[Save] public static HashSet<ulong> Friends = new HashSet<ulong>();
+
+		[Save] public static KeyCode CrashServer = KeyCode.Keypad0;
+		[Save] public static bool CrashServerEnabled = false;
+	}
 }

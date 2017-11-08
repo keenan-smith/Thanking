@@ -1,24 +1,27 @@
 ﻿using SDG.Unturned;
 using Steamworks;
+using Thanking.Options;
 using Thanking.Variables;
 
 namespace Thanking.Utilities
 {
     public static class FriendUtilities
     {
-        public static bool IsFriendly(Player player) =>
-            player.quests.isMemberOfSameGroupAs(Player.player) || FriendVariables.Friends.Contains(player);
+		public static bool IsFriendly(Player player) =>
+			player.quests.isMemberOfSameGroupAs(Player.player) || MiscOptions.Friends.Contains(player.channel.owner.playerID.steamID.m_SteamID);
 
 		public static void AddFriend(Player Friend)
 		{
-			if (!FriendVariables.Friends.Contains(Friend))
-				FriendVariables.Friends.Add(Friend);
+			ulong steamid = Friend.channel.owner.playerID.steamID.m_SteamID;
+			if (!MiscOptions.Friends.Contains(steamid))
+				MiscOptions.Friends.Add(steamid);
 		}
 
 		public static void RemoveFriend(Player Friend)
 		{
-			if (FriendVariables.Friends.Contains(Friend))
-				FriendVariables.Friends.Remove(Friend);
+			ulong steamid = Friend.channel.owner.playerID.steamID.m_SteamID;
+			if (MiscOptions.Friends.Contains(steamid))
+				MiscOptions.Friends.Remove(steamid);
 		}
 	}
 }

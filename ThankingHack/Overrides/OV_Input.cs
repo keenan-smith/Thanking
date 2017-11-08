@@ -4,6 +4,7 @@ using Thanking.Attributes;
 using Thanking.Options.AimOptions;
 using Thanking.Variables;
 using UnityEngine;
+using Thanking.Utilities;
 
 namespace Thanking.Overrides
 {
@@ -18,6 +19,9 @@ namespace Thanking.Overrides
 		[Override(typeof(Input), "GetKey", BindingFlags.Public | BindingFlags.Static, 1)]
         public static bool OV_GetKey(KeyCode key)
 		{
+			if (!DrawUtilities.ShouldRun())
+				return (bool)GetKeyInt.Invoke(null, new object[] { (int)key });
+
 			if (key == ControlsSettings.primary && TriggerbotOptions.IsFiring)
 				return true;
 			

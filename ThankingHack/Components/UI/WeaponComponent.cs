@@ -24,7 +24,7 @@ namespace Thanking.Components.UI
 		{
 			if (!WeaponOptions.ShowWeaponInfo) return;
 
-			if (!Provider.isConnected || Provider.isLoading)
+			if (!DrawUtilities.ShouldRun())
 				return;
 
 			if (!(Player.player.equipment.asset is ItemGunAsset))
@@ -39,7 +39,7 @@ namespace Thanking.Components.UI
 
 		public void Update()
 		{
-			if (!Provider.isConnected || Provider.isLoading)
+			if (!DrawUtilities.ShouldRun())
 				return;
 
 			if (!(Player.player.equipment.asset is ItemGunAsset))

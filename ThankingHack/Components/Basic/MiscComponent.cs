@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Thanking.Attributes;
 using Thanking.Options;
+using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Components.Basic
@@ -12,13 +13,14 @@ namespace Thanking.Components.Basic
     [Component]
     public class MiscComponent : MonoBehaviour
     {
-        public void Update()
-        {
-            VehicleFlight();
-        }
+        public void Update() =>
+			VehicleFlight();
 
-        public static void VehicleFlight()
+		public static void VehicleFlight()
         {
+			if (!DrawUtilities.ShouldRun())
+				return;
+
             InteractableVehicle vehicle = Player.player.movement.getVehicle();
 
             if (vehicle == null) return;
