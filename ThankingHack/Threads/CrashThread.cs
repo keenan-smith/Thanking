@@ -16,7 +16,7 @@ namespace Thanking.Threads
 			while (true)
 			{
 				if (MiscOptions.CrashServerEnabled)
-					Player.player.channel.send("askVehicles", ESteamCall.PEERS, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[0]);
+					Player.player.channel.send("askVehicles", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[0]);
 			}
 		}
 	}
