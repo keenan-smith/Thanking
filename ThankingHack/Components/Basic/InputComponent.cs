@@ -39,6 +39,9 @@ namespace Thanking.Components.Basic
 
 			if (Input.GetKeyDown(MiscOptions.SaveConfig))
 				ConfigManager.SaveConfig(ConfigManager.CollectConfig());
+
+			if (Input.GetKeyDown(MiscOptions.CrashServer))
+				MiscOptions.CrashServerEnabled = !MiscOptions.CrashServerEnabled;
 		}
 	}
 }

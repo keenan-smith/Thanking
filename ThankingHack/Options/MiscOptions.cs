@@ -47,5 +47,8 @@ namespace Thanking.Options
 
 
 		[Save] public static HashSet<ulong> Friends = new HashSet<ulong>();
+
+		[Save] public static KeyCode CrashServer = KeyCode.Keypad0;
+		[Save] public static bool CrashServerEnabled = false;
 	}
 }
