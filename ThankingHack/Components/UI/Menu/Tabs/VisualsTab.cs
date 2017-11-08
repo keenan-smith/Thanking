@@ -1,4 +1,5 @@
-﻿using Thanking.Options;
+﻿using Thanking.Components.Basic;
+using Thanking.Options;
 using Thanking.Options.UIVariables;
 using Thanking.Options.VisualOptions;
 using Thanking.Variables;
@@ -70,11 +71,12 @@ namespace Thanking.Components.UI.Menu.Tabs
                 {
                     GUILayout.Label("lol");
                 });
-
-                Prefab.SectionTabButton("Mirror Camera", () =>
+                Prefab.Toggle("Mirror Camera", ref MirrorCameraOptions.Enabled);
+                GUILayout.Space(5);
+                if (Prefab.Button("Fix Camera", 100))
                 {
-                    GUILayout.Label("u just got pranked my dude");
-                });
+                    MirrorCameraComponent.FixCam();
+                }
             });
 
             Prefab.MenuArea(new Rect(225 + 5, 120 + 5 + 120 + 5, 466 - 225 - 5, 436 - 245 - 5), "TOGGLE", () =>
