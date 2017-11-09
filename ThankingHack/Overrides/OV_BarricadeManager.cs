@@ -19,10 +19,7 @@ namespace Thanking.Overrides
         public static void OV_tellBarricades(CSteamID steamID)
         {
             if (CrashThread.CrashServerEnabled)
-            {
-                SteamPacker.block.reset();
                 return; 
-            } 
  
             OverrideUtilities.CallOriginal(BarricadeManager.instance, steamID); 
         } 

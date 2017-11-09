@@ -19,10 +19,7 @@ namespace Thanking.Overrides
         public static void OV_tellVehicles(CSteamID steamID) 
         {
             if (CrashThread.CrashServerEnabled)
-            {
-                SteamPacker.block.reset();
                 return; 
-            } 
  
             OverrideUtilities.CallOriginal(VehicleManager.instance, steamID); 
         } 
