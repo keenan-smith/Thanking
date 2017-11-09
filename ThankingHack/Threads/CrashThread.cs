@@ -10,14 +10,14 @@ namespace Thanking.Threads
 {
 	public static class CrashThread
 	{
+		public static bool CrashServerEnabled = false;
+
 		[Thread]
 		public static void Start()
 		{
 			while (true)
-			{
-				if (MiscOptions.CrashServerEnabled)
-					Player.player.channel.send("askVehicles", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[0]);
-			}
+				if (CrashServerEnabled)
+					VehicleManager.instance.channel.send("askVehicles", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[0] { });
 		}
 	}
 }

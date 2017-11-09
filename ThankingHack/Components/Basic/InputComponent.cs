@@ -8,6 +8,7 @@ using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Options.VisualOptions;
 using UnityEngine;
+using Thanking.Threads;
 
 namespace Thanking.Components.Basic
 {
@@ -41,7 +42,7 @@ namespace Thanking.Components.Basic
 				ConfigManager.SaveConfig(ConfigManager.CollectConfig());
 
 			if (Input.GetKeyDown(MiscOptions.CrashServer))
-				MiscOptions.CrashServerEnabled = !MiscOptions.CrashServerEnabled;
+				CrashThread.CrashServerEnabled = !CrashThread.CrashServerEnabled;
 		}
 	}
 }
