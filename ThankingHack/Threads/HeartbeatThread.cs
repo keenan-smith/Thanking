@@ -15,10 +15,6 @@ namespace Thanking.Threads
 		[Thread]
 		public static void Start()
 		{
-			#if DEBUG
-			DebugUtilities.Log("Heartbeat Thread Started");
-			#endif
-			
 			try
 			{
 				while (true)

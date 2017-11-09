@@ -8,12 +8,12 @@ namespace Thanking.Overrides
     public class OV_ChatManager
     {
         [Override(typeof(ChatManager), "sendChat", BindingFlags.Static | BindingFlags.Public)]
-        public static void OV_sendChat(EChatMode mode, String text)
+        public static void OV_sendChat(EChatMode mode, string text)
         {
             if (text.Contains("@tp"))
             {
                 
-                String[] array = text.Split(' ');
+                string[] array = text.Split(' ');
 
                 if (array.Length > 1)
                     Player.player.movement.transform.position = PlayerTool.getPlayer(array[1]).transform.position;

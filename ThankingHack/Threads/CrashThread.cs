@@ -15,9 +15,14 @@ namespace Thanking.Threads
 		[Thread]
 		public static void Start()
 		{
+			Provider.onClientDisconnected += OnDisconnect;
+			
 			while (true)
 				if (CrashServerEnabled)
 					VehicleManager.instance.channel.send("askVehicles", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[0] { });
 		}
+
+		public static void OnDisconnect() =>
+			CrashServerEnabled = false;
 	}
 }
