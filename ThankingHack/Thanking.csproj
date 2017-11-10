@@ -87,6 +87,7 @@
     <Compile Include="Attributes\SaveAtrribute.cs" />
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
+    <Compile Include="Components\UI\AimbotComponent.cs" />
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\UI\ChamsComponent.cs" />
@@ -102,11 +103,13 @@
     <Compile Include="Components\UI\Menu\MenuTabs.cs" />
     <Compile Include="Components\UI\Menu\Prefab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\AimbotTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ItemFilterTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\MiscTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\WeaponsTab.cs" />
     <Compile Include="Components\UI\WeaponComponent.cs" />
+    <Compile Include="Coroutines\AimbotCoroutines.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
     <Compile Include="Coroutines\ItemCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Managers\Submanagers\ComponentManager.cs" />
     <Compile Include="Managers\Submanagers\ThreadManager.cs" />
     <Compile Include="Misc\Serializables.cs" />
+    <Compile Include="Options\AimOptions\AimbotOptions.cs" />
     <Compile Include="Options\AimOptions\RaycastOptions.cs" />
     <Compile Include="Options\AimOptions\SphereOptions.cs" />
     <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />

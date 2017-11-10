@@ -15,7 +15,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
                 GUILayout.Space(2);
                 MiscOptions.SpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
-                Prefab.MenuArea(new Rect(10, 436 - 125 - 10, 220, 125), "SPAMMER", () =>
+                Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
                     Prefab.Toggle("Enabled", ref MiscOptions.SpammerEnabled);
                     GUILayout.Space(5);
@@ -25,8 +25,9 @@ namespace Thanking.Components.UI.Menu.Tabs
                     GUILayout.Space(5);
                     MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 3000, MiscOptions.SpammerDelay, 175);
                 });
-                Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 125 - 10, 221, 125), "INTERACT", () =>
+                Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135 - 10, 221, 135), "INTERACT", () =>
                 {
+                    Prefab.Toggle("Interact Through Walls", ref InteractionOptions.InteractThroughWalls);
                     Prefab.Toggle("Hit Structures", ref InteractionOptions.HitStructures);
                     Prefab.Toggle("Hit Barricades", ref InteractionOptions.HitBarricades);
                     Prefab.Toggle("Hit Items", ref InteractionOptions.HitItems);

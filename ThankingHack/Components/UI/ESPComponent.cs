@@ -19,10 +19,13 @@ namespace Thanking.Components.UI
 		public static Material GLMat;
 		public static Font ESPFont;
 
+        public static Camera MainCamera;
+
 		public void Start()
         {
             CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
+            MainCamera = Camera.main; // lets define it once ok?
         }
 
         public void Update()
@@ -43,7 +46,9 @@ namespace Thanking.Components.UI
 
 			GUI.depth = 1;
 
-            Camera mainCam = Camera.main;
+            if (MainCamera == null)
+                MainCamera = Camera.main;
+
             Vector3 localPos = Player.player.transform.position;
 
             for (int i = 0; i < ESPVariables.Objects.Count; i++)
@@ -69,7 +74,7 @@ namespace Thanking.Components.UI
 				if (dist > visual.Distance && !visual.InfiniteDistance)
 					continue;
 
-				Vector3 cpos = mainCam.WorldToScreenPoint(position);
+				Vector3 cpos = MainCamera.WorldToScreenPoint(position);
 
 				if (cpos.z <= 0)
 					continue;
@@ -194,14 +199,14 @@ namespace Thanking.Components.UI
                 if (visual.Boxes)
                 {
                     if (visual.TwoDimensional)
-                        DrawUtilities.PrepareRectangleLines(mainCam, b, c);
+                        DrawUtilities.PrepareRectangleLines(MainCamera, b, c);
                     else
                         DrawUtilities.PrepareBoxLines(vectors, c);
                 }
 
                 if (visual.Labels)
                 {
-                    Vector3 LabelVector = DrawUtilities.GetW2SVector(mainCam, b, ll);
+                    Vector3 LabelVector = DrawUtilities.GetW2SVector(MainCamera, b, ll);
                     DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength, outerText);
                 }
 
@@ -220,8 +225,8 @@ namespace Thanking.Components.UI
 			GLMat.SetPass(0);
 
 			GL.PushMatrix();
-			GL.LoadProjectionMatrix(mainCam.projectionMatrix);
-			GL.modelview = mainCam.worldToCameraMatrix;
+			GL.LoadProjectionMatrix(MainCamera.projectionMatrix);
+			GL.modelview = MainCamera.worldToCameraMatrix;
 			GL.Begin(GL.LINES);
 
 			for (int i = 0; i < ESPVariables.DrawBuffer.Count; i++)
