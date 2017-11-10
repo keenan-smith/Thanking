@@ -145,6 +145,7 @@
     <Compile Include="Utilities\DebugUtilities.cs" />
     <Compile Include="Utilities\ItemUtilities.cs" />
     <Compile Include="Utilities\PacketUtilities.cs" />
+    <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />

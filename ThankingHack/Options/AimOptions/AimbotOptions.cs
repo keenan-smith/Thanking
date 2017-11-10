@@ -17,8 +17,8 @@ namespace Thanking.Options.AimOptions
         [Save] public static bool Smooth = true;
         [Save] public static bool OnKey = false;
 
-        public static float MaxSpeed = 1000f;
-        [Save] public static float AimSpeed = 10f;
+        public static float MaxSpeed = 10f;
+        [Save] public static float AimSpeed = 5f;
         [Save] public static float Distance = 300f;
         [Save] public static float FOV = 15;
 
