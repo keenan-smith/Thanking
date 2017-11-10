@@ -16,10 +16,10 @@ namespace Thanking.Components.UI
 			if (MiscOptions.LogoEnabled)
 			{
 				DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomRight, new Vector2(20, 40),
-					"Thanking v2.1.0 Alpha", Color.black, Color.cyan, 3);
+					"Thanking v2.1.1 Alpha", Color.black, Color.cyan, 3);
 				if (Provider.isConnected && !Provider.isLoading)
 					DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomRight, new Vector2(20, 60),
-						$"Can Fly: {PlayerMovement.forceTrustClient}", Color.black, Color.red, 3);
+						$"Movement Checked: {!PlayerMovement.forceTrustClient}", Color.black, Color.red, 3);
 			}
 		}
 	}

@@ -8,8 +8,6 @@ using UnityEngine;
 
 namespace Thanking.Coroutines
 {
-    [SpyComponent]
-    [Component]
     public static class AimbotCoroutines
     {
         public static GameObject LockedObject;

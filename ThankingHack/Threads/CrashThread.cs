@@ -19,5 +19,10 @@ namespace Thanking.Threads
 
 		public static void OnDisconnect() =>
 			CrashServerEnabled = false;
+
+		public static void SendPacket()
+		{
+			
+		}
 	}
 }
