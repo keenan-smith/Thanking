@@ -28,7 +28,10 @@ namespace Thanking.Coroutines
 
         public static IEnumerator SetLockedObject()
         {
-            Debug.Log("Starting Locked Coroutine");
+            #if DEBUG
+            DebugUtilities.Log("Starting Locked Coroutine");
+            #endif
+            
             while (true)
             {
                 if (!AimbotOptions.Enabled || !Provider.isConnected || Provider.isLoading || Provider.clients == null || Provider.clients.Count <= 1)
@@ -38,39 +41,41 @@ namespace Thanking.Coroutines
                 }
                 Player p = null;
                 SteamPlayer[] players = Provider.clients.ToArray();
+                
                 for (int i = 0; i < players.Length; i++)
                 {
                     SteamPlayer cPlayer = players[i];
-                    if (cPlayer.player != Player.player && cPlayer.player != null && cPlayer.player.life != null && !cPlayer.player.life.isDead)
+                    if (cPlayer.player == null || cPlayer.player == Player.player  || cPlayer.player.life == null ||
+                        cPlayer.player.life.isDead) continue;
+                    
+                    switch (AimbotOptions.TargetMode)
                     {
-                        switch (AimbotOptions.TargetMode)
+                        case TargetMode.Distance:
                         {
-                            case TargetMode.Distance:
-                                {
-                                    if (p == null)
+                            if (p == null)
+                                p = players[i].player;
+                            else
+                            {
+                                if (p != null)
+                                    if (VectorUtilities.GetDistance(p.transform.position) > VectorUtilities.GetDistance(players[i].player.transform.position))
                                         p = players[i].player;
-                                    else
-                                    {
-                                        if (p != null)
-                                            if (VectorUtilities.GetDistance(p.transform.position) > VectorUtilities.GetDistance(players[i].player.transform.position))
-                                                p = players[i].player;
-                                    }
-                                    break;
-                                }
-                            case TargetMode.FOV:
-                                {
-                                    Vector3 v2dist = Camera.main.WorldToScreenPoint(GetAimPosition(players[i].player.transform, "Skull"));
+                            }
+                            break;
+                        }
+                        case TargetMode.FOV:
+                        {
+                            Vector3 v2dist = Camera.main.WorldToScreenPoint(GetAimPosition(players[i].player.transform, "Skull"));
 
-                                    Vector2 pos = new Vector2(v2dist.x, v2dist.y);
-                                    float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
+                            Vector2 pos = new Vector2(v2dist.x, v2dist.y);
+                            float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
 
-                                    if (vdist < AimbotOptions.FOV)
-                                        p = players[i].player;
-                                    break;
-                                }
+                            if (vdist < AimbotOptions.FOV)
+                                p = players[i].player;
+                            break;
                         }
                     }
                 }
+                
                 LockedObject = (p != null ? p.gameObject : null);
                 yield return new WaitForEndOfFrame();
             }
@@ -81,7 +86,10 @@ namespace Thanking.Coroutines
 
         public static IEnumerator AimToObject()
         {
-            Debug.Log("Starting Aim Coroutine");
+            #if DEBUG
+            DebugUtilities.Log("Starting Aim Coroutine");
+            #endif
+            
             while (true)
             {
                 if (!AimbotOptions.Enabled || !Provider.isConnected || Provider.isLoading || Provider.clients == null || Provider.clients.Count <= 1)
@@ -121,7 +129,11 @@ namespace Thanking.Coroutines
                 x = Mathf.Lerp(Pitch, x, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
                 y = Mathf.Lerp(Yaw, y, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
             }
-            Debug.Log(string.Format("yaw:{0}|pitch:{1}|x:{2}|y:{3}", Yaw, Pitch, x, y));
+            
+            #if DEBUG
+            DebugUtilities.Log($"yaw:{Yaw}|pitch:{Pitch}|x:{x}|y:{y}");
+            #endif        
+    
             Yaw = x; // left right
             Pitch = y; // up down
         }
@@ -129,16 +141,18 @@ namespace Thanking.Coroutines
         public static Vector3 GetAimPosition(Transform parent, string name)
         {
             Transform[] componentsInChildren = parent.GetComponentsInChildren<Transform>();
-            if (componentsInChildren != null)
+            
+            if (componentsInChildren == null) return new Vector3(1000, 1000, 1000);
+            
+            Transform[] array = componentsInChildren;
+            
+            for (int i = 0; i < array.Length; i++)
             {
-                Transform[] array = componentsInChildren;
-                for (int i = 0; i < array.Length; i++)
-                {
-                    Transform tr = array[i];
-                    if (tr.name.Trim() == name)
-                        return tr.position + new Vector3(0f, 0.4f, 0f);
-                }
+                Transform tr = array[i];
+                if (tr.name.Trim() == name)
+                    return tr.position + new Vector3(0f, 0.4f, 0f);
             }
+            
             return new Vector3(1000, 1000, 1000);
         }
     }
