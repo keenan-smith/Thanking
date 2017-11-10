@@ -19,7 +19,7 @@ namespace Thanking.Utilities
 
         public static double GetDistance(Vector3 point)
         {
-            Vector3 start = MainCamera.instance.transform.position;
+            Vector3 start = Camera.main.transform.position;
             Vector3 heading;
 
             heading.x = start.x - point.x;
