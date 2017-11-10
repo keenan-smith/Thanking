@@ -1,4 +1,9 @@
-﻿namespace Thanking.Threads
+﻿using System.Diagnostics;
+using System.Net;
+using System.Threading;
+using Thanking.Attributes;
+
+namespace Thanking.Threads
 {
 	public static class HeartbeatThread
 	{

@@ -148,16 +148,18 @@ namespace Thanking.Overrides
                     lastInteract = Time.realtimeSinceStartup;
 
                     // ic3 has tamed this area with cancerous code
-                    float Range = !PlayerCoroutines.IsSpying ? (InteractionOptions.InteractThroughWalls ? 20.5f : 4f) : 4f;
-                    int RayMask = !PlayerCoroutines.IsSpying ? (InteractionOptions.InteractThroughWalls ? (RayMasks.VEHICLE | RayMasks.BARRICADE | RayMasks.ITEM | RayMasks.RESOURCE) : RayMasks.PLAYER_INTERACT) : RayMasks.PLAYER_INTERACT;
-                    Vector3 origin = !PlayerCoroutines.IsSpying ?
-                        (Player.player.look.isOrbiting ? Camera.main.transform.position : (!Player.player.look.isCam ? MainCamera.instance.transform.position : Player.player.look.aim.position)) :
-                        (!Player.player.look.isCam ? MainCamera.instance.transform.position : Player.player.look.aim.position);
-                    Vector3 direction = !PlayerCoroutines.IsSpying ?
-                        (Player.player.look.isOrbiting ? Camera.main.transform.forward : (!Player.player.look.isCam ? MainCamera.instance.transform.forward : Player.player.look.aim.forward)) :
-                        (!Player.player.look.isCam ? MainCamera.instance.transform.forward : Player.player.look.aim.forward);
+                    float Range = PlayerCoroutines.IsSpying ? 4 :
+                        InteractionOptions.InteractThroughWalls ? 20f : 4f;
 
-                    PhysicsUtility.raycast(new Ray(origin, MainCamera.instance.transform.forward), out hit, ((Player.player.look.perspective != EPlayerPerspective.THIRD) ? (Range) : (Range + 2.1f)), RayMask, 0);
+                    int RayMask = PlayerCoroutines.IsSpying ? RayMasks.PLAYER_INTERACT :
+                        InteractionOptions.InteractThroughWalls ? Mask : RayMasks.PLAYER_INTERACT;
+
+                    PlayerLook pLook = Player.player.look;
+
+                    Vector3 origin = pLook.isCam ? pLook.aim.position : MainCamera.instance.transform.position;
+                    Vector3 direction = pLook.isCam ? pLook.aim.forward : MainCamera.instance.transform.forward;
+
+                    PhysicsUtility.raycast(new Ray(origin, direction), out hit, Player.player.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, RayMask, 0);
 
                     /*if (Player.player.look.isCam)
 						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),

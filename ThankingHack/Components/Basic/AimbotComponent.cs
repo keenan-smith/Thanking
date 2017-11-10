@@ -1,15 +1,16 @@
 ﻿using Thanking.Attributes;
+using Thanking.Coroutines;
 using UnityEngine;
 
 namespace Thanking.Components.Basic
 {
-	[SpyComponent]
 	[Component]
 	public class AimbotComponent : MonoBehaviour
 	{
-		public void Update()
+		public void Start()
 		{
-			
+			CoroutineComponent.LockCoroutine = StartCoroutine(AimbotCoroutines.SetLockedObject());
+			CoroutineComponent.AimbotCoroutine = StartCoroutine(AimbotCoroutines.AimToObject());
 		}
 	}
 }

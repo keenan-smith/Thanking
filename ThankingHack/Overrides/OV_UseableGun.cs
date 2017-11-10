@@ -24,21 +24,24 @@ namespace Thanking.Overrides
 		[Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_ballistics()
         {
+	        Useable PlayerUse = Player.player.equipment.useable;
             if (RaycastOptions.Enabled)
             {
                 ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
                 if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
                     return;
 
-				Useable PlayerUse = Player.player.equipment.useable;
 				List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
 
 				if (Provider.modeConfigData.Gameplay.Ballistics)
                 {
+	                RaycastInfo ri = RaycastUtilities.GenerateRaycast();
+	                if (ri.player == null)
+		                OverrideUtilities.CallOriginal(PlayerUse);
+	                
                     for (int i = 0; i < Bullets.Count; i++)
                     {
                         BulletInfo bulletInfo = Bullets[i];
-                        RaycastInfo ri = RaycastUtilities.GenerateRaycast();
                         double distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
 
                         if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
@@ -52,7 +55,8 @@ namespace Thanking.Overrides
 			                        });
                         }
 
-	                    if (!(bulletInfo.steps * PAsset.ballisticTravel >= distance) || ri.point == Vector3.zero) continue;
+	                    if (bulletInfo.steps * PAsset.ballisticTravel < distance) 
+		                    continue;
 	                    
 	                    EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
 	                    PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
@@ -84,7 +88,7 @@ namespace Thanking.Overrides
                 }
             }
             else
-				OverrideUtilities.CallOriginal(this);
+				OverrideUtilities.CallOriginal(PlayerUse);
 		}
 
         public static EPlayerHit CalcHitMarker(ItemGunAsset PAsset, ref RaycastInfo ri)
