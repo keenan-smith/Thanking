@@ -1,11 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
-using System.Threading;
-using Thanking.Attributes;
-using Thanking.Utilities;
-using UnityEngine;
-
-namespace Thanking.Threads
+﻿namespace Thanking.Threads
 {
 	public static class HeartbeatThread
 	{

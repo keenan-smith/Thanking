@@ -1,5 +1,4 @@
 ﻿using Thanking.Attributes;
-using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Components.Basic

@@ -1,6 +1,5 @@
 ﻿using SDG.Unturned;
 using Thanking.Attributes;
-using Thanking.Misc;
 
 namespace Thanking.Options.AimOptions
 {

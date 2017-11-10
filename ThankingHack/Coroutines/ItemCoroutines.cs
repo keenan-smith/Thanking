@@ -1,9 +1,5 @@
-﻿using SDG.Unturned;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
+using SDG.Unturned;
 using Thanking.Options;
 using Thanking.Utilities;
 using UnityEngine;

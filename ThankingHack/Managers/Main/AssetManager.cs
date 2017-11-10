@@ -1,7 +1,5 @@
 ﻿using Thanking.Components.Basic;
 using Thanking.Coroutines;
-using Thanking.Utilities;
-using UnityEngine;
 
 namespace Thanking.Managers.Main
 {

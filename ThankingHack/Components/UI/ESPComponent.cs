@@ -8,7 +8,6 @@ using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
-using System.Diagnostics;
 
 namespace Thanking.Components.UI
 {

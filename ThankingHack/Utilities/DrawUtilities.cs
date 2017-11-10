@@ -1,5 +1,4 @@
 ﻿using SDG.Unturned;
-using Thanking.Coroutines;
 using Thanking.Variables;
 using UnityEngine;
 

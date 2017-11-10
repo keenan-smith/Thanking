@@ -1,10 +1,6 @@
-﻿using dnlib.DotNet;
+﻿using System;
+using dnlib.DotNet;
 using dnlib.DotNet.Emit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ThankingObfuscator.Renaming;
 
 namespace ThankingObfuscator.Protection.JunkCode

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Reflection;
+﻿using System.Collections;
 using SDG.Unturned;
-using Thanking.Attributes;
 using Thanking.Components.UI;
 using Thanking.Managers.Submanagers;
-using Thanking.Utilities;
-using Thanking.Variables;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Thanking.Coroutines
 {

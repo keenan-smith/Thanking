@@ -1,5 +1,5 @@
-﻿using SDG.Unturned;
-using System;
+﻿using System;
+using SDG.Unturned;
 using UnityEngine;
 
 namespace Thanking.Utilities

@@ -13,7 +13,7 @@ namespace ThankingObfuscator
 			Symbols.Run(module);
 			MalformedMethodGenerator.GenMalformedMethods(module);
 
-			ModuleWriterOptions opt = new ModuleWriterOptions()
+			ModuleWriterOptions opt = new ModuleWriterOptions
 			{
 				Logger = DummyLogger.NoThrowInstance
 			};
