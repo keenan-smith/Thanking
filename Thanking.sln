@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thanking", "ThankingHack\Th
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThankingObfuscator", "ThankingObfuscator\ThankingObfuscator.csproj", "{0E82236C-372E-4DA4-9D00-D4D9709F19A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "DiscordBot\DiscordBot.csproj", "{93922B8E-19E2-4218-B165-DAD9EE0BF90B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Commercial|Any CPU = Commercial|Any CPU
@@ -26,6 +28,12 @@ Global
 		{0E82236C-372E-4DA4-9D00-D4D9709F19A6}.Private|Any CPU.Build.0 = Debug|Any CPU
 		{0E82236C-372E-4DA4-9D00-D4D9709F19A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E82236C-372E-4DA4-9D00-D4D9709F19A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93922B8E-19E2-4218-B165-DAD9EE0BF90B}.Commercial|Any CPU.ActiveCfg = Commercial|Any CPU
+		{93922B8E-19E2-4218-B165-DAD9EE0BF90B}.Commercial|Any CPU.Build.0 = Commercial|Any CPU
+		{93922B8E-19E2-4218-B165-DAD9EE0BF90B}.Private|Any CPU.ActiveCfg = Private|Any CPU
+		{93922B8E-19E2-4218-B165-DAD9EE0BF90B}.Private|Any CPU.Build.0 = Private|Any CPU
+		{93922B8E-19E2-4218-B165-DAD9EE0BF90B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93922B8E-19E2-4218-B165-DAD9EE0BF90B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
