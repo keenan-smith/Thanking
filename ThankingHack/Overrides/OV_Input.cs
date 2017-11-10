@@ -2,9 +2,9 @@
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options.AimOptions;
+using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
-using Thanking.Utilities;
 
 namespace Thanking.Overrides
 {

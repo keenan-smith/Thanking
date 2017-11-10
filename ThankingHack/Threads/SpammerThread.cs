@@ -2,8 +2,6 @@
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options;
-using Thanking.Utilities;
-using UnityEngine;
 
 namespace Thanking.Threads
 {

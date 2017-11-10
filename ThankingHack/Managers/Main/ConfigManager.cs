@@ -6,7 +6,6 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Thanking.Attributes;
-using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Managers.Main

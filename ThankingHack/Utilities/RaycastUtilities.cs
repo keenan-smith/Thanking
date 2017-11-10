@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using SDG.Framework.Utilities;
 using SDG.Unturned;
-using Thanking.Components.Basic;
-using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;

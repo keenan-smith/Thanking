@@ -1,7 +1,4 @@
-﻿using SDG.Unturned;
-using Thanking.Components.Basic;
-using Thanking.Options;
-using Thanking.Options.AimOptions;
+﻿using Thanking.Options.AimOptions;
 using Thanking.Options.UIVariables;
 using UnityEngine;
 

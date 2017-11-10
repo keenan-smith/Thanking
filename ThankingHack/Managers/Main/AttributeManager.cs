@@ -1,6 +1,4 @@
 ﻿using Thanking.Managers.Submanagers;
-using Thanking.Utilities;
-using UnityEngine;
 
 namespace Thanking.Managers.Main
 {

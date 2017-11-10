@@ -1,16 +1,10 @@
-﻿using SDG.Unturned; 
-using Steamworks; 
-using System; 
-using System.Collections.Generic; 
-using System.Linq; 
-using System.Reflection; 
-using System.Text; 
-using Thanking.Attributes; 
-using Thanking.Managers.Submanagers; 
-using Thanking.Options;
+﻿using System.Reflection;
+using SDG.Unturned;
+using Steamworks;
+using Thanking.Attributes;
 using Thanking.Threads;
-using Thanking.Utilities; 
- 
+using Thanking.Utilities;
+
 namespace Thanking.Overrides 
 { 
     public static class OV_BarricadeManager 

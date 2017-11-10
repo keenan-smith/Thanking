@@ -1,7 +1,5 @@
 ﻿using SDG.Unturned;
-using Steamworks;
 using Thanking.Options;
-using Thanking.Variables;
 
 namespace Thanking.Utilities
 {
