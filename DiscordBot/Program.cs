@@ -28,6 +28,7 @@ namespace DiscordBot
             
             await MessageHandler.InitCMDs();
             await MessageHandler.InitMessageLogger();
+            await MessageHandler.InitResponses();
         }
     }
 }
