@@ -1,9 +1,11 @@
+image : microsoft/dotnet:latest
+stages:
+  - build
 before_script:
-  - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-  - echo deb "http://download.mono-project.com/repo/debian wheezy main" | tee /etc/apt/sources.list.d/mono-official.list
-  - apt-get update -qq
-  - apt-get install -y -qq mono-devel
-  
+  - 'dotnet restore'
 build:
-  script:
-    - msbuild /p:Configuration=Commercial
+ stage: build
+ script:
+  - 'dotnet msbuild /p:Configuration=Commercial'
+ only:
+   - master
