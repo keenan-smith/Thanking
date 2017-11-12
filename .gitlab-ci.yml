@@ -5,6 +5,8 @@ stages:
   
 build:
  stage: build
+ variables:
+    build_path: "ThankingHack"
  script:
   - 'xbuild /p:Configuration=Commercial'
  only:
