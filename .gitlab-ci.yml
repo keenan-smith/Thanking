@@ -1,11 +1,11 @@
-image : microsoft/dotnet:latest
+image : mono:5.4.0.201
+
 stages:
   - build
-before_script:
-  - 'dotnet restore'
+  
 build:
  stage: build
  script:
-  - 'dotnet msbuild /p:Configuration=Commercial'
+  - 'xbuild /p:Configuration=Commercial'
  only:
    - master
