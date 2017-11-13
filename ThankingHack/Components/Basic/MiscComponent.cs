@@ -2,6 +2,7 @@
 using Thanking.Attributes;
 using Thanking.Options;
 using Thanking.Utilities;
+using Thanking.Coroutines;
 using UnityEngine;
 
 namespace Thanking.Components.Basic
@@ -9,14 +10,42 @@ namespace Thanking.Components.Basic
     [Component]
     public class MiscComponent : MonoBehaviour
     {
-        public void Update() =>
-			VehicleFlight();
+        [OnSpy] // idk how this wurks im sry kr4ken pls dont roast me :[
+        private void TurnOffMyFuckingNightVision()
+        {
+            if (!MiscOptions.WasNightVision)
+                return;
+            LevelLighting.vision = ELightingVision.NONE;
+            LevelLighting.updateLighting();
+            PlayerLifeUI.updateGrayscale();
+            MiscOptions.WasNightVision = false;
+        }
+
+        public void Update()
+        {
+            if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
+                return;
+            VehicleFlight();
+            if (MiscOptions.NightVision)
+            {
+                LevelLighting.vision = ELightingVision.MILITARY;
+                LevelLighting.updateLighting();
+                PlayerLifeUI.updateGrayscale();
+                MiscOptions.WasNightVision = true;
+            }
+            else
+            {
+                if (!MiscOptions.WasNightVision)
+                    return;
+                LevelLighting.vision = ELightingVision.NONE;
+                LevelLighting.updateLighting();
+                PlayerLifeUI.updateGrayscale();
+                MiscOptions.WasNightVision = false;
+            }
+        }
 
 		public static void VehicleFlight()
         {
-			if (!DrawUtilities.ShouldRun())
-				return;
-
             InteractableVehicle vehicle = Player.player.movement.getVehicle();
 
             if (vehicle == null) return;

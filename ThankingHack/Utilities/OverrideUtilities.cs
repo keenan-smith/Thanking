@@ -174,7 +174,7 @@ namespace Thanking.Utilities
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

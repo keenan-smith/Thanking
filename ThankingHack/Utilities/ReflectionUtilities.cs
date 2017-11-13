@@ -50,11 +50,11 @@ namespace Thanking.Utilities
                 case FieldType.Private:
                     return BindingFlags.Instance | BindingFlags.NonPublic;
                 case FieldType.PrivateStatic:
-                    return BindingFlags.NonPublic | BindingFlags.Static;
+                    return BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static;
                 case FieldType.Public:
                     return BindingFlags.Instance | BindingFlags.Public;
                 case FieldType.PublicStatic:
-                    return BindingFlags.Instance | BindingFlags.Public;
+                    return BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static;
                 default:
                     return BindingFlags.Instance;
             }

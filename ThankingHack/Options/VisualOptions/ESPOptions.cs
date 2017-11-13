@@ -15,15 +15,16 @@ namespace Thanking.Options.VisualOptions
         [Save] public static bool ChamsEnabled = true;
         [Save] public static bool ChamsFlat = false;
 
-		[Save]
-		public static ESPVisual[] VisualOptions =
-		{
-			new ESPVisual
-			{
-				Enabled = true,
-				Labels = true,
-				Boxes = true,
-				TwoDimensional = true,
+        [Save]
+        public static ESPVisual[] VisualOptions =
+        {
+            new ESPVisual
+            {
+                Enabled = true,
+                Labels = true,
+                Boxes = true,
+                TwoDimensional = true,
+                Glow = false,
 				InfiniteDistance = true,
 				LineToObject = false,
 				TextScaling = true,
@@ -47,7 +48,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = true,
-				InfiniteDistance = true,
+                Glow = false,
+                InfiniteDistance = true,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,
@@ -70,7 +72,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = false,
-				InfiniteDistance = false,
+                Glow = false,
+                InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,
@@ -93,7 +96,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = false,
-				InfiniteDistance = false,
+                Glow = false,
+                InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,
@@ -116,7 +120,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = false,
-				InfiniteDistance = false,
+                Glow = false,
+                InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,
@@ -139,7 +144,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = false,
-				InfiniteDistance = false,
+                Glow = false,
+                InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,
@@ -162,7 +168,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = false,
-				InfiniteDistance = false,
+                Glow = false,
+                InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,
@@ -185,7 +192,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = false,
-				InfiniteDistance = false,
+                Glow = false,
+                InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,
@@ -208,7 +216,8 @@ namespace Thanking.Options.VisualOptions
 				Labels = true,
 				Boxes = true,
 				TwoDimensional = false,
-				InfiniteDistance = false,
+                Glow = false,
+                InfiniteDistance = false,
 				LineToObject = false,
 				TextScaling = true,
 				UseObjectCap = true,

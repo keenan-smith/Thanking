@@ -35,8 +35,9 @@ namespace Thanking.Variables
 		public bool Enabled;
         public bool Boxes;
         public bool Labels;
-		public bool TwoDimensional;
-		public bool InfiniteDistance;
+        public bool TwoDimensional;
+        public bool Glow;
+        public bool InfiniteDistance;
 		public bool LineToObject;
 		public bool TextScaling;
 		public bool UseObjectCap;

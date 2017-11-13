@@ -15,9 +15,16 @@ namespace Thanking.Options
 		[Save] public static float Time = 0f;
 
 		[Save] public static bool SlowFall = false;
-		[Save] public static bool AirStick = false;
+        [Save] public static bool AirStick = false;
 
-		[Save] public static bool LogoEnabled = true;
+        [Save] public static bool Compass = false;
+        [Save] public static bool GPS = false;
+        [Save] public static bool SPOM = false; // Show Players On Map
+        [Save] public static bool NightVision = false;
+
+        public static bool WasNightVision = false;
+
+        [Save] public static bool LogoEnabled = true;
 		[Save] public static KeyCode LogoToggle = KeyCode.Slash;
 
 		[Save] public static KeyCode ReloadConfig = KeyCode.Period;

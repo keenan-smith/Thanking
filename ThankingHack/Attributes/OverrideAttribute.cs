@@ -53,7 +53,7 @@ namespace Thanking.Attributes
 
 				MethodFound = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MethodFound = false;
             }

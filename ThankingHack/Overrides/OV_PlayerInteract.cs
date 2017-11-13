@@ -120,7 +120,7 @@ namespace Thanking.Overrides
         public void OV_Update() // i have no idea what any of this does tbh
         {
 
-            if (!DrawUtilities.ShouldRun())
+            if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
                 return;
 
             if (Player.player.stance.stance != EPlayerStance.DRIVING && Player.player.stance.stance != EPlayerStance.SITTING &&

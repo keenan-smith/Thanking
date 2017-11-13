@@ -74,7 +74,7 @@ namespace Thanking.Wrappers
             {
                 result = Original.Invoke(instance ?? Instance, args);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

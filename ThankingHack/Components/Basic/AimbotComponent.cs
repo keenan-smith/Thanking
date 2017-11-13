@@ -9,8 +9,8 @@ namespace Thanking.Components.Basic
 	{
 		public void Start()
 		{
-			CoroutineComponent.LockCoroutine = StartCoroutine(AimbotCoroutines.SetLockedObject());
-			CoroutineComponent.AimbotCoroutine = StartCoroutine(AimbotCoroutines.AimToObject());
+			//CoroutineComponent.LockCoroutine = StartCoroutine(AimbotCoroutines.SetLockedObject());
+			//CoroutineComponent.AimbotCoroutine = StartCoroutine(AimbotCoroutines.AimToObject());
 		}
 	}
 }

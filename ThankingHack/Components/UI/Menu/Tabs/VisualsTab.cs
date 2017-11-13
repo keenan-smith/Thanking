@@ -65,7 +65,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 
             });
 
-            Prefab.MenuArea(new Rect(225 + 5, 0, 466 - 225 - 5, 245), "OTHER", () =>
+            Prefab.MenuArea(new Rect(225 + 5, 0, 466 - 225 - 5, 235), "OTHER", () =>
             {
                 Prefab.SectionTabButton("Radar", () =>
                 {
@@ -79,13 +79,17 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
             });
 
-            Prefab.MenuArea(new Rect(225 + 5, 120 + 5 + 120 + 5, 466 - 225 - 5, 436 - 245 - 5), "TOGGLE", () =>
+            Prefab.MenuArea(new Rect(225 + 5, 120 + 5 + 110 + 5, 466 - 225 - 5, 436 - 235 - 5), "TOGGLE", () =>
             {
                 Prefab.Toggle("ESP", ref ESPOptions.Enabled);
                 Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled);
                 Prefab.Toggle("Flat Chams", ref ESPOptions.ChamsFlat);
                 Prefab.Toggle("No Rain", ref MiscOptions.NoRain);
                 Prefab.Toggle("No Snow", ref MiscOptions.NoSnow);
+                Prefab.Toggle("Night Vision", ref MiscOptions.NightVision);
+                Prefab.Toggle("Compass", ref MiscOptions.Compass);
+                Prefab.Toggle("GPS", ref MiscOptions.GPS);
+                Prefab.Toggle("Show Players On Map", ref MiscOptions.SPOM);
             });
         }
 
@@ -96,6 +100,7 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.Toggle("Labels", ref ESPOptions.VisualOptions[target].Labels);
             Prefab.Toggle("Box ESP", ref ESPOptions.VisualOptions[target].Boxes);
             Prefab.Toggle("2D Boxes", ref ESPOptions.VisualOptions[target].TwoDimensional);
+            Prefab.Toggle("Glow", ref ESPOptions.VisualOptions[target].Glow);
             Prefab.Toggle("Line To Object", ref ESPOptions.VisualOptions[target].LineToObject);
             Prefab.Toggle("Text Scaling", ref ESPOptions.VisualOptions[target].TextScaling);
             Prefab.Toggle("Infinite Distance", ref ESPOptions.VisualOptions[target].InfiniteDistance);

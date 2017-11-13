@@ -30,12 +30,12 @@ namespace Thanking.Coroutines
                 }
                 try
                 {
-	                if (ESPOptions.ChamsEnabled)
-		                EnableChams();
-	                else
-		                DisableChams();
+                    if (ESPOptions.ChamsEnabled)
+                        EnableChams();
+                    else
+                        DisableChams();
                 }
-                catch(Exception e) { Debug.LogException(e); }
+                catch (Exception e) { Debug.LogException(e); }
                 yield return new WaitForSeconds(5);
             }
         }

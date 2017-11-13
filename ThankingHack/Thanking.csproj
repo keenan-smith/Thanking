@@ -101,6 +101,7 @@
     <Compile Include="Components\UI\Menu\Tabs\AimbotTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\InfoTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ItemFilterTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\FriendsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\MiscTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\WeaponsTab.cs" />
@@ -133,6 +134,8 @@
     <Compile Include="Overrides\OV_BarricadeManager.cs" />
     <Compile Include="Overrides\OV_ChatManager.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
+    <Compile Include="Overrides\PlayerInventory.cs" />
+    <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
     <Compile Include="Overrides\OV_VehicleManager.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\CrashThread.cs" />

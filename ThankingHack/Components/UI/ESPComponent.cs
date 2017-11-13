@@ -8,6 +8,8 @@ using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
+using HighlightingSystem;
+using System.Collections.Generic;
 
 namespace Thanking.Components.UI
 {
@@ -17,6 +19,8 @@ namespace Thanking.Components.UI
 	{
 		public static Material GLMat;
 		public static Font ESPFont;
+
+        private static List<Highlighter> highlighters = new List<Highlighter>();
 
         public static Camera MainCamera;
 
@@ -203,6 +207,28 @@ namespace Thanking.Components.UI
                         DrawUtilities.PrepareBoxLines(vectors, c);
                 }
 
+                if (visual.Glow)
+                {
+                    Highlighter highlighter = go.GetComponent<Highlighter>();
+                    if (highlighter == null)
+                    {
+                        highlighter = go.AddComponent<Highlighter>();
+                        highlighter.OccluderOn();
+                        highlighter.SeeThroughOn();
+                        highlighter.ConstantOnImmediate();
+                        highlighters.Add(highlighter);
+                    }
+                }
+                else
+                {
+                    Highlighter highlighter = go.GetComponent<Highlighter>();
+                    if (highlighter != null)
+                    {
+                        highlighter.ConstantOffImmediate();
+                        highlighter.Die();
+                    }
+                }
+
                 if (visual.Labels)
                 {
                     Vector3 LabelVector = DrawUtilities.GetW2SVector(MainCamera, b, ll);
@@ -258,6 +284,17 @@ namespace Thanking.Components.UI
 			}
 			GL.End();
 			GL.PopMatrix();
+        }
+
+        [OnSpy]
+        private static void DisableHighlighters()
+        {
+            foreach(Highlighter highlighter in highlighters) // pls dont go apeshit kr4ken its only called once every spy and it's not like update() where its called every milisecond
+            {
+                highlighter.ConstantOffImmediate();
+                highlighter.Die();
+            }
+            highlighters.Clear();
         }
 
 		public static String SentryName(Item DisplayItem) => DisplayItem != null
