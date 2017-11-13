@@ -10,6 +10,10 @@ namespace Thanking.Managers.Submanagers
 	{
 		public static void Load()
 		{
+			#if DEBUG
+			DebugUtilities.Log("Initializing InitializationManager");
+			#endif
+			
 			Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
 
 			for (int i = 0; i < Types.Length; i++)

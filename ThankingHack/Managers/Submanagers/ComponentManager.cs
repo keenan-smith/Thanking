@@ -2,11 +2,16 @@
 using System.Linq;
 using System.Reflection;
 using Thanking.Attributes;
+using Thanking.Utilities;
 
 namespace Thanking.Managers.Submanagers
 {
     public static class ComponentManager
     {
+        #if DEBUG
+        DebugUtilities.Log("Initializing ComponentManager");
+        #endif
+        
         public static void Load()
         {
             Type[] Types = Assembly.GetExecutingAssembly().GetTypes()

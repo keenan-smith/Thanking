@@ -10,14 +10,16 @@ namespace Thanking.Components.Basic
     [Component]
     public class MiscComponent : MonoBehaviour
     {
-        [OnSpy] // idk how this wurks im sry kr4ken pls dont roast me :[
-        private void TurnOffMyFuckingNightVision()
+        [OnSpy] 
+        public static void TurnOffMyFuckingNightVision()
         {
-            if (!MiscOptions.WasNightVision)
-                return;
+            if (!MiscOptions.WasNightVision) return;
+            
             LevelLighting.vision = ELightingVision.NONE;
+            
             LevelLighting.updateLighting();
             PlayerLifeUI.updateGrayscale();
+            
             MiscOptions.WasNightVision = false;
         }
 
@@ -25,7 +27,9 @@ namespace Thanking.Components.Basic
         {
             if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
                 return;
+            
             VehicleFlight();
+            
             if (MiscOptions.NightVision)
             {
                 LevelLighting.vision = ELightingVision.MILITARY;
@@ -35,8 +39,8 @@ namespace Thanking.Components.Basic
             }
             else
             {
-                if (!MiscOptions.WasNightVision)
-                    return;
+                if (!MiscOptions.WasNightVision) return;
+                
                 LevelLighting.vision = ELightingVision.NONE;
                 LevelLighting.updateLighting();
                 PlayerLifeUI.updateGrayscale();

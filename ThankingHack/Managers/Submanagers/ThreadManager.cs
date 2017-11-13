@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using Thanking.Attributes;
 using Thanking.Variables;
+using Thanking.Utilities;
 
 namespace Thanking.Managers.Submanagers
 {
@@ -11,6 +12,10 @@ namespace Thanking.Managers.Submanagers
 	{
 		public static void Load()
 		{
+			#if DEBUG
+			DebugUtilities.Log("Initializing ThreadManager");
+			#endif
+			
 			Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
 
 			for (int i = 0; i < Types.Length; i++)

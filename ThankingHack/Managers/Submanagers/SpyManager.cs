@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Variables;
+using Thanking.Utilities;
 using Object = UnityEngine.Object;
 
 namespace Thanking.Managers.Submanagers
@@ -16,6 +17,10 @@ namespace Thanking.Managers.Submanagers
 
         public static void Load()
         {
+            #if DEBUG
+            DebugUtilities.Log("Initializing SpyManager");
+            #endif
+            
             List<MethodInfo> Pre = new List<MethodInfo>();
             List<Type> Comps = new List<Type>();
             List<MethodInfo> Post = new List<MethodInfo>();

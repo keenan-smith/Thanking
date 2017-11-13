@@ -73,7 +73,7 @@ namespace Thanking.Managers.Main
 		        {
 			        FieldInfo Field = Fields[o];
 
-			        string Name = Type.Name + "_" + Field.Name;
+			        String Name = $"{Type.Name}_{Field.Name}";
 
 			        if (!Config.ContainsKey(Name)) continue;
 			        
