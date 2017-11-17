@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -10,22 +11,25 @@ namespace Thanking.Managers.Submanagers
 {
 	public static class ThreadManager
 	{
+		/// <summary>
+		/// Collect and start methods marked with ThreadAttribute in their own threads
+		/// </summary>
 		public static void Load()
 		{
 			#if DEBUG
 			DebugUtilities.Log("Initializing ThreadManager");
 			#endif
 			
-			Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
+			IEnumerable<Type> Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass);
 
-			for (int i = 0; i < Types.Length; i++)
+			foreach(Type T in Types)
 			{
-				MethodInfo[] Methods = Types[i].GetMethods(ReflectionVariables.Everything).Where(M => M.IsDefined(typeof(ThreadAttribute), false))
-					.ToArray();
+				IEnumerable<MethodInfo> Methods = T.GetMethods(ReflectionVariables.Everything)
+					.Where(M => M.IsDefined(typeof(ThreadAttribute), false));
 
-				for (int o = 0; o < Methods.Length; o++)
+				foreach(MethodInfo M in Methods)
 				{
-					Action ThreadAction = (Action) Delegate.CreateDelegate(typeof(Action), Methods[o]);
+					Action ThreadAction = (Action) Delegate.CreateDelegate(typeof(Action), M);
 					new Thread(new ThreadStart(ThreadAction)).Start();
 				}
 			}

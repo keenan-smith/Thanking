@@ -18,31 +18,33 @@ namespace Thanking.Managers.Submanagers
 
         public static Dictionary<OverrideAttribute, OverrideWrapper> Overrides => _overrides; // The public detours
 
+        /// <summary>
+        /// Collect and override methods marked with OvererideAttribute
+        /// </summary>
         public static void Load()
         {
             #if DEBUG
             DebugUtilities.Log("Initializing OverrideManager");
             #endif
-            
-            Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
 
-            for (int i = 0; i < Types.Length; i++)
+            IEnumerable<Type> Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass);
+
+            foreach (Type T in Types)
             {
-                MethodInfo[] Methods = Types[i].GetMethods(ReflectionVariables.Everything).Where(M => M.IsDefined(typeof(OverrideAttribute), false))
-                    .ToArray();
+                IEnumerable<MethodInfo> Methods = T.GetMethods(ReflectionVariables.Everything)
+                    .Where(M => M.IsDefined(typeof(OverrideAttribute), false));
 
-                for (int o = 0; o < Methods.Length; o++)
-                    LoadOverride(Methods[o]);
+                foreach(MethodInfo M in Methods)
+                    LoadOverride(M);
             }
         }
         
         public static void LoadOverride(MethodInfo method)
         {
-            // Setup variables
+            // Get attribute related variables
             OverrideAttribute attribute = (OverrideAttribute)Attribute.GetCustomAttribute(method, typeof(OverrideAttribute));
 			
-			// Do checks
-            
+			// Check if method has been overrided before
 			if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
                 return;
 
@@ -54,7 +56,7 @@ namespace Thanking.Managers.Submanagers
 
                 Overrides.Add(attribute, wrapper);
             }
-            catch (Exception ex) { Debug.LogException(ex); }
+            catch (Exception ex) { DebugUtilities.LogException(ex); }
         }
     }
 }

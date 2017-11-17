@@ -11,10 +11,13 @@ namespace Thanking.Managers.Submanagers
 {
     public class SpyManager
     {
-        public static MethodInfo[] PreSpy;
-        public static Type[] Components;
-        public static MethodInfo[] PostSpy;
+        public static IEnumerable<MethodInfo> PreSpy;
+        public static IEnumerable<Type> Components;
+        public static IEnumerable<MethodInfo> PostSpy;
 
+        /// <summary>
+        ///  Collects types marked with SpyComponentAttribute and Methods marked with OnSpyAttribute and OffSpyAttribute
+        /// </summary>
         public static void Load()
         {
             #if DEBUG
@@ -25,56 +28,70 @@ namespace Thanking.Managers.Submanagers
             List<Type> Comps = new List<Type>();
             List<MethodInfo> Post = new List<MethodInfo>();
 
-            Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
+            IEnumerable<Type> Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass);
 
-            for (int i = 0; i < Types.Length; i++)
+            foreach (Type T in Types)
             {
-                Type Type = Types[i];
+                // Collect components that should be destroyed before a spy screenshot is taken
+                if (T.IsDefined(typeof(SpyComponentAttribute), false))
+                    Comps.Add(T);
 
-                if (Type.IsDefined(typeof(SpyComponentAttribute), false))
-                    Comps.Add(Type);
-
-                MethodInfo[] Methods = Types[i].GetMethods(ReflectionVariables.Everything);
+                // Collect only static methods because we cannot invoke methods that must be instantiated
+                MethodInfo[] Methods = T.GetMethods(ReflectionVariables.PublicStatic);
 
                 for (int o = 0; o < Methods.Length; o++)
                 {
                     MethodInfo Method = Methods[o];
 
+                    // Collect methods marked with OnSpyAttribute
                     if (Method.IsDefined(typeof(OnSpyAttribute), false))
                         Pre.Add(Method);
 
+                    // Collect methods marked with OffSpyAttribute
                     if (Method.IsDefined(typeof(OffSpyAttribute), false))
                         Post.Add(Method);
                 }
             }
 
-            PreSpy = Pre.ToArray();
-            Components = Comps.ToArray();
-            PostSpy = Post.ToArray();
+            PreSpy = Pre;
+            Components = Comps;
+            PostSpy = Post;
         }
 
+        /// <summary>
+        /// Invoke methods marked with OnSpyAttribute
+        /// </summary>
         public static void InvokePre()
         {
-            for (int i = 0; i < PreSpy.Length; i++)
-                PreSpy[i].Invoke(null, null);
+            foreach (MethodInfo M in PreSpy)
+                M.Invoke(null, null);
         }
 
+        /// <summary>
+        /// Invoke methods marked with OffSpyAttribute
+        /// </summary>
         public static void InvokePost()
         {
-            for (int i = 0; i < PostSpy.Length; i++)
-                PostSpy[i].Invoke(null, null);
+            foreach (MethodInfo M in PostSpy)
+                M.Invoke(null, null);
         }
 
+        /// <summary>
+        /// Destroy components marked with SpyComponentAttribute
+        /// </summary>
         public static void DestroyComponents()
         {
-            for(int i = 0; i < Components.Length; i++)
-                Object.Destroy(Loader.HookObject.GetComponent(Components[i]));
+            foreach (Type C in Components)
+                Object.Destroy(Loader.HookObject.GetComponent(C));
         }
 
+        /// <summary>
+        /// Add components marked with SpyComponentAttribute that were previously destroyed
+        /// </summary>
         public static void AddComponents()
         {
-            for (int i = 0; i < Components.Length; i++)
-                Loader.HookObject.AddComponent(Components[i]);
+            foreach (Type C in Components)
+                Loader.HookObject.AddComponent(C);
         }
     }
 }

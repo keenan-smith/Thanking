@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Thanking.Attributes;
@@ -8,17 +9,20 @@ namespace Thanking.Managers.Submanagers
 {
     public static class ComponentManager
     {
-        #if DEBUG
-        DebugUtilities.Log("Initializing ComponentManager");
-        #endif
-        
+        /// <summary>
+        /// Collect and add components marked with ComponentAttribute
+        /// </summary>
         public static void Load()
         {
-            Type[] Types = Assembly.GetExecutingAssembly().GetTypes()
+            #if DEBUG
+            DebugUtilities.Log("Initializing ComponentManager");
+            #endif
+            
+            IEnumerable<Type> Types = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(T => T.IsClass && T.IsDefined(typeof(ComponentAttribute), false)).ToArray();
 
-            for (int i = 0; i < Types.Length; i++)
-                Loader.HookObject.AddComponent(Types[i]);
+            foreach (Type T in Types)
+                Loader.HookObject.AddComponent(T);
         }
     }
 }

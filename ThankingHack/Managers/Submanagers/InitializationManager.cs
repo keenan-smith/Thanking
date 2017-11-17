@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Thanking.Attributes;
@@ -8,21 +9,26 @@ namespace Thanking.Managers.Submanagers
 {
 	public static class InitializationManager
 	{
+		/// <summary>
+		/// Collect and invoked methods marked with InitializationAttribute, as this indicates they are essential to the
+		/// initialization of :Thanking:
+		/// </summary>
 		public static void Load()
 		{
 			#if DEBUG
 			DebugUtilities.Log("Initializing InitializationManager");
 			#endif
 			
-			Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
+			IEnumerable<Type> Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass);
 
-			for (int i = 0; i < Types.Length; i++)
+			foreach (Type T in Types)
 			{
-				MethodInfo[] Methods = Types[i].GetMethods(ReflectionVariables.Everything).Where(M => M.IsDefined(typeof(InitializerAttribute), false))
-					.ToArray();
+				// Only check for static variables because we cannot invoke instantiated methods
+				IEnumerable<MethodInfo> Methods = T.GetMethods(ReflectionVariables.PublicStatic)
+					.Where(M => M.IsDefined(typeof(InitializerAttribute), false));
 
-				for (int o = 0; o < Methods.Length; o++)
-					Methods[o].Invoke(null, null);
+				foreach(MethodInfo M in Methods)
+					M.Invoke(null, null);
 			}
 		}
 	}
