@@ -22,7 +22,7 @@ namespace Thanking
 			ConfigManager.Init();
 			AttributeManager.Init();
 			AssetManager.Init();
-			PacketManager.Init();
+			//PacketManager.Init();
             
             #if DEBUG
 			DebugUtilities.Log("Thanking initialized!");

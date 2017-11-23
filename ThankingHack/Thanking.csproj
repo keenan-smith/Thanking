@@ -113,13 +113,10 @@
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Main\PacketManager.cs" />
-    <Compile Include="Managers\Submanagers\InitializationManager.cs" />
     <Compile Include="Managers\Submanagers\SpyManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Loader.cs" />
     <Compile Include="Managers\Main\ConfigManager.cs" />
-    <Compile Include="Managers\Submanagers\ComponentManager.cs" />
-    <Compile Include="Managers\Submanagers\ThreadManager.cs" />
     <Compile Include="Misc\Serializables.cs" />
     <Compile Include="Options\AimOptions\AimbotOptions.cs" />
     <Compile Include="Options\AimOptions\RaycastOptions.cs" />

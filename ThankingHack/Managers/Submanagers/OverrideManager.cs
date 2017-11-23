@@ -13,31 +13,13 @@ namespace Thanking.Managers.Submanagers
     public static class OverrideManager
     {
         //TODO:Don't make regions for one line, or for one method
-        
-        private static Dictionary<OverrideAttribute, OverrideWrapper> _overrides = new Dictionary<OverrideAttribute, OverrideWrapper>(); // Dictionary of detours
 
-        public static Dictionary<OverrideAttribute, OverrideWrapper> Overrides => _overrides; // The public detours
+        // Dictionary of detours
+        private static Dictionary<OverrideAttribute, OverrideWrapper> _overrides =
+            new Dictionary<OverrideAttribute, OverrideWrapper>();
 
-        /// <summary>
-        /// Collect and override methods marked with OvererideAttribute
-        /// </summary>
-        public static void Load()
-        {
-            #if DEBUG
-            DebugUtilities.Log("Initializing OverrideManager");
-            #endif
-
-            IEnumerable<Type> Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass);
-
-            foreach (Type T in Types)
-            {
-                IEnumerable<MethodInfo> Methods = T.GetMethods(ReflectionVariables.Everything)
-                    .Where(M => M.IsDefined(typeof(OverrideAttribute), false));
-
-                foreach(MethodInfo M in Methods)
-                    LoadOverride(M);
-            }
-        }
+        // The public detours
+        public static Dictionary<OverrideAttribute, OverrideWrapper> Overrides => _overrides;
         
         public static void LoadOverride(MethodInfo method)
         {
