@@ -1,5 +1,6 @@
 ﻿using SDG.Unturned;
 using Thanking.Attributes;
+using UnityEngine;
 
 namespace Thanking.Options.AimOptions
 {
@@ -16,8 +17,9 @@ namespace Thanking.Options.AimOptions
         [Save] public static bool FOV_Mode = false;
         [Save] public static bool Smooth = true;
         [Save] public static bool OnKey = false;
+        [Save] public static KeyCode Key = KeyCode.F;
 
-        public static float MaxSpeed = 10f;
+        public static float MaxSpeed = 20f;
         [Save] public static float AimSpeed = 5f;
         [Save] public static float Distance = 300f;
         [Save] public static float FOV = 15;

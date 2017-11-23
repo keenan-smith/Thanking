@@ -1,5 +1,6 @@
 ﻿using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Coroutines;
 using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -13,13 +14,15 @@ namespace Thanking.Components.UI
 	{
 		public void OnGUI()
 		{
-			if (MiscOptions.LogoEnabled)
-			{
-				DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomLeft, new Vector2(20, 40),
-					"Thanking v2.1.1 Alpha", Color.black, Color.cyan, 3);
+			if (MiscOptions.LogoEnabled && LoaderCoroutines.IsLoaded)
+            {
+                //DebugUtilities.Log("Called!");
+                //GUI.Label(new Rect(20, 40, 100, 50), "Thanking v2.1.2 Alpha");
+                DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomLeft, new Vector2(20, 40),
+					"Thanking v2.1.2 Alpha", Color.black, Color.cyan, 0);
 				if (Provider.isConnected && !Provider.isLoading)
 					DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomLeft, new Vector2(20, 60),
-						$"Movement Checked: {!PlayerMovement.forceTrustClient}", Color.black, Color.red, 3);
+						$"Movement Checked: {!PlayerMovement.forceTrustClient}", Color.black, Color.red, 0);
 			}
 		}
 	}

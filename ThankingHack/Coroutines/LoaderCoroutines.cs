@@ -8,6 +8,8 @@ namespace Thanking.Coroutines
 {
 	public static class LoaderCoroutines
 	{
+        public static bool IsLoaded = false;
+
 		public static IEnumerator LoadAssets()
 		{
 			yield return new WaitForSeconds(1);
@@ -44,6 +46,8 @@ namespace Thanking.Coroutines
             ESPCoroutines.Normal = Shader.Find("Standard");
             ESPCoroutines.LitChams = AssetVariables.Shaders["chamsLit"];
             ESPCoroutines.UnlitChams = AssetVariables.Shaders["chamsUnlit"];
+
+            IsLoaded = true;
         }
 	}
 }

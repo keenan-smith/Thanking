@@ -5,12 +5,14 @@ using Thanking.Components.UI;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using UnityEngine;
+using System;
 
 namespace Thanking.Coroutines
 {
     public static class AimbotCoroutines
     {
         public static GameObject LockedObject;
+        public static bool IsAiming = false;
 
         public static float Pitch
         {
@@ -39,7 +41,6 @@ namespace Thanking.Coroutines
                 }
                 Player p = null;
                 SteamPlayer[] players = Provider.clients.ToArray();
-                
                 for (int i = 0; i < players.Length; i++)
                 {
                     SteamPlayer cPlayer = players[i];
@@ -62,25 +63,33 @@ namespace Thanking.Coroutines
                         }
                         case TargetMode.FOV:
                         {
-                            Vector3 v2dist = Camera.main.WorldToScreenPoint(GetAimPosition(players[i].player.transform, "Skull"));
+                            Vector3 v2dist = MainCamera.instance.WorldToScreenPoint(GetAimPosition(players[i].player.transform, "Skull"));
+                            if (v2dist.z <= 0) continue;
 
                             Vector2 pos = new Vector2(v2dist.x, v2dist.y);
                             float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
 
-                            if (vdist < AimbotOptions.FOV)
+                            if (vdist < AimbotOptions.FOV && p == null)
                                 p = players[i].player;
+
+                            else if (vdist < AimbotOptions.FOV)
+                            {
+                                Vector3 v2dist_ = MainCamera.instance.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
+                                Vector2 pos_ = new Vector2(v2dist_.x, v2dist_.y);
+                                float vdist_ = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos_);
+
+                                if (vdist_ > vdist)
+                                    p = players[i].player;
+                            }
                             break;
                         }
                     }
                 }
-                
-                LockedObject = (p != null ? p.gameObject : null);
+                if (!IsAiming)
+                    LockedObject = (p != null ? p.gameObject : null);
                 yield return new WaitForEndOfFrame();
             }
         }
-
-        private static float AimPosX = 0;
-        private static float AimPosY = 0;
 
         public static IEnumerator AimToObject()
         {
@@ -97,19 +106,57 @@ namespace Thanking.Coroutines
                 }
                 if (LockedObject != null && LockedObject.transform != null && ESPComponent.MainCamera != null)
                 {
-                    /*Vector3 W2SPos = ESPComponent.MainCamera.WorldToScreenPoint(GetAimPosition(LockedObject.transform, "Skull"));
-                    AimPosX = W2SPos.x;
-                    AimPosY = Screen.height - W2SPos.y; // + 90f;*/
-                    //if (W2SPos.z < 0)
-                    //AimPosX = Math.Abs(W2SPos.x);
-                    Vector2 newAngles = CalcAngle(LockedObject);
-                    AimPosX = newAngles.x;
-                    AimPosY = newAngles.y;
+                    if (Input.GetKey(AimbotOptions.Key))
+                    {
+                        IsAiming = true;
+                        if (AimbotOptions.Smooth)
+                            SmoothAim(LockedObject);
+                        else
+                            Aim(LockedObject);
+                    }
+                    else
+                        IsAiming = false;
                 }
-                if (Input.GetKey(KeyCode.F))
-                    AimMouseTo(AimPosX, AimPosY);
+                else
+                    IsAiming = false;
                 yield return new WaitForEndOfFrame();
             }
+        }
+
+        public static void Aim(GameObject obj)
+        {
+            Camera mainCam = MainCamera.instance;
+            Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
+            Player.player.transform.LookAt(skullPosition);
+            Player.player.transform.eulerAngles = new Vector3(0f, Player.player.transform.rotation.eulerAngles.y, 0f);
+            mainCam.transform.LookAt(skullPosition);
+            float num4 = mainCam.transform.localRotation.eulerAngles.x;
+
+            if (num4 <= 90f && num4 <= 270f)
+                num4 = mainCam.transform.localRotation.eulerAngles.x + 90f;
+            else if (num4 >= 270f && num4 <= 360f)
+                num4 = mainCam.transform.localRotation.eulerAngles.x - 270f;
+
+            Pitch = num4;
+            Yaw = Player.player.transform.rotation.eulerAngles.y;
+        }
+
+        public static void SmoothAim(GameObject obj)
+        {
+            Camera mainCam = MainCamera.instance;
+            Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
+            Player.player.transform.rotation = Quaternion.Slerp(Player.player.transform.rotation, Quaternion.LookRotation( skullPosition - Player.player.transform.position ), Time.deltaTime * AimbotOptions.AimSpeed);
+            Player.player.transform.eulerAngles = new Vector3(0f, Player.player.transform.rotation.eulerAngles.y, 0f);
+            mainCam.transform.localRotation = Quaternion.Slerp(mainCam.transform.localRotation, Quaternion.LookRotation(skullPosition - mainCam.transform.position), Time.deltaTime * AimbotOptions.AimSpeed);
+            float num4 = mainCam.transform.localRotation.eulerAngles.x;
+
+            if (num4 <= 90f && num4 <= 270f)
+                num4 = mainCam.transform.localRotation.eulerAngles.x + 90f;
+            else if (num4 >= 270f && num4 <= 360f)
+                num4 = mainCam.transform.localRotation.eulerAngles.x - 270f;
+
+            Pitch = num4;
+            Yaw = Player.player.transform.rotation.eulerAngles.y;
         }
 
         private static Vector2 CalcAngle(GameObject obj)
@@ -122,11 +169,11 @@ namespace Thanking.Coroutines
 
         public static void AimMouseTo(float x, float y)
         {
-            if (AimbotOptions.Smooth)
-            {
-                x = Mathf.Lerp(Pitch, x, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
-                y = Mathf.Lerp(Yaw, y, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
-            }
+            //if (AimbotOptions.Smooth)
+            //{
+            //    x = Mathf.Lerp(Pitch, x, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
+            //    y = Mathf.Lerp(Yaw, y, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
+            //}
             
             #if DEBUG
             DebugUtilities.Log($"yaw:{Yaw}|pitch:{Pitch}|x:{x}|y:{y}");

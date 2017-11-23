@@ -15,6 +15,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Enabled", ref AimbotOptions.Enabled);
                 Prefab.Toggle("Use Gun Distance", ref AimbotOptions.UseGunDistance);
                 Prefab.Toggle("Smooth", ref AimbotOptions.Smooth);
+                GUILayout.Space(3);
                 // Prefab.Toggle("On Key", ref AimbotOptions.OnKey); // disabled until keybinds are added (temporarily F)
                 GUILayout.Label("FOV: " + AimbotOptions.FOV, Prefab._TextStyle);
                 AimbotOptions.FOV = (int)Prefab.Slider(1, 300, AimbotOptions.FOV, 200);
