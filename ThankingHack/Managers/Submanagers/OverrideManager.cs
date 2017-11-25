@@ -41,7 +41,7 @@ namespace Thanking.Managers.Submanagers
                 wrapper.Override();
 
                 Overrides.Add(attribute, wrapper);
-				Wrappers.Add(method.Name, wrapper);
+				Wrappers.Add(attribute.MethodName, wrapper);
             }
             catch (Exception ex) { DebugUtilities.LogException(ex); }
         }
