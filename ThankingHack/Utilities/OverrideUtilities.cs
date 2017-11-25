@@ -21,8 +21,8 @@ namespace Thanking.Utilities
         /// <returns>The value that the original function returns</returns>
         public static object CallOriginalFunc(MethodInfo method, object instance = null, params object[] args)
         {
-            // Set the variables
-            OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == method).Value;
+			// Set the variables
+			OverrideWrapper wrapper = OverrideManager.Wrappers[method.Name];
 
             // Do the checks
             if (wrapper == null)
@@ -57,7 +57,7 @@ namespace Thanking.Utilities
                 throw new Exception("The original method was never found!");
             original = att.Method;
 
-            OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == original).Value;
+			OverrideWrapper wrapper = OverrideManager.Wrappers[original.Name];
 
             if (wrapper == null)
                 throw new Exception("The Override specified was not found!");
@@ -86,103 +86,99 @@ namespace Thanking.Utilities
         /// <returns>If the Override was disabled successfully</returns>
         public static bool DisableOverride(MethodInfo method)
         {
-            // Set the variables
-            OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == method).Value;
+			// Set the variables
+			OverrideWrapper wrapper = OverrideManager.Wrappers[method.Name];
 
             // Do the checks
             return wrapper != null && wrapper.Revert();
         }
-        #region Public Functions
-        public static bool OverrideFunction(IntPtr ptrOriginal, IntPtr ptrModified)
-        {
-            try
-            {
-                switch (IntPtr.Size)
-                {
-                    case sizeof(Int32):
-                        unsafe
-                        {
-                            Debug.LogWarning("Overriding " + ptrOriginal + " to " + ptrModified + "...");
-                            byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            *ptrFrom = 0x68; // PUSH
-                            *((uint*)(ptrFrom + 1)) = (uint)ptrModified.ToInt32(); // Pointer
-                            *(ptrFrom + 5) = 0xC3; // RETN
+		public static bool OverrideFunction(IntPtr ptrOriginal, IntPtr ptrModified)
+		{
+			try
+			{
+				switch (IntPtr.Size)
+				{
+					case sizeof(Int32):
+						unsafe
+						{
+							byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            /* push, offset
+							*ptrFrom = 0x68; // PUSH
+							*((uint*)(ptrFrom + 1)) = (uint)ptrModified.ToInt32(); // Pointer
+							*(ptrFrom + 5) = 0xC3; // RETN
+
+							/* push, offset
                              * retn
                              * 
                              * 
                              */
-                        }
-                        break;
-                    case sizeof(Int64):
-                        unsafe
-                        {
-                            Debug.LogWarning("Overriding " + ptrOriginal + " to " + ptrModified + "...");
+						}
+						break;
+					case sizeof(Int64):
+						unsafe
+						{
+							byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
+							*ptrFrom = 0x48;
+							*(ptrFrom + 1) = 0xB8;
+							*((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64(); // Pointer
+							*(ptrFrom + 10) = 0xFF;
+							*(ptrFrom + 11) = 0xE0;
 
-                            *ptrFrom = 0x48; 
-                            *(ptrFrom + 1) = 0xB8;
-                            *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64(); // Pointer
-                            *(ptrFrom + 10) = 0xFF;
-                            *(ptrFrom + 11) = 0xE0;
-
-                            /* mov rax, offset
+							/* mov rax, offset
                              * jmp rax
                              * 
                              */
-                        }
-                        break;
-                    default:
-                        return false;
-                }
+						}
+						break;
+					default:
+						return false;
+				}
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-                return false;
-            }
-        }
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Debug.LogException(ex);
+				return false;
+			}
+		}
 
-        public static bool RevertOverride(OffsetBackup backup)
-        {
-            try
-            {
-                unsafe
-                {
-                    byte* ptrOriginal = (byte*)backup.Method.ToPointer();
+		public static bool RevertOverride(OffsetBackup backup)
+		{
+			try
+			{
+				unsafe
+				{
+					byte* ptrOriginal = (byte*)backup.Method.ToPointer();
 
-                    *ptrOriginal = backup.A;
-                    *(ptrOriginal + 1) = backup.B;
-                    *(ptrOriginal + 10) = backup.C;
-                    *(ptrOriginal + 11) = backup.D;
-                    *(ptrOriginal + 12) = backup.E;
-                    if (IntPtr.Size == sizeof(Int32))
-                    {
-                        *((uint*)(ptrOriginal + 1)) = backup.F32;
-                        *(ptrOriginal + 5) = backup.G;
-                    }
-                    else
-                    {
-                        *((ulong*)(ptrOriginal + 2)) = backup.F64;
-                    }
-                }
+					*ptrOriginal = backup.A;
+					*(ptrOriginal + 1) = backup.B;
+					*(ptrOriginal + 10) = backup.C;
+					*(ptrOriginal + 11) = backup.D;
+					*(ptrOriginal + 12) = backup.E;
+					if (IntPtr.Size == sizeof(Int32))
+					{
+						*((uint*)(ptrOriginal + 1)) = backup.F32;
+						*(ptrOriginal + 5) = backup.G;
+					}
+					else
+					{
+						*((ulong*)(ptrOriginal + 2)) = backup.F64;
+					}
+				}
 
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        #endregion
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
 
-        #region SubClasses
-        public class OffsetBackup
+		#region SubClasses
+		public class OffsetBackup
         {
             #region Variables
             public IntPtr Method;

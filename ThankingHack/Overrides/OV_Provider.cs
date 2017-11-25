@@ -18,7 +18,7 @@ namespace Thanking.Overrides
 		public static void OV_receiveClient(CSteamID steamID, byte[] packet, int offset, int size, int channel)
 		{
 			ESteamPacket esteamPacket = (ESteamPacket)packet[offset];
-			if (esteamPacket.ToString().ToLower().Contains("chunk") && CrashThread.CrashServerEnabled)
+			if (esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT && CrashThread.CrashServerEnabled)
 				return;
 
 			OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
