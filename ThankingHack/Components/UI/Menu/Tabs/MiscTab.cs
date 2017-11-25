@@ -1,5 +1,6 @@
 ﻿using System;
 using Thanking.Options;
+using Thanking.Threads;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs
@@ -15,6 +16,12 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
                 GUILayout.Space(2);
                 MiscOptions.SpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
+                
+                #if Private
+                GUILayout.Space(2);
+                Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
+                #endif
+                
                 Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
                     Prefab.Toggle("Enabled", ref MiscOptions.SpammerEnabled);
