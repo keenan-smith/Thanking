@@ -100,8 +100,7 @@ namespace Thanking.Overrides
         }
 
         #endregion
-
-        #region ic3_is_gay_i_dont_know_what_to_name_this
+        
         public static void highlight(Transform target, Color color)
         {
             if (target.CompareTag("Player") || target.CompareTag("Enemy") || target.CompareTag("Zombie") || target.CompareTag("Animal") || target.CompareTag("Agent"))
@@ -112,9 +111,6 @@ namespace Thanking.Overrides
             highlighter.ConstantOn(color);
             highlighter.SeeThroughOn();
         }
-        #endregion
-
-        #region Overriden Methods
 
         [Override(typeof(PlayerInteract), "Update", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_Update() // i have no idea what any of this does tbh
@@ -389,7 +385,5 @@ namespace Thanking.Overrides
                     PlayerInteract.interactable2.use();
             }
         }
-
-        #endregion
     }
 }

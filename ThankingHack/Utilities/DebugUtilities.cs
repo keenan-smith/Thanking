@@ -15,6 +15,6 @@ namespace Thanking.Utilities
             File.AppendAllText(DebugPath, $"\r\nBEGIN EXCEPTION\r\n{Exception}\r\nEND EXCEPTION\r\n");
 
         public static void Init() =>
-            File.WriteAllText(DebugPath, $"{DateTime.Now.ToString()}\r\n");
+            File.WriteAllText(DebugPath, $"{DateTime.Now}\r\n\r\n");
     }
 }

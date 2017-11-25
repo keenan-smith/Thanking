@@ -1,5 +1,6 @@
 ﻿using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Utilities;
 
 namespace Thanking.Threads
 {
@@ -10,6 +11,10 @@ namespace Thanking.Threads
 		[Thread]
 		public static void Start()
 		{
+			#if DEBUG
+			DebugUtilities.Log("Crash Thread Started");
+			#endif
+			
 			Provider.onClientDisconnected += OnDisconnect;
 			
 			while (true)

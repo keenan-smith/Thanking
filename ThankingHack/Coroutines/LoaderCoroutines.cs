@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.IO;
 using Thanking.Components.UI;
 using Thanking.Components.UI.Menu;
+using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 
@@ -8,16 +10,19 @@ namespace Thanking.Coroutines
 {
 	public static class LoaderCoroutines
 	{
-        public static bool IsLoaded = false;
+        public static bool IsLoaded;
 
 		public static IEnumerator LoadAssets()
 		{
+			#if DEBUG
+			DebugUtilities.Log("Loading assets");
+			#endif
+			
 			yield return new WaitForSeconds(1);
 
-			WWW loader = new WWW("http://debug.ironic.services/client/ThankingAssets.unity3d");
-			yield return loader;
+			byte[] loader = File.ReadAllBytes($"{Application.dataPath}/ThankingAssets.unity3d");
 			
-			AssetBundle bundle = AssetBundle.LoadFromMemory(loader.bytes);
+			AssetBundle bundle = AssetBundle.LoadFromMemory(loader);
 			AssetVariables.ABundle = bundle;
 
             foreach (Shader s in bundle.LoadAllAssets<Shader>())

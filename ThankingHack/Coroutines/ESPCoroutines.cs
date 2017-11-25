@@ -20,6 +20,10 @@ namespace Thanking.Coroutines
 
         public static IEnumerator DoChams()
         {
+	        #if DEBUG
+	        DebugUtilities.Log("Starting Chams Coroutine");
+	        #endif
+	        
             while (true)
             {
                 if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying || UnlitChams == null)

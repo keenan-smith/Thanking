@@ -10,6 +10,10 @@ namespace Thanking.Coroutines
     {
         public static IEnumerator PickupItems()
         {
+            #if DEBUG
+            DebugUtilities.Log("Starting Item Coroutine");
+            #endif
+            
             while (true)
             {
                 if (!ItemOptions.AutoItemPickup || !Provider.isConnected || Provider.isLoading ||

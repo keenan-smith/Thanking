@@ -25,9 +25,8 @@ namespace Thanking.Managers.Main
 				return;
 
 			SteamChannelMethod method = channel.calls[num];
-
-			string call = method.method.Name;
-			switch (call)
+			
+			switch (method.method.Name)
 			{
 				case "tellDead":
 					{

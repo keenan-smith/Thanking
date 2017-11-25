@@ -29,7 +29,7 @@ namespace Thanking.Coroutines
         public static IEnumerator SetLockedObject()
         {
             #if DEBUG
-            DebugUtilities.Log("Starting Locked Coroutine");
+            DebugUtilities.Log("Starting Aimbot Lock Coroutine");
             #endif
             
             while (true)
