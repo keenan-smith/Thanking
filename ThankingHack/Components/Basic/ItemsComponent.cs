@@ -24,9 +24,7 @@ namespace Thanking.Components.Basic
             }
         }
 
-        public void Start()
-        {
-            CoroutineComponent.ItemPickupCoroutine = StartCoroutine(ItemCoroutines.PickupItems());
-        }
-    }
+        public void Start() =>
+			CoroutineComponent.ItemPickupCoroutine = StartCoroutine(ItemCoroutines.PickupItems());
+	}
 }

@@ -6,7 +6,7 @@ namespace Thanking.Threads
 {
 	public static class CrashThread
 	{
-		public static bool CrashServerEnabled;
+		public static bool CrashServerEnabled = false;
 
 		[Thread]
 		public static void Start()

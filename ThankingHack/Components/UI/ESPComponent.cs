@@ -86,8 +86,9 @@ namespace Thanking.Components.UI
 				string text = "";
 				string outerText = null;
 
-				Bounds b = obj.Target == ESPTarget.Players
-					? new Bounds(go.transform.position + new Vector3(0, 1, 0), go.transform.localScale * 2 + new Vector3(0, 0.5f, 0))
+				Vector3 scale = go.transform.localScale;
+				Bounds b = obj.Target == ESPTarget.Players || obj.Target == ESPTarget.Zombies //zombies have the same issue as players where shit doesn't exist for some fucking reason
+					? new Bounds(new Vector3(position.x, position.y + 1, position.z), new Vector3(scale.x * 2, scale.y * 3, scale.z * 2))
 					: go.GetComponent<Collider>().bounds;
 
                 int size = DrawUtilities.GetTextSize(visual, dist);
