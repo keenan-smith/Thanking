@@ -24,7 +24,7 @@ namespace Thanking.Coroutines
 			
 			yield return new WaitForSeconds(1);
 
-			Byte[] Loader = null;
+			Byte[] Loader;
 
 			if (!File.Exists(AssetPath))
 			{
@@ -44,19 +44,13 @@ namespace Thanking.Coroutines
 			{
 				Loader = File.ReadAllBytes(AssetPath);
 
-				String Current = HashUtilities.GetSHA2HashString(Loader);
-				String New = new WebClient().DownloadString("http://debug.ironic.services/client/Hash").Trim();
-
-				#if DEBUG
-				DebugUtilities.Log($"Current: {Current}\r\nNew: {New}");
-				#endif
-				
-				if (Current != New)
+				if (HashUtilities.GetSHA2HashString(Loader) !=
+				    new WebClient().DownloadString("http://debug.ironic.services/client/Hash").Trim())
 				{
 					#if DEBUG
 					DebugUtilities.Log("Hash mismatch, updating assets");
 					#endif
-					
+
 					WWW loader = new WWW("http://debug.ironic.services/client/ThankingAssets.unity3d");
 					yield return loader;
 
