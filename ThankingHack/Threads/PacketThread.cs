@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Thanking.Attributes;
 using Thanking.Options;
 using UnityEngine;
@@ -23,12 +24,13 @@ namespace Thanking.Threads
 	{
 		public static Queue<Packet> PacketQueue = new Queue<Packet>();
 
-		[Thread]
+		//[Thread]
 		public static void Listen()
 		{
 			byte[] buffer = new byte[65535];
 			while (true)
 			{
+				Thread.Sleep(50);
 				if (!Provider.isConnected)
 					continue;
 

@@ -10,6 +10,7 @@ namespace Thanking.Overrides
 {
 	public static class OV_Provider
 	{
+		/*
 		public static MethodInfo ReceiveClient;
 
 		[Initializer]
@@ -24,6 +25,21 @@ namespace Thanking.Overrides
 				Packet p = PacketThread.PacketQueue.Dequeue();
 				ReceiveClient.Invoke(null, new object[] { p.steamid, p.packet, 0, p.size, p.id });
 			}
+		}
+		*/
+
+		[Override(typeof(Provider), "receiveClient", BindingFlags.NonPublic | BindingFlags.Static)]
+		public static void OV_receiveClient(CSteamID steamID, byte[] packet, int offset, int size, int channel)
+		{
+			ESteamPacket esteamPacket = (ESteamPacket)packet[offset];
+			if ((esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER ||
+							esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT ||
+							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER ||
+							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT) &&
+							CrashThread.CrashServerEnabled)
+				return;
+
+			OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
 		}
 	}
 }

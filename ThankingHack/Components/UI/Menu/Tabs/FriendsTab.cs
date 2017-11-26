@@ -32,7 +32,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
             });
 
-			Prefab.ScrollView(new Rect(0, 0, 466, 200), "Friends on Server", ref FriendsScroll, () =>
+			Prefab.ScrollView(new Rect(0, 200 + 10, 466, 200), "Friends on Server", ref FriendsScroll, () =>
 			{
 				for (int i = 0; i < Provider.clients.Count; i++)
 				{
