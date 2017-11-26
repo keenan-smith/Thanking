@@ -4,6 +4,7 @@ using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Threads;
 using Thanking.Utilities;
+using UnityEngine;
 
 namespace Thanking.Overrides
 {
@@ -21,6 +22,10 @@ namespace Thanking.Overrides
 			while (PacketThread.PacketQueue.Count > 0)
 			{
 				Packet p = PacketThread.PacketQueue.Dequeue();
+
+				SteamChannel channel = Provider.receivers[p.id];
+				Debug.Log(channel.name);
+
 				ReceiveClient.Invoke(null, new object[] { p.steamid, p.packet, 0, p.size, p.id });
 			}
 		}

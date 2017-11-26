@@ -25,14 +25,15 @@ namespace Thanking.Threads
 		[Thread]
 		public static void Listen()
 		{
-			byte[] buffer = new byte[65535];
 			while (true)
 			{
 				for (int i = 0; i < Provider.receivers.Count; i++)
 				{
+					byte[] buffer = new byte[65535];
 					while (Provider.provider.multiplayerService.clientMultiplayerService.read(out ICommunityEntity communityEntity, buffer, out ulong size, i))
 					{
 						ESteamPacket esteamPacket = (ESteamPacket)buffer[0];
+
 						if ((esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER ||
 							esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT ||
 							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER ||
@@ -43,12 +44,10 @@ namespace Thanking.Threads
 						PacketQueue.Enqueue(new Packet()
 						{
 							steamid = ((SteamworksCommunityEntity)communityEntity).steamID,
-							packet = (byte[])buffer.Clone(),
+							packet = buffer,
 							size = (int)size,
 							id = i
 						});
-
-						buffer = new byte[65535];
 					}
 				}
 			}

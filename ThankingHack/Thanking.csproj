@@ -141,7 +141,6 @@
     <Compile Include="Utilities\HashUtilities.cs" />
     <Compile Include="Utilities\HWIDUtilities.cs" />
     <Compile Include="Utilities\ItemUtilities.cs" />
-    <Compile Include="Utilities\PacketUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
