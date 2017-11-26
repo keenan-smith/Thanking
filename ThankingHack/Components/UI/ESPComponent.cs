@@ -59,6 +59,9 @@ namespace Thanking.Components.UI
 				ESPObject obj = ESPVariables.Objects[i];
 				ESPVisual visual = ESPOptions.VisualOptions[(int)obj.Target];
 
+				if (!visual.Enabled)
+					continue;
+
                 if (obj.Target == ESPTarget.Items && ESPOptions.FilterItems)
                     if (!ItemUtilities.Whitelisted(((InteractableItem)obj.Object).asset))
                         continue;

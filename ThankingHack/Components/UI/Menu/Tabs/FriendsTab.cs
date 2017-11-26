@@ -12,11 +12,12 @@ namespace Thanking.Components.UI.Menu.Tabs
         
         public static void Tab()
         {
-            Prefab.ScrollView(new Rect(0, 0, 466, 436), "Friends", ref FriendsScroll, () =>
+            Prefab.ScrollView(new Rect(0, 0, 466, 200), "Non-Friends on Server", ref FriendsScroll, () =>
             {
                 for (int i = 0; i < Provider.clients.Count; i++)
                 {
-                    if (Provider.clients[i].player.quests.isMemberOfSameGroupAs(Player.player))
+					Player player = Provider.clients[i].player;
+					if (FriendUtilities.IsFriendly(player))
                         continue;
 
                     if (Provider.clients[i].player == Player.player)
@@ -25,19 +26,29 @@ namespace Thanking.Components.UI.Menu.Tabs
                     if (Prefab.Button(
                         $"{Provider.clients[i].playerID.characterName}[{Provider.clients[i].playerID.playerName}]",
                         400))
-                    {
-                        if (FriendUtilities.IsFriendly(Provider.clients[i].player))
-                        {
-                            FriendUtilities.RemoveFriend(Provider.clients[i].player);
-                            continue;
-                        }
-                        
-                        FriendUtilities.AddFriend(Provider.clients[i].player);
-                    }
-                    
-                    GUILayout.Space(2);
+						FriendUtilities.AddFriend(Provider.clients[i].player);
+
+					GUILayout.Space(2);
                 }
             });
-        }
+
+			Prefab.ScrollView(new Rect(0, 0, 466, 200), "Friends on Server", ref FriendsScroll, () =>
+			{
+				for (int i = 0; i < Provider.clients.Count; i++)
+				{
+					Player player = Provider.clients[i].player;
+					
+					if (!FriendUtilities.IsFriendly(player))
+						continue;
+
+					if (Prefab.Button(
+						$"{Provider.clients[i].playerID.characterName}[{Provider.clients[i].playerID.playerName}]",
+						400))
+						FriendUtilities.RemoveFriend(Provider.clients[i].player);
+
+					GUILayout.Space(2);
+				}
+			});
+		}
     }
 }
