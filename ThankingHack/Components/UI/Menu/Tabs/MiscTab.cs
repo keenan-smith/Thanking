@@ -30,7 +30,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.Space(2);
 				MiscOptions.Time = (uint)Math.Round(Prefab.Slider(0, 1800, MiscOptions.Time, 175));
 
-				GUILayout.Space(4);
+				GUILayout.Space(8);
 				Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
 
 #if Private

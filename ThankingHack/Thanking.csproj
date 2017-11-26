@@ -134,7 +134,6 @@
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\CrashThread.cs" />
-    <Compile Include="Threads\PacketThread.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />

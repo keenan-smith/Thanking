@@ -164,7 +164,7 @@ namespace Thanking.Utilities
 			{
 				case LabelLocation.BottomLeft:
 					rect.x = W2SVector.x - width;
-					rect.y = W2SVector.y + height;
+					rect.y = W2SVector.y;
 					LabelStyle.alignment = TextAnchor.LowerRight;
 					break;
 				case LabelLocation.BottomMiddle:
@@ -174,7 +174,7 @@ namespace Thanking.Utilities
 					break;
 				case LabelLocation.BottomRight:
 					rect.x = W2SVector.x;
-					rect.y = W2SVector.y + height;
+					rect.y = W2SVector.y;
 					LabelStyle.alignment = TextAnchor.LowerLeft;
 					break;
 				case LabelLocation.Center:
