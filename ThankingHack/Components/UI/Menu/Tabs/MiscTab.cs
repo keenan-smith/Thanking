@@ -33,8 +33,10 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.Space(4);
 				Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
 
-				GUILayout.Space(4);
-				Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
+#if Private
+                GUILayout.Space(2);
+                Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
+#endif
 
 				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {

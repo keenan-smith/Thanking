@@ -1,6 +1,4 @@
-﻿using SDG.Provider.Services.Community;
-using SDG.SteamworksProvider.Services.Community;
-using SDG.Unturned;
+﻿using SDG.Unturned;
 using Steamworks;
 using System.Reflection;
 using Thanking.Attributes;
@@ -20,26 +18,11 @@ namespace Thanking.Overrides
 		[Override(typeof(Provider), "listenClient", BindingFlags.NonPublic | BindingFlags.Static)]
 		public static void OV_listenClient()
 		{
-			byte[] buffer = new byte[65535];
-			for (int i = 0; i < Provider.receivers.Count; i++)
+			while (PacketThread.PacketQueue.Count > 0)
 			{
-				while (Provider.provider.multiplayerService.clientMultiplayerService.read(out ICommunityEntity communityEntity, buffer, out ulong size, i))
-				{
-					ESteamPacket esteamPacket = (ESteamPacket)buffer[0];
-
-					if ((esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER ||
-					  esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT ||
-					  esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER ||
-					  esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT) &&
-					  CrashThread.CrashServerEnabled)
-						continue;
-
-					ReceiveClient.Invoke(null, new object[] { ((SteamworksCommunityEntity)communityEntity).steamID, buffer, 0, (int)size, Provider.receivers[i].id });
-				}
-
-				buffer = new byte[65535];
+				Packet p = PacketThread.PacketQueue.Dequeue();
+				ReceiveClient.Invoke(null, new object[] { p.steamid, p.packet, 0, p.size, p.id });
 			}
-
 		}
 	}
 }
