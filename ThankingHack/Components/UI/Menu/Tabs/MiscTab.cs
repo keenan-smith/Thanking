@@ -18,12 +18,12 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(2);
                 MiscOptions.SpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
 
-				GUILayout.Space(4);
+				GUILayout.Space(8);
 				GUILayout.Label("Salvage Time: " + MiscOptions.SalvageTime + " seconds", Prefab._TextStyle);
 				GUILayout.Space(2);
 				MiscOptions.SalvageTime = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SalvageTime, 175));
 
-				GUILayout.Space(4);
+				GUILayout.Space(8);
 				Prefab.Toggle("Custom Time", ref MiscOptions.SetTimeEnabled);
 				GUILayout.Space(2);
 				GUILayout.Label("Time: " + MiscOptions.Time, Prefab._TextStyle);

@@ -7,12 +7,13 @@ using UnityEngine;
 namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class FriendsTab
-    {
-        public static Vector2 FriendsScroll;
+	{
+		public static Vector2 NonFriendsScroll;
+		public static Vector2 FriendsScroll;
         
         public static void Tab()
         {
-            Prefab.ScrollView(new Rect(0, 0, 466, 200), "Non-Friends on Server", ref FriendsScroll, () =>
+            Prefab.ScrollView(new Rect(0, 0, 466, 200), "Non-Friends on Server", ref NonFriendsScroll, () =>
             {
                 for (int i = 0; i < Provider.clients.Count; i++)
                 {
