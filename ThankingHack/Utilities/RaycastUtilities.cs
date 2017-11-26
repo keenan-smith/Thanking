@@ -51,7 +51,7 @@ namespace Thanking.Utilities
 	        DebugUtilities.Log($"Players[] Length: {Players.Length}");
 			#endif
 	        
-	        Player ClosestPlayer = GetClosestPlayer(Players, out double ClosestDistance);
+	        Player ClosestPlayer = GetClosestHittablePlayer(Players, out double ClosestDistance);
 	        
 			#if DEBUG
 	        DebugUtilities.Log($"Closest Player Name: {ClosestPlayer.name}");
@@ -104,6 +104,66 @@ namespace Thanking.Utilities
 	        };
         }
 	    
+		private static Player GetClosestHittablePlayer(SteamPlayer[] Players, out double closestDistance)
+		{
+			Player ClosestPlayer = null;
+			double ClosestDistance = 1337420;
+			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
+
+			for (int i = 0; i < Players.Length; i++)
+			{
+				Player Player = Players[i].player;
+
+				if (CurrentGun != null)
+				{
+					if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
+						  CurrentGun.range + (RaycastOptions.ExtendedRange ? 12 : 0))) continue;
+
+					if (SphereUtilities.Get(Player.gameObject, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
+						continue;
+
+					if (ClosestPlayer == null)
+					{
+						ClosestPlayer = Player;
+						continue;
+					}
+
+					double LatestDistance =
+						VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position);
+
+					if (ClosestDistance < LatestDistance) continue;
+
+					ClosestPlayer = Player;
+					ClosestDistance = LatestDistance;
+				}
+				else
+				{
+					if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
+						  15.5)) continue;
+
+					if (SphereUtilities.Get(Player.gameObject, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
+						continue;
+
+					if (ClosestPlayer == null)
+					{
+						ClosestPlayer = Player;
+						continue;
+					}
+
+					double LatestDistance =
+						VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position);
+
+					if (ClosestDistance < LatestDistance) continue;
+
+					ClosestPlayer = Player;
+					ClosestDistance = LatestDistance;
+				}
+			}
+
+			closestDistance = ClosestDistance;
+			return ClosestPlayer;
+		}
+
 	    private static Player GetClosestPlayer(SteamPlayer[] Players, out double closestDistance)
 	    {
 		    Player ClosestPlayer = null;

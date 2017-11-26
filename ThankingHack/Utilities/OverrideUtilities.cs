@@ -22,7 +22,7 @@ namespace Thanking.Utilities
         public static object CallOriginalFunc(MethodInfo method, object instance = null, params object[] args)
         {
 			// Set the variables
-			OverrideWrapper wrapper = OverrideManager.Wrappers[method.Name];
+			OverrideWrapper wrapper = OverrideManager.Wrappers[method.DeclaringType.Name + "_" + method.Name];
 
             // Do the checks
             if (wrapper == null)
@@ -57,7 +57,7 @@ namespace Thanking.Utilities
                 throw new Exception("The original method was never found!");
             original = att.Method;
 
-			OverrideWrapper wrapper = OverrideManager.Wrappers[original.Name];
+			OverrideWrapper wrapper = OverrideManager.Wrappers[att.Class.Name + "_" + original.Name];
 
             if (wrapper == null)
                 throw new Exception("The Override specified was not found!");
@@ -87,7 +87,7 @@ namespace Thanking.Utilities
         public static bool DisableOverride(MethodInfo method)
         {
 			// Set the variables
-			OverrideWrapper wrapper = OverrideManager.Wrappers[method.Name];
+			OverrideWrapper wrapper = OverrideManager.Wrappers[method.DeclaringType.Name + "_" + method.Name];
 
             // Do the checks
             return wrapper != null && wrapper.Revert();

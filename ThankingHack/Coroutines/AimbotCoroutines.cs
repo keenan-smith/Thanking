@@ -45,7 +45,7 @@ namespace Thanking.Coroutines
                 {
                     SteamPlayer cPlayer = players[i];
                     if (cPlayer.player == null || cPlayer.player == Player.player  || cPlayer.player.life == null ||
-                        cPlayer.player.life.isDead) continue;
+                        cPlayer.player.life.isDead || !FriendUtilities.IsFriendly(cPlayer.player)) continue;
                     
                     switch (AimbotOptions.TargetMode)
                     {
