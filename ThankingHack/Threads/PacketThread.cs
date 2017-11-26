@@ -48,6 +48,8 @@ namespace Thanking.Threads
 							size = (int)size,
 							id = i
 						});
+
+						buffer = new byte[65535];
 					}
 				}
 			}
