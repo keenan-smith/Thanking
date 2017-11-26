@@ -162,9 +162,7 @@ namespace Thanking.Utilities
 				cpuinfo += BitConverter.ToInt32(id.Skip(j * 4).Take(4).ToArray(), 0);
 
 			string s = $"{cpuinfo}-{sn}-{name}";
-			UnityEngine.Debug.Log(s);
 			s = HashFNV1a(s.Select(c => (byte)c).ToArray()).ToString();
-			UnityEngine.Debug.Log(s);
 			s = Convert.ToBase64String(s.Select(c => (byte)c).ToArray());
 
 			return s;
