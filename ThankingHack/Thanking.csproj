@@ -130,7 +130,7 @@
     <Compile Include="Overrides\OV_ChatManager.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
     <Compile Include="Overrides\OV_Provider.cs" />
-    <Compile Include="Overrides\PlayerInventory.cs" />
+    <Compile Include="Overrides\OV_PlayerInventory.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\CrashThread.cs" />

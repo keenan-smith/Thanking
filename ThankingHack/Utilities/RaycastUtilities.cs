@@ -64,15 +64,7 @@ namespace Thanking.Utilities
 	        
 	        if (currentGun != null)
 	        { 
-		        GameObject go = IcoSphere.Create("HitSphere",
-			        ClosestPlayer.movement.getVehicle() != null ? SphereOptions.VehicleSphereRadius : SphereOptions.SphereRadius,
-			        SphereOptions.RecursionLevel);
-
-		        go.transform.parent = ClosestPlayer.transform;
-		        go.transform.localPosition = new Vector3(0, 0, 0);
-
-		        Vector3 hPos = SphereUtilities.Get(go, aimPos, RayMasks.DAMAGE_CLIENT);
-		        Object.Destroy(go);
+		        Vector3 hPos = SphereUtilities.Get(ClosestPlayer, aimPos, RayMasks.DAMAGE_CLIENT);
 		        if (hPos != Vector3.zero)
 		        {
 			        //if (!Provider.modeConfigData.Gameplay.Ballistics)
@@ -119,7 +111,7 @@ namespace Thanking.Utilities
 					if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
 						  CurrentGun.range + (RaycastOptions.ExtendedRange ? 12 : 0))) continue;
 
-					if (SphereUtilities.Get(Player.gameObject, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
+					if (SphereUtilities.Get(Player, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
 						continue;
 
 					if (ClosestPlayer == null)
@@ -141,7 +133,7 @@ namespace Thanking.Utilities
 					if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
 						  15.5)) continue;
 
-					if (SphereUtilities.Get(Player.gameObject, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
+					if (SphereUtilities.Get(Player, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
 						continue;
 
 					if (ClosestPlayer == null)
