@@ -22,14 +22,18 @@ namespace Thanking.Threads
 	public static class PacketThread
 	{
 		public static Queue<Packet> PacketQueue = new Queue<Packet>();
+
 		[Thread]
 		public static void Listen()
 		{
+			byte[] buffer = new byte[65535];
 			while (true)
 			{
+				if (!Provider.isConnected)
+					continue;
+
 				for (int i = 0; i < Provider.receivers.Count; i++)
 				{
-					byte[] buffer = new byte[65535];
 					while (Provider.provider.multiplayerService.clientMultiplayerService.read(out ICommunityEntity communityEntity, buffer, out ulong size, i))
 					{
 						ESteamPacket esteamPacket = (ESteamPacket)buffer[0];

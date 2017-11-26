@@ -130,8 +130,8 @@ namespace Thanking.Utilities
 				}
 				else
 				{
-					if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
-						  15.5)) continue;
+					if (VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) >
+						  15.5) continue;
 
 					if (SphereUtilities.Get(Player, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
 						continue;
