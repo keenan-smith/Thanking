@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options.AimOptions;
@@ -17,8 +18,10 @@ namespace Thanking.Components.UI
 		public static Vector3 SwayBackup;
 		public static ItemWeaponAsset CurrentWeapon;
 
-		private byte Ammo() => (byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
+		private Byte Ammo() => (Byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
 			.GetValue(Player.player.equipment.useable);
+
+		private FieldInfo ReloadTime = typeof(UseableGun).GetField("reloadTime", ReflectionVariables.PrivateInstance);
 		
 		public void OnGUI()
 		{
@@ -99,40 +102,60 @@ namespace Thanking.Components.UI
 				PlayerUI.updateCrosshair(AssetBackups[PAsset.id][Player.player.equipment.secondary ? 5 : 6]);
 			}
 			
-			#region AutoReload
+			Reload();
 			
-			if (WeaponOptions.AutoReload && Ammo() == 0)
-			{
-				InventorySearch[] magazineSearch = Player.player.inventory.search(
-					Player.player.inventory.search(EItemType.MAGAZINE,
-						((ItemGunAsset) Player.player.equipment.asset).magazineCalibers)).ToArray();
-				
-				if (magazineSearch.Length > 0)
-				{
-					Byte b = 0;
-					Byte b2 = 255;
-
-					for (Byte i = 0; i < magazineSearch.Length; i++)
-					{
-						if (magazineSearch[i].jar.item.amount > b)
-						{
-							b = magazineSearch[i].jar.item.amount;
-							b2 = i;
-						}
-					}
-
-					if (b2 != 255)
-					{
-						Player.player.channel.send("askAttachMagazine", ESteamCall.SERVER,
-							ESteamPacket.UPDATE_UNRELIABLE_BUFFER, magazineSearch[b2].page, magazineSearch[b2].jar.x,
-							magazineSearch[b2].jar.y);
-					}
-				}
-			}
-			
-			#endregion
+			if(WeaponOptions.FastReload)
+				ReloadTime.SetValue(Player.player.equipment.useable, 0.25f);
 
 			Player.player.animator.viewSway = WeaponOptions.NoSway ? Vector3.zero : SwayBackup;
+		}
+
+		private void Reload()
+		{
+			#if DEBUG
+			DebugUtilities.Log($"Ammo: {Ammo()}");
+			#endif
+			
+			if (!WeaponOptions.AutoReload || Ammo() > 0) return;
+			
+			#if DEBUG
+			DebugUtilities.Log("Ammo less than or equal to 0");
+			#endif
+			
+			InventorySearch[] magazineSearch = Player.player.inventory.search(
+				Player.player.inventory.search(EItemType.MAGAZINE,
+					((ItemGunAsset) Player.player.equipment.asset).magazineCalibers)).ToArray();
+
+			if (magazineSearch.Length == 0) return;
+			
+			#if DEBUG
+			DebugUtilities.Log("Magazine Found");
+			#endif
+			
+			Byte b = 0;
+			Byte b2 = 255;
+
+			for (Byte i = 0; i < magazineSearch.Length; i++)
+			{
+				if (magazineSearch[i].jar.item.amount == b) continue;
+				
+				#if DEBUG
+				DebugUtilities.Log("Magazine has ammo");
+				#endif
+						
+				b = magazineSearch[i].jar.item.amount;
+				b2 = i;
+			}
+
+			if (b2 == 255) return;
+			
+			#if DEBUG
+			DebugUtilities.Log("Magazine reloaded");
+			#endif
+				
+			Player.player.channel.send("askAttachMagazine", ESteamCall.SERVER,
+				ESteamPacket.UPDATE_UNRELIABLE_BUFFER, magazineSearch[b2].page, magazineSearch[b2].jar.x,
+				magazineSearch[b2].jar.y);
 		}
 	}
 }

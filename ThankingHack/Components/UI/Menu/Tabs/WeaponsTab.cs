@@ -19,6 +19,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("No Spread", ref WeaponOptions.NoSpread);
                 Prefab.Toggle("No Sway", ref WeaponOptions.NoSway);
                 Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
+                Prefab.Toggle("Fast Reload", ref WeaponOptions.FastReload);
                 GUILayout.Space(20);
                 Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
                 Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
