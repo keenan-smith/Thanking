@@ -28,9 +28,6 @@ namespace Thanking.Threads
 			byte[] buffer = new byte[65535];
 			while (true)
 			{
-				if (!Provider.isConnected)
-					continue;
-
 				for (int i = 0; i < Provider.receivers.Count; i++)
 				{
 					while (Provider.provider.multiplayerService.clientMultiplayerService.read(out ICommunityEntity communityEntity, buffer, out ulong size, i))
@@ -41,7 +38,7 @@ namespace Thanking.Threads
 							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER ||
 							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT) &&
 							CrashThread.CrashServerEnabled)
-							return;
+							continue;
 
 						PacketQueue.Enqueue(new Packet()
 						{
