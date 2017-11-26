@@ -22,7 +22,7 @@ namespace Thanking.Threads
 	public static class PacketThread
 	{
 		public static Queue<Packet> PacketQueue = new Queue<Packet>();
-		[Thread]
+		//[Thread]
 		public static void Listen()
 		{
 			byte[] buffer = new byte[65535];
