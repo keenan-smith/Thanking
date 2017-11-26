@@ -129,9 +129,9 @@
     <Compile Include="Options\VisualOptions\MirrorCameraOptions.cs" />
     <Compile Include="Overrides\OV_ChatManager.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
+    <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerInventory.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
-    <Compile Include="Overrides\OV_SteamChannel.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\CrashThread.cs" />
     <Compile Include="Threads\PacketThread.cs" />
