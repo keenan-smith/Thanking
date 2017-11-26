@@ -20,14 +20,14 @@ namespace Thanking.Utilities
         /// <param name="args">The arguments for the method</param>
         /// <returns>The value that the original function returns</returns>
         public static object CallOriginalFunc(MethodInfo method, object instance = null, params object[] args)
-        {
+		{
+			// Do the checks
+			if (!OverrideManager.Wrappers.ContainsKey(method.DeclaringType.Name + "_" + method.Name))
+				throw new Exception("The Override specified was not found!");
+
 			// Set the variables
 			OverrideWrapper wrapper = OverrideManager.Wrappers[method.DeclaringType.Name + "_" + method.Name];
-
-            // Do the checks
-            if (wrapper == null)
-                throw new Exception("The Override specified was not found!");
-
+			
             return wrapper.CallOriginal(args, instance);
         }
         
@@ -57,10 +57,10 @@ namespace Thanking.Utilities
                 throw new Exception("The original method was never found!");
             original = att.Method;
 
-			OverrideWrapper wrapper = OverrideManager.Wrappers[att.Class.Name + "_" + original.Name];
+			if (!OverrideManager.Wrappers.ContainsKey(original.DeclaringType.Name + "_" + original.Name))
+				throw new Exception("The Override specified was not found!");
 
-            if (wrapper == null)
-                throw new Exception("The Override specified was not found!");
+			OverrideWrapper wrapper = OverrideManager.Wrappers[att.Class.Name + "_" + original.Name];
 
             return wrapper.CallOriginal(args, instance);
         }

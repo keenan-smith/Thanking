@@ -16,7 +16,6 @@ namespace Thanking.Threads
 			try
 			{
 				hwid = HWIDUtilities.GetHWID();
-				UnityEngine.Debug.Log(hwid);
 				while (true)
 				{
 					using (WebClient c = new WebClient())
