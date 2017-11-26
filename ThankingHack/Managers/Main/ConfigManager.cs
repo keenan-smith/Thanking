@@ -13,6 +13,10 @@ namespace Thanking.Managers.Main
 {
     public class ConfigManager
     {
+	    public static String ConfigPath = $"{Application.dataPath}/Thanking.config";
+
+	    public static String ConfigVersion = "1.0.0";
+	    
 		public static void Init()
 		{
 			#if DEBUG
@@ -25,6 +29,8 @@ namespace Thanking.Managers.Main
 	    public static Dictionary<String, object> CollectConfig()
 	    {
 		    Dictionary<String, object> ConfigFields = new Dictionary<string, object>();
+		    
+		    ConfigFields.Add("Version", ConfigVersion);
 
 		    Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
 
@@ -45,23 +51,29 @@ namespace Thanking.Managers.Main
 
 	    public static Dictionary<String, object> GetConfig()
 		{
-			String Path = $"{Application.dataPath}/Thanking.config";
-
-			if (!File.Exists(Path))
+			if (!File.Exists(ConfigPath))
 				SaveConfig(CollectConfig());
 
-			return JsonConvert.DeserializeObject<Dictionary<String, object>>(File.ReadAllText(Path), new JsonSerializerSettings { Formatting = Formatting.Indented });
+			return JsonConvert.DeserializeObject<Dictionary<String, object>>(File.ReadAllText(ConfigPath),
+				new JsonSerializerSettings {Formatting = Formatting.Indented});
 		}
 
-		public static void SaveConfig(Dictionary<String, object> Config)
-        {
-            String Path = $"{Application.dataPath}/Thanking.config";
+	    public static void SaveConfig(Dictionary<String, object> Config) =>
+		    File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Config, Formatting.Indented));
 
-            File.WriteAllText(Path, JsonConvert.SerializeObject(Config, Formatting.Indented));
-        }
-
-        public static void LoadConfig(Dictionary<String, object> Config)
+	    public static void LoadConfig(Dictionary<String, object> Config)
         {
+	        if (!Config.ContainsKey("Version") || (String) Config["Version"] != ConfigVersion)
+	        {
+		        #if DEBUG
+		        DebugUtilities.Log("Config version mismatch, updating");
+		        #endif
+		        
+		        File.Delete(ConfigPath);
+		        Init();
+		        return;
+	        }
+	        
             Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
 
 	        for (int i = 0; i < Types.Length; i++)
