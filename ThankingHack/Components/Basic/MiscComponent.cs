@@ -47,7 +47,7 @@ namespace Thanking.Components.Basic
                 MiscOptions.WasNightVision = false;
             }
 
-			if (MiscOptions.SetTimeEnabled)
+			if (MiscOptions.SetTimeEnabled && !Provider.isLoading && Provider.isConnected)
 				LightingManager.time = (uint)MiscOptions.Time;
         }
 
