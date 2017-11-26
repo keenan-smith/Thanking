@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
+using System.Net;
 using Thanking.Components.UI;
 using Thanking.Components.UI.Menu;
 using Thanking.Utilities;
@@ -12,6 +14,8 @@ namespace Thanking.Coroutines
 	{
         public static bool IsLoaded;
 
+		public static String AssetPath = $"{Application.dataPath}/ThankingAssets.unity3d";
+
 		public static IEnumerator LoadAssets()
 		{
 			#if DEBUG
@@ -20,9 +24,49 @@ namespace Thanking.Coroutines
 			
 			yield return new WaitForSeconds(1);
 
-			byte[] loader = File.ReadAllBytes($"{Application.dataPath}/ThankingAssets.unity3d");
-			
-			AssetBundle bundle = AssetBundle.LoadFromMemory(loader);
+			Byte[] Loader = null;
+
+			if (!File.Exists(AssetPath))
+			{
+				#if DEBUG
+				DebugUtilities.Log("Assets not downloaded, downloading now.");
+				#endif			
+	
+	
+				WWW loader = new WWW("http://debug.ironic.services/client/ThankingAssets.unity3d");
+				yield return loader;
+
+				File.WriteAllBytes(AssetPath, loader.bytes);
+
+				Loader = loader.bytes;
+			}
+			else
+			{
+				Loader = File.ReadAllBytes(AssetPath);
+
+				String Current = HashUtilities.GetSHA2HashString(Loader);
+				String New = new WebClient().DownloadString("http://debug.ironic.services/client/Hash").Trim();
+
+				#if DEBUG
+				DebugUtilities.Log($"Current: {Current}\r\nNew: {New}");
+				#endif
+				
+				if (Current != New)
+				{
+					#if DEBUG
+					DebugUtilities.Log("Hash mismatch, updating assets");
+					#endif
+					
+					WWW loader = new WWW("http://debug.ironic.services/client/ThankingAssets.unity3d");
+					yield return loader;
+
+					File.WriteAllBytes(AssetPath, loader.bytes);
+
+					Loader = loader.bytes;
+				}
+			}
+
+			AssetBundle bundle = AssetBundle.LoadFromMemory(Loader);
 			AssetVariables.ABundle = bundle;
 
             foreach (Shader s in bundle.LoadAllAssets<Shader>())
