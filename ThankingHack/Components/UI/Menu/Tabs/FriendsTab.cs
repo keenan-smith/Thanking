@@ -19,6 +19,9 @@ namespace Thanking.Components.UI.Menu.Tabs
                     if (Provider.clients[i].player.quests.isMemberOfSameGroupAs(Player.player))
                         continue;
 
+                    if (Provider.clients[i].player == Player.player)
+                        continue;
+
                     if (Prefab.Button(
                         $"{Provider.clients[i].playerID.characterName}[{Provider.clients[i].playerID.playerName}]",
                         400))
