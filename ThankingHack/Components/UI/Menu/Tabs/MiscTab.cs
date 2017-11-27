@@ -37,9 +37,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.Space(8);
 				Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
 
-				GUILayout.EndVertical();
-				GUILayout.BeginVertical();
-
 				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
                     Prefab.Toggle("Enabled", ref MiscOptions.SpammerEnabled);
@@ -60,6 +57,9 @@ namespace Thanking.Components.UI.Menu.Tabs
                     Prefab.Toggle("Hit Vehicles", ref InteractionOptions.HitVehicles);
                     Prefab.Toggle("Hit Resources", ref InteractionOptions.HitResources);
                 });
+
+				GUILayout.EndVertical();
+				GUILayout.BeginVertical(GUILayout.Width(230));
 
 				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
 				GUILayout.Space(2);
