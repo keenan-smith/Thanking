@@ -21,9 +21,6 @@ namespace Thanking.Overrides
 		{
 			switch (OVType)
 			{
-				case OverrideType.None:
-					return (RaycastInfo)OverrideUtilities.CallOriginal(null, ray, range, mask);
-
 				case OverrideType.Regular:
 					return (RaycastInfo)OverrideUtilities.CallOriginal(null, ray, MiscOptions.MeleeRangeExtension, mask);
 
