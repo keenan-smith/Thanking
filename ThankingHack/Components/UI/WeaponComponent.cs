@@ -7,6 +7,7 @@ using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
+using System.Linq;
 
 namespace Thanking.Components.UI
 {
@@ -117,45 +118,32 @@ namespace Thanking.Components.UI
 			#endif
 			
 			if (!WeaponOptions.AutoReload || Ammo() > 0) return;
-			
+
+			if (Ammo() == 1)
+				return;
+
 			#if DEBUG
 			DebugUtilities.Log("Ammo less than or equal to 0");
 			#endif
 			
-			InventorySearch[] magazineSearch = Player.player.inventory.search(
+			IEnumerable<InventorySearch> magazineSearch = 
 				Player.player.inventory.search(EItemType.MAGAZINE,
-					((ItemGunAsset) Player.player.equipment.asset).magazineCalibers)).ToArray();
+					((ItemGunAsset) Player.player.equipment.asset).magazineCalibers)
+					.Where(i => i.jar.item.amount > 0);
 
-			if (magazineSearch.Length == 0) return;
+			if (magazineSearch.Count() == 0) return;
 			
-			#if DEBUG
-			DebugUtilities.Log("Magazine Found");
-			#endif
-			
-			Byte b = 0;
-			Byte b2 = 255;
+			InventorySearch search = magazineSearch
+					.OrderByDescending(i => i.jar.item.amount)
+					.First();
 
-			for (Byte i = 0; i < magazineSearch.Length; i++)
-			{
-				if (magazineSearch[i].jar.item.amount == b) continue;
-				
-				#if DEBUG
-				DebugUtilities.Log("Magazine has ammo");
-				#endif
-						
-				b = magazineSearch[i].jar.item.amount;
-				b2 = i;
-			}
-
-			if (b2 == 255) return;
-			
 			#if DEBUG
 			DebugUtilities.Log("Magazine reloaded");
-			#endif
-				
+#endif
+
 			Player.player.channel.send("askAttachMagazine", ESteamCall.SERVER,
-				ESteamPacket.UPDATE_UNRELIABLE_BUFFER, magazineSearch[b2].page, magazineSearch[b2].jar.x,
-				magazineSearch[b2].jar.y);
+				ESteamPacket.UPDATE_UNRELIABLE_BUFFER, search.page, search.jar.x,
+				search.jar.y);
 		}
 	}
 }
