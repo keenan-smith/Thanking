@@ -13,7 +13,7 @@ namespace Thanking.Components.UI.Menu.Tabs
         
         public static void Tab()
         {
-            Prefab.ScrollView(new Rect(0, 0, 466, 200), "Non-Friends on Server", ref NonFriendsScroll, () =>
+            Prefab.ScrollView(new Rect(0, 0, 466, 200), "Add Friend", ref NonFriendsScroll, () =>
             {
                 for (int i = 0; i < Provider.clients.Count; i++)
                 {
@@ -33,7 +33,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
             });
 
-			Prefab.ScrollView(new Rect(0, 200 + 10, 466, 200), "Friends on Server", ref FriendsScroll, () =>
+			Prefab.ScrollView(new Rect(0, 200 + 10, 466, 200), "Remove Friend", ref FriendsScroll, () =>
 			{
 				for (int i = 0; i < Provider.clients.Count; i++)
 				{

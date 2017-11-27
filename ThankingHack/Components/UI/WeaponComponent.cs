@@ -19,7 +19,7 @@ namespace Thanking.Components.UI
 		public static Vector3 SwayBackup;
 		public static ItemWeaponAsset CurrentWeapon;
 
-		private Byte Ammo() => (Byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
+		private byte Ammo() => (byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
 			.GetValue(Player.player.equipment.useable);
 
 		private FieldInfo ReloadTime = typeof(UseableGun).GetField("reloadTime", ReflectionVariables.PrivateInstance);
@@ -118,10 +118,7 @@ namespace Thanking.Components.UI
 			#endif
 			
 			if (!WeaponOptions.AutoReload || Ammo() > 0) return;
-
-			if (Ammo() == 1)
-				return;
-
+			
 			#if DEBUG
 			DebugUtilities.Log("Ammo less than or equal to 0");
 			#endif
@@ -139,7 +136,7 @@ namespace Thanking.Components.UI
 
 			#if DEBUG
 			DebugUtilities.Log("Magazine reloaded");
-#endif
+				#endif
 
 			Player.player.channel.send("askAttachMagazine", ESteamCall.SERVER,
 				ESteamPacket.UPDATE_UNRELIABLE_BUFFER, search.page, search.jar.x,

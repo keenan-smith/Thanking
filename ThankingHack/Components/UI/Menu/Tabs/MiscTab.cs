@@ -28,15 +28,19 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.Space(2);
 				GUILayout.Label("Time: " + MiscOptions.Time, Prefab._TextStyle);
 				GUILayout.Space(2);
-				MiscOptions.Time = (uint)Math.Round(Prefab.Slider(0, 1800, MiscOptions.Time, 175));
+				MiscOptions.Time = (float)Math.Round(Prefab.Slider(0, 3600, MiscOptions.Time, 175));
 
 				GUILayout.Space(8);
 				Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
+				GUILayout.Space(8);
+				Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
 
-#if Private
-                GUILayout.Space(2);
-                Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
-#endif
+				GUILayout.Space(8);
+				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
+				GUILayout.Space(2);
+				GUILayout.Label("Range: " + MiscOptions.MeleeRangeExtension, Prefab._TextStyle);
+				GUILayout.Space(2);
+				MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175));
 
 				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
@@ -48,6 +52,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     GUILayout.Space(5);
                     MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 3000, MiscOptions.SpammerDelay, 175);
                 });
+
                 Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135 - 10, 221, 135), "INTERACT", () =>
                 {
                     Prefab.Toggle("Interact Through Walls", ref InteractionOptions.InteractThroughWalls);

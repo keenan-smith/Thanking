@@ -46,9 +46,6 @@ namespace Thanking.Components.Basic
                 PlayerLifeUI.updateGrayscale();
                 MiscOptions.WasNightVision = false;
             }
-
-			if (MiscOptions.SetTimeEnabled && !Provider.isLoading && Provider.isConnected)
-				LightingManager.time = (uint)MiscOptions.Time;
         }
 
 		public static void VehicleFlight()

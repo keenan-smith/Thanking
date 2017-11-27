@@ -4,6 +4,7 @@ using SDG.Unturned;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
+using Thanking.Options;
 
 namespace Thanking.Utilities
 {
@@ -52,24 +53,24 @@ namespace Thanking.Utilities
 			#endif
 	        
 	        Player ClosestPlayer = GetClosestHittablePlayer(Players, out double ClosestDistance);
-	        
-			#if DEBUG
+
+#if DEBUG
 	        DebugUtilities.Log($"Closest Player Name: {ClosestPlayer.name}");
 	        DebugUtilities.Log($"Closest Distance: {ClosestDistance}");
-			#endif
+#endif
 
-	        if (ClosestPlayer == null)
+			float range = currentGun != null ? currentGun.range : MiscOptions.MeleeRangeExtension;
+
+
+			if (ClosestPlayer == null)
 		        return GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
-			        currentGun.range, RayMasks.DAMAGE_CLIENT);
+			       range, RayMasks.DAMAGE_CLIENT);
 	        
 	        if (currentGun != null)
 	        { 
 		        Vector3 hPos = SphereUtilities.Get(ClosestPlayer, aimPos, RayMasks.DAMAGE_CLIENT);
 		        if (hPos != Vector3.zero)
 		        {
-			        //if (!Provider.modeConfigData.Gameplay.Ballistics)
-			        //PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
-					
 			        return new RaycastInfo(ClosestPlayer.transform)
 			        {
 				        point = hPos,
@@ -83,7 +84,7 @@ namespace Thanking.Utilities
 
 	        if (ClosestDistance > SphereOptions.SphereRadius)
 		        return GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
-			        currentGun.range, RayMasks.DAMAGE_CLIENT);
+			        range, RayMasks.DAMAGE_CLIENT);
 				
 	        //PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
 	        return new RaycastInfo(ClosestPlayer.transform)
@@ -155,60 +156,5 @@ namespace Thanking.Utilities
 			closestDistance = ClosestDistance;
 			return ClosestPlayer;
 		}
-
-	    private static Player GetClosestPlayer(SteamPlayer[] Players, out double closestDistance)
-	    {
-		    Player ClosestPlayer = null;
-		    double ClosestDistance = 1337420;
-		    ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
-		    
-
-		    for (int i = 0; i < Players.Length; i++)
-		    {
-			    Player Player = Players[i].player;
-			    
-			    if (CurrentGun != null)
-			    {
-				    if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
-				          CurrentGun.range + (RaycastOptions.ExtendedRange ? 12 : 0))) continue;
-
-				    if (ClosestPlayer == null)
-				    {
-					    ClosestPlayer = Player;
-					    continue;
-				    }
-
-				    double LatestDistance =
-					    VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position);
-
-				    if (ClosestDistance < LatestDistance) continue;
-				    
-				    ClosestPlayer = Player;
-				    ClosestDistance = LatestDistance;
-			    }
-			    else
-			    {
-				    if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
-				          15.5)) continue;
-
-				    if (ClosestPlayer == null)
-				    {
-					    ClosestPlayer = Player;
-					    continue;
-				    }
-
-				    double LatestDistance =
-					    VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position);
-
-				    if (ClosestDistance < LatestDistance) continue;
-				    
-				    ClosestPlayer = Player;
-				    ClosestDistance = LatestDistance;
-			    }
-		    }
-
-		    closestDistance = ClosestDistance;
-		    return ClosestPlayer;
-	    }
     }
 }

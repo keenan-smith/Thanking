@@ -22,6 +22,8 @@ namespace Thanking.Coroutines
 			SpyManager.InvokePre();
 			SpyManager.DestroyComponents();
 
+			LevelLighting.updateLighting();
+
 			if (Player.player.equipment.asset is ItemGunAsset pAsset)
 			{
 				UseableGun PGun = Player.player.equipment.useable as UseableGun;
@@ -85,10 +87,11 @@ namespace Thanking.Coroutines
 			yield return new WaitForFixedUpdate();
 
 			SpyManager.AddComponents();
-
 			SpyManager.InvokePost();
 
 			IsSpying = false;
+
+			LevelLighting.updateLighting();
 		}
 	}
 }

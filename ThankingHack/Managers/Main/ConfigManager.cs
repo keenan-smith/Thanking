@@ -15,7 +15,7 @@ namespace Thanking.Managers.Main
     {
 	    public static String ConfigPath = $"{Application.dataPath}/Thanking.config";
 
-	    public static String ConfigVersion = "1.0.0";
+	    public static String ConfigVersion = "1.0.1";
 	    
 		public static void Init()
 		{

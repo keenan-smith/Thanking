@@ -32,9 +32,6 @@ namespace Thanking.Components.Basic
 			if (Input.GetKeyDown(ESPOptions.Toggle))
 				ESPOptions.Enabled = !ESPOptions.Enabled;
 
-			if (Input.GetKeyDown(SphereOptions.Toggle))
-				SphereOptions.Enabled = !SphereOptions.Enabled;
-
 			if (Input.GetKeyDown(MiscOptions.LogoToggle))
 				MiscOptions.LogoEnabled = !MiscOptions.LogoEnabled;
 

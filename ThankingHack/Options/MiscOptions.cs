@@ -39,6 +39,9 @@ namespace Thanking.Options
         [Save] public static bool VehicleFly = false;
         [Save] public static float SpeedMultiplier = 1f;
 
+		[Save] public static bool ExtendMeleeRange = false;
+		[Save] public static float MeleeRangeExtension = 10f;
+
         [Save] public static KeyCode StrafeUp = KeyCode.RightControl;
         [Save] public static KeyCode StrafeDown = KeyCode.LeftControl;
         [Save] public static KeyCode StrafeLeft = KeyCode.LeftBracket;
