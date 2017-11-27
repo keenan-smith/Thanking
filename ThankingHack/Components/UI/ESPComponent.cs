@@ -107,12 +107,18 @@ namespace Thanking.Components.UI
 					case ESPTarget.Players:
 						{
 							Player p = (Player)obj.Object;
+
+							if (p.life.isDead)
+								continue;
+
 							text = $"<size={size}>";
 							
 							if (ESPOptions.ShowPlayerName)
 								text += p.name + "\n";
 							if (ESPOptions.ShowPlayerWeapon)
 								text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
+							if (ESPOptions.ShowPlayerVehicle)
+								text += (p.movement.getVehicle() != null ? p.movement.getVehicle().name : "No Vehicle") + "\n";
 							if (ESPOptions.ShowPlayerDistance)
 								text += Math.Round(dist);
 							

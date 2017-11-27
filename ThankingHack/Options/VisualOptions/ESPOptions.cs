@@ -254,6 +254,7 @@ namespace Thanking.Options.VisualOptions
 		[Save] public static bool ShowPlayerName = true;
 		[Save] public static bool ShowPlayerDistance = true;
 		[Save] public static bool ShowPlayerWeapon = true;
+		[Save] public static bool ShowPlayerVehicle = true;
 		[Save] public static bool UsePlayerGroup = true;
 
 		[Save] public static SerializableColor SameGroupColor = ((Color32) Color.green).ToSerializableColor();

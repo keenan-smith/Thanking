@@ -11,8 +11,10 @@ namespace Thanking.Components.UI.Menu.Tabs
         public static void Tab()
         {
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MISC", () =>
-            {
-                Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
+			{
+				GUILayout.BeginHorizontal();
+				GUILayout.BeginVertical(GUILayout.Width(230));
+				Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
                 GUILayout.Space(2);
                 GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
                 GUILayout.Space(2);
@@ -35,12 +37,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.Space(8);
 				Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
 
-				GUILayout.Space(8);
-				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
-				GUILayout.Space(2);
-				GUILayout.Label("Range: " + MiscOptions.MeleeRangeExtension, Prefab._TextStyle);
-				GUILayout.Space(2);
-				MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175));
+				GUILayout.EndVertical();
+				GUILayout.BeginVertical();
 
 				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
@@ -62,6 +60,16 @@ namespace Thanking.Components.UI.Menu.Tabs
                     Prefab.Toggle("Hit Vehicles", ref InteractionOptions.HitVehicles);
                     Prefab.Toggle("Hit Resources", ref InteractionOptions.HitResources);
                 });
+
+				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
+				GUILayout.Space(2);
+				GUILayout.Label("Range: " + MiscOptions.MeleeRangeExtension, Prefab._TextStyle);
+				GUILayout.Space(2);
+				MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175));
+
+				GUILayout.EndVertical();
+				GUILayout.FlexibleSpace();
+				GUILayout.EndHorizontal();
             });
         }
     }
