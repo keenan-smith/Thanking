@@ -41,7 +41,7 @@ namespace Thanking.Variables
 		public bool LineToObject;
 		public bool TextScaling;
 		public bool UseObjectCap;
-=
+
 		public LabelLocation Location;
 		public float Distance;
 		public float MinTextSizeDistance;
