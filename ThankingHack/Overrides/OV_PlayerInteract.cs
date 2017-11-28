@@ -78,7 +78,7 @@ namespace Thanking.Overrides
         }
 
         private float salvageTime =>
-            MiscOptions.SalvageTime;
+            MiscOptions.CustomSalvageTime ? MiscOptions.SalvageTime : Player.player.channel.owner.isAdmin ? 1f : 8f;
 
         private void hotkey(byte button) =>
             VehicleManager.swapVehicle(button);

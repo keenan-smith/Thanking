@@ -13,7 +13,8 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MISC", () =>
 			{
 				GUILayout.BeginHorizontal();
-				GUILayout.BeginVertical(GUILayout.Width(230));
+				GUILayout.BeginVertical();
+
 				Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
                 GUILayout.Space(2);
                 GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
@@ -21,21 +22,38 @@ namespace Thanking.Components.UI.Menu.Tabs
                 MiscOptions.SpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
 
 				GUILayout.Space(8);
+				Prefab.Toggle("Custom Salvage Time", ref MiscOptions.CustomSalvageTime);
+				GUILayout.Space(2);
 				GUILayout.Label("Salvage Time: " + MiscOptions.SalvageTime + " seconds", Prefab._TextStyle);
 				GUILayout.Space(2);
 				MiscOptions.SalvageTime = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SalvageTime, 175));
 
 				GUILayout.Space(8);
-				Prefab.Toggle("Custom Time", ref MiscOptions.SetTimeEnabled);
+				Prefab.Toggle("Custom Day Time", ref MiscOptions.SetTimeEnabled);
 				GUILayout.Space(2);
 				GUILayout.Label("Time: " + MiscOptions.Time, Prefab._TextStyle);
 				GUILayout.Space(2);
-				MiscOptions.Time = (float)Math.Round(Prefab.Slider(0, 3600, MiscOptions.Time, 175));
+				MiscOptions.Time = (float)Math.Round(Prefab.Slider(0, 48, MiscOptions.Time, 175));
 
-				GUILayout.Space(8);
-				Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
-				GUILayout.Space(8);
-				Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
+				GUILayout.EndVertical();
+				GUILayout.BeginVertical();
+				
+				if (Provider.isConnected)
+				{
+					GUILayout.Space(8);
+					Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
+					GUILayout.Space(8);
+					Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
+				}
+				
+				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
+				GUILayout.Space(2);
+				GUILayout.Label("Range: " + MiscOptions.MeleeRangeExtension, Prefab._TextStyle);
+				GUILayout.Space(2);
+				MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175));
+				
+				GUILayout.EndVertical();
+				GUILayout.EndHorizontal();
 
 				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
@@ -57,19 +75,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                     Prefab.Toggle("Hit Vehicles", ref InteractionOptions.HitVehicles);
                     Prefab.Toggle("Hit Resources", ref InteractionOptions.HitResources);
                 });
-
-				GUILayout.EndVertical();
-				GUILayout.BeginVertical(GUILayout.Width(230));
-
-				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
-				GUILayout.Space(2);
-				GUILayout.Label("Range: " + MiscOptions.MeleeRangeExtension, Prefab._TextStyle);
-				GUILayout.Space(2);
-				MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175));
-
-				GUILayout.EndVertical();
-				GUILayout.FlexibleSpace();
-				GUILayout.EndHorizontal();
             });
         }
     }

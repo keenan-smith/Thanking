@@ -23,7 +23,8 @@ namespace Thanking.Components.UI.Menu.Tabs
                     Prefab.Toggle("Show Player Name", ref ESPOptions.ShowPlayerName);
                     Prefab.Toggle("Show Player Distance", ref ESPOptions.ShowPlayerDistance);
                     Prefab.Toggle("Show Player Weapon", ref ESPOptions.ShowPlayerWeapon);
-                    Prefab.Toggle("Use Player Group", ref ESPOptions.UsePlayerGroup);
+					Prefab.Toggle("Show Player Vehicle", ref ESPOptions.ShowPlayerVehicle);
+					Prefab.Toggle("Use Player Group", ref ESPOptions.UsePlayerGroup);
                     GUILayout.EndVertical();
                     GUILayout.FlexibleSpace();
                     GUILayout.EndHorizontal();

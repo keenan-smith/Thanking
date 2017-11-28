@@ -9,6 +9,7 @@ namespace Thanking.Options
 		[Save] public static bool NoSnow = false;
 		[Save] public static bool NoRain = false;
 
+		[Save] public static bool CustomSalvageTime = false;
 		[Save] public static float SalvageTime = 1f;
 
 		[Save] public static bool SetTimeEnabled = false;
