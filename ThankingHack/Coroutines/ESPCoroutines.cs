@@ -178,7 +178,7 @@ namespace Thanking.Coroutines
 								}
 							case ESPTarget.Zombies:
 								{
-									Zombie[] objarr = ZombieManager.tickingZombies.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+									Zombie[] objarr = Object.FindObjectsOfType<Zombie>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
