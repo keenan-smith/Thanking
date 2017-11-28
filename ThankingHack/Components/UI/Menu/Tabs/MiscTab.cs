@@ -50,9 +50,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				if (Provider.isConnected)
 				{
 					Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
-					GUILayout.Space(8);
 					Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
-					GUILayout.Space(8);
 				}
 
 				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);

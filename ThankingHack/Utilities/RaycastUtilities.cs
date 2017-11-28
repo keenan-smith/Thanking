@@ -59,7 +59,7 @@ namespace Thanking.Utilities
 	        DebugUtilities.Log($"Closest Distance: {ClosestDistance}");
 #endif
 
-			float range = currentGun != null ? currentGun.range : MiscOptions.MeleeRangeExtension;
+			float range = currentGun != null ? currentGun.range : MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f;
 
 
 			if (ClosestPlayer == null)
