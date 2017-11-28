@@ -25,7 +25,7 @@ namespace Thanking.Options
 	{
 		[Save] public static bool AutoItemPickup = false;
 		[Save] public static int ItemPickupDelay = 1000;
-		[Save] public static ItemOptionList ItemFilterOptions;
-		[Save] public static ItemOptionList ItemESPOptions;
+		[Save] public static ItemOptionList ItemFilterOptions = new ItemOptionList();
+		[Save] public static ItemOptionList ItemESPOptions = new ItemOptionList();
 	}
 }
