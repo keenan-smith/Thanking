@@ -121,7 +121,7 @@ namespace Thanking.Components.UI
 							if (ESPOptions.ShowPlayerWeapon)
 								text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
 							if (ESPOptions.ShowPlayerVehicle)
-								text += (p.movement.getVehicle() != null ? p.movement.getVehicle().name : "No Vehicle") + "\n";
+								text += (p.movement.getVehicle() != null ? p.movement.getVehicle().asset.name : "No Vehicle") + "\n";
 							if (ESPOptions.ShowPlayerDistance)
 								text += Math.Round(dist);
 							

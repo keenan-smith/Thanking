@@ -15,14 +15,15 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(0, 0, 225, 436), "ESP", () =>
             {
                 Prefab.SectionTabButton("Players", () =>
-                {
-					if (!ESPOptions.VisualOptions[(int)ESPTarget.Players].Enabled)
-						return;
-					
+                {					
 					GUILayout.BeginHorizontal();
                     GUILayout.BeginVertical(GUILayout.Width(240));
                     BasicControls(ESPTarget.Players);
-                    GUILayout.EndVertical();
+
+					if (!ESPOptions.VisualOptions[(int)ESPTarget.Players].Enabled)
+						return;
+
+					GUILayout.EndVertical();
                     GUILayout.BeginVertical();
                     Prefab.Toggle("Show Player Name", ref ESPOptions.ShowPlayerName);
                     Prefab.Toggle("Show Player Distance", ref ESPOptions.ShowPlayerDistance);
@@ -43,10 +44,11 @@ namespace Thanking.Components.UI.Menu.Tabs
                 });
                 Prefab.SectionTabButton("Items", () =>
                 {
+					BasicControls(ESPTarget.Items);
+
 					if (!ESPOptions.VisualOptions[(int)ESPTarget.Items].Enabled)
 						return;
 
-					BasicControls(ESPTarget.Items);
 					Prefab.Toggle("Filter Items", ref ESPOptions.FilterItems);
 					
 					if (ESPOptions.FilterItems) 

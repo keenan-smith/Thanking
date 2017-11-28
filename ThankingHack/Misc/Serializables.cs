@@ -4,9 +4,9 @@ namespace Thanking.Misc
 {
 	public class SerializableVector
 	{
-		public int x, y, z;
+		public float x, y, z;
 
-		public SerializableVector(int nx, int ny, int nz)
+		public SerializableVector(float nx, float ny, float nz)
 		{
 			x = nx;
 			y = ny;
@@ -15,6 +15,25 @@ namespace Thanking.Misc
 
 		public Vector3 ToVector() =>
 			new Vector3(x, y, z);
+
+		public static implicit operator Vector3(SerializableVector vector) => vector.ToVector();
+	}
+
+	public class SerializableVector2
+	{
+		public float x, y;
+
+		public SerializableVector2(float nx, float ny)
+		{
+			x = nx;
+			y = ny;
+		}
+
+		public Vector2 ToVector2() =>
+			new Vector2(x, y);
+
+		public static implicit operator Vector2(SerializableVector2 vector) => vector.ToVector2();
+		public static implicit operator SerializableVector2(Vector2 vector) => new SerializableVector2(vector.x, vector.y);
 	}
 
 	public class SerializableColor

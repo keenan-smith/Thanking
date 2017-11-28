@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Thanking.Attributes;
+using Thanking.Misc;
 using UnityEngine;
 
 namespace Thanking.Options
@@ -17,9 +18,9 @@ namespace Thanking.Options
         public bool ItemfilterFoodAndWater = false;
         public bool ItemfilterCustom = true;
 		public string searchstring = "";
-		public Vector2 additemscroll = Vector2.zero;
-		public Vector2 removeitemscroll = Vector2.zero;
-    }
+		public SerializableVector2 additemscroll = new SerializableVector2(0, 0);
+		public SerializableVector2 removeitemscroll = new SerializableVector2(0, 0);
+	}
 
 	public static class ItemOptions
 	{

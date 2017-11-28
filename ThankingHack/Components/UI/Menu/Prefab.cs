@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Thanking.Misc;
 using Thanking.Options.UIVariables;
 using Thanking.Utilities;
 using UnityEngine;
@@ -336,7 +337,64 @@ namespace Thanking.Components.UI.Menu
 
         }
 
-        public static bool List(float width, string identifier, GUIContent buttonContent, GUIContent[] listContent, params GUILayoutOption[] options)
+		public static void ScrollView(Rect area, string title, ref SerializableVector2 scrollpos, Action code, int padding = 20, params GUILayoutOption[] options)
+		{
+			Drawing.DrawRect(area, MenuComponent._OutlineBorderBlack);
+			Drawing.DrawRect(MenuUtilities.Inline(area), MenuComponent._OutlineBorderLightGray);
+			Rect inlined = MenuUtilities.Inline(area, 2);
+			Drawing.DrawRect(inlined, MenuComponent._FillLightBlack);
+			Color lastColor = _MenuTabStyle.normal.textColor;
+			int lastFontSize = _MenuTabStyle.fontSize;
+			_MenuTabStyle.normal.textColor = _MenuTabStyle.onNormal.textColor;
+			_MenuTabStyle.fontSize = 15;
+			Drawing.DrawRect(new Rect(inlined.x, inlined.y, inlined.width, _MenuTabStyle.CalcSize(new GUIContent(title)).y + 2), MenuComponent._OutlineBorderLightGray);
+			GUILayout.BeginArea(inlined);
+			{
+				GUILayout.BeginHorizontal();
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label(title, _MenuTabStyle);
+					_MenuTabStyle.normal.textColor = lastColor;
+					_MenuTabStyle.fontSize = lastFontSize;
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndHorizontal();
+				GUILayout.Space(2);
+				Rect rects;
+				Rect inner;
+				GUILayout.BeginHorizontal();
+				{
+					scrollpos = GUILayout.BeginScrollView(scrollpos.ToVector2(), false, true);
+					{
+						GUILayout.BeginHorizontal();
+						{
+							GUILayout.Space(padding);
+							GUILayout.BeginVertical(GUILayout.MinHeight(inlined.height));
+							{
+
+								try { code(); }
+								catch (Exception e) { Debug.LogException(e); }
+							}
+							GUILayout.EndVertical();
+							inner = GUILayoutUtility.GetLastRect();
+						}
+						GUILayout.EndHorizontal();
+					}
+					GUILayout.EndScrollView();
+					rects = GUILayoutUtility.GetLastRect();
+					GUILayout.Space(1);
+				}
+				GUILayout.EndHorizontal();
+				GUILayout.Space(1);
+				Drawing.DrawRect(new Rect(rects.x + rects.width - 16, rects.y, 16, rects.height), MenuComponent._FillLightBlack);
+				if (inner.height - rects.height > 0)
+					VerticalSlider(new Rect(rects.x + 4, rects.y + 8, 12, rects.height - 14), 0, inner.height - rects.height, ref scrollpos.y);
+			}
+			GUILayout.EndArea();
+
+		}
+
+		public static bool List(float width, string identifier, GUIContent buttonContent, GUIContent[] listContent, params GUILayoutOption[] options)
         {
             Vector2 size = _listStyle.CalcSize(buttonContent);
             List<GUILayoutOption> parameters = options.ToList();
