@@ -32,7 +32,7 @@ namespace Thanking.Coroutines
 
                     InteractableItem item = array[i].GetComponent<InteractableItem>();
 
-                    if (!ItemUtilities.Whitelisted(item.asset)) continue;
+                    if (!ItemUtilities.Whitelisted(item.asset, ItemOptions.ItemFilterOptions)) continue;
                     
                     item.use();
                 }

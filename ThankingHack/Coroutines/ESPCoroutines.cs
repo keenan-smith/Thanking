@@ -9,6 +9,7 @@ using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Thanking.Options;
 
 namespace Thanking.Coroutines
 {
@@ -199,7 +200,9 @@ namespace Thanking.Coroutines
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableItem obj = objarr[j];
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
+
+										if (ItemUtilities.Whitelisted(obj.asset, ItemOptions.ItemESPOptions))
+											objects.Add(new ESPObject(target, obj, obj.gameObject));
 									}
 									break;
 								}

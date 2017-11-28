@@ -21,56 +21,56 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
                 Prefab.Toggle("Fast Reload", ref WeaponOptions.FastReload);
                 GUILayout.Space(20);
-                Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
-                Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
-                Prefab.Toggle("Custom Ragdoll Vector", ref RaycastOptions.UseModifiedVector);
-                Prefab.Toggle("Normal Material", ref RaycastOptions.UseTargetMaterial);
-                Prefab.Toggle("Extended Range", ref RaycastOptions.ExtendedRange);
-                GUILayout.Space(5);
-                GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
-                Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
-                GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m", Prefab._TextStyle);
-                Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
-                GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
-                SphereOptions.RecursionLevel = (int)Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
+				Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
+				Prefab.Toggle("Custom Ragdoll Vector", ref RaycastOptions.UseModifiedVector);
+				Prefab.Toggle("Normal Material", ref RaycastOptions.UseTargetMaterial);
+				Prefab.Toggle("Extended Range", ref RaycastOptions.ExtendedRange);
 
-                GUIContent[] TargetPriorities = {
-                    new GUIContent("Player"),
-                    new GUIContent("Zombie"),
-                    new GUIContent("Sentry"),
-                    new GUIContent("Bed"),
-                    new GUIContent("Claim Flag"),
-                    new GUIContent("Storage")
-                };
+				if (Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled))
+				{
+					GUILayout.Space(5);
+					GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
+					Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
+					GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m", Prefab._TextStyle);
+					Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
+					GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
+					SphereOptions.RecursionLevel = (int)Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
 
-                if (Prefab.List(200, "_TargetPriority", new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text), TargetPriorities))
-                {
-                    RaycastOptions.Target = (TargetPriority)DropDown.Get("_TargetPriority").ListIndex;
-                }
+					GUIContent[] TargetPriorities = {
+						new GUIContent("Player"),
+						new GUIContent("Zombie"),
+						new GUIContent("Sentry"),
+						new GUIContent("Bed"),
+						new GUIContent("Claim Flag"),
+						new GUIContent("Storage")
+					};
 
-                GUIContent[] Limbs = {
-                    new GUIContent("Left Foot"),
-                    new GUIContent("Left Leg"),
-                    new GUIContent("Right Foot"),
-                    new GUIContent("Right Leg"),
-                    new GUIContent("Left Hand"),
-                    new GUIContent("Left Arm"),
-                    new GUIContent("Right Hand"),
-                    new GUIContent("Right Arm"),
-                    new GUIContent("Left Back"),
-                    new GUIContent("Right Back"),
-                    new GUIContent("Left Front"),
-                    new GUIContent("Right Front"),
-                    new GUIContent("Spine"),
-                    new GUIContent("Skull")
-                };
+					if (Prefab.List(200, "_TargetPriority", new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text), TargetPriorities))
+						RaycastOptions.Target = (TargetPriority)DropDown.Get("_TargetPriority").ListIndex;
+				}
 
-                if (Prefab.List(200, "_TargetLimb", new GUIContent("Limb: " + Limbs[DropDown.Get("_TargetLimb").ListIndex].text), Limbs))
-                {
-                    RaycastOptions.TargetLimb = (ELimb)DropDown.Get("_TargetLimb").ListIndex;
-                }
+				GUIContent[] Limbs = {
+					new GUIContent("Left Foot"),
+					new GUIContent("Left Leg"),
+					new GUIContent("Right Foot"),
+					new GUIContent("Right Leg"),
+					new GUIContent("Left Hand"),
+					new GUIContent("Left Arm"),
+					new GUIContent("Right Hand"),
+					new GUIContent("Right Arm"),
+					new GUIContent("Left Back"),
+					new GUIContent("Right Back"),
+					new GUIContent("Left Front"),
+					new GUIContent("Right Front"),
+					new GUIContent("Spine"),
+					new GUIContent("Skull")
+				};
 
-                GUIContent[] Materials = {
+				if (Prefab.List(200, "_TargetLimb", new GUIContent("Limb: " + Limbs[DropDown.Get("_TargetLimb").ListIndex].text), Limbs))
+					RaycastOptions.TargetLimb = (ELimb)DropDown.Get("_TargetLimb").ListIndex;
+
+
+				GUIContent[] Materials = {
                     new GUIContent("None"),
                     new GUIContent("Cloth Dynamic"),
                     new GUIContent("Cloth Static"),
