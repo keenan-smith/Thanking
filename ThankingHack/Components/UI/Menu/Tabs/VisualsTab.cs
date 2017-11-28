@@ -16,7 +16,10 @@ namespace Thanking.Components.UI.Menu.Tabs
             {
                 Prefab.SectionTabButton("Players", () =>
                 {
-                    GUILayout.BeginHorizontal();
+					if (!ESPOptions.VisualOptions[(int)ESPTarget.Players].Enabled)
+						return;
+					
+					GUILayout.BeginHorizontal();
                     GUILayout.BeginVertical(GUILayout.Width(240));
                     BasicControls(ESPTarget.Players);
                     GUILayout.EndVertical();
@@ -40,7 +43,10 @@ namespace Thanking.Components.UI.Menu.Tabs
                 });
                 Prefab.SectionTabButton("Items", () =>
                 {
-                    BasicControls(ESPTarget.Items);
+					if (!ESPOptions.VisualOptions[(int)ESPTarget.Items].Enabled)
+						return;
+
+					BasicControls(ESPTarget.Items);
 					Prefab.Toggle("Filter Items", ref ESPOptions.FilterItems);
 					
 					if (ESPOptions.FilterItems) 

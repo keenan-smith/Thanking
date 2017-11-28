@@ -32,7 +32,6 @@ namespace Thanking.Options.VisualOptions
 
 				Distance = 500,
 				Location = LabelLocation.BottomMiddle,
-				Color = ((Color32) Color.red).ToSerializableColor(),
 
 				FixedTextSize = 12,
 				MinTextSize = 8,

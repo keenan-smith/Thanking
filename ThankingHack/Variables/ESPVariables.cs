@@ -41,8 +41,7 @@ namespace Thanking.Variables
 		public bool LineToObject;
 		public bool TextScaling;
 		public bool UseObjectCap;
-
-		public SerializableColor Color;
+=
 		public LabelLocation Location;
 		public float Distance;
 		public float MinTextSizeDistance;

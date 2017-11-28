@@ -29,6 +29,9 @@ namespace Thanking.Components.UI
             CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
             MainCamera = Camera.main; // lets define it once ok?
+
+			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", new Color32(255, 0, 0, 255)));
         }
 
         public void Update()
@@ -66,7 +69,7 @@ namespace Thanking.Components.UI
                     if (!ItemUtilities.Whitelisted(((InteractableItem)obj.Object).asset, ItemOptions.ItemESPOptions))
                         continue;
 
-				Color c = visual.Color.ToColor();
+				Color c = ColorUtilities.getColor($"_{obj.Target}");
 				LabelLocation ll = visual.Location;
 
 				GameObject go = obj.GObject;
@@ -248,7 +251,7 @@ namespace Thanking.Components.UI
 				if (visual.LineToObject)
 					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2
 					{
-						Color = visual.Color.ToColor(),
+						Color = c,
 						Vertices = new[]
 						{
 							new Vector2(Screen.width / 2, Screen.height),
