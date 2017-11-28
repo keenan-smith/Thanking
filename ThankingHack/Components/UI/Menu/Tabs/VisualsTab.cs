@@ -41,9 +41,13 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.SectionTabButton("Items", () =>
                 {
                     BasicControls(ESPTarget.Items);
-                    GUILayout.Space(5);
-					if (Prefab.Toggle("Filter Items", ref ESPOptions.FilterItems))
+					Prefab.Toggle("Filter Items", ref ESPOptions.FilterItems);
+					
+					if (ESPOptions.FilterItems) 
+					{
+						GUILayout.Space(5);
 						ItemUtilities.DrawFilterTab(ItemOptions.ItemESPOptions);
+					}
                 });
                 Prefab.SectionTabButton("Storages", () =>
                 {
@@ -83,8 +87,9 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(225 + 5, 120 + 5 + 110 + 5, 466 - 225 - 5, 436 - 235 - 5), "TOGGLE", () =>
             {
                 Prefab.Toggle("ESP", ref ESPOptions.Enabled);
+				Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled);
 
-                if (Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled));
+				if (ESPOptions.ChamsEnabled)
 					Prefab.Toggle("Flat Chams", ref ESPOptions.ChamsFlat);
 
                 Prefab.Toggle("No Rain", ref MiscOptions.NoRain);
@@ -100,7 +105,8 @@ namespace Thanking.Components.UI.Menu.Tabs
         {
             int target = (int)esptarget;
 			ESPVisual visual = ESPOptions.VisualOptions[target];
-			if (!Prefab.Toggle("Enabled", ref visual.Enabled))
+			Prefab.Toggle("Enabled", ref visual.Enabled);
+			if (!visual.Enabled)
 				return;
 
 			Prefab.Toggle("Labels", ref visual.Labels);
@@ -108,7 +114,9 @@ namespace Thanking.Components.UI.Menu.Tabs
 			Prefab.Toggle("2D Boxes", ref visual.TwoDimensional);
 			Prefab.Toggle("Glow", ref visual.Glow);
 			Prefab.Toggle("Line To Object", ref visual.LineToObject);
-			if (Prefab.Toggle("Text Scaling", ref visual.TextScaling))
+
+			Prefab.Toggle("Text Scaling", ref visual.TextScaling);
+			if (visual.TextScaling)
 			{
 				visual.FixedTextSize = Prefab.TextField(visual.FixedTextSize, "Fixed Text Size:", 30);
 				GUILayout.Space(3);
@@ -120,7 +128,9 @@ namespace Thanking.Components.UI.Menu.Tabs
 				Prefab.Slider(0, 1000, ref visual.MinTextSizeDistance, 200);
 				GUILayout.Space(3);
 			}
-			if (!Prefab.Toggle("Infinite Distance", ref visual.InfiniteDistance))
+
+			Prefab.Toggle("Infinite Distance", ref visual.InfiniteDistance);
+			if (!visual.InfiniteDistance)
 			{
 				GUILayout.Label("ESP Distance: " + Mathf.RoundToInt(visual.Distance), Prefab._TextStyle);
 				Prefab.Slider(0, 4000, ref visual.Distance, 200);

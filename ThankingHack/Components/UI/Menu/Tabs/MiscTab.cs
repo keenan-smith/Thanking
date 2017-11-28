@@ -13,9 +13,11 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MISC", () =>
 			{
 				GUILayout.BeginHorizontal();
-				GUILayout.BeginVertical();
+				GUILayout.BeginVertical(GUILayout.Width(230));
 
-				if (Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly))
+				Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
+
+				if (MiscOptions.VehicleFly)
 				{
 					GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
 					GUILayout.Space(2);
@@ -23,7 +25,9 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Space(8);
 				}
 
-				if (Prefab.Toggle("Custom Salvage Time", ref MiscOptions.CustomSalvageTime))
+				Prefab.Toggle("Custom Salvage Time", ref MiscOptions.CustomSalvageTime);
+
+				if (MiscOptions.CustomSalvageTime)
 				{
 					GUILayout.Label("Salvage Time: " + MiscOptions.SalvageTime + " seconds", Prefab._TextStyle);
 					GUILayout.Space(2);
@@ -32,7 +36,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 				}
 
 
-				if (Prefab.Toggle("Custom Day Time", ref MiscOptions.SetTimeEnabled))
+				Prefab.Toggle("Custom Day Time", ref MiscOptions.SetTimeEnabled);
+				if (MiscOptions.SetTimeEnabled)
 				{
 					GUILayout.Label("Time: " + MiscOptions.Time, Prefab._TextStyle);
 					GUILayout.Space(2);
@@ -49,13 +54,14 @@ namespace Thanking.Components.UI.Menu.Tabs
 					Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
 					GUILayout.Space(8);
 				}
-				
-				if (Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange))
+
+				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
+				if (MiscOptions.ExtendMeleeRange)
 				{
 					GUILayout.Space(2);
 					GUILayout.Label("Range: " + MiscOptions.MeleeRangeExtension, Prefab._TextStyle);
 					GUILayout.Space(2);
-					MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175));
+					MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175), 1);
 				}
 				
 				GUILayout.EndVertical();
@@ -64,7 +70,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
                     Prefab.Toggle("Enabled", ref MiscOptions.SpammerEnabled);
-                    GUILayout.Space(5);
+
+					GUILayout.Space(5);
                     MiscOptions.SpamText = Prefab.TextField(MiscOptions.SpamText, "Text: ", 150);
                     GUILayout.Space(10);
                     GUILayout.Label("Delay: " + MiscOptions.SpammerDelay + "ms", Prefab._TextStyle);
@@ -74,10 +81,11 @@ namespace Thanking.Components.UI.Menu.Tabs
 
                 Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135 - 10, 221, 135), "INTERACT", () =>
 				{
-					if (Prefab.Toggle("Interact Through Walls", ref InteractionOptions.InteractThroughWalls))
-					{
+					Prefab.Toggle("Interact Through Walls", ref InteractionOptions.InteractThroughWalls);
 
-					}
+					if (!InteractionOptions.InteractThroughWalls)
+						return;
+
                     Prefab.Toggle("Hit Structures", ref InteractionOptions.HitStructures);
                     Prefab.Toggle("Hit Barricades", ref InteractionOptions.HitBarricades);
                     Prefab.Toggle("Hit Items", ref InteractionOptions.HitItems);

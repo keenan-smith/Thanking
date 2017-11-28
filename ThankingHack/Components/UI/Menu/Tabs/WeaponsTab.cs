@@ -25,8 +25,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 				Prefab.Toggle("Custom Ragdoll Vector", ref RaycastOptions.UseModifiedVector);
 				Prefab.Toggle("Normal Material", ref RaycastOptions.UseTargetMaterial);
 				Prefab.Toggle("Extended Range", ref RaycastOptions.ExtendedRange);
-
-				if (Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled))
+				Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
+				if (RaycastOptions.Enabled)
 				{
 					GUILayout.Space(5);
 					GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);

@@ -12,11 +12,10 @@ namespace Thanking.Components.UI.Menu.Tabs
 				if (Provider.isConnected)
 				{
 					GUILayout.Label("Server Info", Prefab._TextStyle);
-					GUILayout.Space(1);
+					GUILayout.Space(2);
 
-					GUILayout.Label($"IP: {Parser.getIPFromUInt32(Provider.currentServerInfo.ip)}", Prefab._TextStyle);
-					GUILayout.Label($"Port: {Provider.currentServerInfo.port}", Prefab._TextStyle);
-
+					GUILayout.TextField($"IP: {Parser.getIPFromUInt32(Provider.currentServerInfo.ip)}", Prefab._TextStyle);
+					GUILayout.TextField($"Port: {Provider.currentServerInfo.port}", Prefab._TextStyle);
 					GUILayout.Space(8);
 				}
 

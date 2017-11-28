@@ -11,7 +11,9 @@ namespace Thanking.Components.UI.Menu.Tabs
 	{
 		public static void Tab()
 		{
-			if (Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup))
+			Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
+
+			if (ItemOptions.AutoItemPickup)
 			{
 				GUILayout.Space(2);
 				GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);

@@ -55,79 +55,70 @@ namespace Thanking.Utilities
 		{
 			Prefab.SectionTabButton("ITEM FILTER", () =>
 			{
-				Prefab.MenuArea(new Rect(0, 0, 466, 436), "ITEM FILTER", () =>
+				Prefab.Toggle("Guns", ref OptionList.ItemfilterGun);
+				Prefab.Toggle("Ammo", ref OptionList.ItemfilterAmmo);
+				Prefab.Toggle("Medical", ref OptionList.ItemfilterMedical);
+				Prefab.Toggle("Backpacks", ref OptionList.ItemfilterBackpack);
+				Prefab.Toggle("Charges", ref OptionList.ItemfilterCharges);
+				Prefab.Toggle("Fuel", ref OptionList.ItemfilterFuel);
+				Prefab.Toggle("Clothing", ref OptionList.ItemfilterClothing);
+				Prefab.Toggle("Food and Water", ref OptionList.ItemfilterFoodAndWater);
+				Prefab.Toggle("Enable Custom Filter", ref OptionList.ItemfilterCustom);
+				if (OptionList.ItemfilterCustom)
 				{
-					Prefab.Toggle("Auto Item Pickup", ref OptionList.AutoItemPickup);
-					GUILayout.Space(2);
-					GUILayout.Label("Delay: " + OptionList.ItemPickupDelay + "ms", Prefab._TextStyle);
-					GUILayout.Space(2);
-					OptionList.ItemPickupDelay = (int)Prefab.Slider(0, 3000, OptionList.ItemPickupDelay, 175);
 					GUILayout.Space(5);
-					Prefab.Toggle("Guns", ref OptionList.ItemfilterGun);
-					Prefab.Toggle("Ammo", ref OptionList.ItemfilterAmmo);
-					Prefab.Toggle("Medical", ref OptionList.ItemfilterMedical);
-					Prefab.Toggle("Backpacks", ref OptionList.ItemfilterBackpack);
-					Prefab.Toggle("Charges", ref OptionList.ItemfilterCharges);
-					Prefab.Toggle("Fuel", ref OptionList.ItemfilterFuel);
-					Prefab.Toggle("Clothing", ref OptionList.ItemfilterClothing);
-					Prefab.Toggle("Food and Water", ref OptionList.ItemfilterFoodAndWater);
-					if (Prefab.Toggle("Enable Custom Filter", ref OptionList.ItemfilterCustom))
+					Prefab.SectionTabButton("CUSTOM FILTER", () =>
 					{
-
+						GUILayout.BeginHorizontal();
+						GUILayout.Space(55);
+						OptionList.searchstring = Prefab.TextField(OptionList.searchstring, "Search:", 200);
 						GUILayout.Space(5);
-						Prefab.SectionTabButton("CUSTOM FILTER", () =>
+						if (Prefab.Button("Refresh", 276))
 						{
-							GUILayout.BeginHorizontal();
-							GUILayout.Space(55);
-							OptionList.searchstring = Prefab.TextField(OptionList.searchstring, "Search:", 200);
+							ItemsComponent.RefreshItems();
+						}
+						GUILayout.FlexibleSpace();
+						GUILayout.EndHorizontal();
+						Prefab.ScrollView(new Rect(70, 0 + 50, 620 - 70 - 10, 190), "Add", ref OptionList.additemscroll, () =>
+						{
 							GUILayout.Space(5);
-							if (Prefab.Button("Refresh", 276))
+							for (var i = 0; i < ItemsComponent.items.Count; i++)
 							{
-								ItemsComponent.RefreshItems();
+								ItemAsset asset = ItemsComponent.items[i];
+								bool isShown = false;
+
+								if (asset.itemName.ToLower().Contains(OptionList.searchstring.ToLower()))
+									isShown = true;
+								if (OptionList.searchstring.Length < 2)
+									isShown = false;
+								if (OptionList.AddedItems.Contains(asset.id))
+									isShown = false;
+
+								if (isShown)
+									DrawItemButton(asset, OptionList.AddedItems);
 							}
-							GUILayout.FlexibleSpace();
-							GUILayout.EndHorizontal();
-							Prefab.ScrollView(new Rect(70, 0 + 50, 620 - 70 - 10, 190), "Add", ref OptionList.additemscroll, () =>
-							{
-								GUILayout.Space(5);
-								for (var i = 0; i < ItemsComponent.items.Count; i++)
-								{
-									ItemAsset asset = ItemsComponent.items[i];
-									bool isShown = false;
-
-									if (asset.itemName.ToLower().Contains(OptionList.searchstring.ToLower()))
-										isShown = true;
-									if (OptionList.searchstring.Length < 2)
-										isShown = false;
-									if (OptionList.AddedItems.Contains(asset.id))
-										isShown = false;
-
-									if (isShown)
-										DrawItemButton(asset, OptionList.AddedItems);
-								}
-								GUILayout.Space(2);
-							});
-							Prefab.ScrollView(new Rect(70, 200 + 5 + 40, 620 - 70 - 10, 191), "Remove", ref OptionList.removeitemscroll, () =>
-							{
-								GUILayout.Space(5);
-								for (var i = 0; i < ItemsComponent.items.Count; i++)
-								{
-									ItemAsset asset = ItemsComponent.items[i];
-									bool isShown = false;
-
-									if (asset.itemName.ToLower().Contains(OptionList.searchstring.ToLower()))
-										isShown = true;
-									if (!OptionList.AddedItems.Contains(asset.id))
-										isShown = false;
-
-									if (isShown)
-										DrawItemButton(asset, OptionList.AddedItems);
-								}
-								GUILayout.Space(2);
-							});
+							GUILayout.Space(2);
 						});
-					}
-				});
+						Prefab.ScrollView(new Rect(70, 200 + 5 + 40, 620 - 70 - 10, 191), "Remove", ref OptionList.removeitemscroll, () =>
+						{
+							GUILayout.Space(5);
+							for (var i = 0; i < ItemsComponent.items.Count; i++)
+							{
+								ItemAsset asset = ItemsComponent.items[i];
+								bool isShown = false;
+
+								if (asset.itemName.ToLower().Contains(OptionList.searchstring.ToLower()))
+									isShown = true;
+								if (!OptionList.AddedItems.Contains(asset.id))
+									isShown = false;
+
+								if (isShown)
+									DrawItemButton(asset, OptionList.AddedItems);
+							}
+							GUILayout.Space(2);
+						});
+					});
+				}
 			});
 		}
 	}

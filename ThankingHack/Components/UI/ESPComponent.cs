@@ -63,7 +63,7 @@ namespace Thanking.Components.UI
 					continue;
 
                 if (obj.Target == ESPTarget.Items && ESPOptions.FilterItems)
-                    if (!ItemUtilities.Whitelisted(((InteractableItem)obj.Object).asset))
+                    if (!ItemUtilities.Whitelisted(((InteractableItem)obj.Object).asset, ItemOptions.ItemESPOptions))
                         continue;
 
 				Color c = visual.Color.ToColor();
