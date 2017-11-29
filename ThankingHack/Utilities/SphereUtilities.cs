@@ -22,6 +22,20 @@ namespace Thanking.Utilities
 
 			return vec;
 		}
+
+		public static Vector3 Get(GameObject obj, Vector3 pos, float radius, int mask)
+		{
+			GameObject go = IcoSphere.Create("HitSphere", radius, SphereOptions.RecursionLevel);
+
+			go.transform.parent = obj.transform;
+			go.transform.localPosition = new Vector3(0, 0, 0);
+
+			Vector3 vec = Get(go, pos, mask);
+			Object.Destroy(go);
+
+			return vec;
+		}
+
         public static Vector3 Get(GameObject go, Vector3 pos, int mask)
         {
             Mesh mesh = go.GetComponent<MeshCollider>().sharedMesh;

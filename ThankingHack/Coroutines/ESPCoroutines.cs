@@ -261,6 +261,9 @@ namespace Thanking.Coroutines
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableVehicle obj = objarr[j];
+										if (obj.isExploded)
+											return;
+
 										objects.Add(new ESPObject(target, obj, obj.gameObject));
 									}
 									break;

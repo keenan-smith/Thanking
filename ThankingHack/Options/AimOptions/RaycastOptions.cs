@@ -6,12 +6,13 @@ namespace Thanking.Options.AimOptions
 {
 	public enum TargetPriority
 	{
-		Player,
-		Zombie,
-		Sentry,
-		Bed,
-		ClaimFlag,
-		Storage
+		Players,
+		Zombies,
+		Sentries,
+		Beds,
+		ClaimFlags,
+		Storage,
+		Vehicles
 	}
 
 	public static class RaycastOptions

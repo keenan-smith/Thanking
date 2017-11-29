@@ -132,7 +132,6 @@
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_LevelLighting.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
-    <Compile Include="Overrides\OV_PlayerEquipment.cs" />
     <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerInventory.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />

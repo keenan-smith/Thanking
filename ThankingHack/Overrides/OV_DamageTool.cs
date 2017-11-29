@@ -17,18 +17,18 @@ namespace Thanking.Overrides
 		public static OverrideType OVType = OverrideType.None;
 
 	    [Override(typeof(DamageTool), "raycast", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)] 
-		public static RaycastInfo OV_Raycast(Ray ray, float range, int mask)
+		public static RaycastInfo OV_raycast(Ray ray, float range, int mask)
 		{
 			switch (OVType)
 			{
 				case OverrideType.Regular:
-					return (RaycastInfo)OverrideUtilities.CallOriginal(null, ray, MiscOptions.MeleeRangeExtension, mask);
+					return RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
 
 				case OverrideType.SilentAim:
 					return RaycastUtilities.GenerateRaycast();
 			}
 
-			return (RaycastInfo)OverrideUtilities.CallOriginal(null, ray, range, mask);
+			return RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
 		}
 	}
 }

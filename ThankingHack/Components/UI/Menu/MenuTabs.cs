@@ -11,11 +11,11 @@ namespace Thanking.Components.UI.Menu
             MenuTabOption.Add(new MenuTabOption("aimbot", AimbotTab.Tab));
             MenuTabOption.Add(new MenuTabOption("weapons", WeaponsTab.Tab));
             MenuTabOption.Add(new MenuTabOption("item filter", ItemFilterTab.Tab));
-            MenuTabOption.Add(new MenuTabOption("friends", FriendsTab.Tab));
-            MenuTabOption.Add(new MenuTabOption("misc", MiscTab.Tab));
-            MenuTabOption.Add(new MenuTabOption("colors", ColorsTab.Tab));
-            MenuTabOption.Add(new MenuTabOption("info", InfoTab.Tab));
 			MenuTabOption.Add(new MenuTabOption("stats", StatsTab.Tab));
+			MenuTabOption.Add(new MenuTabOption("colors", ColorsTab.Tab));
+			MenuTabOption.Add(new MenuTabOption("friends", FriendsTab.Tab));
+            MenuTabOption.Add(new MenuTabOption("misc", MiscTab.Tab));
+            MenuTabOption.Add(new MenuTabOption("info", InfoTab.Tab));
 		}
     }
 }

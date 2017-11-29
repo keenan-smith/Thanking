@@ -184,6 +184,9 @@ namespace Thanking.Components.UI
 						{
 							InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
 
+							if (vehicle.isExploded)
+								return;
+
 							text = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle, true)}\n{rounded}</size>";
 							outerText = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle, false)}\n{rounded}</size>";
 							break;

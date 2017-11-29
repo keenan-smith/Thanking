@@ -37,12 +37,13 @@ namespace Thanking.Components.UI.Menu.Tabs
 					SphereOptions.RecursionLevel = (int)Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
 
 					GUIContent[] TargetPriorities = {
-						new GUIContent("Player"),
-						new GUIContent("Zombie"),
-						new GUIContent("Sentry"),
-						new GUIContent("Bed"),
-						new GUIContent("Claim Flag"),
-						new GUIContent("Storage")
+						new GUIContent("Players"),
+						new GUIContent("Zombies"),
+						new GUIContent("Sentries"),
+						new GUIContent("Beds"),
+						new GUIContent("Claim Flags"),
+						new GUIContent("Storage"),
+						new GUIContent("Vehicles")
 					};
 
 					if (Prefab.List(200, "_TargetPriority", new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text), TargetPriorities))

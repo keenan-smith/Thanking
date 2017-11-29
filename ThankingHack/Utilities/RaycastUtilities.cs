@@ -5,6 +5,8 @@ using Thanking.Options.AimOptions;
 using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
 using Thanking.Options;
+using System.Collections.Generic;
+using Thanking.Variables;
 
 namespace Thanking.Utilities
 {
@@ -44,15 +46,35 @@ namespace Thanking.Utilities
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
 
-	        SteamPlayer[] Players = Provider.clients.Where(p => p.player != null && p.player != Player.player &&
-	                                							!p.player.life.isDead && p.player.transform != null &&
-	                                                            !FriendUtilities.IsFriendly(p.player)).ToArray();
+			GameObject[] Objects = new GameObject[0];
+
+			switch (RaycastOptions.Target)
+			{
+				case TargetPriority.Beds:
+					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Beds).Select(o => o.GObject).ToArray();
+					break;
+				case TargetPriority.ClaimFlags:
+					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.ClaimFlags).Select(o => o.GObject).ToArray();
+					break;
+				case TargetPriority.Players:
+					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Players).Where(o => o.Object != null && !((Player)o.Object).life.isDead).Select(o => o.GObject).ToArray();
+					break;
+				case TargetPriority.Sentries:
+					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Sentries).Select(o => o.GObject).ToArray();
+					break;
+				case TargetPriority.Storage:
+					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Storage).Select(o => o.GObject).ToArray();
+					break;
+				case TargetPriority.Zombies:
+					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Zombies).Select(o => o.GObject).ToArray();
+					break;
+			}                             
 	        
 	        #if DEBUG
 	        DebugUtilities.Log($"Players[] Length: {Players.Length}");
 			#endif
 	        
-	        Player ClosestPlayer = GetClosestHittablePlayer(Players, out double ClosestDistance);
+	        GameObject ClosestObject = GetClosestHittableObject(Objects, out double ClosestDistance);
 
 #if DEBUG
 	        DebugUtilities.Log($"Closest Player Name: {ClosestPlayer.name}");
@@ -62,24 +84,43 @@ namespace Thanking.Utilities
 			float range = currentGun != null ? currentGun.range : MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f;
 
 
-			if (ClosestPlayer == null)
+			if (ClosestObject == null)
 		        return GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
 			       range, RayMasks.DAMAGE_CLIENT);
 	        
 	        if (currentGun != null)
-	        { 
-		        Vector3 hPos = SphereUtilities.Get(ClosestPlayer, aimPos, RayMasks.DAMAGE_CLIENT);
-		        if (hPos != Vector3.zero)
-		        {
-			        return new RaycastInfo(ClosestPlayer.transform)
-			        {
-				        point = hPos,
-				        direction = RaycastOptions.TargetRagdoll.ToVector(),
-				        limb = RaycastOptions.TargetLimb,
-				        player = ClosestPlayer,
-				        material = RaycastOptions.TargetMaterial
-			        };
-		        }
+	        {
+				Player p = ClosestObject.GetComponent<Player>();
+
+				if (p == null)
+				{
+					Vector3 hPos = SphereUtilities.Get(ClosestObject, aimPos, SphereOptions.SphereRadius, RayMasks.DAMAGE_CLIENT);
+					if (hPos != Vector3.zero)
+					{
+						return new RaycastInfo(ClosestObject.transform)
+						{
+							point = hPos,
+							direction = RaycastOptions.TargetRagdoll.ToVector(),
+							limb = RaycastOptions.TargetLimb,
+							material = RaycastOptions.TargetMaterial
+						};
+					}
+				}
+				else
+				{
+					Vector3 hPos = SphereUtilities.Get(p, aimPos, RayMasks.DAMAGE_CLIENT);
+					if (hPos != Vector3.zero)
+					{
+						return new RaycastInfo(ClosestObject.transform)
+						{
+							point = hPos,
+							direction = RaycastOptions.TargetRagdoll.ToVector(),
+							limb = RaycastOptions.TargetLimb,
+							player = p,
+							material = RaycastOptions.TargetMaterial
+						};
+					}
+				}
 	        }
 
 	        if (ClosestDistance > SphereOptions.SphereRadius)
@@ -87,74 +128,48 @@ namespace Thanking.Utilities
 			        range, RayMasks.DAMAGE_CLIENT);
 				
 	        //PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
-	        return new RaycastInfo(ClosestPlayer.transform)
+	        return new RaycastInfo(ClosestObject.transform)
 	        {
 		        point = Player.player.transform.position,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = RaycastOptions.TargetLimb,
-		        player = ClosestPlayer,
+		        player = ClosestObject.GetComponent<Player>(),
 		        material = RaycastOptions.TargetMaterial
 	        };
         }
 	    
-		private static Player GetClosestHittablePlayer(SteamPlayer[] Players, out double closestDistance)
+		private static GameObject GetClosestHittableObject(GameObject[] Objects, out double closestDistance)
 		{
-			Player ClosestPlayer = null;
+			GameObject ClosestObject = null;
 			double ClosestDistance = 1337420;
 			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
 
-			for (int i = 0; i < Players.Length; i++)
+			for (int i = 0; i < Objects.Length; i++)
 			{
-				Player Player = Players[i].player;
+				GameObject go = Objects[i];
 
-				if (CurrentGun != null)
+				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f)) continue;
+
+				if (SphereUtilities.Get(go, Player.player.transform.position, SphereOptions.SphereRadius, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
+					continue;
+
+				if (ClosestObject == null)
 				{
-					if (!(VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) <=
-						  CurrentGun.range + (RaycastOptions.ExtendedRange ? 12 : 0))) continue;
-
-					if (SphereUtilities.Get(Player, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
-						continue;
-
-					if (ClosestPlayer == null)
-					{
-						ClosestPlayer = Player;
-						continue;
-					}
-
-					double LatestDistance =
-						VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position);
-
-					if (ClosestDistance < LatestDistance) continue;
-
-					ClosestPlayer = Player;
-					ClosestDistance = LatestDistance;
+					ClosestObject = go;
+					continue;
 				}
-				else
-				{
-					if (VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position) >
-						  15.5) continue;
 
-					if (SphereUtilities.Get(Player, Player.player.transform.position, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
-						continue;
+				double LatestDistance =
+					VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position);
 
-					if (ClosestPlayer == null)
-					{
-						ClosestPlayer = Player;
-						continue;
-					}
+				if (ClosestDistance < LatestDistance) continue;
 
-					double LatestDistance =
-						VectorUtilities.GetDistance(Player.player.transform.position, Player.transform.position);
-
-					if (ClosestDistance < LatestDistance) continue;
-
-					ClosestPlayer = Player;
-					ClosestDistance = LatestDistance;
-				}
+				ClosestObject = go;
+				ClosestDistance = LatestDistance;
 			}
 
 			closestDistance = ClosestDistance;
-			return ClosestPlayer;
+			return ClosestObject;
 		}
     }
 }
