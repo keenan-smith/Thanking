@@ -8,7 +8,7 @@ namespace Thanking.Utilities
 {
     public static class SphereUtilities
     {
-		public static Vector3 Get(Player Player, Vector3 pos, int mask)
+		public static RaycastHit Get(Player Player, Vector3 pos)
 		{
 			GameObject go = IcoSphere.Create("HitSphere",
 					Player.movement.getVehicle() != null ? SphereOptions.VehicleSphereRadius : SphereOptions.SphereRadius,
@@ -16,27 +16,32 @@ namespace Thanking.Utilities
 
 			go.transform.parent = Player.transform;
 			go.transform.localPosition = new Vector3(0, 0, 0);
+			go.layer = RayMasks.ENEMY;
 
-			Vector3 vec = Get(go, pos, mask);
+			RaycastHit vec = Get(go, pos, RayMasks.ENEMY);
 			Object.Destroy(go);
 
 			return vec;
 		}
 
-		public static Vector3 Get(GameObject obj, Vector3 pos, float radius, int mask)
+		public static RaycastHit Get(GameObject obj, Vector3 pos, float radius)
 		{
+			int OrigLayer = obj.layer;
 			GameObject go = IcoSphere.Create("HitSphere", radius, SphereOptions.RecursionLevel);
 
 			go.transform.parent = obj.transform;
 			go.transform.localPosition = new Vector3(0, 0, 0);
+			go.layer = RayMasks.ENEMY;
+			obj.layer = RayMasks.ENEMY;
 
-			Vector3 vec = Get(go, pos, mask);
+			RaycastHit vec = Get(go, pos, RayMasks.ENEMY);
 			Object.Destroy(go);
+			obj.layer = OrigLayer;
 
 			return vec;
 		}
 
-        public static Vector3 Get(GameObject go, Vector3 pos, int mask)
+        public static RaycastHit Get(GameObject go, Vector3 pos, int layer)
         {
             Mesh mesh = go.GetComponent<MeshCollider>().sharedMesh;
             VertTriList vt = new VertTriList(mesh);
@@ -45,10 +50,10 @@ namespace Thanking.Utilities
 			List<Vector3> nVerts = new List<Vector3>();
 
 			for (int i = 0; i < verts.Length; i++)
-				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, (float)(VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5), mask))
-					return go.transform.TransformPoint(verts[i]);
+				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, out RaycastHit hit, (float)(VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5), layer))
+					return hit;
 
-			return Vector3.zero;
+			return new RaycastHit();
         }
     }
 }

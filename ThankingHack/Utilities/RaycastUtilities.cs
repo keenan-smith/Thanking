@@ -94,32 +94,24 @@ namespace Thanking.Utilities
 
 				if (p == null)
 				{
-					Vector3 hPos = SphereUtilities.Get(ClosestObject, aimPos, SphereOptions.SphereRadius, RayMasks.DAMAGE_CLIENT);
-					if (hPos != Vector3.zero)
+					RaycastHit hPos = SphereUtilities.Get(ClosestObject, aimPos, SphereOptions.SphereRadius);
+					return new RaycastInfo(hPos)
 					{
-						return new RaycastInfo(ClosestObject.transform)
-						{
-							point = hPos,
-							direction = RaycastOptions.TargetRagdoll.ToVector(),
-							limb = RaycastOptions.TargetLimb,
-							material = RaycastOptions.TargetMaterial
-						};
-					}
+						direction = RaycastOptions.TargetRagdoll.ToVector(),
+						limb = RaycastOptions.TargetLimb,
+						material = RaycastOptions.TargetMaterial
+					};
 				}
 				else
 				{
-					Vector3 hPos = SphereUtilities.Get(p, aimPos, RayMasks.DAMAGE_CLIENT);
-					if (hPos != Vector3.zero)
+					RaycastHit hPos = SphereUtilities.Get(p, aimPos);
+					return new RaycastInfo(hPos)
 					{
-						return new RaycastInfo(ClosestObject.transform)
-						{
-							point = hPos,
-							direction = RaycastOptions.TargetRagdoll.ToVector(),
-							limb = RaycastOptions.TargetLimb,
-							player = p,
-							material = RaycastOptions.TargetMaterial
-						};
-					}
+						direction = RaycastOptions.TargetRagdoll.ToVector(),
+						limb = RaycastOptions.TargetLimb,
+						player = p,
+						material = RaycastOptions.TargetMaterial
+					};
 				}
 	        }
 
@@ -147,12 +139,13 @@ namespace Thanking.Utilities
 			for (int i = 0; i < Objects.Length; i++)
 			{
 				GameObject go = Objects[i];
+
 				if (go == null)
 					continue;
 
 				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f)) continue;
 
-				if (SphereUtilities.Get(go, Player.player.transform.position, SphereOptions.SphereRadius, RayMasks.DAMAGE_CLIENT) == Vector3.zero)
+				if (SphereUtilities.Get(go, Player.player.transform.position, SphereOptions.SphereRadius).point == Vector3.zero)
 					continue;
 
 				if (ClosestObject == null)
