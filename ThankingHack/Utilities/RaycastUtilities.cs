@@ -147,6 +147,8 @@ namespace Thanking.Utilities
 			for (int i = 0; i < Objects.Length; i++)
 			{
 				GameObject go = Objects[i];
+				if (go == null)
+					continue;
 
 				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f)) continue;
 
