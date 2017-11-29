@@ -50,7 +50,7 @@ namespace Thanking.Utilities
 			List<Vector3> nVerts = new List<Vector3>();
 
 			for (int i = 0; i < verts.Length; i++)
-				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, (float)(VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5), RayMasks.DAMAGE_CLIENT | ~layer))
+				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, (float)(VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5), RayMasks.DAMAGE_CLIENT & ~layer))
 				{
 					Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, out RaycastHit hit, (float)(VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5), layer);
 					return hit;

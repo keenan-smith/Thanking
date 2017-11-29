@@ -7,6 +7,7 @@ using UnityEngine;
 using Thanking.Options;
 using System.Collections.Generic;
 using Thanking.Variables;
+using Thanking.Coroutines;
 
 namespace Thanking.Utilities
 {
@@ -40,6 +41,21 @@ namespace Thanking.Utilities
 			
 			return raycastInfo;
 		}
+
+		/* TODO
+		public static RaycastInfo GenerateAimbotRaycast()
+		{
+			GameObject Locked = AimbotCoroutines.LockedObject;
+			ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
+			float range = currentGun != null ? currentGun.range : MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f;
+
+			if (Locked == null)
+				return GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
+				   range, RayMasks.DAMAGE_CLIENT);
+
+
+		}
+		*/
 
         public static RaycastInfo GenerateRaycast()
         {
