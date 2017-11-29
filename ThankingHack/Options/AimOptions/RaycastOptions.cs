@@ -23,7 +23,7 @@ namespace Thanking.Options.AimOptions
 		[Save] public static bool UseModifiedVector = true;
 		[Save] public static bool ExtendedRange = true;
 
-		[Save] public static TargetPriority Target = TargetPriority.Player;
+		[Save] public static TargetPriority Target = TargetPriority.Players;
 		[Save] public static EPhysicsMaterial TargetMaterial = EPhysicsMaterial.ALIEN_DYNAMIC;
 		[Save] public static ELimb TargetLimb = ELimb.SKULL;
 		[Save] public static SerializableVector TargetRagdoll = new SerializableVector(0, 10, 0);
