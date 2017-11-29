@@ -142,11 +142,18 @@ namespace Thanking.Utilities
 
 				if (go == null)
 					continue;
+				
+				Debug.Log(1);
 
-				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f)) continue;
+				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f))
+					continue;
+
+				Debug.Log(2);
 
 				if (SphereUtilities.Get(go, Player.player.transform.position, SphereOptions.SphereRadius).point == Vector3.zero)
 					continue;
+
+				Debug.Log(3);
 
 				if (ClosestObject == null)
 				{
