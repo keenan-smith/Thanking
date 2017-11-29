@@ -15,6 +15,7 @@ namespace Thanking.Components.UI.Menu
             MenuTabOption.Add(new MenuTabOption("misc", MiscTab.Tab));
             MenuTabOption.Add(new MenuTabOption("colors", ColorsTab.Tab));
             MenuTabOption.Add(new MenuTabOption("info", InfoTab.Tab));
-        }
+			MenuTabOption.Add(new MenuTabOption("stats", StatsTab.Tab));
+		}
     }
 }

@@ -102,6 +102,7 @@
     <Compile Include="Components\UI\Menu\Tabs\ItemFilterTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\FriendsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\MiscTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\StatsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\WeaponsTab.cs" />
     <Compile Include="Components\UI\WeaponComponent.cs" />
