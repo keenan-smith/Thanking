@@ -25,7 +25,7 @@ namespace Thanking.Overrides
         public void OV_ballistics()
         {
 	        Useable PlayerUse = Player.player.equipment.useable;
-            if (RaycastOptions.Enabled)
+            if (RaycastOptions.Enabled || AimbotOptions.Enabled)
             {
                 ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
                 if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
@@ -87,7 +87,7 @@ namespace Thanking.Overrides
                     Bullets.Clear();
                 }
             }
-            else
+			else
 				OverrideUtilities.CallOriginal(PlayerUse);
 		}
 
