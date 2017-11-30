@@ -13,6 +13,10 @@ namespace Thanking.Overrides
     {
 		private static FieldInfo BulletsField;
 		private static MethodInfo Trace;
+		private static int Track = 0;
+		private static Transform Prev = null;
+		public static Vector3 Start = Vector3.zero;
+		public static Vector3 End = Vector3.zero;
 
 		[Initializer]
 		public static void Load()
@@ -22,73 +26,78 @@ namespace Thanking.Overrides
 		}
 
 		[Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
-        public void OV_ballistics()
-        {
-	        Useable PlayerUse = Player.player.equipment.useable;
-            if (RaycastOptions.Enabled || AimbotOptions.Enabled)
-            {
-                ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
-                if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
-                    return;
+		public void OV_ballistics()
+		{
+			Useable PlayerUse = Player.player.equipment.useable;
+			if (!RaycastOptions.Enabled)
+			{
+				OverrideUtilities.CallOriginal();
+				return;
+			}
 
-				List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
+			ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
+			if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
+				return;
 
-				if (Provider.modeConfigData.Gameplay.Ballistics)
-                {
-	                RaycastInfo ri = RaycastUtilities.GenerateRaycast();
-	                if (ri.player == null)
-		                OverrideUtilities.CallOriginal(PlayerUse);
-	                
-                    for (int i = 0; i < Bullets.Count; i++)
-                    {
-                        BulletInfo bulletInfo = Bullets[i];
-                        double distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
+			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
 
-                        if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
-                        {
-	                        Trace.Invoke(PlayerUse,
-		                        PAsset.ballisticTravel < 32f
-			                        ? new object[] {bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir}
-			                        : new object[]
-			                        {
-				                        bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir
-			                        });
-                        }
+			if (Provider.modeConfigData.Gameplay.Ballistics)
+			{
+				RaycastInfo ri = RaycastUtilities.GenerateRaycast();
 
-	                    if (bulletInfo.steps * PAsset.ballisticTravel < distance) 
-		                    continue;
-	                    
-	                    EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
-	                    PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-	                    Player.player.input.sendRaycast(ri);
-	                    bulletInfo.steps = 254;
-                    }
-                    
+				if (ri.transform == null)
+				{
+					OverrideUtilities.CallOriginal();
+					return;
+				}
+				
+				for (int i = 0; i < Bullets.Count; i++)
+				{
+					BulletInfo bulletInfo = Bullets[i];
+					double distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
 
-                    for (int k = Bullets.Count - 1; k >= 0; k--)
-                    {
-                        BulletInfo bulletInfo = Bullets[k];
-                        bulletInfo.steps += 1;
-                        if (bulletInfo.steps >= PAsset.ballisticSteps)
-                            Bullets.RemoveAt(k);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < Bullets.Count; i++)
-                    {
-                        BulletInfo bulletInfo = Bullets[i];
-                        RaycastInfo ri = RaycastUtilities.GenerateRaycast();
-                        EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
-                        PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-                        Player.player.input.sendRaycast(ri);
-                    }
-                    
-                    Bullets.Clear();
-                }
-            }
+					if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
+					{
+						Trace.Invoke(PlayerUse,
+							PAsset.ballisticTravel < 32f
+								? new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir }
+								: new object[]
+								{
+										bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir
+								});
+					}
+
+					if (bulletInfo.steps * PAsset.ballisticTravel < distance)
+						continue;
+
+					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
+					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
+					Player.player.input.sendRaycast(ri);
+					bulletInfo.steps = 254;
+				}
+
+
+				for (int k = Bullets.Count - 1; k >= 0; k--)
+				{
+					BulletInfo bulletInfo = Bullets[k];
+					bulletInfo.steps += 1;
+					if (bulletInfo.steps >= PAsset.ballisticSteps)
+						Bullets.RemoveAt(k);
+				}
+			}
 			else
-				OverrideUtilities.CallOriginal(PlayerUse);
+			{
+				for (int i = 0; i < Bullets.Count; i++)
+				{
+					BulletInfo bulletInfo = Bullets[i];
+					RaycastInfo ri = RaycastUtilities.GenerateRaycast();
+					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
+					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
+					Player.player.input.sendRaycast(ri);
+				}
+
+				Bullets.Clear();
+			}
 		}
 
         public static EPlayerHit CalcHitMarker(ItemGunAsset PAsset, ref RaycastInfo ri)

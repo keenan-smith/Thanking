@@ -13,6 +13,8 @@ namespace Thanking.Utilities
 {
 	public static class RaycastUtilities
     {
+		public static GameObject[] Objects = new GameObject[0];
+
 		public static RaycastInfo GenerateOriginalRaycast(Ray ray, float range, int mask)
 		{
 			PhysicsUtility.raycast(ray, out RaycastHit hit, range, mask);
@@ -61,31 +63,7 @@ namespace Thanking.Utilities
         {
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
-
-			GameObject[] Objects = new GameObject[0];
-
-			switch (RaycastOptions.Target)
-			{
-				case TargetPriority.Beds:
-					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Beds).Select(o => o.GObject).ToArray();
-					break;
-				case TargetPriority.ClaimFlags:
-					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.ClaimFlags).Select(o => o.GObject).ToArray();
-					break;
-				case TargetPriority.Players:
-					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Players).Where(o => o.Object != null && !((Player)o.Object).life.isDead).Select(o => o.GObject).ToArray();
-					break;
-				case TargetPriority.Sentries:
-					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Sentries).Select(o => o.GObject).ToArray();
-					break;
-				case TargetPriority.Storage:
-					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Storage).Select(o => o.GObject).ToArray();
-					break;
-				case TargetPriority.Zombies:
-					Objects = ESPVariables.Objects.Where(o => o.Target == ESPTarget.Zombies).Select(o => o.GObject).ToArray();
-					break;
-			}                             
-	        
+			
 	        #if DEBUG
 	        DebugUtilities.Log($"Players[] Length: {Players.Length}");
 			#endif
@@ -114,7 +92,6 @@ namespace Thanking.Utilities
 					return new RaycastInfo(hPos)
 					{
 						direction = RaycastOptions.TargetRagdoll.ToVector(),
-						limb = RaycastOptions.TargetLimb,
 						material = RaycastOptions.TargetMaterial
 					};
 				}
@@ -146,7 +123,7 @@ namespace Thanking.Utilities
 	        };
         }
 	    
-		private static GameObject GetClosestHittableObject(GameObject[] Objects, out double closestDistance)
+		public static GameObject GetClosestHittableObject(GameObject[] Objects, out double closestDistance)
 		{
 			GameObject ClosestObject = null;
 			double ClosestDistance = 1337420;
@@ -159,18 +136,12 @@ namespace Thanking.Utilities
 				if (go == null)
 					continue;
 				
-				Debug.Log(1);
-
 				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f))
 					continue;
-
-				Debug.Log(2);
-
+				
 				if (SphereUtilities.Get(go, Player.player.transform.position, SphereOptions.SphereRadius).point == Vector3.zero)
 					continue;
-
-				Debug.Log(3);
-
+				
 				if (ClosestObject == null)
 				{
 					ClosestObject = go;

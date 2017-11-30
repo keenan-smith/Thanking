@@ -10,23 +10,20 @@ namespace Thanking.Components.Basic
 	public class TriggerbotComponent : MonoBehaviour
 	{
 		public void Awake() =>
-			InvokeRepeating("Check", 0f, 0.15f);
+		  InvokeRepeating("Check", 0f, 0.15f);
 
 		public void Check()
 		{
-            if (!Provider.isConnected || Provider.isLoading)
-                return;
+			if (!Provider.isConnected || Provider.isLoading)
+				return;
 
 			if (TriggerbotOptions.Enabled)
 			{
 				RaycastInfo info = RaycastUtilities.GenerateRaycast();
-
-				TriggerbotOptions.IsFiring = info.player != null && !TriggerbotOptions.IsFiring;
-            }
-            else
-            {
-                TriggerbotOptions.IsFiring = false;
-            }
-        }
+				TriggerbotOptions.IsFiring = info.transform != null && !TriggerbotOptions.IsFiring;
+			}
+			else
+				TriggerbotOptions.IsFiring = false;
+		}
 	}
 }

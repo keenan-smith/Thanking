@@ -90,6 +90,7 @@
     <Compile Include="Components\Basic\ItemsComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
+    <Compile Include="Components\MultiAttach\VelocityComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
     <Compile Include="Components\UI\Menu\Drawing.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Coroutines\ItemCoroutines.cs" />
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
+    <Compile Include="Coroutines\RaycastCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Main\PacketManager.cs" />
     <Compile Include="Managers\Submanagers\SpyManager.cs" />

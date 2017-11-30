@@ -1,6 +1,8 @@
 ﻿using SDG.Unturned;
 using System.Collections.Generic;
+using Thanking.Components.MultiAttach;
 using Thanking.Options.AimOptions;
+using Thanking.Overrides;
 using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
 
@@ -10,9 +12,13 @@ namespace Thanking.Utilities
     {
 		public static RaycastHit Get(Player Player, Vector3 pos)
 		{
-			GameObject go = IcoSphere.Create("HitSphere",
-					Player.movement.getVehicle() != null ? SphereOptions.VehicleSphereRadius : SphereOptions.SphereRadius,
-					SphereOptions.RecursionLevel);
+			double speed = SphereOptions.DynamicSphere ? Player.GetComponent<VelocityComponent>().Speed : -1;
+			double radius = Player.movement.getVehicle() == null ? SphereOptions.SphereRadius : SphereOptions.VehicleSphereRadius;
+
+			if (speed > 0)
+				radius = 15.8f - speed * Provider.ping; 
+
+			GameObject go = IcoSphere.Create("HitSphere", (float)radius, SphereOptions.RecursionLevel);
 
 			go.transform.parent = Player.transform;
 			go.transform.localPosition = new Vector3(0, 0, 0);
@@ -24,10 +30,14 @@ namespace Thanking.Utilities
 			return vec;
 		}
 
-		public static RaycastHit Get(GameObject obj, Vector3 pos, float radius)
+		public static RaycastHit Get(GameObject obj, Vector3 pos, double radius)
 		{
+			double speed = SphereOptions.DynamicSphere ? obj.GetComponent<VelocityComponent>().Speed : -1;
+			if (speed > 0)
+				radius = 15.8f - speed * Provider.ping;
+
 			int OrigLayer = obj.layer;
-			GameObject go = IcoSphere.Create("HitSphere", radius, SphereOptions.RecursionLevel);
+			GameObject go = IcoSphere.Create("HitSphere", (float)radius, SphereOptions.RecursionLevel);
 
 			go.transform.parent = obj.transform;
 			go.transform.localPosition = new Vector3(0, 0, 0);

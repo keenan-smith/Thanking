@@ -129,7 +129,7 @@ namespace Thanking.Coroutines
             }
         }
 
-        public static IEnumerator UpdateObjectList()
+		public static IEnumerator UpdateObjectList()
 		{
 			while (true)
 			{
@@ -151,7 +151,8 @@ namespace Thanking.Coroutines
 						ESPTarget target = targets[i];
 						ESPVisual vis = ESPOptions.VisualOptions[(int)target];
 
-						if (!vis.Enabled) continue;
+						if (!vis.Enabled)
+							continue;
 
 						Vector3 pPos = Player.player.transform.position;
 
@@ -255,9 +256,6 @@ namespace Thanking.Coroutines
 									if (vis.UseObjectCap)
 										objarr.Take(vis.ObjectCap);
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
-
 									for (int j = 0; j < objarr.Length; j++)
 									{
 										InteractableVehicle obj = objarr[j];
@@ -299,7 +297,7 @@ namespace Thanking.Coroutines
 						}
 					}
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Debug.LogError("Error Updating ESP Objects:");
 					Debug.LogError(e);
