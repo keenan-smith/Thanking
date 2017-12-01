@@ -63,84 +63,35 @@ namespace Thanking.Utilities
         {
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
-			
-	        #if DEBUG
-	        DebugUtilities.Log($"Players[] Length: {Players.Length}");
-			#endif
-	        
-	        GameObject ClosestObject = GetClosestHittableObject(Objects, out double ClosestDistance);
+			float Range = currentGun != null ? currentGun.range : MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f;
 
-			Debug.Log(ClosestObject.name);
-#if DEBUG
-	        DebugUtilities.Log($"Closest Player Name: {ClosestPlayer.name}");
-	        DebugUtilities.Log($"Closest Distance: {ClosestDistance}");
-#endif
-
-			float range = currentGun != null ? currentGun.range : MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f;
-
-
-			if (ClosestObject == null)
+			if (!GetClosestHit(Objects, out double Distance, out RaycastHit Hit) || Distance > Range)
 			{
 				info = GenerateOriginalRaycast(new Ray(aimPos, Player.player.look.aim.forward),
-				   range, RayMasks.DAMAGE_CLIENT);
-
-				return false;
-			}
-
-	        if (currentGun != null)
-	        {
-				Player p = ClosestObject.GetComponent<Player>();
-
-				if (p == null)
-				{
-					RaycastHit hPos = SphereUtilities.Get(ClosestObject, aimPos, SphereOptions.SphereRadius);
-					info = new RaycastInfo(hPos)
-					{
-						direction = RaycastOptions.TargetRagdoll.ToVector(),
-						material = RaycastOptions.TargetMaterial
-					};
-				}
-				else
-				{
-					RaycastHit hPos = SphereUtilities.Get(p, aimPos);
-					info = new RaycastInfo(hPos)
-					{
-						direction = RaycastOptions.TargetRagdoll.ToVector(),
-						limb = RaycastOptions.TargetLimb,
-						player = p,
-						material = RaycastOptions.TargetMaterial
-					};
-				}
-
-				return true;
-			}
-
-	        if (ClosestDistance > range)
-			{
-				info = GenerateOriginalRaycast(new Ray(aimPos, Player.player.look.aim.forward),
-				   range, RayMasks.DAMAGE_CLIENT);
+				   Range, RayMasks.DAMAGE_CLIENT);
 
 				return false;
 			}
 				
-	        //PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
-	        info = new RaycastInfo(ClosestObject.transform)
+	        info = new RaycastInfo(Hit)
 	        {
 		        point = Player.player.transform.position,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = RaycastOptions.TargetLimb,
-		        player = ClosestObject.GetComponent<Player>(),
+		        player = Hit.transform.GetComponent<Player>(),
 		        material = RaycastOptions.TargetMaterial
 	        };
 
 			return true;
         }
 	    
-		public static GameObject GetClosestHittableObject(GameObject[] Objects, out double closestDistance)
+		public static bool GetClosestHit(GameObject[] Objects, out double closestDistance, out RaycastHit Hit)
 		{
 			GameObject ClosestObject = null;
 			double ClosestDistance = 1337420;
 			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
+
+			Hit = new RaycastHit();
 
 			for (int i = 0; i < Objects.Length; i++)
 			{
@@ -148,16 +99,20 @@ namespace Thanking.Utilities
 				
 				if (go == null)
 					continue;
-				
-				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f))
+
+				Vector3 AimPos = Player.player.transform.position;
+				float Range = CurrentGun != null ? CurrentGun.range : 15.5f;
+
+				if (VectorUtilities.GetDistance(AimPos, go.transform.position) > Range)
 					continue;
 				
-				if (SphereUtilities.Get(go, Player.player.look.aim.position, SphereOptions.SphereRadius).point == Vector3.zero)
+				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out RaycastHit _Hit))
 					continue;
 				
 				if (ClosestObject == null)
 				{
 					ClosestObject = go;
+					Hit = _Hit;
 					continue;
 				}
 
@@ -167,6 +122,7 @@ namespace Thanking.Utilities
 				if (ClosestDistance < LatestDistance) continue;
 
 				ClosestObject = go;
+				Hit = _Hit;
 				ClosestDistance = LatestDistance;
 			}
 

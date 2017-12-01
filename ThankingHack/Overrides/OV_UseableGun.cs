@@ -37,14 +37,14 @@ namespace Thanking.Overrides
 
 			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
 
+			if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
+			{
+				OverrideUtilities.CallOriginal();
+				return;
+			}
+			
 			if (Provider.modeConfigData.Gameplay.Ballistics)
 			{
-				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
-				{
-					OverrideUtilities.CallOriginal();
-					return;
-				}
-				
 				for (int i = 0; i < Bullets.Count; i++)
 				{
 					BulletInfo bulletInfo = Bullets[i];
@@ -81,12 +81,6 @@ namespace Thanking.Overrides
 			}
 			else
 			{
-				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
-				{
-					OverrideUtilities.CallOriginal();
-					return;
-				}
-
 				for (int i = 0; i < Bullets.Count; i++)
 				{
 					BulletInfo bulletInfo = Bullets[i];
