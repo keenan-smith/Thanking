@@ -34,7 +34,7 @@ namespace ThankingProcessing.Controllers
         [Route("download")]
         public string download(DownloadRequest content)
         {
-            return content.stage;
+            return content.Stage;
         }
     }
 }

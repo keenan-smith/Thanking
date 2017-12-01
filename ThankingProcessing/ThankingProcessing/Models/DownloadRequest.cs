@@ -7,9 +7,9 @@ namespace ThankingProcessing.Models
 {
     public class DownloadRequest
     {
-        public string stage { get; set; }
-        public string hwid { get; set; }
-        public string steamname { get; set; }
-        public string steam64 { get; set; }
+        public string Stage { get; set; }
+        public string Hwid { get; set; }
+        public string Steamname { get; set; }
+        public string Steam64 { get; set; }
     }
 }
