@@ -15,12 +15,13 @@ namespace Thanking.Utilities
 		{
 			if (AimbotCoroutines.IsAiming)
 			{
-				int AimbotBackupLayer = Target.layer;
+				GameObject AObject = AimbotCoroutines.LockedObject;
+				int AimbotBackupLayer = AObject.layer;
 				Vector3 Normal = Vector3.Normalize(Target.transform.position - StartPos);
 
-				Target.layer = LayerMasks.AGENT;
+				AObject.layer = LayerMasks.AGENT;
 				bool Return = Physics.Raycast(StartPos, Normal, out Hit, Range, RayMasks.AGENT);
-				Target.layer = AimbotBackupLayer;
+				AObject.layer = AimbotBackupLayer;
 
 				return Return;
 			}

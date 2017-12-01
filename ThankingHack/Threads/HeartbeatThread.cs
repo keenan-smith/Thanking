@@ -10,7 +10,7 @@ namespace Thanking.Threads
 	{
 		public static string hwid = null;
 		#if Commercial
-		//[Thread]
+		[Thread]
 		public static void Start()
 		{
 			try
