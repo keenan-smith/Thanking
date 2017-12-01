@@ -18,10 +18,7 @@ namespace Thanking.Components.Basic
 				return;
 
 			if (TriggerbotOptions.Enabled)
-			{
-				RaycastInfo info = RaycastUtilities.GenerateRaycast();
-				TriggerbotOptions.IsFiring = info.transform != null && !TriggerbotOptions.IsFiring;
-			}
+				TriggerbotOptions.IsFiring = RaycastUtilities.GenerateRaycast(out RaycastInfo info) && !TriggerbotOptions.IsFiring;
 			else
 				TriggerbotOptions.IsFiring = false;
 		}

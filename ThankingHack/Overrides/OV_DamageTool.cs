@@ -25,7 +25,10 @@ namespace Thanking.Overrides
 					return RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
 
 				case OverrideType.SilentAim:
-					return RaycastUtilities.GenerateRaycast();
+					if (RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
+						return ri;
+
+					break;
 			}
 
 			return RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);

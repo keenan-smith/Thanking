@@ -13,10 +13,6 @@ namespace Thanking.Overrides
     {
 		private static FieldInfo BulletsField;
 		private static MethodInfo Trace;
-		private static int Track = 0;
-		private static Transform Prev = null;
-		public static Vector3 Start = Vector3.zero;
-		public static Vector3 End = Vector3.zero;
 
 		[Initializer]
 		public static void Load()
@@ -36,16 +32,14 @@ namespace Thanking.Overrides
 			}
 
 			ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
-			if (((ItemGunAsset)Player.player.equipment.asset).projectile != null)
+			if (PAsset.projectile != null)
 				return;
 
 			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
 
 			if (Provider.modeConfigData.Gameplay.Ballistics)
 			{
-				RaycastInfo ri = RaycastUtilities.GenerateRaycast();
-
-				if (ri.transform == null)
+				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
 				{
 					OverrideUtilities.CallOriginal();
 					return;
@@ -87,10 +81,15 @@ namespace Thanking.Overrides
 			}
 			else
 			{
+				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
+				{
+					OverrideUtilities.CallOriginal();
+					return;
+				}
+
 				for (int i = 0; i < Bullets.Count; i++)
 				{
 					BulletInfo bulletInfo = Bullets[i];
-					RaycastInfo ri = RaycastUtilities.GenerateRaycast();
 					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
 					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
 					Player.player.input.sendRaycast(ri);

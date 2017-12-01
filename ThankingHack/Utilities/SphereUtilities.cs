@@ -16,13 +16,16 @@ namespace Thanking.Utilities
 			double radius = Player.movement.getVehicle() == null ? SphereOptions.SphereRadius : SphereOptions.VehicleSphereRadius;
 
 			if (speed > 0)
-				radius = 15.8f - speed * Provider.ping; 
+				radius = 15.8f - speed * Provider.ping;
+
+			Debug.Log(speed);
+			Debug.Log(radius);
 
 			GameObject go = IcoSphere.Create("HitSphere", (float)radius, SphereOptions.RecursionLevel);
 
 			go.transform.parent = Player.transform;
 			go.transform.localPosition = new Vector3(0, 0, 0);
-			go.layer = LayerMasks.ENEMY;
+			go.layer = LayerMasks.ENEMY; 
 
 			RaycastHit vec = Get(go, pos, RayMasks.ENEMY);
 			Object.Destroy(go);
@@ -58,11 +61,12 @@ namespace Thanking.Utilities
 			Vector3[] verts = mesh.vertices;
 
 			List<Vector3> nVerts = new List<Vector3>();
+			int mask = RayMasks.DAMAGE_CLIENT & ~layer;
 
 			for (int i = 0; i < verts.Length; i++)
-				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, (float)(VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5), RayMasks.DAMAGE_CLIENT & ~layer))
+				if (!Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, (float)VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5f, mask))
 				{
-					Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, out RaycastHit hit, (float)(VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5), layer);
+					Physics.Raycast(pos, (go.transform.TransformPoint(verts[i]) - pos).normalized, out RaycastHit hit, (float)VectorUtilities.GetDistance(pos, go.transform.TransformPoint(verts[i])) + 0.5f, layer);
 					return hit;
 				}
 			

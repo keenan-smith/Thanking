@@ -25,12 +25,18 @@ namespace Thanking.Coroutines
 
 				try
 				{
+					for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
+					{
+						VelocityComponent c = RaycastUtilities.Objects[i].GetComponent<VelocityComponent>();
+						if (c != null)
+							UnityEngine.Object.Destroy(c);
+					}
 					Vector3 pPos = Player.player.transform.position;
 					switch (RaycastOptions.Target)
 					{
 						case TargetPriority.Players:
 							{
-								RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead).Select(o => o.player.gameObject).ToArray();
+								RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player).Select(o => o.player.gameObject).ToArray();
 								break;
 							}
 						case TargetPriority.Zombies:

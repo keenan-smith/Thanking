@@ -1,0 +1,26 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+    padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+body {
+	background-color: rgba(51,51,51,1.00);
+}
+
+img.resize {
+    max-width:25%;
+    max-height:25%;
+    min-width: 100px;
+    min-height: 100px;
+    object-fit: cover;
+    margin-bottom: -50px;
+}

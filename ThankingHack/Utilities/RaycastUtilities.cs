@@ -59,7 +59,7 @@ namespace Thanking.Utilities
 		}
 		*/
 
-        public static RaycastInfo GenerateRaycast()
+        public static bool GenerateRaycast(out RaycastInfo info)
         {
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
@@ -70,6 +70,7 @@ namespace Thanking.Utilities
 	        
 	        GameObject ClosestObject = GetClosestHittableObject(Objects, out double ClosestDistance);
 
+			Debug.Log(ClosestObject.name);
 #if DEBUG
 	        DebugUtilities.Log($"Closest Player Name: {ClosestPlayer.name}");
 	        DebugUtilities.Log($"Closest Distance: {ClosestDistance}");
@@ -79,9 +80,13 @@ namespace Thanking.Utilities
 
 
 			if (ClosestObject == null)
-		        return GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
-			       range, RayMasks.DAMAGE_CLIENT);
-	        
+			{
+				info = GenerateOriginalRaycast(new Ray(aimPos, Player.player.look.aim.forward),
+				   range, RayMasks.DAMAGE_CLIENT);
+
+				return false;
+			}
+
 	        if (currentGun != null)
 	        {
 				Player p = ClosestObject.GetComponent<Player>();
@@ -89,7 +94,7 @@ namespace Thanking.Utilities
 				if (p == null)
 				{
 					RaycastHit hPos = SphereUtilities.Get(ClosestObject, aimPos, SphereOptions.SphereRadius);
-					return new RaycastInfo(hPos)
+					info = new RaycastInfo(hPos)
 					{
 						direction = RaycastOptions.TargetRagdoll.ToVector(),
 						material = RaycastOptions.TargetMaterial
@@ -98,7 +103,7 @@ namespace Thanking.Utilities
 				else
 				{
 					RaycastHit hPos = SphereUtilities.Get(p, aimPos);
-					return new RaycastInfo(hPos)
+					info = new RaycastInfo(hPos)
 					{
 						direction = RaycastOptions.TargetRagdoll.ToVector(),
 						limb = RaycastOptions.TargetLimb,
@@ -106,14 +111,20 @@ namespace Thanking.Utilities
 						material = RaycastOptions.TargetMaterial
 					};
 				}
-	        }
 
-	        if (ClosestDistance > SphereOptions.SphereRadius)
-		        return GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
-			        range, RayMasks.DAMAGE_CLIENT);
+				return true;
+			}
+
+	        if (ClosestDistance > range)
+			{
+				info = GenerateOriginalRaycast(new Ray(aimPos, Player.player.look.aim.forward),
+				   range, RayMasks.DAMAGE_CLIENT);
+
+				return false;
+			}
 				
 	        //PlayerUI.hitmark(10, Vector3.zero, false, EPlayerHit.CRITICAL);
-	        return new RaycastInfo(ClosestObject.transform)
+	        info = new RaycastInfo(ClosestObject.transform)
 	        {
 		        point = Player.player.transform.position,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
@@ -121,6 +132,8 @@ namespace Thanking.Utilities
 		        player = ClosestObject.GetComponent<Player>(),
 		        material = RaycastOptions.TargetMaterial
 	        };
+
+			return true;
         }
 	    
 		public static GameObject GetClosestHittableObject(GameObject[] Objects, out double closestDistance)
@@ -132,14 +145,14 @@ namespace Thanking.Utilities
 			for (int i = 0; i < Objects.Length; i++)
 			{
 				GameObject go = Objects[i];
-
+				
 				if (go == null)
 					continue;
 				
 				if (VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position) > (CurrentGun != null ? CurrentGun.range : 15.5f))
 					continue;
 				
-				if (SphereUtilities.Get(go, Player.player.transform.position, SphereOptions.SphereRadius).point == Vector3.zero)
+				if (SphereUtilities.Get(go, Player.player.look.aim.position, SphereOptions.SphereRadius).point == Vector3.zero)
 					continue;
 				
 				if (ClosestObject == null)
