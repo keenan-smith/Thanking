@@ -20,8 +20,6 @@ namespace Thanking.Threads
 			while (true)
 				if (CrashServerEnabled)
 					VehicleManager.instance.channel.send("askVehicles", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_BUFFER);
-
-
 		}
 
 		public static void OnDisconnect() =>
