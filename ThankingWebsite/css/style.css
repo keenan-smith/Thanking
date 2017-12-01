@@ -24,3 +24,24 @@ img.resize {
     object-fit: cover;
     margin-bottom: -50px;
 }
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.hidden2 {
+    display: none;
+    opacity: 0;
+}
+
+.centered-collabsable-text {
+    display: block;
+}
+.button-margin {
+    margin: 5px;
+}
+
+#after {
+    display: none;
+}
