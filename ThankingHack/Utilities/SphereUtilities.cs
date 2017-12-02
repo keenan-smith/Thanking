@@ -7,6 +7,7 @@ using Thanking.Options.AimOptions;
 using Thanking.Overrides;
 using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Thanking.Utilities
 {
@@ -15,11 +16,12 @@ namespace Thanking.Utilities
 		public static bool GetRaycast(GameObject Target, Vector3 StartPos, float Range, out RaycastHit Hit)
 		{
 			Hit = new RaycastHit();
+
 			if (AimbotCoroutines.IsAiming)
 			{
 				GameObject AObject = AimbotCoroutines.LockedObject;
 				int AimbotBackupLayer = AObject.layer;
-				Vector3 Normal = Vector3.Normalize(AObject.transform.position - StartPos);
+				Vector3 Normal = (AObject.transform.position - StartPos).normalized;
 
 				AObject.layer = LayerMasks.AGENT;
 				bool Return = Physics.Raycast(StartPos, Normal, out Hit, Range, RayMasks.AGENT);
@@ -27,13 +29,11 @@ namespace Thanking.Utilities
 
 				return Return;
 			}
-
 			if (Target == null)
 				return false;
 			
 			float Speed = SphereOptions.DynamicSphere ? Target.GetComponent<VelocityComponent>().Speed : -1;
 			float Radius = SphereOptions.SphereRadius;
-
 			if (Speed > -1)
 				Radius = 15.8f - Speed * Provider.ping;
 
@@ -45,29 +45,28 @@ namespace Thanking.Utilities
 				Physics.Raycast(StartPos + new Vector3(0, 1, 0), Vector3.down, out Hit, Range, RayMasks.ENEMY);
 				return true;
 			}
-
 			GameObject Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
-			Vector3[] Vertices = Sphere.GetComponent<MeshCollider>().sharedMesh.vertices;
 			
+			Sphere.transform.parent = Target.transform;
+			Sphere.transform.localPosition = new Vector3(0, 0, 0);
+			Sphere.layer = LayerMasks.AGENT;
+			
+			Vector3[] Vertices = Sphere.GetComponent<MeshCollider>().sharedMesh.vertices;
 			for (int i = 0; i < Vertices.Length; i++)
 			{
 				Vector3 Vertex = Sphere.transform.TransformPoint(Vertices[i]);
-				Vector3 Normal = Vector3.Normalize(Vertex - StartPos);
+				Vector3 Normal = VectorUtilities.Normalize(Vertex - StartPos);
 
-				UnityEngine.Debug.Log(Normal);
-				
 				if (Physics.Raycast(StartPos, Normal, Range, RayMasks.DAMAGE_CLIENT))
 					continue;
 
-				UnityEngine.Debug.Log("nigga");
-				Physics.Raycast(StartPos, Normal, out Hit, Range, RayMasks.AGENT);
-
+				Physics.Raycast(StartPos, Normal, out Hit, Range + 0.5f, RayMasks.AGENT);
+				
 				Object.Destroy(Sphere);
 				Target.layer = BackupLayer;
 
 				return true;
 			}
-
 			Object.Destroy(Sphere);
 			Target.layer = BackupLayer;
 
