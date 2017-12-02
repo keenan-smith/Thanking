@@ -30,11 +30,13 @@ namespace Thanking.Utilities
 				Point = Target.transform.position;
 				return Return;
 			}
+			
 			if (Target == null)
 				return false;
 			
 			float Speed = SphereOptions.DynamicSphere ? Target.GetComponent<VelocityComponent>().Speed : -1;
 			float Radius = SphereOptions.SphereRadius;
+			
 			if (Speed > -1)
 				Radius = 15.8f - Speed * Provider.ping;
 			

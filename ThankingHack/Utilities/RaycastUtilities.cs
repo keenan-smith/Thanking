@@ -68,7 +68,7 @@ namespace Thanking.Utilities
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
 			float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
 
-			if (!GetClosestObject(Objects, out double Distance, out GameObject Object) || !SphereUtilities.GetRaycast(Object, aimPos, Range, out Vector3 Point))
+			if (!GetClosestObject(Objects, out double Distance, out GameObject Object))
 			{
 				info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
 					RayMasks.DAMAGE_CLIENT);
@@ -76,6 +76,14 @@ namespace Thanking.Utilities
 				return false;
 			}
 
+	        if (!SphereUtilities.GetRaycast(Object, aimPos, Range, out Vector3 Point))
+	        {
+		        info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
+			        RayMasks.DAMAGE_CLIENT);
+				
+		        return false;
+	        }
+	        
 	        info = new RaycastInfo(Object.transform)
 	        {
 		        point = Point,
@@ -122,17 +130,13 @@ namespace Thanking.Utilities
 
 	    public static void GetObjects()
 	    {
-		    switch (RaycastOptions.Target)
+		    if (RaycastOptions.Target == TargetPriority.Players) //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
 		    {
-			    case TargetPriority.Players: //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
-			    {
-				    RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player).Select(o => o.player.gameObject).ToArray();
-				    break;
-			    }
+			    for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
+				    RaycastUtilities.Objects[i].AddComponent<VelocityComponent>();
+			    
+			    RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player).Select(o => o.player.gameObject).ToArray();
 		    }
-
-		    for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
-			    RaycastUtilities.Objects[i].AddComponent<VelocityComponent>();
 	    }
     }
 }
