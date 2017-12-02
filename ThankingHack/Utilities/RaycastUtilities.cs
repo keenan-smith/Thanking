@@ -63,35 +63,34 @@ namespace Thanking.Utilities
         {
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
-			float Range = currentGun != null ? currentGun.range : MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f;
+			float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
 
-			if (!GetClosestHit(Objects, out double Distance, out RaycastHit Hit) || Distance > Range)
+			if (!GetFirstHit(Objects, out double Distance, out RaycastHit Hit, out GameObject Object) || Distance > Range)
 			{
-				info = GenerateOriginalRaycast(new Ray(aimPos, Player.player.look.aim.forward),
-				   Range, RayMasks.DAMAGE_CLIENT);
-
+				info = new RaycastInfo(Player.player.transform);
 				return false;
 			}
-				
+
+	        Debug.Log(Hit.point);
+	        
 	        info = new RaycastInfo(Hit)
 	        {
-		        point = Player.player.transform.position,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = RaycastOptions.TargetLimb,
-		        player = Hit.transform.GetComponent<Player>(),
+		        player = Object.GetComponent<Player>(),
 		        material = RaycastOptions.TargetMaterial
 	        };
 
 			return true;
         }
 	    
-		public static bool GetClosestHit(GameObject[] Objects, out double closestDistance, out RaycastHit Hit)
+		public static bool GetFirstHit(GameObject[] Objects, out double Distance, out RaycastHit Hit, out GameObject Object)
 		{
-			GameObject ClosestObject = null;
-			double ClosestDistance = 1337420;
-			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
-
+			Distance = 1337420;
+			Object = null;
 			Hit = new RaycastHit();
+			
+			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
 
 			for (int i = 0; i < Objects.Length; i++)
 			{
@@ -100,34 +99,22 @@ namespace Thanking.Utilities
 				if (go == null)
 					continue;
 
-				Vector3 AimPos = Player.player.transform.position;
+				Vector3 AimPos = Player.player.look.aim.position;
 				float Range = CurrentGun != null ? CurrentGun.range : 15.5f;
 
 				if (VectorUtilities.GetDistance(AimPos, go.transform.position) > Range)
 					continue;
 				
-				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out RaycastHit _Hit))
+				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out Hit))
 					continue;
 				
-				if (ClosestObject == null)
-				{
-					ClosestObject = go;
-					Hit = _Hit;
-					continue;
-				}
-
-				double LatestDistance =
-					VectorUtilities.GetDistance(Player.player.transform.position, go.transform.position);
-
-				if (ClosestDistance < LatestDistance) continue;
-
-				ClosestObject = go;
-				Hit = _Hit;
-				ClosestDistance = LatestDistance;
+				Distance = VectorUtilities.GetDistance(AimPos, go.transform.position);
+				Object = go;
+				
+				return true;
 			}
 
-			closestDistance = ClosestDistance;
-			return ClosestObject;
+			return false;
 		}
     }
 }
