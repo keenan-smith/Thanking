@@ -19,5 +19,11 @@ namespace Thanking.Utilities
             
             return Math.Sqrt(heading.x * heading.x + heading.y * heading.y + heading.z * heading.z);
         }
+
+        public static double GetMagnitude(Vector3 vector) =>
+            Math.Sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+        
+        public static Vector3 Normalize(Vector3 vector) =>
+            vector / (float)GetMagnitude(vector);
     }
 }
