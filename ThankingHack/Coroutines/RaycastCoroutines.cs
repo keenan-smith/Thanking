@@ -27,10 +27,11 @@ namespace Thanking.Coroutines
 				{
 					for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
 					{
-						VelocityComponent c = RaycastUtilities.Objects[i].GetComponent<VelocityComponent>();
+						VelocityComponent c = RaycastUtilities.Objects[i]?.GetComponent<VelocityComponent>();
 						if (c != null)
 							UnityEngine.Object.Destroy(c);
 					}
+					
 					Vector3 pPos = Player.player.transform.position;
 					switch (RaycastOptions.Target)
 					{
