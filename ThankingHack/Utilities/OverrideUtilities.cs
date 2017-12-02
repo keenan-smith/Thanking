@@ -22,11 +22,11 @@ namespace Thanking.Utilities
         public static object CallOriginalFunc(MethodInfo method, object instance = null, params object[] args)
 		{
 			// Do the checks
-			if (!OverrideManager.Wrappers.ContainsKey(method.DeclaringType.Name + "_" + method.Name))
+			if (OverrideManager.Overrides.All(o => o.Value.Original != method))
 				throw new Exception("The Override specified was not found!");
 
 			// Set the variables
-			OverrideWrapper wrapper = OverrideManager.Wrappers[method.DeclaringType.Name + "_" + method.Name];
+			OverrideWrapper wrapper =OverrideManager.Overrides.First(a => a.Value.Original == method).Value;
 			
             return wrapper.CallOriginal(args, instance);
         }
@@ -56,11 +56,11 @@ namespace Thanking.Utilities
             if (!att.MethodFound)
                 throw new Exception("The original method was never found!");
             original = att.Method;
-
-			if (!OverrideManager.Wrappers.ContainsKey(original.DeclaringType.Name + "_" + original.Name))
+	        
+			if (OverrideManager.Overrides.All(o => o.Value.Original != original))
 				throw new Exception("The Override specified was not found!");
 
-			OverrideWrapper wrapper = OverrideManager.Wrappers[att.Class.Name + "_" + original.Name];
+			OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == original).Value;
 
             return wrapper.CallOriginal(args, instance);
         }
@@ -87,7 +87,7 @@ namespace Thanking.Utilities
         public static bool DisableOverride(MethodInfo method)
         {
 			// Set the variables
-			OverrideWrapper wrapper = OverrideManager.Wrappers[method.DeclaringType.Name + "_" + method.Name];
+	        OverrideWrapper wrapper = OverrideManager.Overrides.First(a => a.Value.Original == method).Value;
 
             // Do the checks
             return wrapper != null && wrapper.Revert();

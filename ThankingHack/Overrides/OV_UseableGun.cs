@@ -28,11 +28,12 @@ namespace Thanking.Overrides
 			Useable PlayerUse = Player.player.equipment.useable;
 			if (!RaycastOptions.Enabled)
 			{
-				OverrideUtilities.CallOriginal();
+				OverrideUtilities.CallOriginal(PlayerUse);
 				return;
 			}
 
 			ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
+			
 			if (PAsset.projectile != null)
 				return;
 
@@ -43,7 +44,7 @@ namespace Thanking.Overrides
 			
 			if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
 			{
-				OverrideUtilities.CallOriginal();
+				OverrideUtilities.CallOriginal(PlayerUse);
 				return;
 			}
 			
