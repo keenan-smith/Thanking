@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
     <UserSecretsId>aspnet-ThankingProcessing-8EDA9D2C-CB49-47D3-B2F3-E59E37CDDF67</UserSecretsId>
   </PropertyGroup>
 
