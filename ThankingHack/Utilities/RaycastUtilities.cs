@@ -132,11 +132,11 @@ namespace Thanking.Utilities
 	    {
 		    if (RaycastOptions.Target == TargetPriority.Players) //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
 		    {
+			    RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player).Select(o => o.player.gameObject).ToArray();
+			    
 			    for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
 				    RaycastUtilities.Objects[i].AddComponent<VelocityComponent>();
-			    
-			    RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player).Select(o => o.player.gameObject).ToArray();
-		    }
+			}
 	    }
     }
 }
