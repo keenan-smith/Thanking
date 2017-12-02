@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 using SDG.Unturned;
+using Thanking.Components.MultiAttach;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using UnityEngine;
@@ -46,7 +47,10 @@ namespace Thanking.Coroutines
                         RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<InteractableStorage>().Select(s => s.gameObject).ToArray();
                         break;
                     }
-                }
+                } 
+                
+                for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
+                    RaycastUtilities.Objects[i]?.AddComponent<VelocityComponent>();
 
                 yield return new WaitForSeconds(5);
             }
