@@ -11,6 +11,17 @@ using Newtonsoft.Json;
 
 namespace ThankingProcessing.Controllers
 {
+    public class EncryptReturn
+    {
+        public EncryptReturn(bool Success, string data)
+        {
+            this.Success = Success;
+            this.data = data;
+        }
+
+        public bool Success = false;
+        public string data = null;
+    }
 
     public class HomeController : Controller
     {
@@ -27,7 +38,7 @@ namespace ThankingProcessing.Controllers
             return new string(buffer);
         }
 
-        private async Task<string> EncryptFile(string path)
+        private async Task<EncryptReturn> EncryptFile(string path)
         {
             try
             {
@@ -38,11 +49,11 @@ namespace ThankingProcessing.Controllers
                 byte[] ProcessedBytes = Encoding.UTF8.GetBytes(RawBase64EncryptedReversed);
                 string ProcessedBase64 = Convert.ToBase64String(ProcessedBytes);
                 string Encrypted = new string(ProcessedBase64.ToCharArray().Reverse().ToArray());
-                return Encrypted;
+                return new EncryptReturn(true, Encrypted);
             }
             catch
             {
-                return "Error";
+                return new EncryptReturn(false, "");
             }
         }
 
@@ -76,7 +87,7 @@ namespace ThankingProcessing.Controllers
         public async Task<string> download(DownloadRequest content)
         {
             if (content == null) return SendError(10, "Missing data or malformed request!");
-            if (content.Stage == null || content.Hwid == null) return SendError(10, "Missing data or malformed request!");
+            if (content.Stage == null) return SendError(10, "Missing data or malformed request!");
 
             int stage = 0;
             if (!int.TryParse(content.Stage, out stage))
@@ -86,19 +97,25 @@ namespace ThankingProcessing.Controllers
             {
                 case 1:
                     dynamic injection = new JObject();
-                    injection.injection = await EncryptFile("files/ironic-loader.dll");
+                    EncryptReturn injectionReturn = await EncryptFile("files/ironic-loader.dll");
+                    if (!injectionReturn.Success)
+                        return SendError(9, "Internal Server Error");
+                    injection.injection = injectionReturn.data;
                     return SendData(injection);
-                    break;
                 case 2:
                     dynamic hack = new JObject();
-                    hack.hack = await EncryptFile("files/ironic-payload-loader.dll");
+                    EncryptReturn hackReturn = await EncryptFile("files/ironic-payload-loader.dll");
+                    if (!hackReturn.Success)
+                        return SendError(9, "Internal Server Error");
+                    hack.hack = hackReturn.data;
                     return SendData(hack);
-                    break;
                 case 3:
                     dynamic payload = new JObject();
-                    payload.payload = await EncryptFile("files/Thanking.dll");
+                    EncryptReturn payloadReturn = await EncryptFile("files/Thanking.dll");
+                    if (!payloadReturn.Success)
+                        return SendError(9, "Internal Server Error");
+                    payload.hack = payloadReturn.data;
                     return SendData(payload);
-                    break;
                 case 4:
                     break;
             }
