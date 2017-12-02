@@ -13,16 +13,13 @@ namespace Thanking.Components.UI.Menu.Tabs
 		{
 			Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
 
-			if (ItemOptions.AutoItemPickup)
-			{
-				GUILayout.Space(2);
-				GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);
-				GUILayout.Space(2);
-				ItemOptions.ItemPickupDelay = (int)Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
-				GUILayout.Space(5);
+			GUILayout.Space(2);
+			GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);
+			GUILayout.Space(2);
+			ItemOptions.ItemPickupDelay = (int)Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
+			GUILayout.Space(5);
 
-				ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);
-			}			
+			ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);		
 		}
 	}
 }

@@ -202,7 +202,7 @@ namespace Thanking.Coroutines
 									{
 										InteractableItem obj = objarr[j];
 
-										if (ItemUtilities.Whitelisted(obj.asset, ItemOptions.ItemESPOptions))
+										if (ItemUtilities.Whitelisted(obj.asset, ItemOptions.ItemESPOptions) || !ESPOptions.FilterItems)
 											objects.Add(new ESPObject(target, obj, obj.gameObject));
 									}
 									break;
