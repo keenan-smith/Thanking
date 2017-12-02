@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SDG.Framework.Utilities;
 using SDG.Unturned;
 using Thanking.Options.AimOptions;
@@ -62,7 +63,7 @@ namespace Thanking.Utilities
 
         public static bool GenerateRaycast(out RaycastInfo info)
         {
-	        GetObjects();
+	        GetPlayers();
 	        
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
@@ -83,12 +84,21 @@ namespace Thanking.Utilities
 				
 		        return false;
 	        }
+
+	        ELimb Limb = RaycastOptions.TargetLimb;
+
+	        if (RaycastOptions.UseRandomLimb)
+	        {
+		        ELimb[] Limbs = (ELimb[]) Enum.GetValues(typeof(ELimb));
+
+		        Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
+	        }
 	        
 	        info = new RaycastInfo(Object.transform)
 	        {
 		        point = Point,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
-		        limb = RaycastOptions.TargetLimb,
+		        limb = Limb,
 		        player = Object.GetComponent<Player>(),
 		        material = RaycastOptions.TargetMaterial
 	        };
@@ -128,10 +138,13 @@ namespace Thanking.Utilities
 			return Object != null;
 		}
 
-	    public static void GetObjects()
+	    //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
+	    public static void GetPlayers()
 	    {
-		    if (RaycastOptions.Target == TargetPriority.Players) //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
-			    RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player && !FriendUtilities.IsFriendly(o.player)).Select(o => o.player.gameObject).ToArray();	
+		    if (RaycastOptions.Target == TargetPriority.Players)
+			    RaycastUtilities.Objects = Provider.clients
+				    .Where(o => !o.player.life.isDead && o.player != Player.player && !FriendUtilities.IsFriendly(o.player))
+				    .Select(o => o.player.gameObject).ToArray();
 	    }
     }
 }
