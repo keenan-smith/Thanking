@@ -18,12 +18,9 @@ namespace Thanking.Components.UI.Menu.Tabs
             ColorOptions.errorColor = new ColorVariable("errorColor", "#ERROR.NOTFOUND", Color.magenta);
             ColorOptions.preview = new ColorVariable("preview", "No Color Selected", Color.white);
 
-            if (ColorOptions.selectedOption != null)
-            {
-
-            }
-            else
+            if (ColorOptions.selectedOption == null)
                 ColorOptions.previewselected = ColorOptions.preview;
+                
 
             Prefab.ScrollView(new Rect(0, 0, 250, 436), "Colors", ref ColorScroll, () =>
             {

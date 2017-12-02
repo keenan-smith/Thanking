@@ -21,6 +21,7 @@ namespace Thanking.Components.Basic
 
 		public void Update()
 		{
+			/*TODO
 			if (Input.GetKeyDown(TriggerbotOptions.Toggle))
 			{
 				TriggerbotOptions.Enabled = !TriggerbotOptions.Enabled;
@@ -43,7 +44,7 @@ namespace Thanking.Components.Basic
 
 			if (Input.GetKeyDown(MiscOptions.CrashServer))
 				CrashThread.CrashServerEnabled = !CrashThread.CrashServerEnabled;
-
+			*/
 
 			#region bypass shit
 

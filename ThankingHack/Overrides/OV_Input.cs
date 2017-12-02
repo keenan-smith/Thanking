@@ -20,12 +20,15 @@ namespace Thanking.Overrides
         public static bool OV_GetKey(KeyCode key)
 		{
 			if (!DrawUtilities.ShouldRun())
-				return (bool)GetKeyInt.Invoke(null, new object[] { (int)key });
+				return Invoke(key);
 
 			if (key == ControlsSettings.primary && TriggerbotOptions.IsFiring)
 				return true;
 			
-			return (bool)GetKeyInt.Invoke(null, new object[] { (int)key });
+			return Invoke(key);
 		}
+		
+		public static bool Invoke(KeyCode key) =>
+			(bool)GetKeyInt.Invoke(null, new object[] { (int)key });
     }
 }

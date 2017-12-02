@@ -38,7 +38,7 @@ namespace Thanking.Utilities
 			float Radius = SphereOptions.SphereRadius;
 			
 			if (Speed.HasValue)
-				Radius = 15.5f - Speed.Value * Provider.ping;
+				Radius = 15.8f - Speed.Value * Provider.ping * 1.25f;
 			
 			int BackupLayer = Target.layer;
 			Target.layer = LayerMasks.AGENT;
@@ -70,6 +70,7 @@ namespace Thanking.Utilities
 				
 				return true;
 			}
+			
 			Object.Destroy(Sphere);
 			Target.layer = BackupLayer;
 
