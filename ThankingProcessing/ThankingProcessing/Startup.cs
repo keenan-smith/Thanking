@@ -40,10 +40,6 @@ namespace ThankingProcessing
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
-
-            app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
