@@ -36,6 +36,9 @@ namespace Thanking.Overrides
 				return;
 
 			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
+
+			if (Bullets.Count == 0)
+				return;
 			
 			if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
 			{
@@ -63,8 +66,6 @@ namespace Thanking.Overrides
 
 					if (bulletInfo.steps * PAsset.ballisticTravel < distance)
 						continue;
-
-
 					
 					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
 					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);

@@ -13,9 +13,9 @@ namespace Thanking.Utilities
 {
     public static class SphereUtilities
     {
-		public static bool GetRaycast(GameObject Target, Vector3 StartPos, float Range, out RaycastHit Hit)
+		public static bool GetRaycast(GameObject Target, Vector3 StartPos, float Range, out Vector3 Point)
 		{
-			Hit = new RaycastHit();
+			Point = Vector3.zero;
 
 			if (AimbotCoroutines.IsAiming)
 			{
@@ -24,9 +24,10 @@ namespace Thanking.Utilities
 				Vector3 Normal = (AObject.transform.position - StartPos).normalized;
 
 				AObject.layer = LayerMasks.AGENT;
-				bool Return = Physics.Raycast(StartPos, Normal, out Hit, Range, RayMasks.AGENT);
+				bool Return = !Physics.Raycast(StartPos, Normal, Range, RayMasks.DAMAGE_CLIENT);
 				AObject.layer = AimbotBackupLayer;
 
+				Point = Target.transform.position;
 				return Return;
 			}
 			if (Target == null)
@@ -37,14 +38,17 @@ namespace Thanking.Utilities
 			if (Speed > -1)
 				Radius = 15.8f - Speed * Provider.ping;
 
+			Debug.Log(Radius);
+			
 			int BackupLayer = Target.layer;
 			Target.layer = LayerMasks.AGENT;
 
 			if (VectorUtilities.GetDistance(Target.transform.position, StartPos) <= Radius)
 			{
-				Physics.Raycast(StartPos + new Vector3(0, 1, 0), Vector3.down, out Hit, Range, RayMasks.ENEMY);
+				Point = Player.player.transform.position;
 				return true;
 			}
+			
 			GameObject Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
 			
 			Sphere.transform.parent = Target.transform;
@@ -57,14 +61,13 @@ namespace Thanking.Utilities
 				Vector3 Vertex = Sphere.transform.TransformPoint(Vertices[i]);
 				Vector3 Normal = VectorUtilities.Normalize(Vertex - StartPos);
 
-				if (Physics.Raycast(StartPos, Normal, Range, RayMasks.DAMAGE_CLIENT))
+				if (Physics.Raycast(StartPos, Normal, Range + 0.5f, RayMasks.DAMAGE_CLIENT))
 					continue;
-
-				Physics.Raycast(StartPos, Normal, out Hit, Range + 0.5f, RayMasks.AGENT);
 				
-				Object.Destroy(Sphere);
+				Object.Destroy(Sphere);;
 				Target.layer = BackupLayer;
-
+				Point = Vertex;
+				
 				return true;
 			}
 			Object.Destroy(Sphere);
