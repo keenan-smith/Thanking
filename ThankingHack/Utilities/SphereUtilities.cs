@@ -33,12 +33,12 @@ namespace Thanking.Utilities
 			
 			if (Target == null)
 				return false;
-			
-			float Speed = SphereOptions.DynamicSphere ? Target.GetComponent<VelocityComponent>().Speed : -1;
+
+			float? Speed = SphereOptions.DynamicSphere ? Target.GetComponent<VelocityComponent>()?.Speed : null;
 			float Radius = SphereOptions.SphereRadius;
 			
-			if (Speed > -1)
-				Radius = 15.8f - Speed * Provider.ping;
+			if (Speed.HasValue)
+				Radius = 15.8f - Speed.Value * Provider.ping;
 			
 			int BackupLayer = Target.layer;
 			Target.layer = LayerMasks.AGENT;
