@@ -34,7 +34,7 @@ namespace Thanking.Coroutines
             
             while (true)
             {
-                if (!AimbotOptions.Enabled || !Provider.isConnected || Provider.isLoading || Provider.clients == null || Provider.clients.Count <= 1)
+                if (!DrawUtilities.ShouldRun())
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;

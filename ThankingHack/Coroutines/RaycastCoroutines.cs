@@ -14,9 +14,20 @@ namespace Thanking.Coroutines
         {
             while (true)
             {
+                if (!DrawUtilities.ShouldRun())
+                {
+                    RaycastUtilities.Objects = new GameObject[0];
+                    yield return new WaitForSeconds(3);
+                    continue;
+                }
+                
                 switch (RaycastOptions.Target)
                 {
-                        
+                    case TargetPriority.Players: //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
+                        {
+                            RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player && FriendUtilities.IsFriendly(o.player)).Select(o => o.player.gameObject).ToArray();
+                            break;
+                        }       
                     case TargetPriority.Zombies:
                     {
                         RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<Zombie>().Select(z => z.gameObject).ToArray();
