@@ -96,6 +96,7 @@
     <Compile Include="Components\UI\Menu\Prefab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\AimbotTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\HotkeyTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\InfoTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ItemFilterTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\FriendsTab.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Options\AimOptions\SphereOptions.cs" />
     <Compile Include="Options\AimOptions\TriggerbotOptions.cs" />
     <Compile Include="Options\AimOptions\WeaponOptions.cs" />
+    <Compile Include="Options\HotkeyOptions.cs" />
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\ItemOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />
     <Compile Include="Utilities\HashUtilities.cs" />
+    <Compile Include="Utilities\HotkeyUtilities.cs" />
     <Compile Include="Utilities\HWIDUtilities.cs" />
     <Compile Include="Utilities\ItemUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
