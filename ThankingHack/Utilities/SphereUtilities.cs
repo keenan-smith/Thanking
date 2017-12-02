@@ -64,7 +64,7 @@ namespace Thanking.Utilities
 				if (Physics.Raycast(StartPos, Normal, Range + 0.5f, RayMasks.DAMAGE_CLIENT))
 					continue;
 				
-				Object.Destroy(Sphere);;
+				Object.Destroy(Sphere);
 				Target.layer = BackupLayer;
 				Point = Vertex;
 				
