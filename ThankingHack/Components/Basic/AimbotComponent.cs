@@ -12,7 +12,7 @@ namespace Thanking.Components.Basic
 			CoroutineComponent.LockCoroutine = StartCoroutine(AimbotCoroutines.SetLockedObject());
 			CoroutineComponent.AimbotCoroutine = StartCoroutine(AimbotCoroutines.AimToObject());
 
-			StartCoroutine(RaycastCoroutines.UpdateObjectList());
+			StartCoroutine(RaycastCoroutines.UpdateObjects());
 		}
 	}
 }

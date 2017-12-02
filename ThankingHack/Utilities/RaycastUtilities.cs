@@ -6,6 +6,7 @@ using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
 using Thanking.Options;
 using System.Collections.Generic;
+using Thanking.Components.MultiAttach;
 using Thanking.Variables;
 using Thanking.Coroutines;
 
@@ -61,20 +62,23 @@ namespace Thanking.Utilities
 
         public static bool GenerateRaycast(out RaycastInfo info)
         {
+	        GetObjects();
+	        
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
 			float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
 
-			if (!GetFirstHit(Objects, out double Distance, out RaycastHit Hit, out GameObject Object) || Distance > Range)
+			if (!GetClosestObject(Objects, out double Distance, out GameObject Object) || !SphereUtilities.GetRaycast(Object, aimPos, Range, out Vector3 Point))
 			{
-				info = new RaycastInfo(Player.player.transform);
+				info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
+					RayMasks.DAMAGE_CLIENT);
+				
 				return false;
 			}
 
-	        Debug.Log(Hit.point);
-	        
-	        info = new RaycastInfo(Hit)
+	        info = new RaycastInfo(Object.transform)
 	        {
+		        point = Point,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = RaycastOptions.TargetLimb,
 		        player = Object.GetComponent<Player>(),
@@ -84,11 +88,10 @@ namespace Thanking.Utilities
 			return true;
         }
 	    
-		public static bool GetFirstHit(GameObject[] Objects, out double Distance, out RaycastHit Hit, out GameObject Object)
+		public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object)
 		{
 			Distance = 1337420;
 			Object = null;
-			Hit = new RaycastHit();
 			
 			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
 
@@ -100,21 +103,36 @@ namespace Thanking.Utilities
 					continue;
 
 				Vector3 AimPos = Player.player.look.aim.position;
-				float Range = CurrentGun != null ? CurrentGun.range : 15.5f;
+				float Range = CurrentGun?.range ?? 15.5f;
 
-				if (VectorUtilities.GetDistance(AimPos, go.transform.position) > Range)
+				double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
+				
+				if (NewDistance > Range)
 					continue;
 				
-				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out Hit))
+				if (NewDistance > Distance)
 					continue;
 				
-				Distance = VectorUtilities.GetDistance(AimPos, go.transform.position);
 				Object = go;
-				
-				return true;
+				Distance = NewDistance;
 			}
 
-			return false;
+			return Object != null;
 		}
+
+	    public static void GetObjects()
+	    {
+		    switch (RaycastOptions.Target)
+		    {
+			    case TargetPriority.Players: //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
+			    {
+				    RaycastUtilities.Objects = Provider.clients.Where(o => !o.player.life.isDead && o.player != Player.player).Select(o => o.player.gameObject).ToArray();
+				    break;
+			    }
+		    }
+
+		    for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
+			    RaycastUtilities.Objects[i].AddComponent<VelocityComponent>();
+	    }
     }
 }
