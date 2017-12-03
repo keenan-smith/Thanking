@@ -11,6 +11,7 @@ namespace ThankingProcessing.Models
         {
 
         }
+        
         public long Id = 0;
         public string Ip = "";
         public string Hwid = "";
@@ -18,6 +19,6 @@ namespace ThankingProcessing.Models
         public long Steam64 = 0;
         public bool IsPremium = false;
         public bool IsBlacklisted = false;
-        public string LastUse = "";
+        public DateTime LastUse = DateTime.Now;
     }
 }
