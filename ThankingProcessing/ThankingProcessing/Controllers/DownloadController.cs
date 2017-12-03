@@ -8,6 +8,7 @@ using System.Text;
 using ThankingProcessing.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace ThankingProcessing.Controllers
 {
@@ -82,10 +83,12 @@ namespace ThankingProcessing.Controllers
             return jsonObject.ToString(Formatting.None);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<UserObject> users = context.users.ToList();
-            foreach(UserObject user in users)
+            List<UserObject> users = await (from b in context.users
+                                            select b).ToListAsync();
+
+            foreach (UserObject user in users)
             {
                 ViewBag.Message += user.hwid;
             }
