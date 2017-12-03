@@ -115,6 +115,7 @@
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Coroutines\RaycastCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
+    <Compile Include="Managers\Main\NetManager.cs" />
     <Compile Include="Managers\Submanagers\SpyManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Loader.cs" />

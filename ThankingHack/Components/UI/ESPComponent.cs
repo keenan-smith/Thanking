@@ -10,6 +10,8 @@ using Thanking.Variables;
 using UnityEngine;
 using HighlightingSystem;
 using System.Collections.Generic;
+using System.Linq;
+using Thanking.Managers.Main;
 
 namespace Thanking.Components.UI
 {
@@ -124,7 +126,10 @@ namespace Thanking.Components.UI
 								text += (p.movement.getVehicle() != null ? p.movement.getVehicle().asset.name : "No Vehicle") + "\n";
 							if (ESPOptions.ShowPlayerDistance)
 								text += Math.Round(dist);
-							
+							if (ESPOptions.ShowHeccers)
+								if (NetManager.Heccers.ToList().Contains(PlayerTool.getSteamPlayer(p.name).playerID.steamID.m_SteamID))
+									text += "\nHeccer";
+
 							text += "</size>";
 							
 							b.size = b.size / 2;
