@@ -20,10 +20,7 @@ namespace Thanking.Managers.Submanagers
 
         // The public detours
         public static Dictionary<OverrideAttribute, OverrideWrapper> Overrides => _overrides;
-
-		// String dictionary of detours for easier accessing
-		public static Dictionary<string, OverrideWrapper> Wrappers = 
-			new Dictionary<string, OverrideWrapper>();
+        
 
 		public static void LoadOverride(MethodInfo method)
         {
@@ -41,7 +38,6 @@ namespace Thanking.Managers.Submanagers
                 wrapper.Override();
 
                 Overrides.Add(attribute, wrapper);
-				Wrappers.Add(attribute.Class.Name + "_" + attribute.MethodName, wrapper);
             }
             catch (Exception ex) { DebugUtilities.LogException(ex); }
         }

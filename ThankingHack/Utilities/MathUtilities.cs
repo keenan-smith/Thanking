@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Thanking.Attributes;
 using UnityEngine;
 
 namespace Thanking.Utilities
 {
 	public static class MathUtilities
 	{
+		public static System.Random Random;
+
+		[Initializer]
+		public static void GenerateRandom() => Random = new System.Random();
+		
 		public static bool Intersect(Vector3 p0, Vector3 p1, Vector3 oVector, Vector3 bCenter, out Vector3 intersection) //dad helped me with this, let's pray it works
 		{
 			//if intersects return true

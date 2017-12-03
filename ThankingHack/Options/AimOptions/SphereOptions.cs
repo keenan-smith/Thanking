@@ -10,6 +10,6 @@ namespace Thanking.Options.AimOptions
 		[Save] public static int RecursionLevel = 2;
 		[Save] public static bool DynamicSphere = true;
 
-		[Save] public static KeyCode Toggle = KeyCode.RightBracket;
+		//[Save] public static KeyCode Toggle = KeyCode.RightBracket;
 	}
 }

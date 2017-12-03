@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using SDG.Unturned;
 using Thanking.Attributes;
@@ -27,19 +28,23 @@ namespace Thanking.Overrides
 			Useable PlayerUse = Player.player.equipment.useable;
 			if (!RaycastOptions.Enabled)
 			{
-				OverrideUtilities.CallOriginal();
+				OverrideUtilities.CallOriginal(PlayerUse);
 				return;
 			}
 
 			ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
+			
 			if (PAsset.projectile != null)
 				return;
 
 			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
+
+			if (Bullets.Count == 0)
+				return;
 			
 			if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
 			{
-				OverrideUtilities.CallOriginal();
+				OverrideUtilities.CallOriginal(PlayerUse);
 				return;
 			}
 			
@@ -63,8 +68,6 @@ namespace Thanking.Overrides
 
 					if (bulletInfo.steps * PAsset.ballisticTravel < distance)
 						continue;
-
-
 					
 					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
 					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);

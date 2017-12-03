@@ -11,7 +11,7 @@ namespace Thanking.Options.VisualOptions
 		#region Global Options
 
 		[Save] public static bool Enabled = true;
-		[Save] public static KeyCode Toggle = KeyCode.LeftBracket;
+		//[Save] public static KeyCode Toggle = KeyCode.LeftBracket;
         [Save] public static bool ChamsEnabled = true;
         [Save] public static bool ChamsFlat = false;
 
