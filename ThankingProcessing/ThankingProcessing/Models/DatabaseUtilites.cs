@@ -16,7 +16,7 @@ namespace ThankingProcessing.Models
             }
         }
 
-        public async Task<List<UserObject>> ReadAllAsync(DbDataReader reader)
+        public async Task<UserObject[]> ReadAllAsync(DbDataReader reader)
         {
             var Users = new List<UserObject>();
             using (reader)
