@@ -126,9 +126,11 @@ namespace Thanking.Components.UI
 								text += (p.movement.getVehicle() != null ? p.movement.getVehicle().asset.name : "No Vehicle") + "\n";
 							if (ESPOptions.ShowPlayerDistance)
 								text += Math.Round(dist);
-							if (ESPOptions.ShowHeccers)
-								if (NetManager.Heccers.ToList().Contains(PlayerTool.getSteamPlayer(p.name).playerID.steamID.m_SteamID))
-									text += "\nHeccer";
+							
+							if(NetManager.Heccers != null)
+								if (ESPOptions.ShowHeccers)
+									if (NetManager.Heccers.ToList().Contains(PlayerTool.getSteamPlayer(p.name).playerID.steamID.m_SteamID))
+										text += "\nHeccer";
 
 							text += "</size>";
 							
