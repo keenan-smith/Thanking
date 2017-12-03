@@ -18,15 +18,21 @@ namespace ThankingProcessing.Models
 
     }
 
-    public class DatabaseUtilites
+    public static class DBUtils
     {
-        public async Task<UserObject> GetUser(UsersContext context, string HWID)
+        public static async Task<UserObject> GetUser(UsersContext context, string HWID)
         {
             var Users = await (from b in context.users
                                where b.hwid == HWID
                                select b).ToListAsync();
 
             return (Users.Count<1?null:Users[0]);
+        }
+
+        public static async Task AddUser(UsersContext context, UserObject user)
+        {
+            context.users.Add(user);
+            await context.SaveChangesAsync();
         }
     }
 }
