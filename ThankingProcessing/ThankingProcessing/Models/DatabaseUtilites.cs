@@ -12,12 +12,7 @@ namespace ThankingProcessing.Models
         {
             using (var db = new AppDb(Startup.database))
             {
-                return new UserObject
-                {
-                    IsPremium = false,
-                    IsBlacklisted = false,
-                    LastUse = ""
-                };
+
             }
         }
 
