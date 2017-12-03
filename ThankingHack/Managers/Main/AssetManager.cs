@@ -12,6 +12,7 @@ namespace Thanking.Managers.Main
 			DebugUtilities.Log("Starting asset manager...");
 			#endif
 			
+			// Start the LoadAssets coroutine
 			Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(LoaderCoroutines.LoadAssets());
 		}
 	}

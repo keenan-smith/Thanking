@@ -20,26 +20,29 @@ namespace Thanking.Managers.Submanagers
 
         // The public detours
         public static Dictionary<OverrideAttribute, OverrideWrapper> Overrides => _overrides;
-        
 
-		public static void LoadOverride(MethodInfo method)
+        /// <summary>
+        /// Loads override information for method
+        /// </summary>
+        /// <param name="method">Method to override another</param>
+        public static void LoadOverride(MethodInfo method)
         {
             // Get attribute related variables
-            OverrideAttribute attribute = (OverrideAttribute)Attribute.GetCustomAttribute(method, typeof(OverrideAttribute));
-			
-			// Check if method has been overrided before
-			if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
+            OverrideAttribute attribute =
+                (OverrideAttribute) Attribute.GetCustomAttribute(method, typeof(OverrideAttribute));
+
+            // Check if method has been overrided before
+            if (Overrides.Count(a => a.Key.Method == attribute.Method) > 0)
                 return;
 
-			try
-            {
-                OverrideWrapper wrapper = new OverrideWrapper(attribute.Method, method, attribute);
+            // Create wrapper for override
+            OverrideWrapper wrapper = new OverrideWrapper(attribute.Method, method, attribute);
 
-                wrapper.Override();
+            // Override
+            wrapper.Override();
 
-                Overrides.Add(attribute, wrapper);
-            }
-            catch (Exception ex) { DebugUtilities.LogException(ex); }
+            // Add override to the list
+            Overrides.Add(attribute, wrapper);
         }
     }
 }

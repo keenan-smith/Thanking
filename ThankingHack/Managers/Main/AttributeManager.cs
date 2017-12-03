@@ -16,6 +16,7 @@ namespace Thanking.Managers.Main
 			DebugUtilities.Log("Initializing attribute manager...");
             #endif
 
+            // Declare lists to be populated later
             List<Type> Components = new List<Type>();
             List<MethodInfo> Pre = new List<MethodInfo>();
             List<MethodInfo> Post = new List<MethodInfo>();
@@ -54,6 +55,7 @@ namespace Thanking.Managers.Main
                 }
             }
             
+            // Assign all variables
             SpyManager.Components = Components;
             SpyManager.PostSpy = Post;
             SpyManager.PreSpy = Pre;
