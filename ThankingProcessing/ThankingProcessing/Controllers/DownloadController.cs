@@ -78,7 +78,7 @@ namespace ThankingProcessing.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Message = "Error: No Data Input.";
+            ViewBag.Message += " Error: No Data Input. | " + Request.Headers["CF-Connecting-IP"];
             return View();
         }
 
@@ -86,6 +86,8 @@ namespace ThankingProcessing.Controllers
         [Route("download")]
         public async Task<string> download(DownloadRequest content)
         {
+            string IpAddress = Request.Headers["CF-Connecting-IP"];
+
             if (content == null) return SendError(10, "Missing data or malformed request!");
             if (content.Stage == null) return SendError(10, "Missing data or malformed request!");
 
