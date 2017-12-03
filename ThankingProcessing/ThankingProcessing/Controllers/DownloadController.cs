@@ -8,6 +8,7 @@ using System.Text;
 using ThankingProcessing.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace ThankingProcessing.Controllers
 {
@@ -25,6 +26,12 @@ namespace ThankingProcessing.Controllers
 
     public class HomeController : Controller
     {
+        private UsersContext context;
+        public HomeController(UsersContext context)
+        {
+            this.context = context;
+        }
+
         private async Task<string> Encrypt(string toEncrypt)
         {
             char[] buffer = toEncrypt.ToCharArray();
@@ -76,8 +83,15 @@ namespace ThankingProcessing.Controllers
             return jsonObject.ToString(Formatting.None);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            List<UserObject> users = await (from b in context.users
+                                            select b).ToListAsync();
+
+            foreach (UserObject user in users)
+            {
+                ViewBag.Message += user.hwid;
+            }
             ViewBag.Message += " Error: No Data Input. | " + Request.Headers["CF-Connecting-IP"];
             return View();
         }
