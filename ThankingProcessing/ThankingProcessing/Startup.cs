@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ThankingProcessing.Models;
 
 namespace ThankingProcessing
 {
     public class Startup
     {
+        public static string database;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,6 +25,7 @@ namespace ThankingProcessing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            database = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddMvc();
         }
 
