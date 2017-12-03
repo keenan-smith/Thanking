@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Thanking.Attributes;
-using UnityEngine;
 
 namespace Thanking.Options
 {

@@ -11,7 +11,6 @@ namespace Thanking.Overrides
 {
 	public class OV_UseableMelee
 	{
-
 		[Override(typeof(UseableMelee), "fire", BindingFlags.NonPublic | BindingFlags.Instance)]
 		public void OV_fire()
 		{

@@ -35,13 +35,13 @@ namespace Thanking.Components.Basic
             {
                 for(int i = 0; i < values.Length; i++) 
                 {
-                    if (Input.GetKeyDown((KeyCode) values[i]))
-                    {
-                        HotkeyUtilities.ReturnKey = (KeyCode) values[i];
-                        HotkeyUtilities.NeedsKey = false;
+                    if (!Input.GetKeyDown((KeyCode) values[i]))
+                        continue;
+                    
+                    HotkeyUtilities.ReturnKey = (KeyCode) values[i];
+                    HotkeyUtilities.NeedsKey = false;
 
-                        break;
-                    }
+                    break;
                 }
             }
             

@@ -49,22 +49,21 @@ namespace Thanking.Utilities
 
 	    public static bool GenerateRaycast(out RaycastInfo info)
 	    {
-		    GetPlayers();
-		    GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object);
-		    
 		    ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
 		    float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
 		    
-		    if (Object.GetComponent<VelocityComponent>() == null)
-		    {
-			    info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
-				    RayMasks.DAMAGE_CLIENT);
-			    
-			    Object.AddComponent<VelocityComponent>();
+		    info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
+			    RayMasks.DAMAGE_CLIENT);
+		    
+		    GetPlayers();
+		    if (!GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object))
 			    return false;
-		    }
 
-		    return GenerateRaycast(Object, out info);
+		    if (Object.GetComponent<VelocityComponent>() != null) 
+			    return GenerateRaycast(Object, out info);
+		    
+		    Object.AddComponent<VelocityComponent>();
+		    return false;
 	    }
 	    
         public static bool GenerateRaycast(GameObject Object, out RaycastInfo info)
@@ -76,20 +75,14 @@ namespace Thanking.Utilities
 	        info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
 		        RayMasks.DAMAGE_CLIENT);
 
-	        if (!SphereUtilities.GetRaycast(Object, aimPos, Range, out Vector3 Point))
-	        {
-		        info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
-			        RayMasks.DAMAGE_CLIENT);
-				
+	        if (Object == null || !SphereUtilities.GetRaycast(Object, aimPos, Range, out Vector3 Point))
 		        return false;
-	        }
 
 	        ELimb Limb = RaycastOptions.TargetLimb;
 
 	        if (RaycastOptions.UseRandomLimb)
 	        {
 		        ELimb[] Limbs = (ELimb[]) Enum.GetValues(typeof(ELimb));
-
 		        Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
 	        }
 	        
