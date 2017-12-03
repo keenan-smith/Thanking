@@ -85,8 +85,10 @@ namespace Thanking.Utilities
 		        point = Point,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = Limb,
+		        material = RaycastOptions.TargetMaterial,
 		        player = Object.GetComponent<Player>(),
-		        material = RaycastOptions.TargetMaterial
+		        zombie = Object.GetComponent<Zombie>(),
+		        vehicle = Object.GetComponent<InteractableVehicle>()
 	        };
 
 			return true;
