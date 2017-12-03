@@ -9,8 +9,11 @@ using UnityEngine;
 
 namespace Thanking.Components.Basic
 {
+	/// <summary>
+	/// Component used to start aimbot coroutines and check hotkeys if necessary
+	/// </summary>
 	[Component]
-	public class AimbotComponent : MonoBehaviour
+	public class AimbotComponent : MonoBehaviour 
 	{
 		Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
 		public void Start()
