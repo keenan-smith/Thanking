@@ -122,8 +122,10 @@ namespace Thanking.Overrides
                 {
                     SteamPlayer steamPlayer = Provider.clients[i];
                     bool shouldDraw = steamPlayer.player.quests.isMemberOfSameGroupAs(Player.player);
-                    if (MiscOptions.SPOM && DrawUtilities.ShouldRun() && !PlayerCoroutines.IsSpying) // cancer
+                    
+                    if (MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun() && !PlayerCoroutines.IsSpying) // cancer
                         shouldDraw = true;
+                    
                     if (steamPlayer.playerID.steamID != Provider.client && steamPlayer.model != null && shouldDraw)
                     {
                         SleekImageTexture sleekImageTexture12 = new SleekImageTexture();

@@ -1,4 +1,5 @@
-﻿using SDG.Unturned;
+﻿using System.Collections.Generic;
+using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Options;
 using Thanking.Utilities;
@@ -10,6 +11,12 @@ namespace Thanking.Components.Basic
     [Component]
     public class MiscComponent : MonoBehaviour
     {
+        private int[] values;
+ 
+        void Awake() {
+            values = (int[])System.Enum.GetValues(typeof(KeyCode));
+        }
+        
         [OnSpy] 
         public static void TurnOffMyFuckingNightVision()
         {
@@ -25,6 +32,20 @@ namespace Thanking.Components.Basic
 
         public void Update()
         {
+            if (HotkeyUtilities.NeedsKey)
+            {
+                for(int i = 0; i < values.Length; i++) 
+                {
+                    if (Input.GetKeyDown((KeyCode) values[i]))
+                    {
+                        HotkeyUtilities.ReturnKey = (KeyCode) values[i];
+                        HotkeyUtilities.NeedsKey = false;
+
+                        break;
+                    }
+                }
+            }
+            
             if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
                 return;
             
@@ -64,40 +85,42 @@ namespace Thanking.Components.Basic
                 rb.isKinematic = true;
                 Transform tr = vehicle.transform;
 
-                if (Input.GetKey(MiscOptions.StrafeUp))
+                Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
+                
+                if (Input.GetKey(keys["_VFStrafeUp"]))
                     tr.position = tr.position + new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(MiscOptions.StrafeDown))
+                if (Input.GetKey(keys["_VFStrafeDown"]))
                     tr.position = tr.position - new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(MiscOptions.StrafeLeft))
+                if (Input.GetKey(keys["_VFStrafeLeft"]))
                     rb.MovePosition(tr.position + tr.right / 5f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(MiscOptions.StrafeRight))
+                if (Input.GetKey(keys["_VFStrafeRight"]))
                     rb.MovePosition(tr.position - tr.right / 5f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(MiscOptions.MoveForward))
+                if (Input.GetKey(keys["_VFMoveForward"]))
                     rb.MovePosition(tr.position + tr.forward / 5f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(MiscOptions.MoveBackward))
+                if (Input.GetKey(keys["_VFMoveBackward"]))
                     rb.MovePosition(tr.position - tr.forward / 6f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(MiscOptions.RotateRight))
+                if (Input.GetKey(keys["_VFRotateRight"]))
                     tr.Rotate(0f, 0.6f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(MiscOptions.RotateLeft))
+                if (Input.GetKey(keys["_VFRotateLeft"]))
                     tr.Rotate(0f, -0.6f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(MiscOptions.RollLeft))
+                if (Input.GetKey(keys["_VFRollLeft"]))
                     tr.Rotate(0f, 0f, 0.8f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(MiscOptions.RollRight))
+                if (Input.GetKey(keys["_VFRollRight"]))
                     tr.Rotate(0f, 0f, -0.8f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(MiscOptions.RotateUp))
+                if (Input.GetKey(keys["_VFRotateUp"]))
                     vehicle.transform.Rotate(-0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
 
-                if (Input.GetKey(MiscOptions.RotateDown))
+                if (Input.GetKey(keys["_VFRotateDown"]))
                     vehicle.transform.Rotate(0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
             }
             else

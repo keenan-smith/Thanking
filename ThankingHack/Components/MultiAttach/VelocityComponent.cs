@@ -10,10 +10,9 @@ namespace Thanking.Components.MultiAttach
 	{
 		public Vector3 Previous;
 		public float Speed; //it's technically not velocity since it has no direction xdd
-
-		public void Update()
+		public void FixedUpdate()
 		{
-			Speed = ((transform.position - Previous).magnitude) / Time.deltaTime;
+			Speed = ((transform.position - Previous).magnitude) / Time.fixedDeltaTime;
 			Previous = transform.position;
 		}
 	}

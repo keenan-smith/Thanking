@@ -6,6 +6,7 @@ using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using UnityEngine;
 using System;
+using Thanking.Options;
 
 namespace Thanking.Coroutines
 {
@@ -34,60 +35,68 @@ namespace Thanking.Coroutines
             
             while (true)
             {
-                if (!AimbotOptions.Enabled || !Provider.isConnected || Provider.isLoading || Provider.clients == null || Provider.clients.Count <= 1)
+                if (!DrawUtilities.ShouldRun() || !AimbotOptions.Enabled)
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                Player p = null;
-                SteamPlayer[] players = Provider.clients.ToArray();
-                for (int i = 0; i < players.Length; i++)
+                else
                 {
-                    SteamPlayer cPlayer = players[i];
-                    if (cPlayer.player == null || cPlayer.player == Player.player  || cPlayer.player.life == null ||
-                        cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player)) continue;
-                    
-                    switch (AimbotOptions.TargetMode)
+                    Player p = null;
+                    SteamPlayer[] players = Provider.clients.ToArray();
+                    for (int i = 0; i < players.Length; i++)
                     {
-                        case TargetMode.Distance:
+                        SteamPlayer cPlayer = players[i];
+                        if (cPlayer.player == null || cPlayer.player == Player.player || cPlayer.player.life == null ||
+                            cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player)) continue;
+
+                        switch (AimbotOptions.TargetMode)
                         {
-                            if (p == null)
-                                p = players[i].player;
-                            else
+                            case TargetMode.Distance:
                             {
-                                if (p != null)
-                                    if (VectorUtilities.GetDistance(p.transform.position) > VectorUtilities.GetDistance(players[i].player.transform.position))
-                                        p = players[i].player;
-                            }
-                            break;
-                        }
-                        case TargetMode.FOV:
-                        {
-                            Vector3 v2dist = MainCamera.instance.WorldToScreenPoint(GetAimPosition(players[i].player.transform, "Skull"));
-                            if (v2dist.z <= 0) continue;
-
-                            Vector2 pos = new Vector2(v2dist.x, v2dist.y);
-                            float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
-
-                            if (vdist < AimbotOptions.FOV && p == null)
-                                p = players[i].player;
-
-                            else if (vdist < AimbotOptions.FOV)
-                            {
-                                Vector3 v2dist_ = MainCamera.instance.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
-                                Vector2 pos_ = new Vector2(v2dist_.x, v2dist_.y);
-                                float vdist_ = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos_);
-
-                                if (vdist_ > vdist)
+                                if (p == null)
                                     p = players[i].player;
+                                else
+                                {
+                                    if (p != null)
+                                        if (VectorUtilities.GetDistance(p.transform.position) >
+                                            VectorUtilities.GetDistance(players[i].player.transform.position))
+                                            p = players[i].player;
+                                }
+                                break;
                             }
-                            break;
+                            case TargetMode.FOV:
+                            {
+                                Vector3 v2dist =
+                                    MainCamera.instance.WorldToScreenPoint(GetAimPosition(players[i].player.transform,
+                                        "Skull"));
+                                if (v2dist.z <= 0) continue;
+
+                                Vector2 pos = new Vector2(v2dist.x, v2dist.y);
+                                float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
+
+                                if (vdist < AimbotOptions.FOV && p == null)
+                                    p = players[i].player;
+
+                                else if (vdist < AimbotOptions.FOV)
+                                {
+                                    Vector3 v2dist_ =
+                                        MainCamera.instance.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
+                                    Vector2 pos_ = new Vector2(v2dist_.x, v2dist_.y);
+                                    float vdist_ = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2),
+                                        pos_);
+
+                                    if (vdist_ > vdist)
+                                        p = players[i].player;
+                                }
+                                break;
+                            }
                         }
                     }
+                    if (!IsAiming)
+                        LockedObject = (p != null ? p.gameObject : null);
+                    yield return new WaitForEndOfFrame();
                 }
-                if (!IsAiming)
-                    LockedObject = (p != null ? p.gameObject : null);
-                yield return new WaitForEndOfFrame();
             }
         }
 
@@ -99,14 +108,15 @@ namespace Thanking.Coroutines
             
             while (true)
             {
-                if (!AimbotOptions.Enabled || !Provider.isConnected || Provider.isLoading || Provider.clients == null || Provider.clients.Count <= 1)
+                if (!DrawUtilities.ShouldRun())
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
+                
                 if (LockedObject != null && LockedObject.transform != null && ESPComponent.MainCamera != null)
                 {
-                    if (Input.GetKey(AimbotOptions.Key))
+                    if (Input.GetKey(HotkeyOptions.HotkeyDict["_AimbotKey"]))
                     {
                         IsAiming = true;
                         if (AimbotOptions.Smooth)
