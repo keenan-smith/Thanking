@@ -17,7 +17,11 @@ namespace Thanking.Overrides
 		private static FieldInfo BulletsField;
 		private static MethodInfo Trace;
 
-		[Initializer]
+	    public OV_UseableGun()
+	    {
+	    }
+
+	    [Initializer]
 		public static void Load()
 		{
 			BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
@@ -43,7 +47,7 @@ namespace Thanking.Overrides
 			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
 			
 			RaycastUtilities.GetPlayers();
-			RaycastUtilities.GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object, out Vector3 Point);
+			RaycastUtilities.GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object, out Vector3 Pos);
 
 			if (Object == null)
 			{
@@ -51,13 +55,7 @@ namespace Thanking.Overrides
 				return;
 			}
 			
-			if (Object.GetComponent<VelocityComponent>() == null)
-			{
-				Object.AddComponent<VelocityComponent>();
-				return;
-			}
-			
-			if (!RaycastUtilities.GenerateRaycast(Object, Point, out RaycastInfo ri))
+			if (!RaycastUtilities.GenerateRaycast(Object, Pos, out RaycastInfo ri))
 			{
 				OverrideUtilities.CallOriginal(PlayerUse);
 				return;

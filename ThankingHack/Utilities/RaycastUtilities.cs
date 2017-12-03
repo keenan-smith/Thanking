@@ -59,15 +59,11 @@ namespace Thanking.Utilities
 		    
 		    if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point))
 			    return false;
-
-		    if (Object.GetComponent<VelocityComponent>() != null) 
-			    return GenerateRaycast(Object, Point, out info);
 		    
-		    Object.AddComponent<VelocityComponent>();
-		    return false;
+		    return GenerateRaycast(Object, Point, out info);
 	    }
 	    
-        public static bool GenerateRaycast(GameObject go, Vector3 Point, out RaycastInfo info)
+        public static bool GenerateRaycast(GameObject Object, Vector3 Point, out RaycastInfo info)
         {
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
@@ -84,12 +80,12 @@ namespace Thanking.Utilities
 		        Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
 	        }
 	        
-	        info = new RaycastInfo(go.transform)
+	        info = new RaycastInfo(Object.transform)
 	        {
 		        point = Point,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = Limb,
-		        player = go.GetComponent<Player>(),
+		        player = Object.GetComponent<Player>(),
 		        material = RaycastOptions.TargetMaterial
 	        };
 
@@ -100,9 +96,11 @@ namespace Thanking.Utilities
 		{
 			Distance = 1337420;
 			Object = null;
-			Point = new Vector3();
+			Point = Vector3.zero;
 			
 			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
+			Vector3 AimPos = Player.player.look.aim.position;
+			float Range = CurrentGun?.range ?? 15.5f;
 
 			for (int i = 0; i < Objects.Length; i++)
 			{
@@ -110,19 +108,22 @@ namespace Thanking.Utilities
 				
 				if (go == null)
 					continue;
-
-				Vector3 AimPos = Player.player.look.aim.position;
-				float Range = CurrentGun?.range ?? 15.5f;
-
-				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out Vector3 _Point))
+				
+				if (go.GetComponent<RaycastComponent>() == null)
+				{
+					go.AddComponent<RaycastComponent>();
 					continue;
+				}
 				
 				double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
-				
+
 				if (NewDistance > Range)
 					continue;
 				
 				if (NewDistance > Distance)
+					continue;
+				
+				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out Vector3 _Point))
 					continue;
 				
 				Object = go;
@@ -136,10 +137,12 @@ namespace Thanking.Utilities
 	    //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
 	    public static void GetPlayers()
 	    {
-		    if (RaycastOptions.Target == TargetPriority.Players)
-			    RaycastUtilities.Objects = Provider.clients
-				    .Where(o => !o.player.life.isDead && o.player != Player.player && !FriendUtilities.IsFriendly(o.player))
-				    .Select(o => o.player.gameObject).ToArray();
+		    if (RaycastOptions.Target != TargetPriority.Players) 
+			    return;
+		    
+		    Objects = Provider.clients
+			    .Where(o => !o.player.life.isDead && o.player != Player.player && !FriendUtilities.IsFriendly(o.player))
+			    .Select(o => o.player.gameObject).ToArray();
 	    }
     }
 }

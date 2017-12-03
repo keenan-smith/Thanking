@@ -26,13 +26,6 @@ namespace Thanking.Coroutines
                 
                 try
                 {
-                    for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
-                    {
-                        GameObject obj = RaycastUtilities.Objects[i];
-                        if (obj != null)
-                            Object.Destroy(obj.GetComponent<VelocityComponent>());
-                    }
-                    
                     switch (RaycastOptions.Target)
                     {
                         case TargetPriority.Players:
@@ -80,9 +73,6 @@ namespace Thanking.Coroutines
                             break;
                         }
                     }
-
-                    for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
-                        RaycastUtilities.Objects[i].AddComponent<VelocityComponent>();
                 }
                 catch (Exception e)
                 {
