@@ -10,11 +10,11 @@ namespace Thanking.Components.Basic
 	public class TriggerbotComponent : MonoBehaviour
 	{
 		public void Awake() =>
-		  InvokeRepeating("Check", 0f, 0.15f);
+		  InvokeRepeating(nameof(Check), 0f, 0.15f);
 
 		public void Check()
 		{
-			if (!Provider.isConnected || Provider.isLoading)
+			if (!DrawUtilities.ShouldRun())
 				return;
 
 			if (TriggerbotOptions.Enabled)

@@ -62,6 +62,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -87,7 +90,7 @@
     <Compile Include="Components\Basic\ItemsComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
-    <Compile Include="Components\MultiAttach\VelocityComponent.cs" />
+    <Compile Include="Components\Basic\VelocityComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
     <Compile Include="Components\UI\Menu\Drawing.cs" />
