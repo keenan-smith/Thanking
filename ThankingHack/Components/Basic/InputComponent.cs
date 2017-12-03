@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace Thanking.Components.Basic
 {
+	/// <summary>
+	/// Input component used to check misc inputs, such as triggerbot or config
+	/// </summary>
 	[SpyComponent]
 	[Component]
 	public class InputComponent : MonoBehaviour
