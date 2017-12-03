@@ -11,6 +11,8 @@ namespace Thanking.Threads
 		[Thread]
 		public static void Start()
 		{
+			Provider.onClientDisconnected += OnDisconnect;
+			
 			#if DEBUG
 			DebugUtilities.Log("Crash Thread Started");
 			#endif

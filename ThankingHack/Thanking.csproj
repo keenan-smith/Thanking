@@ -90,7 +90,7 @@
     <Compile Include="Components\Basic\ItemsComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
-    <Compile Include="Components\Basic\VelocityComponent.cs" />
+    <Compile Include="Components\Basic\RaycastComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
     <Compile Include="Components\UI\LogoComponent.cs" />
     <Compile Include="Components\UI\Menu\Drawing.cs" />
