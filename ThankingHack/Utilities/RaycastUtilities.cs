@@ -56,17 +56,18 @@ namespace Thanking.Utilities
 			    RayMasks.DAMAGE_CLIENT);
 		    
 		    GetPlayers();
-		    if (!GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object))
+		    
+		    if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point))
 			    return false;
 
 		    if (Object.GetComponent<VelocityComponent>() != null) 
-			    return GenerateRaycast(Object, out info);
+			    return GenerateRaycast(Object, Point, out info);
 		    
 		    Object.AddComponent<VelocityComponent>();
 		    return false;
 	    }
 	    
-        public static bool GenerateRaycast(GameObject Object, out RaycastInfo info)
+        public static bool GenerateRaycast(GameObject go, Vector3 Point, out RaycastInfo info)
         {
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
@@ -74,9 +75,6 @@ namespace Thanking.Utilities
 
 	        info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
 		        RayMasks.DAMAGE_CLIENT);
-
-	        if (Object == null || !SphereUtilities.GetRaycast(Object, aimPos, Range, out Vector3 Point))
-		        return false;
 
 	        ELimb Limb = RaycastOptions.TargetLimb;
 
@@ -86,22 +84,23 @@ namespace Thanking.Utilities
 		        Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
 	        }
 	        
-	        info = new RaycastInfo(Object.transform)
+	        info = new RaycastInfo(go.transform)
 	        {
 		        point = Point,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = Limb,
-		        player = Object.GetComponent<Player>(),
+		        player = go.GetComponent<Player>(),
 		        material = RaycastOptions.TargetMaterial
 	        };
 
 			return true;
         }
 	    
-		public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object)
+		public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point)
 		{
 			Distance = 1337420;
 			Object = null;
+			Point = new Vector3();
 			
 			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
 
@@ -115,6 +114,9 @@ namespace Thanking.Utilities
 				Vector3 AimPos = Player.player.look.aim.position;
 				float Range = CurrentGun?.range ?? 15.5f;
 
+				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out Vector3 _Point))
+					continue;
+				
 				double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
 				
 				if (NewDistance > Range)
@@ -125,6 +127,7 @@ namespace Thanking.Utilities
 				
 				Object = go;
 				Distance = NewDistance;
+				Point = _Point;
 			}
 
 			return Object != null;
