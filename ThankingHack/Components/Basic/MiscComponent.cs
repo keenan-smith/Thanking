@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Components.UI;
 using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Coroutines;
+using Thanking.Options.AimOptions;
+using Thanking.Variables;
 using UnityEngine;
+using UnityEngine.Windows.Speech;
 
 namespace Thanking.Components.Basic
 {
@@ -12,9 +16,15 @@ namespace Thanking.Components.Basic
     public class MiscComponent : MonoBehaviour
     {
         private int[] values;
- 
-        void Start() =>
+        private int currentKills = 0;
+
+        void Start()
+        {
+            Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
+                out currentKills);
+            
             values = (int[])System.Enum.GetValues(typeof(KeyCode));
+        }
         
         [OnSpy] 
         public static void TurnOffMyFuckingNightVision()
@@ -47,6 +57,26 @@ namespace Thanking.Components.Basic
             
             if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
                 return;
+
+            Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
+                out int New);
+
+            if (WeaponOptions.OofOnDeath)
+            {
+                if (New != currentKills)
+                {
+                    currentKills = New;
+                    
+                    AudioSource aus = Player.player.gameObject.GetComponent<AudioSource>();
+                    AudioClip prev = aus.clip;
+                    
+                    aus.clip = AssetVariables.Audio["oof"];
+                    aus.Play();
+                    aus.clip = prev;
+                }
+            }
+            else
+                currentKills = New;
             
             VehicleFlight();
             

@@ -30,9 +30,8 @@ img.resize {
     opacity: 0;
 }
 
-.hidden2 {
-    display: none;
-    opacity: 0;
+.expand {
+    width: 0;
 }
 
 .centered-collabsable-text {
