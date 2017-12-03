@@ -1,7 +1,7 @@
 ﻿using SDG.Unturned;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Thanking.Components.MultiAttach;
+using Thanking.Components.Basic;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Overrides;
@@ -33,12 +33,12 @@ namespace Thanking.Utilities
 			
 			if (Target == null)
 				return false;
-
-			float? Speed = SphereOptions.DynamicSphere ? Target.GetComponent<VelocityComponent>()?.Speed : null;
+			
+			float Speed = SphereOptions.DynamicSphere ? (float) Target.GetComponent<VelocityComponent>().Speed : -1;
 			float Radius = SphereOptions.SphereRadius;
 			
-			if (Speed.HasValue)
-				Radius = 15.8f - Speed.Value * Provider.ping * 1.25f;
+			if (Speed > -1)
+				Radius = 15.8f - Speed * Provider.ping * 1.1f;
 			
 			int BackupLayer = Target.layer;
 			Target.layer = LayerMasks.AGENT;

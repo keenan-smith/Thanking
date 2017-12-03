@@ -43,6 +43,9 @@ namespace Thanking.Components.UI
 
 		public void Update()
 		{
+			if (Event.current.type != EventType.Repaint)
+				return;
+			
 			if (!DrawUtilities.ShouldRun())
 				return;
 

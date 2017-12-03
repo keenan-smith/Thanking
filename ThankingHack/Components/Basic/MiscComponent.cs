@@ -13,9 +13,8 @@ namespace Thanking.Components.Basic
     {
         private int[] values;
  
-        void Awake() {
+        void Start() =>
             values = (int[])System.Enum.GetValues(typeof(KeyCode));
-        }
         
         [OnSpy] 
         public static void TurnOffMyFuckingNightVision()

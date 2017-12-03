@@ -7,7 +7,7 @@ using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
 using Thanking.Options;
 using System.Collections.Generic;
-using Thanking.Components.MultiAttach;
+using Thanking.Components.Basic;
 using Thanking.Variables;
 using Thanking.Coroutines;
 
@@ -16,7 +16,8 @@ namespace Thanking.Utilities
 	public static class RaycastUtilities
     {
 		public static GameObject[] Objects = new GameObject[0];
-
+		public static List<GameObject> AttachedObjects = new List<GameObject>();
+	    
 		public static RaycastInfo GenerateOriginalRaycast(Ray ray, float range, int mask)
 		{
 			PhysicsUtility.raycast(ray, out RaycastHit hit, range, mask);
@@ -46,21 +47,34 @@ namespace Thanking.Utilities
 			return raycastInfo;
 		}
 
-        public static bool GenerateRaycast(out RaycastInfo info)
+	    public static bool GenerateRaycast(out RaycastInfo info)
+	    {
+		    GetPlayers();
+		    GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object);
+		    
+		    ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
+		    float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
+		    
+		    if (Object.GetComponent<VelocityComponent>() == null)
+		    {
+			    info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
+				    RayMasks.DAMAGE_CLIENT);
+			    
+			    Object.AddComponent<VelocityComponent>();
+			    return false;
+		    }
+
+		    return GenerateRaycast(Object, out info);
+	    }
+	    
+        public static bool GenerateRaycast(GameObject Object, out RaycastInfo info)
         {
-	        GetPlayers();
-	        
             Vector3 aimPos = Player.player.look.aim.position;
             ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
 			float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
 
-			if (!GetClosestObject(Objects, out double Distance, out GameObject Object))
-			{
-				info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
-					RayMasks.DAMAGE_CLIENT);
-				
-				return false;
-			}
+	        info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
+		        RayMasks.DAMAGE_CLIENT);
 
 	        if (!SphereUtilities.GetRaycast(Object, aimPos, Range, out Vector3 Point))
 	        {
