@@ -4,53 +4,29 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace ThankingProcessing.Models
 {
+    public class UsersContext : DbContext
+    {
+        public DbSet<UserObject> users { get; set; }
+
+        public UsersContext(DbContextOptions<UsersContext> options)
+        : base(options)
+        { }
+
+    }
+
     public class DatabaseUtilites
     {
-        public async Task<UserObject> GetUser(string HWID)
+        public async Task<UserObject> GetUser(UsersContext context, string HWID)
         {
-            UserObject User = new UserObject();
-            
-            using (AppDb db = new AppDb(Startup.database))
-            {
-                using (MySqlCommand Command = db.Connection.CreateCommand())
-                {
-                    Command.Parameters.AddWithValue("HWID", HWID);
-                    Command.CommandText = "SELECT * FROM Users WHERE HWID = @HWID";
+            var Users = await (from b in context.users
+                               where b.hwid == HWID
+                               select b).ToListAsync();
 
-                    await db.Connection.OpenAsync();
-
-                    using (MySqlDataReader Reader = Command.ExecuteReader())
-                    {
-                        while (await Reader.ReadAsync())
-                        {
-                            User.Hwid = HWID;
-                            User.Ip = Reader.GetString(2);
-                            User.IsBlacklisted = Reader.GetBoolean(3);
-                            User.IsPremium = Reader.GetBoolean(4);
-                            User.Steam64 = Reader.GetInt64(5);
-                            User.SteamName = Reader.GetString(6);
-                            User.LastUse = Reader.GetDateTime(7);
-                        }
-                    }
-                }
-            }
-
-            return User;
-        }
-
-        public async Task<UserObject[]> ReadAllAsync(DbDataReader reader)
-        {
-            var Users = new List<UserObject>();
-            using (reader)
-            {
-                while (await reader.ReadAsync())
-                {
-                    var user = new 
-                }
-            }
+            return (Users.Count<1?null:Users[0]);
         }
     }
 }
