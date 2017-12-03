@@ -6,13 +6,16 @@ using UnityEngine;
 
 namespace Thanking.Components.Basic
 {
+    /// <summary>
+    /// Component used to track items and start the pickup coroutine
+    /// </summary>
     [Component]
     public class ItemsComponent : MonoBehaviour
     {
         public static List<ItemAsset> items = new List<ItemAsset>();
         public static ushort uAmount = ushort.MaxValue;
 
-        public static void RefreshItems()
+        public static void RefreshItems() //Loop through all possible items and add them to the list if they exist
         {
             items.Clear();
             for (ushort i = 0; i < uAmount; i++)
@@ -25,6 +28,6 @@ namespace Thanking.Components.Basic
         }
 
         public void Start() =>
-			CoroutineComponent.ItemPickupCoroutine = StartCoroutine(ItemCoroutines.PickupItems());
+			CoroutineComponent.ItemPickupCoroutine = StartCoroutine(ItemCoroutines.PickupItems()); 
 	}
 }
