@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,14 +12,15 @@ namespace ThankingProcessing.Models
         {
 
         }
-        
-        public long Id = 0;
-        public string Ip = "";
-        public string Hwid = "";
-        public string SteamName = "";
-        public long Steam64 = 0;
-        public bool IsPremium = false;
-        public bool IsBlacklisted = false;
-        public DateTime LastUse = DateTime.Now;
+
+        [Key]
+        public int Id { get; set; } = 0;
+        public string hwid { get; set; } = "";
+        public string ip { get; set; } = "";
+        public bool premium { get; set; } = false;
+        public bool blacklisted { get; set; } = false;
+        public string steamname { get; set; } = "";
+        public long steam64 { get; set; } = 0;
+        public DateTime lastuse { get; set; } = DateTime.Now;
     }
 }

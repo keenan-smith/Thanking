@@ -4,9 +4,20 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace ThankingProcessing.Models
 {
+    public class UsersContext : DbContext
+    {
+        public DbSet<UserObject> users { get; set; }
+
+        public UsersContext(DbContextOptions<UsersContext> options)
+        : base(options)
+        { }
+
+    }
+
     public class DatabaseUtilites
     {
         public async Task<UserObject> GetUser(string HWID)
@@ -26,31 +37,19 @@ namespace ThankingProcessing.Models
                     {
                         while (await Reader.ReadAsync())
                         {
-                            User.Hwid = HWID;
-                            User.Ip = Reader.GetString(2);
-                            User.IsBlacklisted = Reader.GetBoolean(3);
-                            User.IsPremium = Reader.GetBoolean(4);
-                            User.Steam64 = Reader.GetInt64(5);
-                            User.SteamName = Reader.GetString(6);
-                            User.LastUse = Reader.GetDateTime(7);
+                            User.hwid = HWID;
+                            User.ip = Reader.GetString(2);
+                            User.blacklisted = Reader.GetBoolean(3);
+                            User.premium = Reader.GetBoolean(4);
+                            User.steam64 = Reader.GetInt64(5);
+                            User.steamname = Reader.GetString(6);
+                            User.lastuse = Reader.GetDateTime(7);
                         }
                     }
                 }
             }
 
             return User;
-        }
-
-        public async Task<UserObject[]> ReadAllAsync(DbDataReader reader)
-        {
-            var Users = new List<UserObject>();
-            using (reader)
-            {
-                while (await reader.ReadAsync())
-                {
-                    var user = new 
-                }
-            }
         }
     }
 }

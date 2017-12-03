@@ -25,7 +25,7 @@ namespace ThankingProcessing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            database = Configuration["ConnectionStrings:DefaultConnection"];
+            services.AddDbContext<UsersContext>(options => options.UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc();
         }
 

@@ -25,6 +25,12 @@ namespace ThankingProcessing.Controllers
 
     public class HomeController : Controller
     {
+        private UsersContext context;
+        public HomeController(UsersContext context)
+        {
+            this.context = context;
+        }
+
         private async Task<string> Encrypt(string toEncrypt)
         {
             char[] buffer = toEncrypt.ToCharArray();
@@ -78,6 +84,11 @@ namespace ThankingProcessing.Controllers
 
         public IActionResult Index()
         {
+            List<UserObject> users = context.users.ToList();
+            foreach(UserObject user in users)
+            {
+                ViewBag.Message += user.hwid;
+            }
             ViewBag.Message += " Error: No Data Input. | " + Request.Headers["CF-Connecting-IP"];
             return View();
         }
