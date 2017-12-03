@@ -2,6 +2,7 @@
 using System.Linq;
 using SDG.Unturned;
 using Steamworks;
+using Thanking.Attributes;
 using Thanking.Options.VisualOptions;
 
 namespace Thanking.Managers.Main
@@ -9,6 +10,8 @@ namespace Thanking.Managers.Main
     public class NetManager : PlayerCaller
     {
         public static IEnumerable<ulong> Heccers;
+
+        public static NetManager Manager;
         
         public void sendHasHacks() => 
             channel.send("getHasHacks", ESteamCall.CLIENTS, ESteamPacket.UPDATE_RELIABLE_BUFFER, 1);
@@ -23,6 +26,9 @@ namespace Thanking.Managers.Main
         [SteamCall]
         public void getConfirmHack(CSteamID steamID) => 
             Heccers = Heccers?.Concat(new [] {steamID.m_SteamID}).ToArray() ?? new[] {steamID.m_SteamID};
+
+        [Initializer]
+        public static void Init() => Manager = new NetManager();
 
         public NetManager()
         {
