@@ -9,6 +9,7 @@ namespace Thanking.Wrappers
     public class OverrideWrapper
     {
         #region Properties
+        
         public MethodInfo Original { get; private set; }
         public MethodInfo Modified { get; private set; }
 
@@ -21,6 +22,7 @@ namespace Thanking.Wrappers
         public bool Detoured { get; private set; }
         public object Instance { get; private set; }
         public bool Local { get; private set; }
+        
         #endregion
 
         public OverrideWrapper(MethodInfo original, MethodInfo modified, OverrideAttribute attribute, object instance = null)

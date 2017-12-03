@@ -11,10 +11,19 @@ namespace Thanking.Managers.Submanagers
 {
     public class SpyManager
     {
+        #region Fields
+        
+        // Methods to be invoked before spy
         public static IEnumerable<MethodInfo> PreSpy;
+        
+        // Components to be destroyed before spy, and created again after spy
         public static IEnumerable<Type> Components;
+        
+        // Methods to be invoked after spy
         public static IEnumerable<MethodInfo> PostSpy;
 
+        #endregion
+        
         /// <summary>
         /// Invoke methods marked with OnSpyAttribute
         /// </summary>
