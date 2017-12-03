@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Thanking.Components.Basic
 {
+	/// <summary>
+	/// Handles the storage of coroutines so that they can be stopped/started later on
+	/// </summary>
 	[Component]
 	public class CoroutineComponent : MonoBehaviour
 	{

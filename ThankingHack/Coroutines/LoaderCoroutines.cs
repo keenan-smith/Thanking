@@ -33,7 +33,7 @@ namespace Thanking.Coroutines
 				#endif			
 	
 	
-				WWW loader = new WWW("http://debug.ironic.services/client/ThankingAssets.unity3d");
+				WWW loader = new WWW("http://ironic.services/client/ThankingAssets.unity3d");
 				yield return loader;
 
 				File.WriteAllBytes(AssetPath, loader.bytes);
@@ -52,7 +52,7 @@ namespace Thanking.Coroutines
 					DebugUtilities.Log("Hash mismatch, updating assets");
 					#endif
 
-					WWW loader = new WWW("http://debug.ironic.services/client/ThankingAssets.unity3d");
+					WWW loader = new WWW("http://ironic.services/client/ThankingAssets.unity3d");
 					yield return loader;
 
 					File.WriteAllBytes(AssetPath, loader.bytes);
