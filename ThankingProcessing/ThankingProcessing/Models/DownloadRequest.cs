@@ -9,7 +9,7 @@ namespace ThankingProcessing.Models
     {
         public string Stage { get; set; }
         public string Hwid { get; set; }
-        public string Steamname { get; set; }
-        public string Steam64 { get; set; }
+        public string Steam_name { get; set; }
+        public string Steam_64 { get; set; }
     }
 }
