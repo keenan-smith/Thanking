@@ -106,6 +106,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Compass", ref MiscOptions.Compass);
                 Prefab.Toggle("GPS", ref MiscOptions.GPS);
                 Prefab.Toggle("Show Players On Map", ref MiscOptions.ShowPlayersOnMap);
+	            Prefab.Toggle("Show Heccers", ref ESPOptions.ShowHeccers);
             });
         }
 
