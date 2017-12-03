@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Components.Basic;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -31,7 +33,7 @@ namespace Thanking.Overrides
 				OverrideUtilities.CallOriginal(PlayerUse);
 				return;
 			}
-
+			
 			ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
 			
 			if (PAsset.projectile != null)
@@ -42,7 +44,22 @@ namespace Thanking.Overrides
 			if (Bullets.Count == 0)
 				return;
 			
-			if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
+			RaycastUtilities.GetPlayers();
+			RaycastUtilities.GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object);
+
+			if (Object == null)
+			{
+				OverrideUtilities.CallOriginal(PlayerUse);
+				return;
+			}
+			
+			if (Object.GetComponent<VelocityComponent>() == null)
+			{
+				Object.AddComponent<VelocityComponent>();
+				return;
+			}
+			
+			if (!RaycastUtilities.GenerateRaycast(Object, out RaycastInfo ri))
 			{
 				OverrideUtilities.CallOriginal(PlayerUse);
 				return;

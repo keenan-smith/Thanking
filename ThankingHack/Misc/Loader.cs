@@ -8,7 +8,7 @@ namespace Thanking
     public static class Loader
     {
         public static GameObject HookObject;
-
+        
         public static void Hook()
         {
             #if DEBUG
