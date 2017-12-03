@@ -14,6 +14,5 @@ namespace Thanking.Options.AimOptions
 		[Save] public static bool NoSway = false;
 		[Save] public static bool OofOnDeath = true;
 		[Save] public static bool AutoReload = true;
-		[Save] public static bool FastReload = true;
 	}
 }

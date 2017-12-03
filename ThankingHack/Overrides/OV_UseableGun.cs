@@ -28,6 +28,7 @@ namespace Thanking.Overrides
 		public void OV_ballistics()
 		{
 			Useable PlayerUse = Player.player.equipment.useable;
+			
 			if (!RaycastOptions.Enabled)
 			{
 				OverrideUtilities.CallOriginal(PlayerUse);
@@ -40,9 +41,6 @@ namespace Thanking.Overrides
 				return;
 
 			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
-
-			if (Bullets.Count == 0)
-				return;
 			
 			RaycastUtilities.GetPlayers();
 			RaycastUtilities.GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object);

@@ -127,19 +127,19 @@ namespace Thanking.Overrides
                     int Mask = 0;
 
                     if (InteractionOptions.HitBarricades)
-                        Mask = Mask | RayMasks.BARRICADE;
+                        Mask |= RayMasks.BARRICADE;
 
                     if (InteractionOptions.HitItems)
-                        Mask = Mask | RayMasks.ITEM;
+                        Mask |= RayMasks.ITEM;
 
                     if (InteractionOptions.HitResources)
-                        Mask = Mask | RayMasks.RESOURCE;
+                        Mask |= RayMasks.RESOURCE;
 
                     if (InteractionOptions.HitStructures)
-                        Mask = Mask | RayMasks.STRUCTURE;
+                        Mask |= RayMasks.STRUCTURE;
 
                     if (InteractionOptions.HitVehicles)
-                        Mask = Mask | RayMasks.VEHICLE;
+                        Mask |= RayMasks.VEHICLE;
 
                     lastInteract = Time.realtimeSinceStartup;
 

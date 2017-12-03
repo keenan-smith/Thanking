@@ -22,11 +22,16 @@ namespace Thanking.Components.UI
 		private byte Ammo() => (byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
 			.GetValue(Player.player.equipment.useable);
 
-		private FieldInfo ReloadTime = typeof(UseableGun).GetField("reloadTime", ReflectionVariables.PrivateInstance);
+		public void Start() =>
+			InvokeRepeating(nameof(UpdateWeapon), 0, 0.15f);
 		
 		public void OnGUI()
 		{
-			if (!WeaponOptions.ShowWeaponInfo) return;
+			if (Event.current.type != EventType.Repaint)
+				return;
+			
+			if (!WeaponOptions.ShowWeaponInfo)
+				return;
 
 			if (!DrawUtilities.ShouldRun())
 				return;
@@ -41,11 +46,8 @@ namespace Thanking.Components.UI
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
 		}
 
-		public void Update()
-		{
-			if (Event.current.type != EventType.Repaint)
-				return;
-			
+		public void UpdateWeapon()
+		{			
 			if (!DrawUtilities.ShouldRun())
 				return;
 
@@ -108,9 +110,6 @@ namespace Thanking.Components.UI
 			
 			Reload();
 			
-			if(WeaponOptions.FastReload)
-				ReloadTime.SetValue(Player.player.equipment.useable, 0.25f);
-
 			Player.player.animator.viewSway = WeaponOptions.NoSway ? Vector3.zero : SwayBackup;
 		}
 
@@ -131,7 +130,7 @@ namespace Thanking.Components.UI
 					((ItemGunAsset) Player.player.equipment.asset).magazineCalibers)
 					.Where(i => i.jar.item.amount > 0);
 
-			if (magazineSearch.Count() == 0) return;
+			if (!magazineSearch.Any()) return;
 			
 			InventorySearch search = magazineSearch
 					.OrderByDescending(i => i.jar.item.amount)

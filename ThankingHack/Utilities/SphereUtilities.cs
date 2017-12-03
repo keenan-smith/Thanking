@@ -37,7 +37,7 @@ namespace Thanking.Utilities
 			float Speed = SphereOptions.DynamicSphere ? (float) Target.GetComponent<VelocityComponent>().Speed : -1;
 			float Radius = SphereOptions.SphereRadius;
 			
-			if (Speed > -1)
+			if (Speed > 0)
 				Radius = 15.8f - Speed * Provider.ping * 1.1f;
 			
 			int BackupLayer = Target.layer;
