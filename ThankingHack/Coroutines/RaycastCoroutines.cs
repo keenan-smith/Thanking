@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
-using Thanking.Components.MultiAttach;
+using Thanking.Components.Basic;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using UnityEngine;
@@ -26,8 +27,12 @@ namespace Thanking.Coroutines
                 try
                 {
                     for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
-                        Object.Destroy(RaycastUtilities.Objects[i]?.GetComponent<VelocityComponent>());
-
+                    {
+                        GameObject obj = RaycastUtilities.Objects[i];
+                        if (obj != null)
+                            Object.Destroy(obj.GetComponent<VelocityComponent>());
+                    }
+                    
                     switch (RaycastOptions.Target)
                     {
                         case TargetPriority.Players:
@@ -77,7 +82,7 @@ namespace Thanking.Coroutines
                     }
 
                     for (int i = 0; i < RaycastUtilities.Objects.Length; i++)
-                        RaycastUtilities.Objects[i]?.AddComponent<VelocityComponent>();
+                        RaycastUtilities.Objects[i].AddComponent<VelocityComponent>();
                 }
                 catch (Exception e)
                 {
