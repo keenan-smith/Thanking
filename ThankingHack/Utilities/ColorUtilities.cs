@@ -44,7 +44,7 @@ namespace Thanking.Utilities
 
 		public static string ColorToHex(Color32 color)
 		{
-			string hex = color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + "ff";
+			string hex = color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + "FF";
 			return hex;
 		}
 
