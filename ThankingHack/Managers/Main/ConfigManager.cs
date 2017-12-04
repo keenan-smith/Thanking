@@ -10,6 +10,7 @@ using Thanking.Utilities;
 using UnityEngine;
 using System.Collections;
 using System.ComponentModel;
+using Newtonsoft.Json.Schema;
 
 namespace Thanking.Managers.Main
 {
@@ -102,14 +103,22 @@ namespace Thanking.Managers.Main
 
 					if (!Config.ContainsKey(Name)) // If the field does not exist in the configuration dictionary
 						Config.Add(Name, DefaultInfo);
-					
-					object ConfigObj = JsonConvert.DeserializeObject(Config[Name].ToString(), FIType); // Get the object from the config
-					
-					if (ConfigObj != null) // Check if the config object can be converted to the fieldinfo it's supposed to represent
-						FInfo.SetValue(null, Convert.ChangeType(ConfigObj, FIType)); // Set the field info to the config object
-					else
-						Config[Name] = DefaultInfo; // Set the object to the defualt info because it can't be converted
 
+					string Json = Config[Name].ToString().ToLower();
+
+					Debug.Log(Json);
+					
+					try //Try to parse JSON
+					{
+						object ConfigObj = JsonConvert.DeserializeObject(Json, FIType); // Get the object from the config
+						FInfo.SetValue(null, Convert.ChangeType(ConfigObj, FIType)); // Set the field info to the config object
+
+					}
+					catch
+					{
+						Debug.Log($"Error parsing {Name}! Reverting to default value.");
+						Config[Name] = DefaultInfo;
+					}
 					SaveConfig(Config);
 				}
 			}
