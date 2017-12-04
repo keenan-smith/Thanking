@@ -104,7 +104,7 @@ namespace Thanking.Managers.Main
 					if (!Config.ContainsKey(Name)) // If the field does not exist in the configuration dictionary
 						Config.Add(Name, DefaultInfo);
 
-					string Json = Config[Name].ToString().ToLower();
+					string Json = Config[Name].ToString().ToLower().Replace(":", @"\:");
 
 					Debug.Log(Json);
 					
