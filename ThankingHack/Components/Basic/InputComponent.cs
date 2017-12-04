@@ -5,6 +5,7 @@ using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Options.VisualOptions;
 using Thanking.Threads;
+using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Components.Basic
@@ -51,7 +52,7 @@ namespace Thanking.Components.Basic
 
 			#region bypass shit
 
-			if (Provider.isLoading || !Provider.isConnected)
+			if (!DrawUtilities.ShouldRun())
 				return;
 
 			if (!Player.player.life.isDead && !PlayerUI.window.showCursor && Input.GetKeyDown(ControlsSettings.perspective))

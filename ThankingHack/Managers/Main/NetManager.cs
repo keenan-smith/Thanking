@@ -18,16 +18,12 @@ namespace Thanking.Managers.Main
 
         // Ask client if they have hacks
         public void sendHasHacks() => 
-            channel.send("getHasHacks", ESteamCall.CLIENTS, ESteamPacket.UPDATE_RELIABLE_BUFFER, 1);
+            channel.send("getHasHacks", ESteamCall.OTHERS, ESteamPacket.UPDATE_RELIABLE_BUFFER);
 
         // Listen for hack query, respond confirming hacks
         [SteamCall]
-        public void getHasHacks(CSteamID steamID, byte md)
-        {
-            // md = owner
-            if (md == 0 && ESPOptions.ShowHeccers || md == 1)
-                channel.send("getConfirmHack", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER);
-        }
+        public void getHasHacks(CSteamID steamID) =>
+            channel.send("getConfirmHack", steamID, ESteamPacket.UPDATE_RELIABLE_BUFFER);
 
         // Listen for hack confirmation, add to Heccers if confirmed
         [SteamCall]

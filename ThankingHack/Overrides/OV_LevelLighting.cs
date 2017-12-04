@@ -24,6 +24,7 @@ namespace Thanking.Overrides
 		public static void OV_updateLighting()
 		{
 			float TBackup = LevelLighting.time;
+			
 			if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying || !MiscOptions.SetTimeEnabled)
 			{
 				OverrideUtilities.CallOriginal();
