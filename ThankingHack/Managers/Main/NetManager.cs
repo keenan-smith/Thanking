@@ -18,7 +18,7 @@ namespace Thanking.Managers.Main
 
         // Ask client if they have hacks
         public void sendHasHacks() => 
-            channel.send("getHasHacks", ESteamCall.OTHERS, ESteamPacket.UPDATE_RELIABLE_BUFFER);
+            channel.send("getHasHacks", ESteamCall.PEERS, ESteamPacket.UPDATE_RELIABLE_BUFFER);
 
         // Listen for hack query, respond confirming hacks
         [SteamCall]
