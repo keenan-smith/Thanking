@@ -67,12 +67,7 @@ namespace Thanking.Components.Basic
                 {
                     currentKills = New;
                     
-                    AudioSource aus = Player.player.gameObject.GetComponent<AudioSource>();
-                    AudioClip prev = aus.clip;
-                    
-                    aus.clip = AssetVariables.Audio["oof"];
-                    aus.Play();
-                    aus.clip = prev;
+                    AudioSource.PlayClipAtPoint(AssetVariables.Audio["oof"], Player.player.look.aim.position);
                 }
             }
             else
