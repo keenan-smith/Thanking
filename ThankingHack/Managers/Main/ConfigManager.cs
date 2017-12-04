@@ -10,6 +10,7 @@ using Thanking.Utilities;
 using UnityEngine;
 using System.Collections;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
 
 namespace Thanking.Managers.Main
@@ -17,10 +18,10 @@ namespace Thanking.Managers.Main
     public class ConfigManager
     {
 	    // Where the config file is located
-	    public static String ConfigPath = $"{Application.dataPath}/Thanking.config";
+	    public static string ConfigPath = $"{Application.dataPath}/Thanking.config";
 
 	    // Version of the config file
-	    public static String ConfigVersion = "1.0.1";
+	    public static string ConfigVersion = "1.0.1";
 	    
 	    // Load the config
 		public static void Init()
@@ -33,11 +34,11 @@ namespace Thanking.Managers.Main
 		}
 
 	    // Collect all variables marked to be saved
-	    public static Dictionary<String, object> CollectConfig()
+	    public static Dictionary<string, object> CollectConfig()
 	    {
 		    // Create dictionary for variable name and value
 		    // Also add the version variable first
-		    Dictionary<String, object> ConfigFields = new Dictionary<string, object> {{"Version", ConfigVersion}};
+		    Dictionary<string, object> ConfigFields = new Dictionary<string, object> {{"Version", ConfigVersion}};
 
 		    // Get all classes in assembly
 		    Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
@@ -67,7 +68,7 @@ namespace Thanking.Managers.Main
 	    /// Get Config if it exists. If not, create one
 	    /// </summary>
 	    /// <returns>Dictionary of variable names and values</returns>
-	    public static Dictionary<String, object> GetConfig()
+	    public static Dictionary<string, object> GetConfig()
 		{
 			// Create config if it doesn't exist
 			if (!File.Exists(ConfigPath))
@@ -101,18 +102,25 @@ namespace Thanking.Managers.Main
 
 					object DefaultInfo = FInfo.GetValue(null); // Get the default value for the fieldinfo
 
+					
 					if (!Config.ContainsKey(Name)) // If the field does not exist in the configuration dictionary
 						Config.Add(Name, DefaultInfo);
-
-					string Json = Config[Name].ToString().ToLower().Replace(":", @"\:");
-
-					Debug.Log(Json);
 					
-					try //Try to parse JSON
+					try //Try to parse intermediate JSON because the object itself isnt actually deserialized or something
 					{
-						object ConfigObj = JsonConvert.DeserializeObject(Json, FIType); // Get the object from the config
-						FInfo.SetValue(null, Convert.ChangeType(ConfigObj, FIType)); // Set the field info to the config object
+						// If field is an array, set the field variable to a JArray
+						if (Config[Name].GetType() == typeof(JArray))
+							Config[Name] = ((JArray) Config[Name]).ToObject(FInfo.FieldType);
 
+						// If field is an object, set the field variable to JObject
+						if (Config[Name].GetType() == typeof(JObject))
+							Config[Name] = ((JObject) Config[Name]).ToObject(FInfo.FieldType);
+
+						// Assign field values
+						FInfo.SetValue(null,
+							FInfo.FieldType.IsEnum
+								? Enum.ToObject(FInfo.FieldType, Config[Name])
+								: Convert.ChangeType(Config[Name], FInfo.FieldType));
 					}
 					catch
 					{

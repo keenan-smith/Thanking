@@ -86,7 +86,6 @@
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
-    <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
