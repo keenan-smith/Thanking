@@ -66,8 +66,7 @@ namespace Thanking.Components.Basic
                 if (New != currentKills)
                 {
                     currentKills = New;
-                    
-                    AudioSource.PlayClipAtPoint(AssetVariables.Audio["oof"], Player.player.look.aim.position);
+                    Player.player.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"]);
                 }
             }
             else
