@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SDG.Unturned;
 using Steamworks;
 using Thanking.Attributes;
@@ -45,15 +46,16 @@ namespace Thanking.Managers.Main
 
         // Create a new instance of NetManager
         [Initializer]
-        public static void Init() => Manager = new NetManager();
+        public static void Init() =>
+            Provider.onClientConnected += OnConnect;
 
-        public NetManager()
+        public static void OnConnect() =>
+            Manager = Player.player.gameObject.AddComponent<NetManager>();
+        
+        public void Start()
         {
-            // Check all new players if they are a heccer
+            sendHasHacks();
             Provider.onEnemyConnected += steamPlayer => sendHasHacks();
-
-            // Check if any player in new servers are heccers
-            Provider.onClientConnected += sendHasHacks;
         }
     }
 }
