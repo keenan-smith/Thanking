@@ -13,6 +13,9 @@ namespace Thanking.Coroutines
 
 		public static IEnumerator TakeScreenshot()
 		{
+			if (IsSpying) // Checks for spam spy 
+				yield break;
+			
 			IsSpying = true;
 
 			#if DEBUG

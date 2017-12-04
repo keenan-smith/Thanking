@@ -26,14 +26,16 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(8);
                 
                 DrawButton("Toggle Aimbot", "_ToggleAimbot");
-                DrawButton("Aimbot on Key", "_AimbotOnKey");
+                DrawButton("Toggle Aimbot on Key", "_AimbotOnKey");
                 DrawButton("Aimbot Key", "_AimbotKey");
+                
                 
                 GUILayout.Space(10);
                 Prefab._TextStyle.fontStyle = FontStyle.Bold;
                 GUILayout.Label("Vehicle Flight", Prefab._TextStyle);
                 Prefab._TextStyle.fontStyle = FontStyle.Normal;
                 GUILayout.Space(8);
+                
                 DrawButton("Strafe Up", "_VFStrafeUp", KeyCode.RightControl);
                 DrawButton("Strafe Down", "_VFStrafeDown", KeyCode.LeftControl);
                 DrawButton("Strafe Left", "_VFStrafeLeft", KeyCode.LeftBracket);
@@ -46,7 +48,17 @@ namespace Thanking.Components.UI.Menu.Tabs
                 DrawButton("Roll Right", "_VFRollRight", KeyCode.E);
                 DrawButton("Rotate Up", "_VFRotateUp", KeyCode.Space);
                 DrawButton("Rotate Down", "_VFRotateDown", KeyCode.LeftShift);
-
+                
+                
+                GUILayout.Space(10);
+                Prefab._TextStyle.fontStyle = FontStyle.Bold;
+                GUILayout.Label("Misc", Prefab._TextStyle);
+                Prefab._TextStyle.fontStyle = FontStyle.Normal;
+                GUILayout.Space(8);
+                
+                DrawButton("Crash Server", "_CrashServer", KeyCode.Keypad0);
+                DrawButton("Toggle All Visuals", "_PanicButton", KeyCode.RightControl);
+                
                 IsInitialized = true;
             });
         }
