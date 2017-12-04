@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 using Thanking.Attributes;
 using Thanking.Utilities;
 using UnityEngine;
+using System.Collections;
+using System.ComponentModel;
 
 namespace Thanking.Managers.Main
 {
@@ -71,7 +73,7 @@ namespace Thanking.Managers.Main
 				SaveConfig(CollectConfig());
 
 			// Read and return the config
-			return JsonConvert.DeserializeObject<Dictionary<String, object>>(File.ReadAllText(ConfigPath),
+			return JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(ConfigPath),
 				new JsonSerializerSettings {Formatting = Formatting.Indented});
 		}
 
@@ -79,63 +81,38 @@ namespace Thanking.Managers.Main
 	    /// Save the configuration file in indented JSON
 	    /// </summary>
 	    /// <param name="Config">Dictionary of variable names and values</param>
-	    public static void SaveConfig(Dictionary<String, object> Config) =>
+	    public static void SaveConfig(Dictionary<string, object> Config) =>
 		    File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Config, Formatting.Indented));
 
 	    /// <summary>
 	    /// Assign all variables to their configured values
 	    /// </summary>
 	    /// <param name="Config">Dictionary of variable names and values</param>
-	    public static void LoadConfig(Dictionary<String, object> Config)
+	    public static void LoadConfig(Dictionary<string, object> Config)
         {
-	        // Update config if there is a version mismatch
-	        if (!Config.ContainsKey("Version") || (String) Config["Version"] != ConfigVersion)
-	        {
-		        #if DEBUG
-		        DebugUtilities.Log("Config version mismatch, updating");
-		        #endif
-		        
-		        File.Delete(ConfigPath);
-		        Init();
-		        return;
-	        }
-	        
-	        // Collect all classes in assembly
-            Type[] Types = Assembly.GetExecutingAssembly().GetTypes().Where(T => T.IsClass).ToArray();
+			foreach (Type AssemblyType in Assembly.GetExecutingAssembly().GetTypes()) // Loop through all types in the assembly
+			{
+				foreach (FieldInfo FInfo in AssemblyType.GetFields().Where(f => Attribute.IsDefined(f, typeof(SaveAttribute)))) // Loop through all fields with the save attribute defined
+				{
+					// Get field name and type in our format
+					string Name = $"{AssemblyType.Name}_{FInfo.Name}";
+					Type FIType = FInfo.FieldType;
 
-	        // Loop through all classes
-	        for (int i = 0; i < Types.Length; i++)
-	        {
-		        Type Type = Types[i];
-		        
-		        // Get all fields marked with SaveAttribute
-		        FieldInfo[] Fields = Type.GetFields().Where(F => F.IsDefined(typeof(SaveAttribute), false)).ToArray();
+					object DefaultInfo = FInfo.GetValue(null); // Get the default value for the fieldinfo
 
-		        // Loop through all marked fields
-		        for (int o = 0; o < Fields.Length; o++)
-		        {
-			        FieldInfo Field = Fields[o];
+					if (!Config.ContainsKey(Name)) // If the field does not exist in the configuration dictionary
+						Config.Add(Name, DefaultInfo);
+					
+					object ConfigObj = JsonConvert.DeserializeObject(Config[Name].ToString(), FIType); // Get the object from the config
+					
+					if (ConfigObj != null) // Check if the config object can be converted to the fieldinfo it's supposed to represent
+						FInfo.SetValue(null, Convert.ChangeType(ConfigObj, FIType)); // Set the field info to the config object
+					else
+						Config[Name] = DefaultInfo; // Set the object to the defualt info because it can't be converted
 
-			        String Name = $"{Type.Name}_{Field.Name}";
-
-			        // If Field is not in config, skip this iteration
-			        if (!Config.ContainsKey(Name)) continue;
-			        
-			        // If field is an array, set the field variable to a JArray
-			        if (Config[Name].GetType() == typeof(JArray))
-				        Config[Name] = ((JArray) Config[Name]).ToObject(Field.FieldType);
-
-			        // If field is an object, set the field variable to JObject
-			        if (Config[Name].GetType() == typeof(JObject))
-				        Config[Name] = ((JObject) Config[Name]).ToObject(Field.FieldType);
-
-			        // Assign field values
-			        Field.SetValue(null,
-				        Field.FieldType.IsEnum
-					        ? Enum.ToObject(Field.FieldType, Config[Name])
-					        : Convert.ChangeType(Config[Name], Field.FieldType));
-		        }
-	        }
+					SaveConfig(Config);
+				}
+			}
         }
     }
 }
