@@ -27,7 +27,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 DrawButton("Toggle Aimbot", "_ToggleAimbot");
                 DrawButton("Toggle Aimbot on Key", "_AimbotOnKey");
-                DrawButton("Aimbot Key", "_AimbotKey");
+                DrawButton("Aimbot Key", "_AimbotKey", KeyCode.F);
                 
                 
                 GUILayout.Space(10);
