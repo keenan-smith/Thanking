@@ -124,7 +124,6 @@ namespace Thanking.Managers.Main
 					}
 					catch
 					{
-						Debug.Log($"Error parsing {Name}! Reverting to default value.");
 						Config[Name] = DefaultInfo;
 					}
 					SaveConfig(Config);

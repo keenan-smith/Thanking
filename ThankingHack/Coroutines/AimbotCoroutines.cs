@@ -108,7 +108,7 @@ namespace Thanking.Coroutines
             
             while (true)
             {
-                if (!DrawUtilities.ShouldRun())
+                if (!DrawUtilities.ShouldRun() || !AimbotOptions.Enabled)
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;

@@ -93,28 +93,10 @@ namespace Thanking.Components.UI.Menu.Tabs
 				if (!int.TryParse(Amount, out int amt))
 					return;
 
-				if (Prefab.Button("Set", 75))
-				{
-					for (int i = 1; i <= current; i++)
-						Provider.provider.statisticsService.userStatisticsService.setStatistic(StatNames[Selected], current - i);
-
-					for (int i = 1; i <= amt; i++)
-						Provider.provider.statisticsService.userStatisticsService.setStatistic(StatNames[Selected], i);
-				}
-
 				if (Prefab.Button("Add", 75))
 				{
 					for (int i = 1; i <= amt; i++)
 						Provider.provider.statisticsService.userStatisticsService.setStatistic(StatNames[Selected], current + i);
-				}
-
-				if (Prefab.Button("Remove", 75))
-				{
-					if (amt < current)
-						amt = current;
-
-					for (int i = 1; i <= amt; i++)
-						Provider.provider.statisticsService.userStatisticsService.setStatistic(StatNames[Selected], current - i);
 				}
 			});
 		}

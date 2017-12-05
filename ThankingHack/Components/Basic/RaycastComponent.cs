@@ -35,8 +35,6 @@ namespace Thanking.Components.Basic
 
                 Velocity = (prevPos - transform.position) * 2;
                 Speed = (float)VectorUtilities.GetMagnitude(Velocity);
-                
-                Debug.Log(Speed);
             }
         }
 
@@ -45,8 +43,6 @@ namespace Thanking.Components.Basic
             SetRadius();
             Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
             SetUpSphere();
-            
-            Debug.Log(Radius);
             
             while (true)
             {
@@ -65,9 +61,10 @@ namespace Thanking.Components.Basic
         {
             Speed = SphereOptions.DynamicSphere ? Speed : -1;
             Radius = SphereOptions.SphereRadius;
-			
+			float Magnitude = Speed * Provider.ping * 1.1f;
+
             if (Speed > 0)
-                Radius = 15.8f - Speed * Provider.ping * 1.1f;
+                Radius = 15.8f - Magnitude;
         }
 
         void SetUpSphere()
