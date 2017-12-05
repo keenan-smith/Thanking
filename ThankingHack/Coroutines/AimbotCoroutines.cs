@@ -116,7 +116,7 @@ namespace Thanking.Coroutines
                 
                 if (LockedObject != null && LockedObject.transform != null && ESPComponent.MainCamera != null)
                 {
-                    if (Input.GetKey(HotkeyOptions.HotkeyDict["_AimbotKey"]))
+                    if (Input.GetKey(HotkeyOptions.HotkeyDict["_AimbotKey"]) || !AimbotOptions.OnKey)
                     {
                         IsAiming = true;
                         if (AimbotOptions.Smooth)

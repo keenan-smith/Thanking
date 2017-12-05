@@ -31,10 +31,12 @@ namespace Thanking.Components.Basic
             {
                 prevPos = transform.position;
 
-                yield return new WaitForFixedUpdate();
+                yield return new WaitForSeconds(0.5f);
 
-                Velocity = (prevPos - transform.position) / Time.fixedDeltaTime;
+                Velocity = (prevPos - transform.position) * 2;
                 Speed = (float)VectorUtilities.GetMagnitude(Velocity);
+                
+                Debug.Log(Speed);
             }
         }
 
@@ -43,6 +45,8 @@ namespace Thanking.Components.Basic
             SetRadius();
             Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
             SetUpSphere();
+            
+            Debug.Log(Radius);
             
             while (true)
             {
