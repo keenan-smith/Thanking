@@ -16,7 +16,7 @@ namespace Thanking.Overrides
 	{
 		public static OverrideType OVType = OverrideType.None;
 	
-	    [Override(typeof(DamageTool), "raycast", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)] 
+	    //[Override(typeof(DamageTool), "raycast", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)] 
 		public static RaycastInfo OV_raycast(Ray ray, float range, int mask)
 		{
 			switch (OVType)
