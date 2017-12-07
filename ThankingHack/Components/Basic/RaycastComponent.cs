@@ -61,8 +61,6 @@ namespace Thanking.Components.Basic
 
             if (Speed > 0)
                 Radius = 15.5f - Magnitude;
-            
-            Debug.Log(Radius);
         }
 
         void SetUpSphere()
