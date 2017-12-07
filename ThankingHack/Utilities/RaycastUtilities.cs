@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Thanking.Components.Basic;
 using Thanking.Variables;
 using Thanking.Coroutines;
+using UnityEngine.PostProcessing;
 
 namespace Thanking.Utilities
 {
@@ -116,6 +117,10 @@ namespace Thanking.Utilities
 					go.AddComponent<RaycastComponent>();
 					continue;
 				}
+
+				RaycastComponent Component = go.GetComponent<RaycastComponent>();
+				if (Component.Sphere == null)
+					continue;
 				
 				double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
 

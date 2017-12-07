@@ -64,7 +64,7 @@ namespace Thanking.Components.Basic
 			float Magnitude = Speed * Provider.ping * 1.1f;
 
             if (Speed > 0)
-                Radius = 15.8f - Magnitude;
+                Radius = 15.5f - Magnitude;
         }
 
         void SetUpSphere()
