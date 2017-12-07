@@ -125,8 +125,6 @@ namespace Thanking.Utilities
 				if (Component.Radius <= 0)
 					continue;
 				
-				Debug.Log(Component.Radius);
-				
 				double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
 
 				if (NewDistance > Range)
