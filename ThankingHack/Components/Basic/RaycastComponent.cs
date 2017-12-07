@@ -14,15 +14,14 @@ namespace Thanking.Components.Basic
     public class RaycastComponent : MonoBehaviour
     {
         private Vector3 prevPos = Vector3.zero;
-        public Vector3 Velocity = Vector3.zero;
         public GameObject Sphere;
         public float Speed = -1;
         public float Radius = -1;
 
-        void Start()
+        void Awake()
         {
             StartCoroutine(CalcVelocity());
-            StartCoroutine(CalcRadius());
+            StartCoroutine(CalcSphere());
         }
   
         IEnumerator CalcVelocity()
@@ -30,15 +29,12 @@ namespace Thanking.Components.Basic
             while(true)
             {
                 prevPos = transform.position;
-
                 yield return new WaitForSeconds(0.5f);
-
-                Velocity = (prevPos - transform.position) * 2;
-                Speed = (float)VectorUtilities.GetMagnitude(Velocity);
+                Speed = (float) VectorUtilities.GetDistance(prevPos, transform.position) * 2;
             }
         }
 
-        IEnumerator CalcRadius()
+        IEnumerator CalcSphere()
         {
             SetRadius();
             Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
@@ -65,6 +61,8 @@ namespace Thanking.Components.Basic
 
             if (Speed > 0)
                 Radius = 15.5f - Magnitude;
+            
+            Debug.Log(Radius);
         }
 
         void SetUpSphere()

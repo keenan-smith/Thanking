@@ -13,7 +13,7 @@ namespace Thanking.Utilities
 {
     public static class SphereUtilities
     {
-		public static bool GetRaycast(GameObject Target, Vector3 StartPos, float Range, out Vector3 Point)
+		public static bool 	GetRaycast(GameObject Target, Vector3 StartPos, float Range, out Vector3 Point)
 		{
 			Point = Vector3.zero;
 
