@@ -27,7 +27,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 DrawButton("Toggle Aimbot", "_ToggleAimbot");
                 DrawButton("Toggle Aimbot on Key", "_AimbotOnKey");
-                DrawButton("Aimbot Key", "_AimbotKey", KeyCode.F);
+                DrawButton("Aimbot Key", "_AimbotKey");
                 
                 
                 GUILayout.Space(10);
@@ -36,18 +36,18 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab._TextStyle.fontStyle = FontStyle.Normal;
                 GUILayout.Space(8);
                 
-                DrawButton("Strafe Up", "_VFStrafeUp", KeyCode.RightControl);
-                DrawButton("Strafe Down", "_VFStrafeDown", KeyCode.LeftControl);
-                DrawButton("Strafe Left", "_VFStrafeLeft", KeyCode.LeftBracket);
-                DrawButton("Strafe Right", "_VFStrafeRight", KeyCode.RightBracket);
-                DrawButton("Move Forward", "_VFMoveForward", KeyCode.W);
-                DrawButton("Move Backward", "_VFMoveBackward", KeyCode.S);
-                DrawButton("Rotate Left", "_VFRotateLeft", KeyCode.A);
-                DrawButton("Rotate Right", "_VFRotateRight", KeyCode.D);
-                DrawButton("Roll Left", "_VFRollLeft", KeyCode.Q);
-                DrawButton("Roll Right", "_VFRollRight", KeyCode.E);
-                DrawButton("Rotate Up", "_VFRotateUp", KeyCode.Space);
-                DrawButton("Rotate Down", "_VFRotateDown", KeyCode.LeftShift);
+                DrawButton("Strafe Up", "_VFStrafeUp");
+                DrawButton("Strafe Down", "_VFStrafeDown");
+                DrawButton("Strafe Left", "_VFStrafeLeft");
+                DrawButton("Strafe Right", "_VFStrafeRight");
+                DrawButton("Move Forward", "_VFMoveForward");
+                DrawButton("Move Backward", "_VFMoveBackward");
+                DrawButton("Rotate Left", "_VFRotateLeft");
+                DrawButton("Rotate Right", "_VFRotateRight");
+                DrawButton("Roll Left", "_VFRollLeft");
+                DrawButton("Roll Right", "_VFRollRight");
+                DrawButton("Rotate Up", "_VFRotateUp");
+                DrawButton("Rotate Down", "_VFRotateDown");
                 
                 
                 GUILayout.Space(10);
@@ -56,18 +56,15 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab._TextStyle.fontStyle = FontStyle.Normal;
                 GUILayout.Space(8);
                 
-                DrawButton("Crash Server", "_CrashServer", KeyCode.Keypad0);
-                DrawButton("Toggle All Visuals", "_PanicButton", KeyCode.RightControl);
+                DrawButton("Crash Server", "_CrashServer");
+                DrawButton("Toggle All Visuals", "_PanicButton");
                 
                 IsInitialized = true;
             });
         }
 
-        public static void DrawButton(string Option, string Identifier, KeyCode DefaultKey = KeyCode.None)
+        public static void DrawButton(string Option, string Identifier)
         {
-            if (!HotkeyOptions.HotkeyDict.ContainsKey(Identifier))
-                HotkeyOptions.HotkeyDict.Add(Identifier, DefaultKey);
-                
             GUILayout.BeginHorizontal();
 
             GUILayout.Label(Option, Prefab._TextStyle);

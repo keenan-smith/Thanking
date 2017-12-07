@@ -30,6 +30,7 @@ namespace Thanking.Utilities
 				Point = Target.transform.position;
 				return Return;
 			}
+			
 			if (Target == null)
 				return false;
 
