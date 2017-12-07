@@ -111,6 +111,8 @@ namespace Thanking.Utilities
 				
 				if (go == null)
 					continue;
+			
+				Debug.Log(go.name);
 				
 				if (go.GetComponent<RaycastComponent>() == null)
 				{
@@ -119,8 +121,11 @@ namespace Thanking.Utilities
 				}
 
 				RaycastComponent Component = go.GetComponent<RaycastComponent>();
-				if (Component.Sphere == null)
+
+				if (Component.Radius <= 0)
 					continue;
+				
+				Debug.Log(Component.Radius);
 				
 				double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
 
