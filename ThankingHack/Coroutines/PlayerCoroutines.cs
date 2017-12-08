@@ -13,6 +13,13 @@ namespace Thanking.Coroutines
 
 		public static IEnumerator TakeScreenshot()
 		{
+			if (IsSpying) // Checks for spam spy 
+			{
+				yield return new WaitForSeconds(0.2f); // Make sure they can't fuck us over
+				IsSpying = false;
+				yield break;
+			}
+			
 			IsSpying = true;
 
 			#if DEBUG
