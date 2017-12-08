@@ -148,11 +148,11 @@ namespace ThankingProcessing.Controllers
                     EncryptReturn payloadReturn = await EncryptFile("files/Thanking.dll");
                     if (!payloadReturn.Success)
                         return SendError(9, "Internal Server Error");
-                    payload.hack = payloadReturn.data;
+                    payload.payload = payloadReturn.data;
                     return SendData(payload);
                 case 4: //Heartbeat
                     long Steam64 = 0;
-                    if (!long.TryParse((content.Steam_64 == null ? "0" : content.Steam_name), out Steam64))
+                    if (!Int64.TryParse((content.Steam_64 == null ? "0" : content.Steam_name), out Steam64))
                         Steam64 = 0;
 
                     User.steam64 = (Steam64 == 0 ? User.steam64 : Steam64);
