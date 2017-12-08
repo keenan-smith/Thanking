@@ -144,11 +144,11 @@ namespace Thanking.Overrides
                     lastInteract = Time.realtimeSinceStartup;
 
                     // ic3 has tamed this area with cancerous code
-                    float Range = PlayerCoroutines.IsSpying ? 4 :
-                        InteractionOptions.InteractThroughWalls ? 20f : 4f;
+                    float Range = InteractionOptions.InteractThroughWalls ? 20f : 4f
+                        ;
 
-                    int RayMask = PlayerCoroutines.IsSpying ? RayMasks.PLAYER_INTERACT :
-                        InteractionOptions.InteractThroughWalls ? Mask : RayMasks.PLAYER_INTERACT;
+                    int RayMask = InteractionOptions.InteractThroughWalls ? Mask : RayMasks.PLAYER_INTERACT;
+                        
 
                     PlayerLook pLook = Player.player.look;
 

@@ -86,7 +86,6 @@
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
-    <Compile Include="Components\Basic\InputComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
@@ -139,7 +138,6 @@
     <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerInventory.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
-    <Compile Include="Overrides\OV_UseableMelee.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\CrashThread.cs" />
     <Compile Include="Threads\SpammerThread.cs" />

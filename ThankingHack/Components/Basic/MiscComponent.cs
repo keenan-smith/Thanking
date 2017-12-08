@@ -66,13 +66,7 @@ namespace Thanking.Components.Basic
                 if (New != currentKills)
                 {
                     currentKills = New;
-                    
-                    AudioSource aus = Player.player.gameObject.GetComponent<AudioSource>();
-                    AudioClip prev = aus.clip;
-                    
-                    aus.clip = AssetVariables.Audio["oof"];
-                    aus.Play();
-                    aus.clip = prev;
+                    Player.player.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 2);
                 }
             }
             else

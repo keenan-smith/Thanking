@@ -44,7 +44,6 @@ namespace Thanking.Coroutines
 			{
 				Loader = File.ReadAllBytes(AssetPath);
 
-				/*
 				if (HashUtilities.GetSHA2HashString(Loader) !=
 				    new WebClient().DownloadString("http://debug.ironic.services/client/Hash").Trim())
 				{
@@ -59,7 +58,6 @@ namespace Thanking.Coroutines
 
 					Loader = loader.bytes;
 				}
-				*/
 			}
 
 			AssetBundle bundle = AssetBundle.LoadFromMemory(Loader);
