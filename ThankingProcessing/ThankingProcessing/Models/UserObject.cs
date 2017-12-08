@@ -20,7 +20,8 @@ namespace ThankingProcessing.Models
         public bool premium { get; set; } = false;
         public bool blacklisted { get; set; } = false;
         public string steamname { get; set; } = "";
-        public long steam64 { get; set; } = 0;
+        public Int64 steam64 { get; set; } = 0;
         public DateTime lastuse { get; set; } = DateTime.Now;
+        public string forum { get; set; } = "";
     }
 }
