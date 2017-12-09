@@ -111,8 +111,6 @@ namespace Thanking.Utilities
 				
 				if (go == null)
 					continue;
-			
-				Debug.Log(go.name);
 				
 				if (go.GetComponent<RaycastComponent>() == null)
 				{

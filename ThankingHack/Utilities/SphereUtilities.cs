@@ -57,6 +57,9 @@ namespace Thanking.Utilities
 				Target.layer = BackupLayer;
 				Point = Vertex;
 				
+				Debug.Log(Component.Sphere.transform.localPosition);
+				Debug.Log(Component.Radius);
+				
 				return true;
 			}
 			
