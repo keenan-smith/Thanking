@@ -45,7 +45,7 @@ namespace Thanking.Coroutines
 				Loader = File.ReadAllBytes(AssetPath);
 
 				if (HashUtilities.GetSHA2HashString(Loader) !=
-				    new WebClient().DownloadString("http://debug.ironic.services/client/Hash").Trim())
+				    new WebClient().DownloadString("http://ironic.services/client/Hash").Trim())
 				{
 					#if DEBUG
 					DebugUtilities.Log("Hash mismatch, updating assets");
