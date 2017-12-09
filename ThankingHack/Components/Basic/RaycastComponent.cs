@@ -14,16 +14,14 @@ namespace Thanking.Components.Basic
     public class RaycastComponent : MonoBehaviour
     {
         private Vector3 prevPos = Vector3.zero;
-        private Vector3 Velocity = Vector3.zero;
-        private Vector3 PredictedVelocity = Vector3.zero;
         public GameObject Sphere;
         public float Speed = -1;
         public float Radius = -1;
 
         void Awake()
         {
-            StartCoroutine(CalcSphere());
             StartCoroutine(CalcVelocity());
+            StartCoroutine(CalcSphere());
         }
   
         IEnumerator CalcVelocity()
@@ -31,12 +29,8 @@ namespace Thanking.Components.Basic
             while(true)
             {
                 prevPos = transform.position;
-                yield return new WaitForSeconds(0.25f);
-                
-                Velocity = (transform.position - prevPos) * 4;
-                Speed = (float)VectorUtilities.GetMagnitude(Velocity);
-                
-                Sphere.transform.localPosition = PredictedVelocity;
+                yield return new WaitForSeconds(0.5f);
+                Speed = (float) VectorUtilities.GetDistance(prevPos, transform.position) * 2;
             }
         }
 
@@ -48,11 +42,13 @@ namespace Thanking.Components.Basic
             
             while (true)
             {
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(1);
                 
                 SetRadius();
+                
                 Destroy(Sphere);
                 Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
+                
                 SetUpSphere();
             }
         }
@@ -61,19 +57,16 @@ namespace Thanking.Components.Basic
         {
             Speed = SphereOptions.DynamicSphere ? Speed : -1;
             Radius = SphereOptions.SphereRadius;
+			float Magnitude = Speed * Provider.ping * 1.1f;
 
             if (Speed > 0)
-            {
-                PredictedVelocity = VectorUtilities.Normalize(Velocity) * Speed * Provider.ping;
-                float MarginOfError = Provider.ping * 1.1f;
-                
-                Radius = 15.8f - MarginOfError;
-            }
+                Radius = 15.5f - Magnitude;
         }
 
         void SetUpSphere()
         {
             Sphere.transform.parent = transform;
+            Sphere.transform.localPosition = Vector3.zero;
             Sphere.layer = LayerMasks.AGENT;
         }
     }
