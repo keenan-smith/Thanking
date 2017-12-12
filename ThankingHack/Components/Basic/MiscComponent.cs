@@ -1,5 +1,7 @@
-﻿    using System.Collections.Generic;
-using SDG.Unturned;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Components.UI;
 using Thanking.Options;
@@ -41,6 +43,22 @@ namespace Thanking.Components.Basic
 
         public void Update()
         {
+            if (Input.GetKeyDown(HotkeyOptions.HotkeyDict["_PanicButton"]))
+            {
+                if (MiscOptions.PanicMode)
+                {
+                    foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
+                        if (T.IsDefined(typeof(SpyComponentAttribute), false))
+                            Destroy(Loader.HookObject.GetComponent(T));
+                }
+                else
+                {
+                    foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
+                        if (T.IsDefined(typeof(SpyComponentAttribute), false))
+                            Loader.HookObject.AddComponent(T);
+                }
+            }
+            
             if (HotkeyUtilities.NeedsKey)
             {
                 for(int i = 0; i < values.Length; i++) 
