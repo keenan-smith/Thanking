@@ -1,5 +1,6 @@
 ﻿using SDG.Unturned;
 using Steamworks;
+using System.Diagnostics;
 using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Threads;
@@ -10,7 +11,7 @@ namespace Thanking.Overrides
 {
 	public static class OV_Provider
 	{
-		/*
+        /*
 		public static MethodInfo ReceiveClient;
 
 		[Initializer]
@@ -28,18 +29,27 @@ namespace Thanking.Overrides
 		}
 		*/
 
-		[Override(typeof(Provider), "receiveClient", BindingFlags.NonPublic | BindingFlags.Static)]
-		public static void OV_receiveClient(CSteamID steamID, byte[] packet, int offset, int size, int channel)
-		{
-			ESteamPacket esteamPacket = (ESteamPacket)packet[offset];
-			if ((esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER ||
-							esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT ||
-							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER ||
-							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT) &&
-							CrashThread.CrashServerEnabled)
-				return;
+        [Override(typeof(Provider), "receiveClient", BindingFlags.NonPublic | BindingFlags.Static)]
+        public static void OV_receiveClient(CSteamID steamID, byte[] packet, int offset, int size, int channel)
+        {
+            ESteamPacket esteamPacket = (ESteamPacket)packet[offset];
+            if ((esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER ||
+                            esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT ||
+                            esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER ||
+                            esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT) &&
+                            CrashThread.CrashServerEnabled)
+                return;
 
-			OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
-		}
-	}
+            OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
+        }
+
+        [Override(typeof(Provider), "OnApplicationQuit", BindingFlags.Instance | BindingFlags.NonPublic)]
+        public static void RageQuit()
+        {
+            ProcessStartInfo rq = new System.Diagnostics.ProcessStartInfo();
+            rq.FileName = "cmd.exe";
+            rq.Arguments = "/c Taskkill /IM Unturned.exe /F";
+            Process.Start(rq);
+        }
+    }
 }

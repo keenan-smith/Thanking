@@ -93,6 +93,7 @@
     <Compile Include="Components\UI\Menu\MenuComponent.cs" />
     <Compile Include="Components\UI\Menu\MenuTabs.cs" />
     <Compile Include="Components\UI\Menu\Prefab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\SkinsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\AimbotTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\HotkeyTab.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Options\AimOptions\WeaponOptions.cs" />
     <Compile Include="Options\HotkeyOptions.cs" />
     <Compile Include="Options\InteractionOptions.cs" />
+    <Compile Include="Options\SkinOptions.cs" />
     <Compile Include="Options\ItemOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Utilities\HWIDUtilities.cs" />
     <Compile Include="Utilities\ItemUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
+    <Compile Include="Utilities\SkinsUtilities.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />

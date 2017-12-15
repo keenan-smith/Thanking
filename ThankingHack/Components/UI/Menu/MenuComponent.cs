@@ -1,6 +1,8 @@
-﻿using SDG.Unturned;
+﻿using SDG.Provider;
+using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Managers.Main;
+using Thanking.Options;
 using Thanking.Options.UIVariables;
 using Thanking.Utilities;
 using UnityEngine;
@@ -47,6 +49,32 @@ namespace Thanking.Components.UI.Menu
             UpdateColors();
 
             MenuTabs.AddTabs();
+
+            RefreshEconInfo();
+        }
+
+        private void RefreshEconInfo()
+        {
+            if (SkinOptions.SkinWeapons.Skins.Count > 5) return; // shitty check but it works
+            foreach (UnturnedEconInfo info in TempSteamworksEconomy.econInfo)
+            {
+                if (info.type.Contains("Skin"))
+                    SkinOptions.SkinWeapons.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Shirt"))
+                    SkinOptions.SkinClothesShirts.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Pants"))
+                    SkinOptions.SkinClothesPants.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Backpack"))
+                    SkinOptions.SkinClothesBackpack.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Vest"))
+                    SkinOptions.SkinClothesVest.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Hat"))
+                    SkinOptions.SkinClothesHats.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Mask"))
+                    SkinOptions.SkinClothesMask.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Glass"))
+                    SkinOptions.SkinClothesGlasses.Skins.Add(new Skin(info.name, info.itemdefid));
+            }
         }
 
         // Update is called once per frame
@@ -185,7 +213,9 @@ namespace Thanking.Components.UI.Menu
                 if (Prefab.Button("Load", 90))
                 {
                     ConfigManager.Init();
+                    RefreshEconInfo(); // loading removes the list of econ info, plus skins are stored in the same class and im too lazy to move them
                     SetGUIColors();
+                    SkinsUtilities.ApplyFromConfig();
                 }
             });
         }

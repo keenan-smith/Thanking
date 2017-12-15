@@ -14,7 +14,8 @@ namespace Thanking.Options
 		[Save] public static float SalvageTime = 1f;
 
 		[Save] public static bool SetTimeEnabled = false;
-		[Save] public static float Time = 0f;
+        //WHY THE FUCK DOES THIS SHIT SAVE LMAO
+        /* [Save] */public static float Time = 0f;
 
 		[Save] public static bool SlowFall = false;
         [Save] public static bool AirStick = false;

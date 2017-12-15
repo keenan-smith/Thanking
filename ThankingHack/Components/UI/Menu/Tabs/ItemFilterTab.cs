@@ -19,7 +19,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			ItemOptions.ItemPickupDelay = (int)Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
 			GUILayout.Space(5);
 
-			ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);		
+			ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);
 		}
 	}
 }
