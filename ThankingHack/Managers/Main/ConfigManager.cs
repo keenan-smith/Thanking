@@ -10,6 +10,7 @@ using Thanking.Utilities;
 using UnityEngine;
 using System.Collections;
 using System.ComponentModel;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
 
@@ -75,8 +76,23 @@ namespace Thanking.Managers.Main
 				SaveConfig(CollectConfig());
 
 			// Read and return the config
-			return JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(ConfigPath),
-				new JsonSerializerSettings {Formatting = Formatting.Indented});
+			Dictionary<string, object> ConfigDict = new Dictionary<string, object>();
+
+			try //Try to deserialize JSON
+			{
+				ConfigDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(ConfigPath),
+					new JsonSerializerSettings {Formatting = Formatting.Indented});
+			}
+			catch //If there's a deserialization error, reset config
+			{
+				#if DEBUG
+				DebugUtilities.Log("Error parsing config, resetting.");
+				#endif
+				ConfigDict = CollectConfig();
+				SaveConfig(ConfigDict);
+			}
+
+			return ConfigDict;
 		}
 
 	    /// <summary>
@@ -124,11 +140,14 @@ namespace Thanking.Managers.Main
 					}
 					catch
 					{
+						#if DEBUG
+						DebugUtilities.Log("Error loading config value: " + Name);
+						#endif
 						Config[Name] = DefaultInfo;
 					}
-					SaveConfig(Config);
 				}
 			}
+	        SaveConfig(Config);
         }
     }
 }

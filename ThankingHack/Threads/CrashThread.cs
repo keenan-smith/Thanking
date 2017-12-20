@@ -6,13 +6,11 @@ namespace Thanking.Threads
 {
 	public static class CrashThread
 	{
-		public static bool CrashServerEnabled = false;
+		public static bool CrashServerEnabled;
 
 		[Thread]
 		public static void Start()
 		{
-			Provider.onClientDisconnected += OnDisconnect;
-			
 			#if DEBUG
 			DebugUtilities.Log("Crash Thread Started");
 			#endif

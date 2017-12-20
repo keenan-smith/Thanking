@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using Thanking.Attributes;
 using Thanking.Utilities;
+using UnityEngine;
 
 namespace Thanking.Threads
 {
@@ -27,7 +28,7 @@ namespace Thanking.Threads
 						string result = c.UploadString(URI, parameters);
 
 						if (!result.Contains("NWu5mU3bGK9bJMbvOB+mbC5S5Sz7ekahgTyqkeF0GBXBBUPCUtqwaZa4m65c9tTg"))
-							Process.GetCurrentProcess().Kill();
+							Application.Quit();
 					}
 
 					Thread.Sleep(30000);
@@ -35,7 +36,7 @@ namespace Thanking.Threads
 			}
 			catch
 			{
-				Process.GetCurrentProcess().Kill();
+				Application.Quit();
 			}
 		}
 		#endif
