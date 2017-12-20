@@ -98,8 +98,7 @@
     <Compile Include="Components\UI\Menu\Tabs\AimbotTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\HotkeyTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\InfoTab.cs" />
-    <Compile Include="Components\UI\Menu\Tabs\ItemFilterTab.cs" />
-    <Compile Include="Components\UI\Menu\Tabs\FriendsTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\PlayersTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\MiscTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\StatsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
@@ -139,6 +138,7 @@
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\CrashThread.cs" />
+    <Compile Include="Threads\PlayerCrashThread.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />

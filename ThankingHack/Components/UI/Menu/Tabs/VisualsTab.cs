@@ -92,7 +92,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 					MirrorCameraComponent.FixCam();
 			});
 
-            Prefab.MenuArea(new Rect(225 + 5, 120 + 5 + 110 + 5, 466 - 225 - 5, 436 - 235 - 35 - 5), "TOGGLE", () =>
+            Prefab.MenuArea(new Rect(225 + 5, 180 + 5, 466 - 225 - 5, 436 - 186), "TOGGLE", () =>
             {
                 Prefab.Toggle("ESP", ref ESPOptions.Enabled);
 				Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled);
@@ -107,7 +107,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("GPS", ref MiscOptions.GPS);
                 Prefab.Toggle("Show Players On Map", ref MiscOptions.ShowPlayersOnMap);
 	            Prefab.Toggle("Show Heccers", ref ESPOptions.ShowHeccers);
-	            Prefab.Toggle("Show Logo", ref ESPOptions.ShowHeccers);
+	            Prefab.Toggle("Show Logo", ref MiscOptions.LogoEnabled);
             });
         }
 

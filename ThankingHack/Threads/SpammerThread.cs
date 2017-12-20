@@ -6,7 +6,7 @@ using Thanking.Utilities;
 
 namespace Thanking.Threads
 {
-    public class SpammerThread
+    public static class SpammerThread
     {
         [Thread]
         public static void Spammer()

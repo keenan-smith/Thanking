@@ -2,6 +2,7 @@
 using System;
 using Thanking.Options;
 using Thanking.Threads;
+using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs
@@ -59,6 +60,16 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Space(2);
 					MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175), 1);
 				}
+				
+				Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
+
+				GUILayout.Space(2);
+				GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);
+				GUILayout.Space(2);
+				ItemOptions.ItemPickupDelay = (int)Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
+				GUILayout.Space(5);
+
+				ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);
 				
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
