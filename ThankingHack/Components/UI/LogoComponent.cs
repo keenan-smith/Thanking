@@ -20,10 +20,7 @@ namespace Thanking.Components.UI
 				return;
 			
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.TopRight, new Vector2(20, 40),
-				$"Thanking v{Assembly.GetExecutingAssembly().GetName().Version} Alpha", Color.black, Color.cyan, 0);
-			if (Provider.isConnected && !Provider.isLoading)
-				DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.TopRight, new Vector2(20, 60),
-					$"Movement Checked: {!PlayerMovement.forceTrustClient}", Color.black, Color.red, 0);
+				$"Thanking v{Assembly.GetExecutingAssembly().GetName().Version}", Color.black, Color.cyan, 0);
 		}
 	}
 }
