@@ -12,8 +12,8 @@ namespace Thanking.Utilities
         [Initializer]
         public static void Initialize()
         {
-            AddHotkey("Toggle Aimbot", "_ToggleAimbot", KeyCode.F);
-            AddHotkey("Toggle Aimbot on Key", "_AimbotOnKey", KeyCode.F);
+            AddHotkey("Toggle Aimbot", "_ToggleAimbot", KeyCode.Period);
+            AddHotkey("Toggle Aimbot on Key", "_AimbotOnKey", KeyCode.Comma);
             AddHotkey("Aimbot Key", "_AimbotKey", KeyCode.F);
 
             AddHotkey("Strafe Up", "_VFStrafeUp", KeyCode.RightControl);

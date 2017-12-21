@@ -47,11 +47,16 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
-				
-				if (Provider.isConnected)
-					Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
 
-				Prefab.Toggle("Crasher", ref CrashThread.CrashServerEnabled);
+				if (Provider.isConnected)
+				{
+					if (Player.player.look.isOrbiting)
+						Player.player.look.orbitPosition = Vector3.zero;
+					
+					Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
+				}
+
+				Prefab.Toggle("Freeze Server", ref CrashThread.CrashServerEnabled);
 				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
 				if (MiscOptions.ExtendMeleeRange)
 				{

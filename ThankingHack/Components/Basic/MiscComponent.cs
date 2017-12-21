@@ -8,7 +8,8 @@ using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
-using Thanking.Variables;
+    using Thanking.Threads;
+    using Thanking.Variables;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 
@@ -43,6 +44,9 @@ namespace Thanking.Components.Basic
 
         public void Update()
         {
+            if (Input.GetKeyDown(HotkeyOptions.HotkeyDict["_CrashServer"]))
+                CrashThread.CrashServerEnabled = true;
+            
             if (Input.GetKeyDown(HotkeyOptions.HotkeyDict["_PanicButton"]))
             {
                 if (MiscOptions.PanicMode)

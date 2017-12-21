@@ -9,12 +9,12 @@ namespace Thanking.Utilities
         public static String DebugPath = $"{Application.dataPath}/Thanking.log";
         
         public static void Log(object Output) =>
-             File.AppendAllText(DebugPath, $"{Output}\r\n");
+             Debug.Log($"{Output}\r\n");
         
         public static void LogException(Exception Exception) =>
-             File.AppendAllText(DebugPath, $"\r\nBEGIN EXCEPTION\r\n{Exception}\r\nEND EXCEPTION\r\n");
+            Debug.Log($"\r\nBEGIN EXCEPTION\r\n{Exception}\r\nEND EXCEPTION\r\n");
 
         public static void Init() =>
-             File.WriteAllText(DebugPath, $"{DateTime.Now}\r\n\r\n");
+            Debug.Log($"{DateTime.Now}\r\n\r\n");
     }
 }

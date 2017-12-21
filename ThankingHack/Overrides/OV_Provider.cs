@@ -33,11 +33,7 @@ namespace Thanking.Overrides
 		public static void OV_receiveClient(CSteamID steamID, byte[] packet, int offset, int size, int channel)
 		{
 			ESteamPacket esteamPacket = (ESteamPacket)packet[offset];
-			if ((esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER ||
-							esteamPacket == ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT ||
-							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER ||
-							esteamPacket == ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT) &&
-							CrashThread.CrashServerEnabled)
+			if (steamID == Provider.server && CrashThread.CrashServerEnabled)
 				return;
 
 			if (steamID != Provider.server && PlayerCrashThread.PlayerCrashEnabled)
@@ -47,7 +43,7 @@ namespace Thanking.Overrides
         }
 
         [Override(typeof(Provider), "OnApplicationQuit", BindingFlags.Instance | BindingFlags.NonPublic)]
-        public static void RageQuit()
+        public static void OV_OnApplicationQuit()
         {
 	        ProcessStartInfo rq = new ProcessStartInfo
 	        {

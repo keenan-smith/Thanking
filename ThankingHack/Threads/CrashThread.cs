@@ -12,7 +12,7 @@ namespace Thanking.Threads
 		public static void Start()
 		{
 			#if DEBUG
-			DebugUtilities.Log("Crash Thread Started");
+			DebugUtilities.Log("Server Crash Thread Started");
 			#endif
 			
 			Provider.onClientDisconnected += OnDisconnect;
