@@ -34,10 +34,7 @@ namespace Thanking.Threads
             }
         }
 
-        public static void OnDisconnect()
-        {
+        public static void OnDisconnect() =>
             PlayerCrashEnabled = false;
-            CrashAllPlayers = false;
-        }
     }
 }
