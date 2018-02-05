@@ -16,7 +16,6 @@ namespace Thanking.Components.UI
 	public class WeaponComponent : MonoBehaviour
 	{
 		public static Dictionary<ushort, float[]> AssetBackups = new Dictionary<ushort, float[]>();
-		public static Vector3 SwayBackup;
 		public static ItemWeaponAsset CurrentWeapon;
 		public static FieldInfo AmmoInfo;
 
@@ -76,8 +75,6 @@ namespace Thanking.Components.UI
 				Backups[6] = PAsset.spreadHip;
 
 				AssetBackups.Add(PAsset.id, Backups);
-
-				SwayBackup = OptimizationVariables.MainPlayer.animator.viewSway == Vector3.zero ? SwayBackup : OptimizationVariables.MainPlayer.animator.viewSway;
 			}
 
 			if (WeaponOptions.NoRecoil)
@@ -113,8 +110,8 @@ namespace Thanking.Components.UI
 			}
 			
 			Reload();
-			
-			OptimizationVariables.MainPlayer.animator.viewSway = WeaponOptions.NoSway ? Vector3.zero : SwayBackup;
+			if (WeaponOptions.NoSway)
+				OptimizationVariables.MainPlayer.animator.viewSway = Vector3.zero;
 		}
 
 		private void Reload()

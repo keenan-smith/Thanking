@@ -65,14 +65,14 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 				Prefab.Toggle("Continuous Player Crash", ref PlayerCrashThread.ContinuousPlayerCrash);
 				
-				if (Prefab.Button("Check Movement Verification", 100))
+				if (Prefab.Button("Check Movement Verification", 210))
 					MiscComponent.CheckMovementVerification();
 				
 				Prefab.Toggle("Always Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
 
 				if (MiscOptions.NoMovementVerification)
 					Prefab.Toggle("Flight", ref MiscOptions.PlayerFlight);
-				
+									
 				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
 				if (MiscOptions.ExtendMeleeRange)
 				{

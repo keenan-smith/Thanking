@@ -3,6 +3,7 @@ using SDG.Unturned;
 using Thanking.Utilities;
 using Thanking.Components.UI;
 using Thanking.Managers.Submanagers;
+using Thanking.Options;
 using Thanking.Variables;
 using UnityEngine;
 
@@ -28,8 +29,14 @@ namespace Thanking.Coroutines
             DebugUtilities.Log("TAKING SCREENSHOT");
 			#endif
 
+			Player SpecPlayer = MiscOptions.SpectatedPlayer;
+			MiscOptions.SpectatedPlayer = null;
+			
 			SpyManager.InvokePre();
 			SpyManager.DestroyComponents();
+
+			Player.player.look.isOrbiting = false;
+			
 
 			LevelLighting.updateLighting();
 
@@ -99,6 +106,7 @@ namespace Thanking.Coroutines
 			SpyManager.InvokePost();
 
 			LevelLighting.updateLighting();
+			MiscOptions.SpectatedPlayer = SpecPlayer;
 
 			IsSpying = false;
 		}

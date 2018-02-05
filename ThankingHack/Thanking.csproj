@@ -82,14 +82,15 @@
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\HotkeyComponent.cs" />
+    <Compile Include="Components\Basic\LogoComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
+    <Compile Include="Components\Basic\SpectatorComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\Basic\RaycastComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
-    <Compile Include="Components\UI\LogoComponent.cs" />
     <Compile Include="Components\UI\Menu\Drawing.cs" />
     <Compile Include="Components\UI\Menu\MenuComponent.cs" />
     <Compile Include="Components\UI\Menu\MenuTabs.cs" />

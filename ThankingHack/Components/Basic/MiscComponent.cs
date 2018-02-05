@@ -9,6 +9,7 @@ using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
+    using Thanking.Options.VisualOptions;
     using Thanking.Threads;
     using Thanking.Variables;
 using UnityEngine;
@@ -21,17 +22,14 @@ namespace Thanking.Components.Basic
     {
         public static MiscComponent Instance;
         
-        private int[] values;
         private int currentKills = 0;
-
+        
         void Start()
         {
             Instance = this;
             
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out currentKills);
-            
-            values = (int[])System.Enum.GetValues(typeof(KeyCode));
             
             HotkeyComponent.ActionDict.Add("_ToggleLogo", () =>
                 MiscOptions.LogoEnabled = !MiscOptions.LogoEnabled);
@@ -53,12 +51,17 @@ namespace Thanking.Components.Basic
                     foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
                         if (T.IsDefined(typeof(SpyComponentAttribute), false))
                             Destroy(Loader.HookObject.GetComponent(T));
+                    
+                    ESPCoroutines.DisableChams();   
                 }
                 else
                 {
                     foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
                         if (T.IsDefined(typeof(SpyComponentAttribute), false))
                             Loader.HookObject.AddComponent(T);
+                    
+                    if (ESPOptions.ChamsEnabled)
+                        ESPCoroutines.EnableChams();
                 }
             });
 
@@ -85,22 +88,11 @@ namespace Thanking.Components.Basic
 
         public void Update()
         {
-            if (MiscOptions.SpectatedPlayer != null)
-                OptimizationVariables.MainPlayer.look.orbitPosition = MiscOptions.SpectatedPlayer.transform.position;
-            
-            if (HotkeyUtilities.NeedsKey)
-            {
-                for(int i = 0; i < values.Length; i++) 
-                {
-                    if (!Input.GetKeyDown((KeyCode) values[i]))
-                        continue;
-                    
-                    HotkeyUtilities.ReturnKey = (KeyCode) values[i];
-                    HotkeyUtilities.NeedsKey = false;
+            if (Player.player != null && OptimizationVariables.MainPlayer == null)
+                OptimizationVariables.MainPlayer = Player.player;
 
-                    break;
-                }
-            }
+            if (Camera.main != null && OptimizationVariables.MainCam == null)
+                OptimizationVariables.MainCam = null;
             
             if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
                 return;
@@ -215,6 +207,17 @@ namespace Thanking.Components.Basic
             {
                 MiscOptions.NoMovementVerification = true;
                 OptimizationVariables.MainPlayer.transform.position = LastPos;
+            }
+        }
+
+        public static IEnumerator CheckPlayer()
+        {
+            while (OptimizationVariables.MainPlayer == null)
+            {
+                OptimizationVariables.MainPlayer = Player.player;
+                OptimizationVariables.MainCam = Camera.main;
+
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }

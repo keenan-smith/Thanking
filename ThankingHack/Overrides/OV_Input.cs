@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -18,6 +19,13 @@ namespace Thanking.Overrides
 
 			if (key == ControlsSettings.primary && TriggerbotOptions.IsFiring)
 				return true;
+
+			if ((key == ControlsSettings.left ||
+			     key == ControlsSettings.right ||
+			     key == ControlsSettings.up ||
+			     key == ControlsSettings.down) &&
+			    MiscOptions.SpectatedPlayer != null)
+				return false;
 			
 			return (bool) OverrideUtilities.CallOriginal(null, key);
 		}

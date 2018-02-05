@@ -8,12 +8,5 @@ namespace Thanking.Variables
     {
         public static Player MainPlayer;
         public static Camera MainCam;
-
-        [Initializer]
-        public static void Init()
-        {
-            MainPlayer = Player.player;
-            MainCam = Camera.main;
-        }
     }
 }
