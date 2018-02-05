@@ -27,17 +27,20 @@ namespace Thanking.Threads
             channel.getPacket(ESteamPacket.UPDATE_RELIABLE_INSTANT, call, out var size, out var packet);
             
             Provider.onClientDisconnected += OnDisconnect;
-
+    
             while (true)
             {
                 if (PlayerCrashEnabled)
                     Provider.send(CrashTarget, ESteamPacket.UPDATE_RELIABLE_INSTANT, packet, size, 0);
+                else
+                {
+                    if (!ContinuousPlayerCrash || Provider.clients.Count == 0)
+                        continue;
 
-                if (!ContinuousPlayerCrash || Provider.clients.Count == 0) 
-                    continue;
-                
-                PlayerCrashEnabled = true;
-                CrashTarget = Provider.clients[0].playerID.steamID;
+                    PlayerCrashEnabled = true;
+                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 1 : 0)
+                        .First(p => p.isAdmin && !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
+                }
             }
         }
 

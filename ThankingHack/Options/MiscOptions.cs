@@ -42,7 +42,7 @@ namespace Thanking.Options
 		[Save] public static float MeleeRangeExtension = 10f;
 
 		public static bool NoMovementVerification = false;
-		public static bool AlwaysCheckMovementVerification = false;
+		[Save] public static bool AlwaysCheckMovementVerification = false;
 
 		public static Player SpectatedPlayer;
 		

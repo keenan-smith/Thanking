@@ -85,29 +85,16 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 KeyCode key = HotkeyUtilities.ReturnKey;
 
-                switch (key)
+                if (key == KeyCode.None)
+                    Prefab.Button("...", 150);
+                else
                 {
-                    case KeyCode.None:
-                        Prefab.Button("...", 150);
-                        break;
-                    case KeyCode.Mouse0:
-                    case KeyCode.Mouse1:
-                    case KeyCode.Mouse2:
-                    case KeyCode.Mouse3:
-                    case KeyCode.Mouse4:
-                    case KeyCode.Mouse5:
-                    case KeyCode.Mouse6:
-                        Prefab.Button(key.ToString(), 150);
-                        HotkeyOptions.HotkeyDict[Identifier] = key;
-                        break;
-                    default:
-                        HotkeyUtilities.ReturnKey = KeyCode.None;
+                    HotkeyUtilities.ReturnKey = KeyCode.None;
 
-                        Prefab.Button(key.ToString(), 150);
-                        HotkeyOptions.HotkeyDict[Identifier] = key;
+                    Prefab.Button(key.ToString(), 150);
+                    HotkeyOptions.HotkeyDict[Identifier] = key;
 
-                        ClickedOption = "";
-                        break;
+                    ClickedOption = "";
                 }
             }
             else

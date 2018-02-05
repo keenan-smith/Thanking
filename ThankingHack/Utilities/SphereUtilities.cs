@@ -17,20 +17,6 @@ namespace Thanking.Utilities
 		public static bool 	GetRaycast(GameObject Target, Vector3 StartPos, float Range, out Vector3 Point)
 		{
 			Point = Vector3.zero;
-
-			if (AimbotCoroutines.IsAiming)
-			{
-				GameObject AObject = AimbotCoroutines.LockedObject;
-				int AimbotBackupLayer = AObject.layer;
-				Vector3 Normal = (AObject.transform.position - StartPos).normalized;
-
-				AObject.layer = LayerMasks.AGENT;
-				bool Return = !Physics.Raycast(StartPos, Normal, Range, RayMasks.DAMAGE_CLIENT);
-				AObject.layer = AimbotBackupLayer;
-
-				Point = Target.transform.position;
-				return Return;
-			}
 			
 			if (Target == null)
 				return false;

@@ -16,7 +16,7 @@ namespace Thanking.Components.UI.Menu.Tabs
         
         public static void Tab()
         {
-            Prefab.ScrollView(new Rect(0, 0, 466, 200), "Players", ref PlayersScroll, () =>
+            Prefab.ScrollView(new Rect(0, 0, 466, 250), "Players", ref PlayersScroll, () =>
             {
                 for (int i = 0; i < Provider.clients.Count; i++)
                 {
@@ -40,7 +40,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
             });
             
-            Prefab.MenuArea(new Rect(0, 200 + 10, 230, 200), "OPTIONS", () =>
+            Prefab.MenuArea(new Rect(0, 250 + 10, 230, 150), "OPTIONS", () =>
             {
                 if (SelectedPlayer == null)
                     return;
@@ -66,30 +66,30 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
                 
                 if (Prefab.Button("Spectate", 150))
-                {
-                    OptimizationVariables.MainPlayer.look.isOrbiting = true;
                     MiscOptions.SpectatedPlayer = SelectedPlayer;
-                }
 
                 if (MiscOptions.SpectatedPlayer != null)
                     if (Prefab.Button("End Spectating", 150))
-                    {
                         MiscOptions.SpectatedPlayer = null;
-                        OptimizationVariables.MainPlayer.look.isOrbiting = false;
-                    }
-
+                
+                if (MiscOptions.NoMovementVerification)
+                    if (Prefab.Button("Teleport to player", 150))
+                        OptimizationVariables.MainPlayer.transform.position = SelectedPlayer.transform.position;
+                
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });
-            Prefab.MenuArea(new Rect(230 + 6, 200 + 10, 230, 200), "INFO", () =>
+            Prefab.MenuArea(new Rect(230 + 6, 250 + 10, 230, 150), "INFO", () =>
             {
                 if (SelectedPlayer == null)
                     return;
                 
                 GUILayout.BeginHorizontal();
                 GUILayout.BeginVertical();
-                GUILayout.Label("Current Weapon: " + SelectedPlayer.equipment.useable.name, Prefab._TextStyle);
+                
+                GUILayout.Label("Current Weapon: " + (SelectedPlayer.equipment.asset != null ? SelectedPlayer.equipment.asset.itemName : "Fists"), Prefab._TextStyle);
                 GUILayout.Label("Current Vehicle: " + (SelectedPlayer.movement.getVehicle() != null ? SelectedPlayer.movement.getVehicle().asset.name : "No Vehicle"), Prefab._TextStyle);
+                
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });
