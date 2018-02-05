@@ -24,7 +24,7 @@ namespace Thanking.Components.UI
 
 		public void Start()
 		{
-			AmmoInfo = typeof(Useable).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
+			AmmoInfo = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
 			InvokeRepeating(nameof(UpdateWeapon), 0, 0.15f);	
 		}
 		
@@ -47,6 +47,12 @@ namespace Thanking.Components.UI
 			string text = $"<size=15>{PAsset.itemName}\n{PAsset.range}</size>";
 
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
+		}
+
+		public void FixedUpdate()
+		{
+			if (WeaponOptions.NoSway)
+				OptimizationVariables.MainPlayer.animator.viewSway = Vector3.zero;
 		}
 
 		public void UpdateWeapon()
@@ -110,8 +116,6 @@ namespace Thanking.Components.UI
 			}
 			
 			Reload();
-			if (WeaponOptions.NoSway)
-				OptimizationVariables.MainPlayer.animator.viewSway = Vector3.zero;
 		}
 
 		private void Reload()

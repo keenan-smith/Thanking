@@ -58,20 +58,15 @@ namespace Thanking.Utilities
 		    
 		    GetPlayers();
 		    
-		    if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point))
+		    if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point)) 
 			    return false;
 		    
-		    return GenerateRaycast(Object, Point, out info);
+		    info = GenerateRaycast(Object, Point);
+		    return true;
 	    }
 	    
-        public static bool GenerateRaycast(GameObject Object, Vector3 Point, out RaycastInfo info)
+        public static RaycastInfo GenerateRaycast(GameObject Object, Vector3 Point)
         {
-            ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
-			float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
-
-	        info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
-		        RayMasks.DAMAGE_CLIENT);
-
 	        ELimb Limb = RaycastOptions.TargetLimb;
 
 	        if (RaycastOptions.UseRandomLimb)
@@ -80,7 +75,7 @@ namespace Thanking.Utilities
 		        Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
 	        }
 	        
-	        info = new RaycastInfo(Object.transform)
+	        return new RaycastInfo(Object.transform)
 	        {
 		        point = Point,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
@@ -90,8 +85,6 @@ namespace Thanking.Utilities
 		        zombie = Object.GetComponent<Zombie>(),
 		        vehicle = Object.GetComponent<InteractableVehicle>()
 	        };
-
-			return true;
         }
 	    
 		public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point)
