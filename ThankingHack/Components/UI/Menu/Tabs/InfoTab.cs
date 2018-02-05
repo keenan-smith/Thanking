@@ -19,13 +19,16 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Space(8);
 				}
 
-				GUILayout.Label("Contributors: zoomy500, ic3w0lf, defcon42, Kr4ken", Prefab._TextStyle);
+				GUILayout.Label("Contributors: zoomy500, ic3w0lf, DefCon42, Kr4ken", Prefab._TextStyle);
                 GUILayout.Space(2);
                 
                 if (Prefab.Button("Submit a Suggestion", 200))
-                {
-                    Application.OpenURL("https://goo.gl/TdncYj");
-                }
+	                Application.OpenURL("https://goo.gl/forms/3JawxatKpTfPGXS73");
+	            
+	            GUILayout.Space(2);
+                
+	            if (Prefab.Button("Website", 200))
+		            Application.OpenURL("http://ironic.services");
             });
         }
     }

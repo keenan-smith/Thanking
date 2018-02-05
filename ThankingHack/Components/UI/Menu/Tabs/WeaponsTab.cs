@@ -1,5 +1,6 @@
 ﻿using System;
 using SDG.Unturned;
+using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Options.UIVariables;
 using UnityEngine;
@@ -81,12 +82,15 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical();
 
-                GUILayout.Label("Ragdoll Vector: X: " + RaycastOptions.TargetRagdoll.x, Prefab._TextStyle);
-                RaycastOptions.TargetRagdoll.x = (int)Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.x, 200);
-                GUILayout.Label("Ragdoll Vector: Y: " + RaycastOptions.TargetRagdoll.y, Prefab._TextStyle);
-                RaycastOptions.TargetRagdoll.y = (int)Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.y, 200);
-                GUILayout.Label("Ragdoll Vector: Z: " + RaycastOptions.TargetRagdoll.z, Prefab._TextStyle);
-                RaycastOptions.TargetRagdoll.z = (int)Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.z, 200);
+	            if (RaycastOptions.UseModifiedVector)
+	            {
+		            GUILayout.Label("Ragdoll Vector: X: " + RaycastOptions.TargetRagdoll.x, Prefab._TextStyle);
+		            RaycastOptions.TargetRagdoll.x = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.x, 200);
+		            GUILayout.Label("Ragdoll Vector: Y: " + RaycastOptions.TargetRagdoll.y, Prefab._TextStyle);
+		            RaycastOptions.TargetRagdoll.y = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.y, 200);
+		            GUILayout.Label("Ragdoll Vector: Z: " + RaycastOptions.TargetRagdoll.z, Prefab._TextStyle);
+		            RaycastOptions.TargetRagdoll.z = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.z, 200);
+	            }
 	            
 	            if (RaycastOptions.Enabled)
 	            {

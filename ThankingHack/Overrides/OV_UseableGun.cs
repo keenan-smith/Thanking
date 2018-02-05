@@ -45,17 +45,12 @@ namespace Thanking.Overrides
 				return;
 
 			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
+			if (Bullets.Count == 0)
+				return;
+			
 			
 			RaycastUtilities.GetPlayers();
-			RaycastUtilities.GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object, out Vector3 Pos);
-
-			if (Object == null)
-			{
-				OverrideUtilities.CallOriginal(PlayerUse);
-				return;
-			}
-			
-			if (!RaycastUtilities.GenerateRaycast(Object, Pos, out RaycastInfo ri))
+			if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
 			{
 				OverrideUtilities.CallOriginal(PlayerUse);
 				return;

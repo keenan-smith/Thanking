@@ -34,8 +34,6 @@ namespace Thanking.Components.Basic
                 yield return new WaitForSeconds(0.5f);
                 Velocity = (transform.position - prevPos) * 2;
                 Speed = (float) VectorUtilities.GetMagnitude(Velocity);
-                
-                Sphere.transform.localPosition = Velocity;
             }
         }
 
@@ -49,12 +47,11 @@ namespace Thanking.Components.Basic
             {
                 yield return new WaitForSeconds(0.5f);
                 
-                SetRadius();
-                
                 Destroy(Sphere);
                 Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
                 
                 SetUpSphere();
+                SetRadius();
             }
         }
 
@@ -65,7 +62,7 @@ namespace Thanking.Components.Basic
 			float Margin = Provider.ping * 1.2f;
 
             if (Speed > 0)
-                Radius = 15.5f - Margin;
+                Radius = 15.5f - Speed * Margin;
         }
 
         void SetUpSphere()
