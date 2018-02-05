@@ -6,6 +6,7 @@ using SDG.Unturned;
 using Thanking.Components.Basic;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -31,7 +32,7 @@ namespace Thanking.Coroutines
                         case TargetPriority.Players:
                         {
                             RaycastUtilities.Objects = Provider.clients
-                                .Where(o => !o.player.life.isDead && o.player != Player.player &&
+                                .Where(o => !o.player.life.isDead && o.player != OptimizationVariables.MainPlayer &&
                                             FriendUtilities.IsFriendly(o.player)).Select(o => o.player.gameObject)
                                 .ToArray();
                             break;

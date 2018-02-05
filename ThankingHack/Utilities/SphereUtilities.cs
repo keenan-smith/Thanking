@@ -6,6 +6,7 @@ using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Overrides;
 using Thanking.Utilities.Mesh_Utilities;
+using Thanking.Variables;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -41,7 +42,7 @@ namespace Thanking.Utilities
 
 			if (VectorUtilities.GetDistance(Target.transform.position, StartPos) <= Component.Radius)
 			{
-				Point = Player.player.transform.position;
+				Point = OptimizationVariables.MainPlayer.transform.position;
 				return true;
 			}
 			

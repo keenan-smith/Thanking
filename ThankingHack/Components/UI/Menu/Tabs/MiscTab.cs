@@ -1,8 +1,10 @@
 ﻿using SDG.Unturned;
 using System;
+using Thanking.Components.Basic;
 using Thanking.Options;
 using Thanking.Threads;
 using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs
@@ -17,7 +19,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.BeginVertical(GUILayout.Width(230));
 
 				Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
-
+				
 				if (MiscOptions.VehicleFly)
 				{
 					GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
@@ -50,13 +52,27 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 				if (Provider.isConnected)
 				{
-					if (!Player.player.look.isOrbiting)
-						Player.player.look.orbitPosition = Vector3.zero;
+					if (!OptimizationVariables.MainPlayer.look.isOrbiting)
+						OptimizationVariables.MainPlayer.look.orbitPosition = Vector3.zero;
 					
-					Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
+					Prefab.Toggle("Freecam", ref OptimizationVariables.MainPlayer.look.isOrbiting);
+					if (OptimizationVariables.MainPlayer.look.isOrbiting)
+					{
+						if (Prefab.Button("Reset Camera", 50))
+							OptimizationVariables.MainPlayer.look.orbitPosition = Vector3.zero;
+					}
 				}
 
-				Prefab.Toggle("Freeze Server", ref CrashThread.CrashServerEnabled);
+				Prefab.Toggle("Continuous Player Crash", ref PlayerCrashThread.ContinuousPlayerCrash);
+				
+				if (Prefab.Button("Check Movement Verification", 100))
+					MiscComponent.CheckMovementVerification();
+				
+				Prefab.Toggle("Always Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
+
+				if (MiscOptions.NoMovementVerification)
+					Prefab.Toggle("Flight", ref MiscOptions.PlayerFlight);
+				
 				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
 				if (MiscOptions.ExtendMeleeRange)
 				{

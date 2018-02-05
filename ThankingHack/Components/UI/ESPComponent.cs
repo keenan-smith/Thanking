@@ -57,7 +57,7 @@ namespace Thanking.Components.UI
             if (MainCamera == null)
                 MainCamera = Camera.main;
 
-            Vector3 localPos = Player.player.transform.position;
+            Vector3 localPos = OptimizationVariables.MainPlayer.transform.position;
 
             for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{

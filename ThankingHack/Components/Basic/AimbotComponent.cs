@@ -23,17 +23,5 @@ namespace Thanking.Components.Basic
 
 			StartCoroutine(RaycastCoroutines.UpdateObjects());
 		}
-
-		public void Update()
-		{
-			if (!HotkeyTab.IsInitialized)
-				return;
-			
-			if (Input.GetKeyDown(keys["_ToggleAimbot"]))
-				AimbotOptions.Enabled = !AimbotOptions.Enabled;
-
-			if (Input.GetKeyDown(keys["_AimbotOnKey"]))
-				AimbotOptions.OnKey = !AimbotOptions.OnKey;
-		}
 	}
 }

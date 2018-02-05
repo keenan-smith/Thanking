@@ -1,4 +1,5 @@
 ﻿    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
     using SDG.Unturned;
@@ -18,37 +19,35 @@ namespace Thanking.Components.Basic
     [Component]
     public class MiscComponent : MonoBehaviour
     {
+        public static MiscComponent Instance;
+        
         private int[] values;
         private int currentKills = 0;
 
         void Start()
         {
+            Instance = this;
+            
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out currentKills);
             
             values = (int[])System.Enum.GetValues(typeof(KeyCode));
-        }
-        
-        [OnSpy] 
-        public static void TurnOffMyFuckingNightVision()
-        {
-            if (!MiscOptions.WasNightVision) return;
             
-            LevelLighting.vision = ELightingVision.NONE;
+            HotkeyComponent.ActionDict.Add("_ToggleLogo", () =>
+                MiscOptions.LogoEnabled = !MiscOptions.LogoEnabled);
             
-            LevelLighting.updateLighting();
-            PlayerLifeUI.updateGrayscale();
-            
-            MiscOptions.WasNightVision = false;
-        }
+            HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
+                AimbotOptions.Enabled = !AimbotOptions.Enabled);
 
-        public void Update()
-        {
-            if (Input.GetKeyDown(HotkeyOptions.HotkeyDict["_CrashServer"]))
-                CrashThread.CrashServerEnabled = true;
+            HotkeyComponent.ActionDict.Add("_AimbotOnKey", () =>
+                AimbotOptions.OnKey = !AimbotOptions.OnKey);
             
-            if (Input.GetKeyDown(HotkeyOptions.HotkeyDict["_PanicButton"]))
+            HotkeyComponent.ActionDict.Add("_ToggleFreecam", () => 
+                OptimizationVariables.MainPlayer.look.isOrbiting = !OptimizationVariables.MainPlayer.look.isOrbiting);
+            
+            HotkeyComponent.ActionDict.Add("_PanicButton", () =>
             {
+                MiscOptions.PanicMode = !MiscOptions.PanicMode;
                 if (MiscOptions.PanicMode)
                 {
                     foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
@@ -61,7 +60,33 @@ namespace Thanking.Components.Basic
                         if (T.IsDefined(typeof(SpyComponentAttribute), false))
                             Loader.HookObject.AddComponent(T);
                 }
-            }
+            });
+
+            Provider.onClientConnected += () =>
+            {
+                if (MiscOptions.AlwaysCheckMovementVerification)
+                    CheckMovementVerification();
+            };
+        }
+        
+        [OnSpy] 
+        public static void DisableNightVision()
+        {
+            if (!MiscOptions.WasNightVision) 
+                return;
+            
+            LevelLighting.vision = ELightingVision.NONE;
+            
+            LevelLighting.updateLighting();
+            PlayerLifeUI.updateGrayscale();
+            
+            MiscOptions.WasNightVision = false;
+        }
+
+        public void Update()
+        {
+            if (MiscOptions.SpectatedPlayer != null)
+                OptimizationVariables.MainPlayer.look.orbitPosition = MiscOptions.SpectatedPlayer.transform.position;
             
             if (HotkeyUtilities.NeedsKey)
             {
@@ -88,7 +113,7 @@ namespace Thanking.Components.Basic
                 if (New != currentKills)
                 {
                     currentKills = New;
-                    Player.player.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 2);
+                    OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 2);
                 }
             }
             else
@@ -116,7 +141,7 @@ namespace Thanking.Components.Basic
 
 		public static void VehicleFlight()
         {
-            InteractableVehicle vehicle = Player.player.movement.getVehicle();
+            InteractableVehicle vehicle = OptimizationVariables.MainPlayer.movement.getVehicle();
 
             if (vehicle == null) return;
 
@@ -172,6 +197,24 @@ namespace Thanking.Components.Basic
             {
                 rb.useGravity = true;
                 rb.isKinematic = false;
+            }
+        }
+
+        public static void CheckMovementVerification() =>
+            Instance.StartCoroutine(CheckVerification(OptimizationVariables.MainPlayer.transform.position));
+            
+        public static IEnumerator CheckVerification(Vector3 LastPos)
+        {
+            Vector3 NewPos = LastPos + new Vector3(0, 1337, 0);
+            OptimizationVariables.MainPlayer.transform.position = NewPos;
+            yield return new WaitForSeconds(0.5f);
+
+            if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, NewPos) > 100)
+                MiscOptions.NoMovementVerification = false;
+            else
+            {
+                MiscOptions.NoMovementVerification = true;
+                OptimizationVariables.MainPlayer.transform.position = LastPos;
             }
         }
     }

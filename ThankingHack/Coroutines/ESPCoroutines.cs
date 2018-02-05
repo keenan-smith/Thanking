@@ -94,7 +94,7 @@ namespace Thanking.Coroutines
 
 		        Player plr = p.player;
 
-		        if (plr == null || plr == Player.player || plr.gameObject == null || plr.life == null ||
+		        if (plr == null || plr == OptimizationVariables.MainPlayer || plr.gameObject == null || plr.life == null ||
 		            plr.life.isDead) continue;
 
 		        GameObject pgo = plr.gameObject;
@@ -111,7 +111,7 @@ namespace Thanking.Coroutines
             {
                 Player plr = Provider.clients.ToArray()[index].player;
 
-                if (plr == null || plr == Player.player || plr.gameObject == null || plr.life == null ||
+                if (plr == null || plr == OptimizationVariables.MainPlayer || plr.gameObject == null || plr.life == null ||
                     plr.life.isDead) continue;
 
                 GameObject pgo = plr.gameObject;
@@ -154,7 +154,7 @@ namespace Thanking.Coroutines
 						if (!vis.Enabled)
 							continue;
 
-						Vector3 pPos = Player.player.transform.position;
+						Vector3 pPos = OptimizationVariables.MainPlayer.transform.position;
 
 						switch (target)
 						{
@@ -167,10 +167,10 @@ namespace Thanking.Coroutines
 
 									for (int j = 0; j < objarray.Length; j++)
 									{
-										SteamPlayer player = objarray[j];
-										Player plr = player.player;
+										SteamPlayer sPlayer = objarray[j];
+										Player plr = sPlayer.player;
 
-										if (plr.life.isDead || plr == Player.player)
+										if (plr.life.isDead || plr == OptimizationVariables.MainPlayer)
 											continue;
 
 										objects.Add(new ESPObject(target, plr, plr.gameObject));

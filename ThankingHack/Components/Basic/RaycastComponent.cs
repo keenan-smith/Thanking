@@ -27,11 +27,12 @@ namespace Thanking.Components.Basic
   
         IEnumerator CalcVelocity()
         {
+            Radius = SphereOptions.SphereRadius;
             while(true)
             {
                 prevPos = transform.position;
-                yield return new WaitForSeconds(0.25f);
-                Velocity = (transform.position - prevPos) * 4;
+                yield return new WaitForSeconds(0.5f);
+                Velocity = (transform.position - prevPos) * 2;
                 Speed = (float) VectorUtilities.GetMagnitude(Velocity);
                 
                 Sphere.transform.localPosition = Velocity;

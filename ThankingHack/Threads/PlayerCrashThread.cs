@@ -11,6 +11,7 @@ namespace Thanking.Threads
     public static class PlayerCrashThread
     {
         public static bool PlayerCrashEnabled;
+        public static bool ContinuousPlayerCrash;
         public static CSteamID CrashTarget;
         
         [Thread]
@@ -31,6 +32,12 @@ namespace Thanking.Threads
             {
                 if (PlayerCrashEnabled)
                     Provider.send(CrashTarget, ESteamPacket.UPDATE_RELIABLE_INSTANT, packet, size, 0);
+
+                if (!ContinuousPlayerCrash || Provider.clients.Count == 0) 
+                    continue;
+                
+                PlayerCrashEnabled = true;
+                CrashTarget = Provider.clients[0].playerID.steamID;
             }
         }
 

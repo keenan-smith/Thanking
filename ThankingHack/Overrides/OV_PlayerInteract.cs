@@ -78,7 +78,7 @@ namespace Thanking.Overrides
         }
 
         private float salvageTime =>
-            MiscOptions.CustomSalvageTime ? MiscOptions.SalvageTime : Player.player.channel.owner.isAdmin ? 1f : 8f;
+            MiscOptions.CustomSalvageTime ? MiscOptions.SalvageTime : OptimizationVariables.MainPlayer.channel.owner.isAdmin ? 1f : 8f;
 
         private void hotkey(byte button) =>
             VehicleManager.swapVehicle(button);
@@ -119,8 +119,8 @@ namespace Thanking.Overrides
             if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
                 return;
 
-            if (Player.player.stance.stance != EPlayerStance.DRIVING && Player.player.stance.stance != EPlayerStance.SITTING &&
-                !Player.player.life.isDead && !Player.player.workzone.isBuilding)
+            if (OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.DRIVING && OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.SITTING &&
+                !OptimizationVariables.MainPlayer.life.isDead && !OptimizationVariables.MainPlayer.workzone.isBuilding)
             {
                 if (Time.realtimeSinceStartup - lastInteract > 0.1f)
                 {
@@ -150,19 +150,19 @@ namespace Thanking.Overrides
                     int RayMask = InteractionOptions.InteractThroughWalls ? Mask : RayMasks.PLAYER_INTERACT;
                         
 
-                    PlayerLook pLook = Player.player.look;
+                    PlayerLook pLook = OptimizationVariables.MainPlayer.look;
 
                     Vector3 origin = pLook.isCam ? pLook.aim.position : MainCamera.instance.transform.position;
                     Vector3 direction = pLook.isCam ? pLook.aim.forward : MainCamera.instance.transform.forward;
 
-                    PhysicsUtility.raycast(new Ray(origin, direction), out hit, Player.player.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, RayMask, 0);
+                    PhysicsUtility.raycast(new Ray(origin, direction), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, RayMask, 0);
 
-                    /*if (Player.player.look.isCam)
-						PhysicsUtility.raycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward),
+                    /*if (OptimizationVariables.MainPlayer.look.isCam)
+						PhysicsUtility.raycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward),
 							out hit, 20f, Mask);
 					else
 						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward),
-							out hit, Player.player.look.perspective != EPlayerPerspective.THIRD ? 20 : 24, Mask);*/
+							out hit, OptimizationVariables.MainPlayer.look.perspective != EPlayerPerspective.THIRD ? 20 : 24, Mask);*/
                 }
 
                 if (hit.transform != focus)
@@ -232,7 +232,7 @@ namespace Thanking.Overrides
                 interactable2 = null;
             }
 
-            if (Player.player.life.isDead) return;
+            if (OptimizationVariables.MainPlayer.life.isDead) return;
 
             if (PlayerInteract.interactable != null)
             {
@@ -248,22 +248,22 @@ namespace Thanking.Overrides
                         PlayerUI.hint(!(target != null) ? focus : target, message, text, color2);
                 }
             }
-            else if (purchaseAsset != null && Player.player.movement.purchaseNode != null && !PlayerUI.window.showCursor)
+            else if (purchaseAsset != null && OptimizationVariables.MainPlayer.movement.purchaseNode != null && !PlayerUI.window.showCursor)
                 PlayerUI.hint(null, EPlayerMessage.PURCHASE, string.Empty, Color.white, purchaseAsset.itemName,
-                    Player.player.movement.purchaseNode.cost);
+                    OptimizationVariables.MainPlayer.movement.purchaseNode.cost);
             else if (focus != null && focus.CompareTag("Enemy"))
             {
                 Player player = DamageTool.getPlayer(focus);
 
-                if (player != null && player != Player.player && !PlayerUI.window.showCursor)
+                if (player != null && player != OptimizationVariables.MainPlayer && !PlayerUI.window.showCursor)
                     PlayerUI.hint(null, EPlayerMessage.ENEMY, string.Empty, Color.white, player.channel.owner);
             }
             if (PlayerInteract.interactable2 != null && PlayerInteract.interactable2.checkHint(out EPlayerMessage message2,
                     out float data) && !PlayerUI.window.showCursor)
                 PlayerUI.hint2(message2, !isHoldingKey ? 0f : (Time.realtimeSinceStartup - lastKeyDown) / salvageTime, data);
 
-            if ((Player.player.stance.stance == EPlayerStance.DRIVING ||
-                 Player.player.stance.stance == EPlayerStance.SITTING) && !Input.GetKey(KeyCode.LeftShift))
+            if ((OptimizationVariables.MainPlayer.stance.stance == EPlayerStance.DRIVING ||
+                 OptimizationVariables.MainPlayer.stance.stance == EPlayerStance.SITTING) && !Input.GetKey(KeyCode.LeftShift))
             {
                 if (Input.GetKeyDown(KeyCode.F1))
                     hotkey(0);
@@ -303,8 +303,8 @@ namespace Thanking.Overrides
             }
 
             if (Input.GetKeyDown(ControlsSettings.inspect) && ControlsSettings.inspect != ControlsSettings.interact &&
-                Player.player.equipment.canInspect)
-                Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
+                OptimizationVariables.MainPlayer.equipment.canInspect)
+                OptimizationVariables.MainPlayer.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
 
             if (!isHoldingKey) return;
 
@@ -314,7 +314,7 @@ namespace Thanking.Overrides
 
                 if (PlayerUI.window.showCursor)
                 {
-                    if (Player.player.inventory.isStoring)
+                    if (OptimizationVariables.MainPlayer.inventory.isStoring)
                     {
                         PlayerDashboardUI.close();
                         PlayerLifeUI.open();
@@ -361,8 +361,8 @@ namespace Thanking.Overrides
                     else if (PlayerNPCVendorUI.active)
                         PlayerNPCVendorUI.closeNicely();
                 }
-                else if (Player.player.stance.stance == EPlayerStance.DRIVING ||
-                         Player.player.stance.stance == EPlayerStance.SITTING)
+                else if (OptimizationVariables.MainPlayer.stance.stance == EPlayerStance.DRIVING ||
+                         OptimizationVariables.MainPlayer.stance.stance == EPlayerStance.SITTING)
                     VehicleManager.exitVehicle();
                 else if (focus != null && PlayerInteract.interactable != null)
                 {
@@ -371,11 +371,11 @@ namespace Thanking.Overrides
                 }
                 else if (purchaseAsset != null)
                 {
-                    if (Player.player.skills.experience >= Player.player.movement.purchaseNode.cost)
-                        Player.player.skills.sendPurchase(Player.player.movement.purchaseNode);
+                    if (OptimizationVariables.MainPlayer.skills.experience >= OptimizationVariables.MainPlayer.movement.purchaseNode.cost)
+                        OptimizationVariables.MainPlayer.skills.sendPurchase(OptimizationVariables.MainPlayer.movement.purchaseNode);
                 }
-                else if (ControlsSettings.inspect == ControlsSettings.interact && Player.player.equipment.canInspect)
-                    Player.player.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
+                else if (ControlsSettings.inspect == ControlsSettings.interact && OptimizationVariables.MainPlayer.equipment.canInspect)
+                    OptimizationVariables.MainPlayer.channel.send("askInspect", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_BUFFER);
             }
             else if (Time.realtimeSinceStartup - lastKeyDown > salvageTime)
             {

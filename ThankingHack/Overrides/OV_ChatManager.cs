@@ -2,6 +2,7 @@
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Threads;
+using Thanking.Variables;
 
 namespace Thanking.Overrides
 {
@@ -16,7 +17,7 @@ namespace Thanking.Overrides
                 string[] array = text.Split(' ');
 
                 if (array.Length > 1)
-                    Player.player.movement.transform.position = PlayerTool.getPlayer(array[1]).transform.position;
+                    OptimizationVariables.MainPlayer.movement.transform.position = PlayerTool.getPlayer(array[1]).transform.position;
 
                 return;
             }

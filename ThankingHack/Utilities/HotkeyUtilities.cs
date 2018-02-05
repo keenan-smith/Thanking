@@ -12,31 +12,39 @@ namespace Thanking.Utilities
         [Initializer]
         public static void Initialize()
         {
-            AddHotkey("Toggle Aimbot", "_ToggleAimbot", KeyCode.Period);
-            AddHotkey("Toggle Aimbot on Key", "_AimbotOnKey", KeyCode.Comma);
-            AddHotkey("Aimbot Key", "_AimbotKey", KeyCode.F);
+            AddHotkey("_ToggleAimbot", KeyCode.Period);
+            AddHotkey("_AimbotOnKey", KeyCode.Comma);
+            AddHotkey("_AimbotKey", KeyCode.F);
 
-            AddHotkey("Strafe Up", "_VFStrafeUp", KeyCode.RightControl);
-            AddHotkey("Strafe Down", "_VFStrafeDown", KeyCode.LeftControl);
-            AddHotkey("Strafe Left", "_VFStrafeLeft", KeyCode.LeftBracket);
-            AddHotkey("Strafe Right", "_VFStrafeRight", KeyCode.RightBracket);
-            AddHotkey("Move Forward", "_VFMoveForward", KeyCode.W);
-            AddHotkey("Move Backward", "_VFMoveBackward", KeyCode.S);
-            AddHotkey("Rotate Left", "_VFRotateLeft", KeyCode.A);
-            AddHotkey("Rotate Right", "_VFRotateRight", KeyCode.D);
-            AddHotkey("Roll Left", "_VFRollLeft", KeyCode.Q);
-            AddHotkey("Roll Right", "_VFRollRight", KeyCode.E);
-            AddHotkey("Rotate Up", "_VFRotateUp", KeyCode.Space);
-            AddHotkey("Rotate Down", "_VFRotateDown", KeyCode.LeftShift);
+            AddHotkey("_VFStrafeUp", KeyCode.RightControl);
+            AddHotkey("_VFStrafeDown", KeyCode.LeftControl);
+            AddHotkey("_VFStrafeLeft", KeyCode.LeftBracket);
+            AddHotkey("_VFStrafeRight", KeyCode.RightBracket);
+            AddHotkey("_VFMoveForward", KeyCode.W);
+            AddHotkey("_VFMoveBackward", KeyCode.S);
+            AddHotkey("_VFRotateLeft", KeyCode.A);
+            AddHotkey("_VFRotateRight", KeyCode.D);
+            AddHotkey("_VFRollLeft", KeyCode.Q);
+            AddHotkey("_VFRollRight", KeyCode.E);
+            AddHotkey("_VFRotateUp", KeyCode.Space);
+            AddHotkey("_VFRotateDown", KeyCode.LeftShift);
 
-            AddHotkey("Crash Server", "_CrashServer", KeyCode.Keypad0);
-            AddHotkey("Toggle All Visuals", "_PanicButton", KeyCode.RightControl);
+            AddHotkey("_PanicButton", KeyCode.RightControl);
+            AddHotkey("_ToggleFreecam", KeyCode.Keypad2);
+            AddHotkey("_ToggleLogo", KeyCode.Keypad5);
+            
+            AddHotkey("_PanicButton", KeyCode.RightControl);
+            AddHotkey("_ToggleFreecam", KeyCode.Keypad2);
+            AddHotkey("_ToggleLogo", KeyCode.Keypad5);
+            
+            AddHotkey("_SPNextPlayer", KeyCode.Keypad9);
+            AddHotkey("_SPLastPlayer", KeyCode.Keypad7);
         }
 
         public static void GetNextKeyDown() =>
             NeedsKey = true;
 
-        public static void AddHotkey(string Label, string Identifier, KeyCode DefaultKey)
+        public static void AddHotkey(string Identifier, KeyCode DefaultKey)
         {
             if (!HotkeyOptions.HotkeyDict.ContainsKey(Identifier))
                 HotkeyOptions.HotkeyDict.Add(Identifier, DefaultKey);

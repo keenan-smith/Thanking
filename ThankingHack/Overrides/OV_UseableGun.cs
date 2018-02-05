@@ -31,7 +31,7 @@ namespace Thanking.Overrides
 		[Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
 		public void OV_ballistics()
 		{
-			Useable PlayerUse = Player.player.equipment.useable;
+			Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
 			
 			if (!RaycastOptions.Enabled)
 			{
@@ -39,7 +39,7 @@ namespace Thanking.Overrides
 				return;
 			}
 			
-			ItemGunAsset PAsset = (ItemGunAsset)Player.player.equipment.asset;
+			ItemGunAsset PAsset = (ItemGunAsset)OptimizationVariables.MainPlayer.equipment.asset;
 			
 			if (PAsset.projectile != null)
 				return;
@@ -66,7 +66,7 @@ namespace Thanking.Overrides
 				for (int i = 0; i < Bullets.Count; i++)
 				{
 					BulletInfo bulletInfo = Bullets[i];
-					double distance = VectorUtilities.GetDistance(Player.player.transform.position, ri.point);
+					double distance = VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, ri.point);
 
 					if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
 					{
@@ -84,7 +84,7 @@ namespace Thanking.Overrides
 					
 					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
 					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-					Player.player.input.sendRaycast(ri);
+					OptimizationVariables.MainPlayer.input.sendRaycast(ri);
 					bulletInfo.steps = 254;
 				}
 
@@ -104,7 +104,7 @@ namespace Thanking.Overrides
 					BulletInfo bulletInfo = Bullets[i];
 					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
 					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-					Player.player.input.sendRaycast(ri);
+					OptimizationVariables.MainPlayer.input.sendRaycast(ri);
 				}
 
 				Bullets.Clear();

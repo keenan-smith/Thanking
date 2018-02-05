@@ -3,6 +3,7 @@ using SDG.Unturned;
 using Steamworks;
 using Thanking.Attributes;
 using Thanking.Coroutines;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Overrides
@@ -12,7 +13,7 @@ namespace Thanking.Overrides
 		[Override(typeof(Player), "askScreenshot", BindingFlags.Public | BindingFlags.Instance)]
 		public void OV_askScreenshot(CSteamID steamid)
 		{
-			if (Player.player.channel.checkServer(steamid))
+			if (OptimizationVariables.MainPlayer.channel.checkServer(steamid))
 				StartCoroutine(PlayerCoroutines.TakeScreenshot());
 		}
 	}

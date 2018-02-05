@@ -8,7 +8,7 @@ namespace Thanking.Utilities
 	{
 		public static bool ShouldRun() =>
 			!(!Provider.isConnected || Provider.isLoading || LoadingUI.isBlocked ||
-					Player.player == null || Provider.clients == null || Provider.clients.Count == 0);
+					OptimizationVariables.MainPlayer == null || Provider.clients == null || Provider.clients.Count == 0);
 
 		public static int GetTextSize(ESPVisual vis, double dist)
 		{

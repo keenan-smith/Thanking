@@ -50,10 +50,10 @@ namespace Thanking.Utilities
 
 	    public static bool GenerateRaycast(out RaycastInfo info)
 	    {
-		    ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
+		    ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
 		    float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
 		    
-		    info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
+		    info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
 			    RayMasks.DAMAGE_CLIENT);
 		    
 		    GetPlayers();
@@ -66,11 +66,10 @@ namespace Thanking.Utilities
 	    
         public static bool GenerateRaycast(GameObject Object, Vector3 Point, out RaycastInfo info)
         {
-            Vector3 aimPos = Player.player.look.aim.position;
-            ItemGunAsset currentGun = Player.player.equipment.asset as ItemGunAsset;
+            ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
 			float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
 
-	        info = GenerateOriginalRaycast(new Ray(Player.player.look.aim.position, Player.player.look.aim.forward), Range,
+	        info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
 		        RayMasks.DAMAGE_CLIENT);
 
 	        ELimb Limb = RaycastOptions.TargetLimb;
@@ -101,8 +100,8 @@ namespace Thanking.Utilities
 			Object = null;
 			Point = Vector3.zero;
 			
-			ItemGunAsset CurrentGun = Player.player.equipment.asset as ItemGunAsset;
-			Vector3 AimPos = Player.player.look.aim.position;
+			ItemGunAsset CurrentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
+			Vector3 AimPos = OptimizationVariables.MainPlayer.look.aim.position;
 			float Range = CurrentGun?.range ?? 15.5f;
 
 			for (int i = 0; i < Objects.Length; i++)
@@ -149,7 +148,7 @@ namespace Thanking.Utilities
 			    return;
 		    
 		    Objects = Provider.clients
-			    .Where(o => !o.player.life.isDead && o.player != Player.player && !FriendUtilities.IsFriendly(o.player))
+			    .Where(o => !o.player.life.isDead && o.player != OptimizationVariables.MainPlayer && !FriendUtilities.IsFriendly(o.player))
 			    .Select(o => o.player.gameObject).ToArray();
 	    }
     }

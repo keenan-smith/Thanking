@@ -18,7 +18,18 @@ namespace Thanking.Components.Basic
 				return;
 
 			if (TriggerbotOptions.Enabled)
-				TriggerbotOptions.IsFiring = RaycastUtilities.GenerateRaycast(out RaycastInfo info) && !TriggerbotOptions.IsFiring;
+			{
+				RaycastUtilities.GetPlayers();
+				RaycastUtilities.GetClosestObject(RaycastUtilities.Objects, out double Distance, out GameObject Object, out Vector3 Pos);
+
+				if (Object == null)
+					TriggerbotOptions.IsFiring = false;
+
+				if (!RaycastUtilities.GenerateRaycast(Object, Pos, out RaycastInfo ri))
+					TriggerbotOptions.IsFiring = false;
+
+				TriggerbotOptions.IsFiring = true;
+			}
 			else
 				TriggerbotOptions.IsFiring = false;
 		}

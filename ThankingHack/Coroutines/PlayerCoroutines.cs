@@ -3,24 +3,26 @@ using SDG.Unturned;
 using Thanking.Utilities;
 using Thanking.Components.UI;
 using Thanking.Managers.Submanagers;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Coroutines
 {
 	public static class PlayerCoroutines
 	{
+		public static float LastSpy;
 		public static bool IsSpying;
 
 		public static IEnumerator TakeScreenshot()
 		{
-			if (IsSpying) // Checks for spam spy 
+			if (Time.realtimeSinceStartup - LastSpy < 0.5f) // Checks for spam spy 
 			{
-				yield return new WaitForSeconds(0.2f); // Make sure they can't fuck us over
-				IsSpying = false;
+				yield return new WaitForSeconds(0.5f); // Make sure they can't fuck us over
 				yield break;
 			}
-			
+
 			IsSpying = true;
+			LastSpy = Time.realtimeSinceStartup;
 
 			#if DEBUG
             DebugUtilities.Log("TAKING SCREENSHOT");
@@ -31,9 +33,9 @@ namespace Thanking.Coroutines
 
 			LevelLighting.updateLighting();
 
-			if (Player.player.equipment.asset is ItemGunAsset pAsset)
+			if (OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset pAsset)
 			{
-				UseableGun PGun = Player.player.equipment.useable as UseableGun;
+				UseableGun PGun = OptimizationVariables.MainPlayer.equipment.useable as UseableGun;
 
 				PlayerUI.updateCrosshair(PGun.isAiming
 					? WeaponComponent.AssetBackups[pAsset.id][5]
@@ -81,12 +83,12 @@ namespace Thanking.Coroutines
 
 			if (data.Length < 30000)
 			{
-				Player.player.channel.longBinaryData = true;
-				Player.player.channel.openWrite();
-				Player.player.channel.write(data);
-				Player.player.channel.closeWrite("tellScreenshotRelay", ESteamCall.SERVER,
+				OptimizationVariables.MainPlayer.channel.longBinaryData = true;
+				OptimizationVariables.MainPlayer.channel.openWrite();
+				OptimizationVariables.MainPlayer.channel.write(data);
+				OptimizationVariables.MainPlayer.channel.closeWrite("tellScreenshotRelay", ESteamCall.SERVER,
 					ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER);
-				Player.player.channel.longBinaryData = false;
+				OptimizationVariables.MainPlayer.channel.longBinaryData = false;
 			}
 
 			#endregion
@@ -96,9 +98,9 @@ namespace Thanking.Coroutines
 			SpyManager.AddComponents();
 			SpyManager.InvokePost();
 
-			IsSpying = false;
-
 			LevelLighting.updateLighting();
+
+			IsSpying = false;
 		}
 	}
 }

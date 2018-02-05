@@ -11,46 +11,17 @@ namespace Thanking.Overrides
 {
 	public static class OV_Provider
 	{
-        /*
-		public static MethodInfo ReceiveClient;
-
-		[Initializer]
-		public static void OnInit() =>
-			ReceiveClient = typeof(Provider).GetMethod("receiveClient", BindingFlags.NonPublic | BindingFlags.Static);
-
-		[Override(typeof(Provider), "listenClient", BindingFlags.NonPublic | BindingFlags.Static)]
-		public static void OV_listenClient(int channel)
-		{
-			while (PacketThread.PacketQueue.Count > 0)
-			{
-				Packet p = PacketThread.PacketQueue.Dequeue();
-				ReceiveClient.Invoke(null, new object[] { p.steamid, p.packet, 0, p.size, p.id });
-			}
-		}
-		*/
-
 		[Override(typeof(Provider), "receiveClient", BindingFlags.NonPublic | BindingFlags.Static)]
 		public static void OV_receiveClient(CSteamID steamID, byte[] packet, int offset, int size, int channel)
 		{
-			ESteamPacket esteamPacket = (ESteamPacket)packet[offset];
-			if (steamID == Provider.server && CrashThread.CrashServerEnabled)
-				return;
-
 			if (steamID != Provider.server && PlayerCrashThread.PlayerCrashEnabled)
 				return;
 			
             OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
         }
 
-        [Override(typeof(Provider), "OnApplicationQuit", BindingFlags.Instance | BindingFlags.NonPublic)]
-        public static void OV_OnApplicationQuit()
-        {
-	        ProcessStartInfo rq = new ProcessStartInfo
-	        {
-		        FileName = "cmd.exe",
-		        Arguments = "/c Taskkill /IM Unturned.exe /F"
-	        };
-	        Process.Start(rq);
-        }
-    }
+		[Override(typeof(Provider), "OnApplicationQuit", BindingFlags.Instance | BindingFlags.NonPublic)]
+		public static void OV_OnApplicationQuit() =>
+			Process.GetCurrentProcess().Kill();
+	}
 }
