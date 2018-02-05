@@ -4,6 +4,7 @@ using Thanking.Attributes;
 using UnityEngine;
 using Thanking.Options;
 using Thanking.Utilities;
+using Thanking.Variables;
 
 namespace Thanking.Overrides
 {
@@ -19,7 +20,7 @@ namespace Thanking.Overrides
             }
             for (byte index = 0; index < PlayerInventory.PAGES - 1; index += 1)
             {
-                InventorySearch inventorySearch = Player.player.inventory.items[index].has(id);
+                InventorySearch inventorySearch = OptimizationVariables.MainPlayer.inventory.items[index].has(id);
                 if (inventorySearch != null)
                     return inventorySearch;
             }

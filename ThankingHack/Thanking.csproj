@@ -81,6 +81,7 @@
     <Compile Include="Attributes\ThreadAttribute.cs" />
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\AimbotComponent.cs" />
+    <Compile Include="Components\Basic\HotkeyComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
@@ -137,7 +138,6 @@
     <Compile Include="Overrides\OV_PlayerInventory.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
-    <Compile Include="Threads\CrashThread.cs" />
     <Compile Include="Threads\PlayerCrashThread.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
@@ -148,6 +148,7 @@
     <Compile Include="Utilities\ItemUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\SkinsUtilities.cs" />
+    <Compile Include="Variables\OptimizationVariables.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />

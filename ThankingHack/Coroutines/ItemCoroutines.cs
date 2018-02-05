@@ -2,6 +2,7 @@
 using SDG.Unturned;
 using Thanking.Options;
 using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Coroutines
@@ -17,13 +18,13 @@ namespace Thanking.Coroutines
             while (true)
             {
                 if (!ItemOptions.AutoItemPickup || !Provider.isConnected || Provider.isLoading ||
-                        Player.player == null)
+                        OptimizationVariables.MainPlayer == null)
                 {
                     yield return new WaitForSeconds(0.5f);
                     continue;
                 }
 
-                Collider[] array = Physics.OverlapSphere(Camera.main.transform.position, 19f, RayMasks.ITEM);
+                Collider[] array = Physics.OverlapSphere(OptimizationVariables.MainCam.transform.position, 19f, RayMasks.ITEM);
 
                 for (int i = 0; i < array.Length; i++)
                 {

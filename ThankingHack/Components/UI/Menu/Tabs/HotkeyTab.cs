@@ -6,6 +6,7 @@ using SDG.Unturned;
 using Thanking.Options;
 using Thanking.Utilities;
 using UnityEngine;
+using Action = System.Action;
 
 namespace Thanking.Components.UI.Menu.Tabs
 {
@@ -20,21 +21,13 @@ namespace Thanking.Components.UI.Menu.Tabs
         {
             Prefab.ScrollView(new Rect(0, 0, 466, 400), "Hotkeys", ref HotkeyScroll, () =>
             {
-                Prefab._TextStyle.fontStyle = FontStyle.Bold;
-                GUILayout.Label("Aimbot", Prefab._TextStyle);
-                Prefab._TextStyle.fontStyle = FontStyle.Normal;
-                GUILayout.Space(8);
+                DrawSpacer("Aimbot", true);
                 
                 DrawButton("Toggle Aimbot", "_ToggleAimbot");
                 DrawButton("Toggle Aimbot on Key", "_AimbotOnKey");
                 DrawButton("Aimbot Key", "_AimbotKey");
                 
-                
-                GUILayout.Space(10);
-                Prefab._TextStyle.fontStyle = FontStyle.Bold;
-                GUILayout.Label("Vehicle Flight", Prefab._TextStyle);
-                Prefab._TextStyle.fontStyle = FontStyle.Normal;
-                GUILayout.Space(8);
+                DrawSpacer("Vehicle Flight", false);
                 
                 DrawButton("Strafe Up", "_VFStrafeUp");
                 DrawButton("Strafe Down", "_VFStrafeDown");
@@ -49,20 +42,30 @@ namespace Thanking.Components.UI.Menu.Tabs
                 DrawButton("Rotate Up", "_VFRotateUp");
                 DrawButton("Rotate Down", "_VFRotateDown");
                 
+                DrawSpacer("Misc", false);
                 
-                GUILayout.Space(10);
-                Prefab._TextStyle.fontStyle = FontStyle.Bold;
-                GUILayout.Label("Misc", Prefab._TextStyle);
-                Prefab._TextStyle.fontStyle = FontStyle.Normal;
-                GUILayout.Space(8);
-                
-                DrawButton("Crash Server", "_CrashServer");
                 DrawButton("Toggle All Visuals", "_PanicButton");
+                DrawButton("Toggle Freecam", "_ToggleFreecam");
+                DrawButton("Toggle Logo", "_ToggleLogo");
+                
+                DrawButton("Spectate Next Player", "_SPNextPlayer");
+                DrawButton("Spectate Last Player", "_SPLastPlayer");
                 
                 IsInitialized = true;
             });
         }
 
+        public static void DrawSpacer(string Text, bool First)
+        {
+            if(!First)
+                GUILayout.Space(10);
+            
+            Prefab._TextStyle.fontStyle = FontStyle.Bold;
+            GUILayout.Label(Text, Prefab._TextStyle);
+            Prefab._TextStyle.fontStyle = FontStyle.Normal;
+            GUILayout.Space(8);
+        }
+        
         public static void DrawButton(string Option, string Identifier)
         {
             GUILayout.BeginHorizontal();

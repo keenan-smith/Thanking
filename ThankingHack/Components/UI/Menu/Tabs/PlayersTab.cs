@@ -4,6 +4,7 @@ using SDG.Unturned;
 using Thanking.Options;
 using Thanking.Threads;
 using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs
@@ -21,7 +22,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 {
 					Player player = Provider.clients[i].player;
                     
-                    if (Provider.clients[i].player == Player.player)
+                    if (Provider.clients[i].player == OptimizationVariables.MainPlayer)
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);
@@ -39,7 +40,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
             });
             
-            Prefab.MenuArea(new Rect(0, 200 + 10, 466, 200), "OPTIONS", () =>
+            Prefab.MenuArea(new Rect(0, 200 + 10, 230, 200), "OPTIONS", () =>
             {
                 if (SelectedPlayer == null)
                     return;
@@ -63,6 +64,32 @@ namespace Thanking.Components.UI.Menu.Tabs
                     PlayerCrashThread.CrashTarget = SelectedPlayer.channel.owner.playerID.steamID;
                     PlayerCrashThread.PlayerCrashEnabled = true;
                 }
+                
+                if (Prefab.Button("Spectate", 150))
+                {
+                    OptimizationVariables.MainPlayer.look.isOrbiting = true;
+                    MiscOptions.SpectatedPlayer = SelectedPlayer;
+                }
+
+                if (MiscOptions.SpectatedPlayer != null)
+                    if (Prefab.Button("End Spectating", 150))
+                    {
+                        MiscOptions.SpectatedPlayer = null;
+                        OptimizationVariables.MainPlayer.look.isOrbiting = false;
+                    }
+
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+            });
+            Prefab.MenuArea(new Rect(230 + 6, 200 + 10, 230, 200), "INFO", () =>
+            {
+                if (SelectedPlayer == null)
+                    return;
+                
+                GUILayout.BeginHorizontal();
+                GUILayout.BeginVertical();
+                GUILayout.Label("Current Weapon: " + SelectedPlayer.equipment.useable.name, Prefab._TextStyle);
+                GUILayout.Label("Current Vehicle: " + (SelectedPlayer.movement.getVehicle() != null ? SelectedPlayer.movement.getVehicle().asset.name : "No Vehicle"), Prefab._TextStyle);
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });

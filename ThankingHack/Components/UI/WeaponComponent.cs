@@ -18,12 +18,16 @@ namespace Thanking.Components.UI
 		public static Dictionary<ushort, float[]> AssetBackups = new Dictionary<ushort, float[]>();
 		public static Vector3 SwayBackup;
 		public static ItemWeaponAsset CurrentWeapon;
+		public static FieldInfo AmmoInfo;
 
-		private byte Ammo() => (byte) typeof(UseableGun).GetField("ammo", ReflectionVariables.PrivateInstance)
-			.GetValue(Player.player.equipment.useable);
+		private byte Ammo() => 
+			(byte)AmmoInfo.GetValue(OptimizationVariables.MainPlayer.equipment.useable);
 
-		public void Start() =>
-			InvokeRepeating(nameof(UpdateWeapon), 0, 0.15f);
+		public void Start()
+		{
+			AmmoInfo = typeof(Useable).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
+			InvokeRepeating(nameof(UpdateWeapon), 0, 0.15f);	
+		}
 		
 		public void OnGUI()
 		{
@@ -36,11 +40,11 @@ namespace Thanking.Components.UI
 			if (!DrawUtilities.ShouldRun())
 				return;
 
-			if (!(Player.player.equipment.asset is ItemGunAsset))
+			if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
 				return;
 
 			GUI.depth = 0;
-			ItemGunAsset PAsset = (ItemGunAsset) Player.player.equipment.asset;
+			ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
 			string text = $"<size=15>{PAsset.itemName}\n{PAsset.range}</size>";
 
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
@@ -51,10 +55,10 @@ namespace Thanking.Components.UI
 			if (!DrawUtilities.ShouldRun())
 				return;
 
-			if (!(Player.player.equipment.asset is ItemGunAsset))
+			if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
 				return;
 
-			ItemGunAsset PAsset = (ItemGunAsset) Player.player.equipment.asset;
+			ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
 			
 			if (!AssetBackups.ContainsKey(PAsset.id))
 			{
@@ -73,7 +77,7 @@ namespace Thanking.Components.UI
 
 				AssetBackups.Add(PAsset.id, Backups);
 
-				SwayBackup = Player.player.animator.viewSway == Vector3.zero ? SwayBackup : Player.player.animator.viewSway;
+				SwayBackup = OptimizationVariables.MainPlayer.animator.viewSway == Vector3.zero ? SwayBackup : OptimizationVariables.MainPlayer.animator.viewSway;
 			}
 
 			if (WeaponOptions.NoRecoil)
@@ -105,12 +109,12 @@ namespace Thanking.Components.UI
 				PAsset.spreadAim = AssetBackups[PAsset.id][5];
 				PAsset.spreadHip = AssetBackups[PAsset.id][6];
 
-				PlayerUI.updateCrosshair(AssetBackups[PAsset.id][Player.player.equipment.secondary ? 5 : 6]);
+				PlayerUI.updateCrosshair(AssetBackups[PAsset.id][OptimizationVariables.MainPlayer.equipment.secondary ? 5 : 6]);
 			}
 			
 			Reload();
 			
-			Player.player.animator.viewSway = WeaponOptions.NoSway ? Vector3.zero : SwayBackup;
+			OptimizationVariables.MainPlayer.animator.viewSway = WeaponOptions.NoSway ? Vector3.zero : SwayBackup;
 		}
 
 		private void Reload()
@@ -126,8 +130,8 @@ namespace Thanking.Components.UI
 			#endif
 			
 			IEnumerable<InventorySearch> magazineSearch = 
-				Player.player.inventory.search(EItemType.MAGAZINE,
-					((ItemGunAsset) Player.player.equipment.asset).magazineCalibers)
+				OptimizationVariables.MainPlayer.inventory.search(EItemType.MAGAZINE,
+					((ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset).magazineCalibers)
 					.Where(i => i.jar.item.amount > 0);
 
 			if (!magazineSearch.Any()) return;
@@ -140,7 +144,7 @@ namespace Thanking.Components.UI
 			DebugUtilities.Log("Magazine reloaded");
 				#endif
 
-			Player.player.channel.send("askAttachMagazine", ESteamCall.SERVER,
+			OptimizationVariables.MainPlayer.channel.send("askAttachMagazine", ESteamCall.SERVER,
 				ESteamPacket.UPDATE_UNRELIABLE_BUFFER, search.page, search.jar.x,
 				search.jar.y);
 		}

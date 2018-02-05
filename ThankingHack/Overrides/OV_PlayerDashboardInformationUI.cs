@@ -11,9 +11,14 @@ namespace Thanking.Overrides
 {
     public static class OV_PlayerDashboardInformationUI
     {
+        public static FieldInfo DynamicContainerInfo;
         private static Sleek mapDynamicContainer =>
-			(Sleek)typeof(PlayerDashboardInformationUI).GetField("mapDynamicContainer", ReflectionVariables.PrivateStatic).GetValue(null);
+			(Sleek)DynamicContainerInfo.GetValue(null);
 
+        [Initializer]
+        public static void Init() =>
+            DynamicContainerInfo = typeof(PlayerDashboardInformationUI).GetField("mapDynamicContainer", ReflectionVariables.PrivateStatic);
+        
 		[Override(typeof(PlayerDashboardInformationUI), "refreshDynamicMap", BindingFlags.Public | BindingFlags.Static)]
         public static void refreshDynamicMap()
         {
@@ -96,7 +101,7 @@ namespace Thanking.Overrides
                     if (!(steamPlayer.model == null))
                     {
                         PlayerQuests quests = steamPlayer.player.quests;
-                        if (!(steamPlayer.playerID.steamID != Provider.client) || quests.isMemberOfSameGroupAs(Player.player))
+                        if (!(steamPlayer.playerID.steamID != Provider.client) || quests.isMemberOfSameGroupAs(OptimizationVariables.MainPlayer))
                         {
                             if (quests.isMarkerPlaced)
                             {
@@ -121,7 +126,7 @@ namespace Thanking.Overrides
                 for (int i = 0; i < Provider.clients.Count; i++)
                 {
                     SteamPlayer steamPlayer = Provider.clients[i];
-                    bool shouldDraw = steamPlayer.player.quests.isMemberOfSameGroupAs(Player.player);
+                    bool shouldDraw = steamPlayer.player.quests.isMemberOfSameGroupAs(OptimizationVariables.MainPlayer);
                     
                     if (MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun() && !PlayerCoroutines.IsSpying) // cancer
                         shouldDraw = true;
@@ -146,17 +151,17 @@ namespace Thanking.Overrides
                         mapDynamicContainer.add(sleekImageTexture12);
                     }
                 }
-                if (Player.player != null)
+                if (OptimizationVariables.MainPlayer != null)
                 {
                     SleekImageTexture sleekImageTexture13 = new SleekImageTexture();
                     sleekImageTexture13.positionOffset_X = -10;
                     sleekImageTexture13.positionOffset_Y = -10;
-                    sleekImageTexture13.positionScale_X = Player.player.transform.position.x / (Level.size - Level.border * 2) + 0.5f;
-                    sleekImageTexture13.positionScale_Y = 0.5f - Player.player.transform.position.z / (Level.size - Level.border * 2);
+                    sleekImageTexture13.positionScale_X = OptimizationVariables.MainPlayer.transform.position.x / (Level.size - Level.border * 2) + 0.5f;
+                    sleekImageTexture13.positionScale_Y = 0.5f - OptimizationVariables.MainPlayer.transform.position.z / (Level.size - Level.border * 2);
                     sleekImageTexture13.sizeOffset_X = 20;
                     sleekImageTexture13.sizeOffset_Y = 20;
                     sleekImageTexture13.isAngled = true;
-                    sleekImageTexture13.angle = Player.player.transform.rotation.eulerAngles.y;
+                    sleekImageTexture13.angle = OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y;
                     sleekImageTexture13.texture = (Texture2D)PlayerDashboardInformationUI.icons.load("Player");
                     sleekImageTexture13.backgroundTint = ESleekTint.FOREGROUND;
 

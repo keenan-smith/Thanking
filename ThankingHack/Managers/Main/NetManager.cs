@@ -6,6 +6,7 @@ using Steamworks;
 using Thanking.Attributes;
 using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
+using Thanking.Variables;
 
 namespace Thanking.Managers.Main
 {
@@ -50,7 +51,7 @@ namespace Thanking.Managers.Main
             Provider.onClientConnected += OnConnect;
 
         public static void OnConnect() =>
-            Manager = Player.player.gameObject.AddComponent<NetManager>();
+            Manager = OptimizationVariables.MainPlayer.gameObject.AddComponent<NetManager>();
         
         public void Start()
         {

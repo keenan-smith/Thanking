@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using Thanking.Components.UI.Menu;
 using Thanking.Options;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Utilities
 {
     public static class SkinsUtilities
     {
-        private static HumanClothes CharacterClothes => Player.player.clothing.characterClothes;
-        private static HumanClothes FirstClothes => Player.player.clothing.firstClothes;
-        private static HumanClothes ThirdClothes => Player.player.clothing.thirdClothes;
+        private static HumanClothes CharacterClothes => OptimizationVariables.MainPlayer.clothing.characterClothes;
+        private static HumanClothes FirstClothes => OptimizationVariables.MainPlayer.clothing.firstClothes;
+        private static HumanClothes ThirdClothes => OptimizationVariables.MainPlayer.clothing.thirdClothes;
 
         public static Vector2 ScrollPos;
         private static string SearchString = "";
@@ -22,7 +23,7 @@ namespace Thanking.Utilities
         {
             if (skinType == ESkinType.WEAPONS)
             {
-                Dictionary<ushort, int> skins = Player.player.channel.owner.itemSkins;
+                Dictionary<ushort, int> skins = OptimizationVariables.MainPlayer.channel.owner.itemSkins;
                 if (skins == null) return;
 
                 ushort inventoryItemID = Provider.provider.economyService.getInventoryItemID(skin.ID);
@@ -34,8 +35,8 @@ namespace Thanking.Utilities
                 else
                     skins.Add(inventoryItemID, skin.ID);
 
-                Player.player.equipment.applySkinVisual();
-                Player.player.equipment.applyMythicVisual();
+                OptimizationVariables.MainPlayer.equipment.applySkinVisual();
+                OptimizationVariables.MainPlayer.equipment.applyMythicVisual();
 
                 foreach (KeyValuePair<ushort, int> pair in skins)
                     SkinOptions.SkinConfig.WeaponSkins.Add(new WeaponSave(pair.Key, pair.Value));
@@ -101,7 +102,7 @@ namespace Thanking.Utilities
             Dictionary<ushort, int> skins = new Dictionary<ushort, int>();
             foreach (WeaponSave save in SkinOptions.SkinConfig.WeaponSkins)
                 skins[save.WeaponID] = save.SkinID;
-            Player.player.channel.owner.itemSkins = skins;
+            OptimizationVariables.MainPlayer.channel.owner.itemSkins = skins;
 
             if (SkinOptions.SkinConfig.ShirtID != 0)
             {
