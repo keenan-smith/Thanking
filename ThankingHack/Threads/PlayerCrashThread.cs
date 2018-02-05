@@ -22,7 +22,7 @@ namespace Thanking.Threads
 
             SteamChannel channel = VehicleManager.instance.channel;
             
-            int call = channel.getCall("askVehicles");
+            int call = channel.getCall("askStructures");
             channel.getPacket(ESteamPacket.UPDATE_RELIABLE_INSTANT, call, out var size, out var packet);
             
             Provider.onClientDisconnected += OnDisconnect;

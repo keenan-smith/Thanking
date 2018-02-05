@@ -50,7 +50,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 				if (Provider.isConnected)
 				{
-					if (Player.player.look.isOrbiting)
+					if (!Player.player.look.isOrbiting)
 						Player.player.look.orbitPosition = Vector3.zero;
 					
 					Prefab.Toggle("Freecam", ref Player.player.look.isOrbiting);
