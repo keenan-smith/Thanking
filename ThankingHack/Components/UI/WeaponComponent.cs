@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using SDG.Unturned;
@@ -8,6 +9,7 @@ using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 using System.Linq;
+using Thanking.Coroutines;
 
 namespace Thanking.Components.UI
 {
@@ -16,20 +18,22 @@ namespace Thanking.Components.UI
 	public class WeaponComponent : MonoBehaviour
 	{
 		public static Dictionary<ushort, float[]> AssetBackups = new Dictionary<ushort, float[]>();
-		public static ItemWeaponAsset CurrentWeapon;
 		public static FieldInfo AmmoInfo;
 
-		private byte Ammo() => 
+		public static byte Ammo() => 
 			(byte)AmmoInfo.GetValue(OptimizationVariables.MainPlayer.equipment.useable);
 
 		public void Start()
 		{
 			AmmoInfo = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
-			InvokeRepeating(nameof(UpdateWeapon), 0, 0.15f);	
+			StartCoroutine(UpdateWeapon());
 		}
 		
 		public void OnGUI()
 		{
+			if (WeaponOptions.NoSway)
+				OptimizationVariables.MainPlayer.animator.viewSway = Vector3.zero;
+			
 			if (Event.current.type != EventType.Repaint)
 				return;
 			
@@ -48,71 +52,73 @@ namespace Thanking.Components.UI
 
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
 		}
-
-		public void UpdateWeapon()
-		{			
-			if (!DrawUtilities.ShouldRun())
-				return;
-
-			if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
-				return;
-
-			ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
-			
-			if (!AssetBackups.ContainsKey(PAsset.id))
+		
+		public static IEnumerator UpdateWeapon()
+		{
+			while (true)
 			{
-				float[] Backups = new float[7]
+				yield return new WaitForSeconds(0.1f);
+				if (!DrawUtilities.ShouldRun())
+					continue;
+
+				if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset PAsset))
+					continue;
+			
+				if (!AssetBackups.ContainsKey(PAsset.id))
 				{
-					PAsset.recoilAim,
-					PAsset.recoilMax_x,
-					PAsset.recoilMax_y,
-					PAsset.recoilMin_x,
-					PAsset.recoilMin_y,
-					PAsset.spreadAim,
-					PAsset.spreadHip
-				};
+					float[] Backups = new float[7]
+					{
+						PAsset.recoilAim,
+						PAsset.recoilMax_x,
+						PAsset.recoilMax_y,
+						PAsset.recoilMin_x,
+						PAsset.recoilMin_y,
+						PAsset.spreadAim,
+						PAsset.spreadHip
+					};
 				
-				Backups[6] = PAsset.spreadHip;
+					Backups[6] = PAsset.spreadHip;
 
-				AssetBackups.Add(PAsset.id, Backups);
-			}
+					AssetBackups.Add(PAsset.id, Backups);
+				}
 
-			if (WeaponOptions.NoRecoil)
-			{
-				PAsset.recoilAim = 0;
-				PAsset.recoilMax_x = 0;
-				PAsset.recoilMax_y = 0;
-				PAsset.recoilMin_x = 0;
-				PAsset.recoilMin_y = 0;
-			}
-			else
-			{
-				PAsset.recoilAim = AssetBackups[PAsset.id][0];
-				PAsset.recoilMax_x = AssetBackups[PAsset.id][1];
-				PAsset.recoilMax_y = AssetBackups[PAsset.id][2];
-				PAsset.recoilMin_x = AssetBackups[PAsset.id][3];
-				PAsset.recoilMin_y = AssetBackups[PAsset.id][4];
-			}
+				if (WeaponOptions.NoRecoil && !PlayerCoroutines.IsSpying)
+				{
+					PAsset.recoilAim = 0;
+					PAsset.recoilMax_x = 0;
+					PAsset.recoilMax_y = 0;
+					PAsset.recoilMin_x = 0;
+					PAsset.recoilMin_y = 0;
+				}
+				else
+				{
+					PAsset.recoilAim = AssetBackups[PAsset.id][0];
+					PAsset.recoilMax_x = AssetBackups[PAsset.id][1];
+					PAsset.recoilMax_y = AssetBackups[PAsset.id][2];
+					PAsset.recoilMin_x = AssetBackups[PAsset.id][3];
+					PAsset.recoilMin_y = AssetBackups[PAsset.id][4];
+				}
 
-			if (WeaponOptions.NoSpread)
-			{
-				PAsset.spreadAim = 0;
-				PAsset.spreadHip = 0;
+				if (WeaponOptions.NoSpread && !PlayerCoroutines.IsSpying)
+				{
+					PAsset.spreadAim = 0;
+					PAsset.spreadHip = 0;
 
-				PlayerUI.updateCrosshair(0);
-			}
-			else
-			{
-				PAsset.spreadAim = AssetBackups[PAsset.id][5];
-				PAsset.spreadHip = AssetBackups[PAsset.id][6];
+					PlayerUI.updateCrosshair(0);
+				}
+				else
+				{
+					PAsset.spreadAim = AssetBackups[PAsset.id][5];
+					PAsset.spreadHip = AssetBackups[PAsset.id][6];
 
-				PlayerUI.updateCrosshair(AssetBackups[PAsset.id][OptimizationVariables.MainPlayer.equipment.secondary ? 5 : 6]);
-			}
+					PlayerUI.updateCrosshair(AssetBackups[PAsset.id][OptimizationVariables.MainPlayer.equipment.secondary ? 5 : 6]);
+				}
 			
-			Reload();
+				Reload();
+			}
 		}
 
-		private void Reload()
+		public static void Reload()
 		{
 			#if DEBUG
 			DebugUtilities.Log($"Ammo: {Ammo()}");

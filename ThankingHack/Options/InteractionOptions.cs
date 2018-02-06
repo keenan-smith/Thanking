@@ -10,5 +10,6 @@ namespace Thanking.Options
         [Save] public static bool NoHitItems = true;
         [Save] public static bool NoHitVehicles = true;
         [Save] public static bool NoHitResources = true;
+        [Save] public static bool NoHitGround = true;
     }
 }

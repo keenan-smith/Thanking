@@ -23,7 +23,7 @@ namespace Thanking.Components.UI
 		public static Material GLMat;
 		public static Font ESPFont;
 
-        public static List<Highlighter> highlighters = new List<Highlighter>();
+        public static List<Highlighter> Highlighters = new List<Highlighter>();
 
         public static Camera MainCamera;
 
@@ -31,13 +31,13 @@ namespace Thanking.Components.UI
         {
             CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
-            MainCamera = Camera.main; // lets define it once ok?
+	        MainCamera = OptimizationVariables.MainCam;
 
 			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", new Color32(255, 0, 0, 255)));
         }
-
-        public void Update()
+		
+		public void Update()
         {
             if (MiscOptions.NoRain)
                 LevelLighting.rainyness = ELightingRain.NONE;
@@ -55,8 +55,8 @@ namespace Thanking.Components.UI
 
 			GUI.depth = 1;
 
-            if (MainCamera == null)
-                MainCamera = Camera.main;
+	        if (MainCamera == null)
+		        MainCamera = OptimizationVariables.MainCam;
 
             Vector3 localPos = OptimizationVariables.MainPlayer.transform.position;
 
@@ -236,7 +236,7 @@ namespace Thanking.Components.UI
                         highlighter.OccluderOn();
                         highlighter.SeeThroughOn();
                         highlighter.ConstantOnImmediate();
-                        highlighters.Add(highlighter);
+                        Highlighters.Add(highlighter);
                     }
                 }
                 else
@@ -307,14 +307,14 @@ namespace Thanking.Components.UI
         }
 
         [OnSpy]
-        private static void DisableHighlighters()
+        public static void DisableHighlighters()
         {
-            foreach(Highlighter highlighter in highlighters) // pls dont go apeshit kr4ken its only called once every spy and it's not like update() where its called every milisecond
+            foreach(Highlighter highlighter in Highlighters) // pls dont go apeshit kr4ken its only called once every spy and it's not like update() where its called every milisecond
             {
                 highlighter.ConstantOffImmediate();
                 highlighter.Die();
             }
-            highlighters.Clear();
+            Highlighters.Clear();
         }
 
 		public static String SentryName(Item DisplayItem) => DisplayItem != null

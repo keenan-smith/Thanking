@@ -40,11 +40,17 @@ namespace Thanking.Components.UI.Menu.Tabs
                 DrawButton("Rotate Up", "_VFRotateUp");
                 DrawButton("Rotate Down", "_VFRotateDown");
                 
+                DrawSpacer("Player Flight", false);
+                
+                DrawButton("Fly Up", "_FlyUp");
+                DrawButton("Fly Down", "_FlyDown");
+                
                 DrawSpacer("Misc", false);
                 
                 DrawButton("Toggle All Visuals", "_PanicButton");
                 DrawButton("Toggle Freecam", "_ToggleFreecam");
                 DrawButton("Toggle Logo", "_ToggleLogo");
+                
             });
         }
 

@@ -79,7 +79,7 @@ namespace Thanking.Coroutines
                             case TargetMode.FOV:
                             {
                                 Vector3 v2dist =
-                                    MainCamera.instance.WorldToScreenPoint(GetAimPosition(players[i].player.transform,
+                                    OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(players[i].player.transform,
                                         "Skull"));
                                 if (v2dist.z <= 0) continue;
 
@@ -92,7 +92,7 @@ namespace Thanking.Coroutines
                                 else if (vdist < AimbotOptions.FOV)
                                 {
                                     Vector3 v2dist_ =
-                                        MainCamera.instance.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
+                                        OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
                                     Vector2 pos_ = new Vector2(v2dist_.x, v2dist_.y);
                                     float vdist_ = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2),
                                         pos_);
@@ -146,7 +146,7 @@ namespace Thanking.Coroutines
 
         public static void Aim(GameObject obj)
         {
-            Camera mainCam = MainCamera.instance;
+            Camera mainCam = OptimizationVariables.MainCam;
             Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
             OptimizationVariables.MainPlayer.transform.LookAt(skullPosition);
             OptimizationVariables.MainPlayer.transform.eulerAngles = new Vector3(0f, OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y, 0f);
@@ -164,7 +164,7 @@ namespace Thanking.Coroutines
 
         public static void SmoothAim(GameObject obj)
         {
-            Camera mainCam = MainCamera.instance;
+            Camera mainCam = OptimizationVariables.MainCam;
             Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
             OptimizationVariables.MainPlayer.transform.rotation = Quaternion.Slerp(OptimizationVariables.MainPlayer.transform.rotation, Quaternion.LookRotation( skullPosition - OptimizationVariables.MainPlayer.transform.position ), Time.deltaTime * AimbotOptions.AimSpeed);
             OptimizationVariables.MainPlayer.transform.eulerAngles = new Vector3(0f, OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y, 0f);

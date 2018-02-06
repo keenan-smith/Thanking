@@ -39,6 +39,9 @@ namespace Thanking.Utilities
             
             AddHotkey("_SPNextPlayer", KeyCode.Keypad9);
             AddHotkey("_SPLastPlayer", KeyCode.Keypad7);
+            
+            AddHotkey("_FlyUp", KeyCode.Space);
+            AddHotkey("_FlyDown", KeyCode.LeftControl);
         }
 
         public static void GetNextKeyDown() =>

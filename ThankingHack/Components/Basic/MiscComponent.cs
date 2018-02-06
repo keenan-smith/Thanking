@@ -58,6 +58,8 @@ namespace Thanking.Components.Basic
             {
                 if (MiscOptions.AlwaysCheckMovementVerification)
                     CheckMovementVerification();
+                else
+                    MiscOptions.NoMovementVerification = false;
             };
         }
         
@@ -95,7 +97,7 @@ namespace Thanking.Components.Basic
                 OptimizationVariables.MainPlayer = Player.player;
 
             if (Camera.main != null && OptimizationVariables.MainCam == null)
-                OptimizationVariables.MainCam = null;
+                OptimizationVariables.MainCam = Camera.main;
             
             if (!DrawUtilities.ShouldRun())
                 return;
@@ -115,6 +117,7 @@ namespace Thanking.Components.Basic
                 currentKills = New;
             
             VehicleFlight();
+            PlayerFlight();
             
             if (MiscOptions.NightVision)
             {
@@ -135,6 +138,22 @@ namespace Thanking.Components.Basic
             }
         }
 
+        public static void PlayerFlight()
+        {
+            if (!MiscOptions.PlayerFlight)
+                return;
+            
+            Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
+            Player plr = OptimizationVariables.MainPlayer;
+
+            if (Input.GetKey(keys["_FlyUp"]))
+                plr.movement.itemGravityMultiplier = -1;
+            else if (Input.GetKey(keys["_FlyDown"]))
+                plr.movement.itemGravityMultiplier = 1;
+            else
+                plr.movement.itemGravityMultiplier = 0;
+        }
+        
 		public static void VehicleFlight()
         {
             InteractableVehicle vehicle = OptimizationVariables.MainPlayer.movement.getVehicle();
