@@ -19,9 +19,6 @@ namespace Thanking.Components.Basic
         
         public void Update()
         {
-            if (!HotkeyTab.IsInitialized)
-                return;
-            
             if (HotkeyUtilities.NeedsKey)
             {
                 for(int i = 0; i < Keys.Length; i++) 

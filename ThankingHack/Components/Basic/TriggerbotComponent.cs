@@ -1,5 +1,6 @@
 ﻿using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Thanking.Components.Basic
 			{
 				RaycastUtilities.GetPlayers();
 
-				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
+				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri, true))
 				{
 					TriggerbotOptions.IsFiring = false;
 					return;

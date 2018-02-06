@@ -14,47 +14,27 @@ namespace Thanking.Coroutines
 	{
 		public static float LastSpy;
 		public static bool IsSpying;
+		public static Player SpecPlayer;
 
 		public static IEnumerator TakeScreenshot()
 		{
-			if (Time.realtimeSinceStartup - LastSpy < 0.5f) // Checks for spam spy 
+			Player plr = OptimizationVariables.MainPlayer;
+			SteamChannel channel = plr.channel;
+			
+			if (Time.realtimeSinceStartup - LastSpy < 0.5f || IsSpying) // Checks for spam spy 
 			{
 				yield return new WaitForSeconds(0.5f); // Make sure they can't fuck us over
 				yield break;
 			}
-
-			IsSpying = true;
+			
 			LastSpy = Time.realtimeSinceStartup;
+			DisableAllVisuals();
+			
+			IsSpying = true;
 
 			#if DEBUG
             DebugUtilities.Log("TAKING SCREENSHOT");
 			#endif
-
-			Player SpecPlayer = MiscOptions.SpectatedPlayer;
-			MiscOptions.SpectatedPlayer = null;
-			
-			SpyManager.InvokePre();
-			SpyManager.DestroyComponents();
-
-			Player.player.look.isOrbiting = false;
-
-			foreach (Highlighter h in ESPComponent.highlighters)
-			{
-				h.ConstantOffImmediate();
-				h.Die();
-			}
-
-			LevelLighting.updateLighting();
-
-			if (OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset pAsset)
-			{
-				UseableGun PGun = OptimizationVariables.MainPlayer.equipment.useable as UseableGun;
-
-				PlayerUI.updateCrosshair(PGun.isAiming
-					? WeaponComponent.AssetBackups[pAsset.id][5]
-					: WeaponComponent.AssetBackups[pAsset.id][6]);
-			}
-
 			yield return new WaitForFixedUpdate();
 
 			#region Take Screenshot
@@ -96,32 +76,79 @@ namespace Thanking.Coroutines
 
 			if (data.Length < 30000)
 			{
-				OptimizationVariables.MainPlayer.channel.longBinaryData = true;
-				OptimizationVariables.MainPlayer.channel.openWrite();
-				OptimizationVariables.MainPlayer.channel.write(data);
-				OptimizationVariables.MainPlayer.channel.closeWrite("tellScreenshotRelay", ESteamCall.SERVER,
+				channel.longBinaryData = true;
+				channel.openWrite();
+				channel.write(data);
+				channel.closeWrite("tellScreenshotRelay", ESteamCall.SERVER,
 					ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER);
-				OptimizationVariables.MainPlayer.channel.longBinaryData = false;
+				channel.longBinaryData = false;
 			}
 
 			#endregion
 
 			yield return new WaitForFixedUpdate();
+			IsSpying = false;
+			EnableAllVisuals();
+		}
 
-			foreach (Highlighter h in ESPComponent.highlighters)
+		public static void DisableAllVisuals()
+		{	
+			SpyManager.InvokePre();
+			
+			if (DrawUtilities.ShouldRun())
 			{
-				h.OccluderOn();
-				h.SeeThroughOn();
-				h.ConstantOnImmediate();
+				SpecPlayer = MiscOptions.SpectatedPlayer;
+			
+				MiscOptions.SpectatedPlayer = null;
+				MiscOptions.Freecam = false;
+				
+				foreach (Highlighter h in ESPComponent.highlighters)
+				{
+					h.ConstantOffImmediate();
+					h.Die();
+				}
+
+				if (OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset pAsset)
+				{
+					UseableGun PGun = OptimizationVariables.MainPlayer.equipment.useable as UseableGun;
+
+					PlayerUI.updateCrosshair(PGun.isAiming
+						? WeaponComponent.AssetBackups[pAsset.id][5]
+						: WeaponComponent.AssetBackups[pAsset.id][6]);
+				}
+
+
+				PlayerDashboardInformationUI.refreshDynamicMap();
+				PlayerLifeUI.updateCompass();
+				LevelLighting.updateLighting();
+			}
+
+			SpyManager.DestroyComponents();
+		}
+
+		public static void EnableAllVisuals()
+		{
+			SpyManager.AddComponents();
+
+			if (DrawUtilities.ShouldRun())
+			{
+				LevelLighting.updateLighting();
+
+				PlayerDashboardInformationUI.refreshDynamicMap();
+				PlayerLifeUI.updateCompass();
+
+
+				foreach (Highlighter h in ESPComponent.highlighters)
+				{
+					h.OccluderOn();
+					h.SeeThroughOn();
+					h.ConstantOnImmediate();
+				}
+
+				MiscOptions.SpectatedPlayer = SpecPlayer;
 			}
 			
-			SpyManager.AddComponents();
 			SpyManager.InvokePost();
-
-			LevelLighting.updateLighting();
-			MiscOptions.SpectatedPlayer = SpecPlayer;
-
-			IsSpying = false;
 		}
 	}
 }

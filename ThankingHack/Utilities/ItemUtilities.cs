@@ -73,10 +73,10 @@ namespace Thanking.Utilities
 						GUILayout.Space(55);
 						OptionList.searchstring = Prefab.TextField(OptionList.searchstring, "Search:", 200);
 						GUILayout.Space(5);
+						
 						if (Prefab.Button("Refresh", 276))
-						{
 							ItemsComponent.RefreshItems();
-						}
+						
 						GUILayout.FlexibleSpace();
 						GUILayout.EndHorizontal();
 						Prefab.ScrollView(new Rect(70, 0 + 50, 620 - 70 - 10, 190), "Add", ref OptionList.additemscroll, () =>

@@ -12,6 +12,7 @@ using HighlightingSystem;
 using System.Collections.Generic;
 using System.Linq;
 using Thanking.Managers.Main;
+using UnityEngine.PostProcessing;
 
 namespace Thanking.Components.UI
 {
@@ -171,8 +172,6 @@ namespace Thanking.Components.UI
 					#region Beds
 					case ESPTarget.Beds:
 						{
-							InteractableBed bed = (InteractableBed)obj.Object;
-
 							text = $"<size={size}>Bed\n{rounded}</size>";
 							break;
 						}
@@ -180,8 +179,6 @@ namespace Thanking.Components.UI
 					#region Claim Flags
 					case ESPTarget.ClaimFlags:
 						{
-							InteractableClaim flag = (InteractableClaim)obj.Object;
-
 							text = $"<size={size}>Claim Flag\n{rounded}</size>";
 							break;
 						}
@@ -202,8 +199,6 @@ namespace Thanking.Components.UI
 					#region Storage
 					case ESPTarget.Storage:
 						{
-							InteractableStorage stor = (InteractableStorage)obj.Object;
-
 							text = $"<size={size}>Storage\n{rounded}</size>";
 							break;
 						}
@@ -213,8 +208,10 @@ namespace Thanking.Components.UI
 						{
 							InteractableGenerator gen = (InteractableGenerator)obj.Object;
 
-							text = $"<size={size}>Generator\n{gen.fuel / gen.capacity}%\n{GetPowered(gen, true)}\n{rounded}</size>";
-							outerText = $"<size={size}>Generator\n{gen.fuel / gen.capacity}%\n{GetPowered(gen, false)}\n{rounded}</size>";
+							float fuel = 100 * (gen.fuel / (float) gen.capacity);
+							
+							text = $"<size={size}>Generator\n{fuel}%\n{GetPowered(gen, true)}\n{rounded}</size>";
+							outerText = $"<size={size}>Generator\n{fuel}%\n{GetPowered(gen, false)}\n{rounded}</size>";
 							break;
 						}
 						#endregion

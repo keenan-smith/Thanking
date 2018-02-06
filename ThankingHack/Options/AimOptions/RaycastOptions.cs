@@ -19,9 +19,9 @@ namespace Thanking.Options.AimOptions
 	{
 		[Save] public static bool Enabled = true;
 		[Save] public static bool UseRandomLimb = false;
+		[Save] public static bool UseCustomLimb = false;
 		[Save] public static bool UseTargetMaterial = true;
 		[Save] public static bool UseModifiedVector = true;
-		[Save] public static bool ExtendedRange = true;
 
 		[Save] public static TargetPriority Target = TargetPriority.Players;
 		[Save] public static EPhysicsMaterial TargetMaterial = EPhysicsMaterial.ALIEN_DYNAMIC;

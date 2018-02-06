@@ -112,11 +112,11 @@ namespace Thanking.Components.UI.Menu.Tabs
 					if (!InteractionOptions.InteractThroughWalls)
 						return;
 
-                    Prefab.Toggle("Hit Structures", ref InteractionOptions.HitStructures);
-                    Prefab.Toggle("Hit Barricades", ref InteractionOptions.HitBarricades);
-                    Prefab.Toggle("Hit Items", ref InteractionOptions.HitItems);
-                    Prefab.Toggle("Hit Vehicles", ref InteractionOptions.HitVehicles);
-                    Prefab.Toggle("Hit Resources", ref InteractionOptions.HitResources);
+                    Prefab.Toggle("Don't Hit Structures", ref InteractionOptions.NoHitStructures);
+                    Prefab.Toggle("Don't Hit Barricades", ref InteractionOptions.NoHitBarricades);
+                    Prefab.Toggle("Don't Hit Items", ref InteractionOptions.NoHitItems);
+                    Prefab.Toggle("Don't Hit Vehicles", ref InteractionOptions.NoHitVehicles);
+                    Prefab.Toggle("Don't Hit Resources", ref InteractionOptions.NoHitResources);
                 });
             });
         }

@@ -27,7 +27,7 @@ namespace Thanking.Coroutines
 	        
             while (true)
             {
-                if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying || UnlitChams == null)
+                if (!DrawUtilities.ShouldRun() || UnlitChams == null)
                 {
                     yield return new WaitForSeconds(1f);
 
@@ -138,171 +138,170 @@ namespace Thanking.Coroutines
 					yield return new WaitForSeconds(2);
 					continue;
 				}
-
-				try
-				{
 					List<ESPObject> objects = ESPVariables.Objects;
 					objects.Clear();
 
 					List<ESPTarget> targets = ESPOptions.PriorityTable.Keys.OrderByDescending(k => ESPOptions.PriorityTable[k]).ToList();
 
-					for (int i = 0; i < targets.Count; i++)
+				for (int i = 0; i < targets.Count; i++)
+				{
+					ESPTarget target = targets[i];
+					ESPVisual vis = ESPOptions.VisualOptions[(int) target];
+
+					if (!vis.Enabled)
+						continue;
+
+					Vector3 pPos = OptimizationVariables.MainPlayer.transform.position;
+
+					switch (target)
 					{
-						ESPTarget target = targets[i];
-						ESPVisual vis = ESPOptions.VisualOptions[(int)target];
-
-						if (!vis.Enabled)
-							continue;
-
-						Vector3 pPos = OptimizationVariables.MainPlayer.transform.position;
-
-						switch (target)
+						case ESPTarget.Players:
 						{
-							case ESPTarget.Players:
-								{
-									SteamPlayer[] objarray = Provider.clients.OrderByDescending(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)).ToArray();
+							SteamPlayer[] objarray = Provider.clients
+								.OrderByDescending(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarray.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarray = objarray.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarray.Length; j++)
-									{
-										SteamPlayer sPlayer = objarray[j];
-										Player plr = sPlayer.player;
+							for (int j = 0; j < objarray.Length; j++)
+							{
+								SteamPlayer sPlayer = objarray[j];
+								Player plr = sPlayer.player;
 
-										if (plr.life.isDead || plr == OptimizationVariables.MainPlayer)
-											continue;
+								if (plr.life.isDead || plr == OptimizationVariables.MainPlayer)
+									continue;
 
-										objects.Add(new ESPObject(target, plr, plr.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.Zombies:
-								{
-									Zombie[] objarr = Object.FindObjectsOfType<Zombie>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								objects.Add(new ESPObject(target, plr, plr.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.Zombies:
+						{
+							Zombie[] objarr = Object.FindObjectsOfType<Zombie>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										Zombie obj = objarr[j];
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.Items:
-								{
-									InteractableItem[] objarr = Object.FindObjectsOfType<InteractableItem>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								Zombie obj = objarr[j];
+								objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.Items:
+						{
+							InteractableItem[] objarr = Object.FindObjectsOfType<InteractableItem>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										InteractableItem obj = objarr[j];
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								InteractableItem obj = objarr[j];
 
-										if (ItemUtilities.Whitelisted(obj.asset, ItemOptions.ItemESPOptions) || !ESPOptions.FilterItems)
-											objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.Sentries:
-								{
-									InteractableSentry[] objarr = Object.FindObjectsOfType<InteractableSentry>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								if (ItemUtilities.Whitelisted(obj.asset, ItemOptions.ItemESPOptions) || !ESPOptions.FilterItems)
+									objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.Sentries:
+						{
+							InteractableSentry[] objarr = Object.FindObjectsOfType<InteractableSentry>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										InteractableSentry obj = objarr[j];
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.Beds:
-								{
-									InteractableBed[] objarr = Object.FindObjectsOfType<InteractableBed>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								InteractableSentry obj = objarr[j];
+								objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.Beds:
+						{
+							InteractableBed[] objarr = Object.FindObjectsOfType<InteractableBed>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										InteractableBed obj = objarr[j];
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.ClaimFlags:
-								{
-									InteractableClaim[] objarr = Object.FindObjectsOfType<InteractableClaim>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								InteractableBed obj = objarr[j];
+								objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.ClaimFlags:
+						{
+							InteractableClaim[] objarr = Object.FindObjectsOfType<InteractableClaim>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										InteractableClaim obj = objarr[j];
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.Vehicles:
-								{
-									InteractableVehicle[] objarr = Object.FindObjectsOfType<InteractableVehicle>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								InteractableClaim obj = objarr[j];
+								objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.Vehicles:
+						{
+							InteractableVehicle[] objarr = Object.FindObjectsOfType<InteractableVehicle>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										InteractableVehicle obj = objarr[j];
-										if (obj.isExploded)
-											continue;
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								InteractableVehicle obj = objarr[j];
+								if (obj.isExploded)
+									continue;
 
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.Storage:
-								{
-									InteractableStorage[] objarr = Object.FindObjectsOfType<InteractableStorage>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.Storage:
+						{
+							InteractableStorage[] objarr = Object.FindObjectsOfType<InteractableStorage>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										InteractableStorage obj = objarr[j];
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
-							case ESPTarget.Generators:
-								{
-									InteractableGenerator[] objarr = Object.FindObjectsOfType<InteractableGenerator>().OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								InteractableStorage obj = objarr[j];
+								objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
+						}
+						case ESPTarget.Generators:
+						{
+							InteractableGenerator[] objarr = Object.FindObjectsOfType<InteractableGenerator>()
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
-									if (vis.UseObjectCap)
-										objarr.Take(vis.ObjectCap);
+							if (vis.UseObjectCap)
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
-									for (int j = 0; j < objarr.Length; j++)
-									{
-										InteractableGenerator obj = objarr[j];
-										objects.Add(new ESPObject(target, obj, obj.gameObject));
-									}
-									break;
-								}
+							for (int j = 0; j < objarr.Length; j++)
+							{
+								InteractableGenerator obj = objarr[j];
+								objects.Add(new ESPObject(target, obj, obj.gameObject));
+							}
+							break;
 						}
 					}
 				}
-				catch (Exception e)
-				{
-					Debug.LogError("Error Updating ESP Objects:");
-					Debug.LogError(e);
-				}
-
 				yield return new WaitForSeconds(5);
 			}
 		}

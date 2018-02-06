@@ -21,10 +21,12 @@ namespace Thanking.Overrides
         
 		[Override(typeof(PlayerDashboardInformationUI), "refreshDynamicMap", BindingFlags.Public | BindingFlags.Static)]
         public static void refreshDynamicMap()
-        {
+		{
             mapDynamicContainer.remove();
+		    
             if (!PlayerDashboardInformationUI.active)
                 return;
+		    
             if (!PlayerDashboardInformationUI.noLabel.isVisible && Provider.modeConfigData.Gameplay.Group_Map)
             {
                 if (LevelManager.levelType == ELevelType.ARENA)
@@ -128,7 +130,7 @@ namespace Thanking.Overrides
                     SteamPlayer steamPlayer = Provider.clients[i];
                     bool shouldDraw = steamPlayer.player.quests.isMemberOfSameGroupAs(OptimizationVariables.MainPlayer);
                     
-                    if (MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun() && !PlayerCoroutines.IsSpying) // cancer
+                    if (!shouldDraw && MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun()) // cancer
                         shouldDraw = true;
                     
                     if (steamPlayer.playerID.steamID != Provider.client && steamPlayer.model != null && shouldDraw)

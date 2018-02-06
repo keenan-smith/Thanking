@@ -25,7 +25,7 @@ namespace Thanking.Overrides
 		{
 			float TBackup = LevelLighting.time;
 			
-			if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying || !MiscOptions.SetTimeEnabled)
+			if (!DrawUtilities.ShouldRun() || !MiscOptions.SetTimeEnabled)
 			{
 				OverrideUtilities.CallOriginal();
 				return;

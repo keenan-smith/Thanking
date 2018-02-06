@@ -22,6 +22,7 @@ namespace Thanking.Components.Basic
     {
         public static MiscComponent Instance;
         public static float LastMovementCheck;
+        public static bool NightvisionBeforeSpy;
         
         private int currentKills = 0;
         
@@ -42,28 +43,15 @@ namespace Thanking.Components.Basic
                 AimbotOptions.OnKey = !AimbotOptions.OnKey);
             
             HotkeyComponent.ActionDict.Add("_ToggleFreecam", () => 
-                OptimizationVariables.MainPlayer.look.isOrbiting = !OptimizationVariables.MainPlayer.look.isOrbiting);
+                MiscOptions.Freecam = !MiscOptions.Freecam);
             
             HotkeyComponent.ActionDict.Add("_PanicButton", () =>
             {
                 MiscOptions.PanicMode = !MiscOptions.PanicMode;
                 if (MiscOptions.PanicMode)
-                {
-                    foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
-                        if (T.IsDefined(typeof(SpyComponentAttribute), false))
-                            Destroy(Loader.HookObject.GetComponent(T));
-                    
-                    ESPCoroutines.DisableChams();   
-                }
+                    PlayerCoroutines.DisableAllVisuals();
                 else
-                {
-                    foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
-                        if (T.IsDefined(typeof(SpyComponentAttribute), false))
-                            Loader.HookObject.AddComponent(T);
-                    
-                    if (ESPOptions.ChamsEnabled)
-                        ESPCoroutines.EnableChams();
-                }
+                    PlayerCoroutines.EnableAllVisuals();
             });
 
             Provider.onClientConnected += () =>
@@ -85,8 +73,22 @@ namespace Thanking.Components.Basic
             PlayerLifeUI.updateGrayscale();
             
             MiscOptions.WasNightVision = false;
+            NightvisionBeforeSpy = true;
         }
 
+        [OffSpy]
+        public static void EnableNightVision()
+        {
+            if (!NightvisionBeforeSpy)
+                return;
+
+            NightvisionBeforeSpy = false;
+            LevelLighting.vision = ELightingVision.MILITARY;
+            LevelLighting.updateLighting();
+            PlayerLifeUI.updateGrayscale();
+            MiscOptions.WasNightVision = true;
+        }
+        
         public void Update()
         {
             if (Player.player != null && OptimizationVariables.MainPlayer == null)
@@ -95,7 +97,7 @@ namespace Thanking.Components.Basic
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = null;
             
-            if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
+            if (!DrawUtilities.ShouldRun())
                 return;
 
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
@@ -123,7 +125,8 @@ namespace Thanking.Components.Basic
             }
             else
             {
-                if (!MiscOptions.WasNightVision) return;
+                if (!MiscOptions.WasNightVision) 
+                    return;
                 
                 LevelLighting.vision = ELightingVision.NONE;
                 LevelLighting.updateLighting();
@@ -208,22 +211,15 @@ namespace Thanking.Components.Basic
             yield return new WaitForSeconds(0.5f);
 
             if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, NewPos) > 100)
+            {
                 MiscOptions.NoMovementVerification = false;
+                PlayerUI.hint(null, EPlayerMessage.EMPTY, "Movement verification on D:", Color.red);
+            }
             else
             {
                 MiscOptions.NoMovementVerification = true;
-                OptimizationVariables.MainPlayer.transform.position = LastPos;
-            }
-        }
-
-        public static IEnumerator CheckPlayer()
-        {
-            while (OptimizationVariables.MainPlayer == null)
-            {
-                OptimizationVariables.MainPlayer = Player.player;
-                OptimizationVariables.MainCam = Camera.main;
-
-                yield return new WaitForSeconds(0.5f);
+                OptimizationVariables.MainPlayer.transform.position = LastPos + new Vector3(0, 3, 0);
+                PlayerUI.hint(null, EPlayerMessage.EMPTY, "Movement verification off :D", Color.green);
             }
         }
     }

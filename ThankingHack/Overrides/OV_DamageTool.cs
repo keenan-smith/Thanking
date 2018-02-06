@@ -9,19 +9,19 @@ namespace Thanking.Overrides
 	public enum OverrideType
 	{
 		None,
-		Regular,
+		ExtendedMelee,
 		SilentAim
 	}
 	public static class OV_DamageTool
 	{
 		public static OverrideType OVType = OverrideType.None;
 	
-	    //[Override(typeof(DamageTool), "raycast", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)] 
+	    [Override(typeof(DamageTool), "raycast", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)] 
 		public static RaycastInfo OV_raycast(Ray ray, float range, int mask)
 		{
 			switch (OVType)
 			{
-				case OverrideType.Regular:
+				case OverrideType.ExtendedMelee:
 					return RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
 
 				case OverrideType.SilentAim:

@@ -128,16 +128,15 @@ namespace Thanking.Components.UI.Menu.Tabs
 			Prefab.Toggle("Text Scaling", ref visual.TextScaling);
 			if (visual.TextScaling)
 			{
-				visual.FixedTextSize = Prefab.TextField(visual.FixedTextSize, "Fixed Text Size:", 30);
-				GUILayout.Space(3);
 				visual.MinTextSize = Prefab.TextField(visual.MinTextSize, "Min Text Size:", 30);
-				GUILayout.Space(3);
 				visual.MaxTextSize = Prefab.TextField(visual.MaxTextSize, "Max Text Size:", 30);
 				GUILayout.Space(3);
 				GUILayout.Label("Text Scaling Falloff Distance: " + Mathf.RoundToInt(visual.MinTextSizeDistance), Prefab._TextStyle);
 				Prefab.Slider(0, 1000, ref visual.MinTextSizeDistance, 200);
 				GUILayout.Space(3);
 			}
+	        else
+				visual.FixedTextSize = Prefab.TextField(visual.FixedTextSize, "Fixed Text Size:", 30);
 
 			Prefab.Toggle("Infinite Distance", ref visual.InfiniteDistance);
 			if (!visual.InfiniteDistance)
@@ -146,8 +145,13 @@ namespace Thanking.Components.UI.Menu.Tabs
 				Prefab.Slider(0, 4000, ref visual.Distance, 200);
 				GUILayout.Space(3);
 			}
+	        
+	        Prefab.Toggle("Limit Object Numer", ref visual.UseObjectCap);
+	        if (visual.UseObjectCap)
+		        visual.ObjectCap = Prefab.TextField(visual.ObjectCap, "Object cap:", 30);
+	        
 			visual.BorderStrength = Prefab.TextField(visual.BorderStrength, "Border Strength:", 30);
-			GUILayout.Space(6);
+			GUILayout.Space(3);
 			GUIContent[] LabelLocations = { new GUIContent("Top Right"), new GUIContent("Top Middle"), new GUIContent("Top Left"), new GUIContent("Middle Right"), new GUIContent("Center"), new GUIContent("Middle Left"), new GUIContent("Bottom Right"), new GUIContent("Bottom Middle"), new GUIContent("Bottom Left") };
 			if (Prefab.List(200, "_LabelLocations", new GUIContent("Label Location: " + LabelLocations[DropDown.Get("_LabelLocations").ListIndex].text), LabelLocations))
 				ESPOptions.VisualOptions[target].Location = (LabelLocation)DropDown.Get("_LabelLocations").ListIndex;

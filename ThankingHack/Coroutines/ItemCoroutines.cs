@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using SDG.Unturned;
+using Thanking.Components.Basic;
 using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -17,23 +18,24 @@ namespace Thanking.Coroutines
             
             while (true)
             {
-                if (!ItemOptions.AutoItemPickup || !Provider.isConnected || Provider.isLoading ||
-                        OptimizationVariables.MainPlayer == null)
+                if (!DrawUtilities.ShouldRun() || !ItemOptions.AutoItemPickup)
                 {
                     yield return new WaitForSeconds(0.5f);
                     continue;
                 }
-
-                Collider[] array = Physics.OverlapSphere(OptimizationVariables.MainCam.transform.position, 19f, RayMasks.ITEM);
+                
+                Collider[] array = Physics.OverlapSphere(OptimizationVariables.MainPlayer.transform.position, 19f, RayMasks.ITEM);
 
                 for (int i = 0; i < array.Length; i++)
                 {
-                    if (array[i] == null || array[i].GetComponent<InteractableItem>() == null ||
-                        array[i].GetComponent<InteractableItem>().asset == null) continue;
+                    Collider col = array[i];
+                    if (col == null || col.GetComponent<InteractableItem>() == null ||
+                        col.GetComponent<InteractableItem>().asset == null) continue;
 
-                    InteractableItem item = array[i].GetComponent<InteractableItem>();
+                    InteractableItem item = col.GetComponent<InteractableItem>();
 
-                    if (!ItemUtilities.Whitelisted(item.asset, ItemOptions.ItemFilterOptions)) continue;
+                    if (!ItemUtilities.Whitelisted(item.asset, ItemOptions.ItemFilterOptions)) 
+                        continue;
                     
                     item.use();
                 }
