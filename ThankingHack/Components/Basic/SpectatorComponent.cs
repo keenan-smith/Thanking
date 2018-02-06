@@ -10,12 +10,6 @@ namespace Thanking.Components.Basic
     [Component]
     public class SpectatorComponent : MonoBehaviour
     {
-        public static float LookAngle = 0f;
-        public static float TiltAngle = 0f;
-        public static Transform Pivot = null;
-        public static Quaternion PivotTargetLocalRotation; // Controls the X Rotation (Tilt Rotation)
-        public static Quaternion RigTargetLocalRotation; // Controlls the Y Rotation (Look Rotation)
-        
         public void FixedUpdate()
         {
             if (!DrawUtilities.ShouldRun())
@@ -28,6 +22,8 @@ namespace Thanking.Components.Basic
                 OptimizationVariables.MainPlayer.look.orbitPosition =
                     MiscOptions.SpectatedPlayer.transform.position -
                     OptimizationVariables.MainPlayer.transform.position;
+                
+                OptimizationVariables.MainPlayer.look.orbitPosition += new Vector3(0, 3, 0);
             }
             else
             {

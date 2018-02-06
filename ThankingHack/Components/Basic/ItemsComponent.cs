@@ -13,12 +13,11 @@ namespace Thanking.Components.Basic
     public class ItemsComponent : MonoBehaviour
     {
         public static List<ItemAsset> items = new List<ItemAsset>();
-        public static ushort uAmount = ushort.MaxValue;
 
         public static void RefreshItems() //Loop through all possible items and add them to the list if they exist
         {
             items.Clear();
-            for (ushort i = 0; i < uAmount; i++)
+            for (ushort i = 0; i < ushort.MaxValue; i++)
             {
                 ItemAsset asset = (ItemAsset)Assets.find(EAssetType.ITEM, i);
 

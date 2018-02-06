@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using HighlightingSystem;
 using SDG.Unturned;
 using Thanking.Utilities;
 using Thanking.Components.UI;
@@ -36,7 +37,12 @@ namespace Thanking.Coroutines
 			SpyManager.DestroyComponents();
 
 			Player.player.look.isOrbiting = false;
-			
+
+			foreach (Highlighter h in ESPComponent.highlighters)
+			{
+				h.ConstantOffImmediate();
+				h.Die();
+			}
 
 			LevelLighting.updateLighting();
 
@@ -102,6 +108,13 @@ namespace Thanking.Coroutines
 
 			yield return new WaitForFixedUpdate();
 
+			foreach (Highlighter h in ESPComponent.highlighters)
+			{
+				h.OccluderOn();
+				h.SeeThroughOn();
+				h.ConstantOnImmediate();
+			}
+			
 			SpyManager.AddComponents();
 			SpyManager.InvokePost();
 

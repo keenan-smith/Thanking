@@ -22,7 +22,7 @@ namespace Thanking.Components.UI
 		public static Material GLMat;
 		public static Font ESPFont;
 
-        private static List<Highlighter> highlighters = new List<Highlighter>();
+        public static List<Highlighter> highlighters = new List<Highlighter>();
 
         public static Camera MainCamera;
 
