@@ -116,7 +116,7 @@ namespace Thanking.Overrides
         public void OV_Update() // i have no idea what any of this does tbh
         {
 
-            if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
+            if (!DrawUtilities.ShouldRun())
                 return;
 
             if (OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.DRIVING && OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.SITTING &&
@@ -126,36 +126,31 @@ namespace Thanking.Overrides
                 {
                     int Mask = 0;
 
-                    if (InteractionOptions.HitBarricades)
+                    if (!InteractionOptions.NoHitBarricades)
                         Mask |= RayMasks.BARRICADE;
 
-                    if (InteractionOptions.HitItems)
+                    if (!InteractionOptions.NoHitItems)
                         Mask |= RayMasks.ITEM;
 
-                    if (InteractionOptions.HitResources)
+                    if (!InteractionOptions.NoHitResources)
                         Mask |= RayMasks.RESOURCE;
 
-                    if (InteractionOptions.HitStructures)
+                    if (!InteractionOptions.NoHitStructures)
                         Mask |= RayMasks.STRUCTURE;
 
-                    if (InteractionOptions.HitVehicles)
+                    if (!InteractionOptions.NoHitVehicles)
                         Mask |= RayMasks.VEHICLE;
 
                     lastInteract = Time.realtimeSinceStartup;
 
                     // ic3 has tamed this area with cancerous code
-                    float Range = InteractionOptions.InteractThroughWalls ? 20f : 4f
-                        ;
+                    float Range = InteractionOptions.InteractThroughWalls ? 20f : 4f;
 
                     int RayMask = InteractionOptions.InteractThroughWalls ? Mask : RayMasks.PLAYER_INTERACT;
                         
 
                     PlayerLook pLook = OptimizationVariables.MainPlayer.look;
-
-                    Vector3 origin = pLook.isCam ? pLook.aim.position : MainCamera.instance.transform.position;
-                    Vector3 direction = pLook.isCam ? pLook.aim.forward : MainCamera.instance.transform.forward;
-
-                    PhysicsUtility.raycast(new Ray(origin, direction), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, RayMask, 0);
+                    PhysicsUtility.raycast(new Ray(pLook.aim.position, pLook.aim.forward), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, RayMask, 0);
 
                     /*if (OptimizationVariables.MainPlayer.look.isCam)
 						PhysicsUtility.raycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward),

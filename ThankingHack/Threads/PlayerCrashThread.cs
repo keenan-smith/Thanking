@@ -29,13 +29,7 @@ namespace Thanking.Threads
             channel.getPacket(ESteamPacket.UPDATE_RELIABLE_INSTANT, call, out Size, out Packet);
             
             Provider.onClientDisconnected += OnDisconnect;
-    
-            for (int i = 0; i < 3; i++)
-                new Thread(CrashThread).Start();
-        }
-
-        public static void CrashThread()
-        {
+     
             while (true)
             {
                 if (PlayerCrashEnabled)

@@ -17,7 +17,7 @@ namespace Thanking.Components.Basic
         private Vector3 Velocity = Vector3.zero;
         public GameObject Sphere;
         public float Speed = -1;
-        public float Radius = -1;
+        public float Radius = SphereOptions.SphereRadius;
 
         void Awake()
         {
@@ -27,11 +27,11 @@ namespace Thanking.Components.Basic
   
         IEnumerator CalcVelocity()
         {
-            Radius = SphereOptions.SphereRadius;
             while(true)
             {
                 prevPos = transform.position;
                 yield return new WaitForSeconds(0.5f);
+                
                 Velocity = (transform.position - prevPos) * 2;
                 Speed = (float) VectorUtilities.GetMagnitude(Velocity);
             }
@@ -59,10 +59,9 @@ namespace Thanking.Components.Basic
         {
             Speed = SphereOptions.DynamicSphere ? Speed : -1;
             Radius = SphereOptions.SphereRadius;
-			float Margin = Provider.ping * 1.2f;
 
             if (Speed > 0)
-                Radius = 15.5f - Speed * Margin;
+                Radius = 15.5f - Speed * Provider.ping * 1.3f;
         }
 
         void SetUpSphere()

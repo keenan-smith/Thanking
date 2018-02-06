@@ -5,10 +5,10 @@ namespace Thanking.Options
     public static class InteractionOptions
     {
         [Save] public static bool InteractThroughWalls = true;
-        [Save] public static bool HitStructures = false;
-        [Save] public static bool HitBarricades = true;
-        [Save] public static bool HitItems = true;
-        [Save] public static bool HitVehicles = true;
-        [Save] public static bool HitResources = true;
+        [Save] public static bool NoHitStructures = false;
+        [Save] public static bool NoHitBarricades = true;
+        [Save] public static bool NoHitItems = true;
+        [Save] public static bool NoHitVehicles = true;
+        [Save] public static bool NoHitResources = true;
     }
 }

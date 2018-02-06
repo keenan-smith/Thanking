@@ -12,8 +12,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class HotkeyTab
     {
-        public static bool IsInitialized = false;
-        
         public static Vector2 HotkeyScroll;
         public static string ClickedOption;
         
@@ -47,8 +45,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 DrawButton("Toggle All Visuals", "_PanicButton");
                 DrawButton("Toggle Freecam", "_ToggleFreecam");
                 DrawButton("Toggle Logo", "_ToggleLogo");
-                
-                IsInitialized = true;
             });
         }
 

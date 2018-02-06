@@ -35,7 +35,11 @@ namespace Thanking.Utilities
 				raycastInfo.animal = DamageTool.getAnimal(raycastInfo.transform);
 
 			raycastInfo.limb = DamageTool.getLimb(raycastInfo.transform);
-
+			if (RaycastOptions.UseRandomLimb)
+			{
+				
+			}
+			
 			if (hit.transform.CompareTag("Vehicle"))
 				raycastInfo.vehicle = DamageTool.getVehicle(raycastInfo.transform);
 
@@ -44,14 +48,20 @@ namespace Thanking.Utilities
 
 			else
 				raycastInfo.material = DamageTool.getMaterial(hit.point, hit.transform, hit.collider);
+
+			if (RaycastOptions.UseTargetMaterial)
+				raycastInfo.material = RaycastOptions.TargetMaterial;
 			
 			return raycastInfo;
 		}
 
-	    public static bool GenerateRaycast(out RaycastInfo info)
+	    public static bool GenerateRaycast(out RaycastInfo info, bool DecreaseRange = false)
 	    {
 		    ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
 		    float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
+
+		    if (DecreaseRange)
+			    Range -= 10;
 		    
 		    info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
 			    RayMasks.DAMAGE_CLIENT);

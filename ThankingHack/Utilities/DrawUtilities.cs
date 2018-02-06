@@ -1,4 +1,5 @@
 ﻿using SDG.Unturned;
+using Thanking.Coroutines;
 using Thanking.Variables;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Thanking.Utilities
 	{
 		public static bool ShouldRun() =>
 			!(!Provider.isConnected || Provider.isLoading || LoadingUI.isBlocked ||
-					OptimizationVariables.MainPlayer == null || Provider.clients == null || Provider.clients.Count == 0);
+			  OptimizationVariables.MainPlayer == null || PlayerCoroutines.IsSpying);
 
 		public static int GetTextSize(ESPVisual vis, double dist)
 		{
