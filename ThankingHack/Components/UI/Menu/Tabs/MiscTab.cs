@@ -1,5 +1,6 @@
 ﻿using SDG.Unturned;
 using System;
+using System.Reflection;
 using Thanking.Components.Basic;
 using Thanking.Options;
 using Thanking.Threads;
@@ -93,7 +94,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 
-				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
+				Prefab.MenuArea(new Rect(10, 436 - 135, 220, 145), "SPAMMER", () =>
                 {
                     Prefab.Toggle("Enabled", ref MiscOptions.SpammerEnabled);
 
@@ -105,18 +106,19 @@ namespace Thanking.Components.UI.Menu.Tabs
                     MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 3000, MiscOptions.SpammerDelay, 175);
                 });
 
-                Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135 - 10, 221, 135), "INTERACT", () =>
+                Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135, 221, 145), "INTERACT", () =>
 				{
-					Prefab.Toggle("Interact Through Walls", ref InteractionOptions.InteractThroughWalls);
+					Prefab.Toggle("Interact Through Things", ref InteractionOptions.InteractThroughWalls);
 
 					if (!InteractionOptions.InteractThroughWalls)
 						return;
 
-                    Prefab.Toggle("Don't Hit Structures", ref InteractionOptions.NoHitStructures);
-                    Prefab.Toggle("Don't Hit Barricades", ref InteractionOptions.NoHitBarricades);
-                    Prefab.Toggle("Don't Hit Items", ref InteractionOptions.NoHitItems);
-                    Prefab.Toggle("Don't Hit Vehicles", ref InteractionOptions.NoHitVehicles);
-                    Prefab.Toggle("Don't Hit Resources", ref InteractionOptions.NoHitResources);
+                    Prefab.Toggle("Walls/Floors/Etc", ref InteractionOptions.NoHitStructures);
+                    Prefab.Toggle("Lockers/Doors/Etc", ref InteractionOptions.NoHitBarricades);
+                    Prefab.Toggle("Items", ref InteractionOptions.NoHitItems);
+                    Prefab.Toggle("Vehicles", ref InteractionOptions.NoHitVehicles);
+                    Prefab.Toggle("Resources", ref InteractionOptions.NoHitResources);
+					Prefab.Toggle("Ground", ref InteractionOptions.NoHitGround);
                 });
             });
         }

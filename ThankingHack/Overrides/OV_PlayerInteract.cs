@@ -115,8 +115,7 @@ namespace Thanking.Overrides
         [Override(typeof(PlayerInteract), "Update", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_Update() // i have no idea what any of this does tbh
         {
-
-            if (!DrawUtilities.ShouldRun())
+            if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
                 return;
 
             if (OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.DRIVING && OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.SITTING &&
@@ -141,6 +140,9 @@ namespace Thanking.Overrides
                     if (!InteractionOptions.NoHitVehicles)
                         Mask |= RayMasks.VEHICLE;
 
+                    if (!InteractionOptions.NoHitGround)
+                        Mask |= RayMasks.GROUND;
+                    
                     lastInteract = Time.realtimeSinceStartup;
 
                     // ic3 has tamed this area with cancerous code
@@ -156,7 +158,7 @@ namespace Thanking.Overrides
 						PhysicsUtility.raycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward),
 							out hit, 20f, Mask);
 					else
-						PhysicsUtility.raycast(new Ray(MainCamera.instance.transform.position, MainCamera.instance.transform.forward),
+						PhysicsUtility.raycast(new Ray(OptimizationVariables.MainCam.transform.position, OptimizationVariables.MainCam.transform.forward),
 							out hit, OptimizationVariables.MainPlayer.look.perspective != EPlayerPerspective.THIRD ? 20 : 24, Mask);*/
                 }
 

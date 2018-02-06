@@ -30,6 +30,41 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
 		        GUILayout.Space(10);
 
+		        if (RaycastOptions.Enabled)
+		        {
+			        GUILayout.Space(10);
+			        Prefab.Toggle("Dynamic Sphere Radius", ref SphereOptions.DynamicSphere);
+			        GUILayout.Space(5);
+
+			        if (!SphereOptions.DynamicSphere)
+			        {
+				        GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
+				        Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
+				        GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m",
+					        Prefab._TextStyle);
+				        Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
+			        }
+
+			        GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
+			        SphereOptions.RecursionLevel = (int) Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
+
+			        GUIContent[] TargetPriorities =
+			        {
+				        new GUIContent("Players"),
+				        new GUIContent("Zombies"),
+				        new GUIContent("Sentries"),
+				        new GUIContent("Beds"),
+				        new GUIContent("Claim Flags"),
+				        new GUIContent("Storage"),
+				        new GUIContent("Vehicles")
+			        };
+
+			        if (Prefab.List(200, "_TargetPriority",
+				        new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text),
+				        TargetPriorities))
+				        RaycastOptions.Target = (TargetPriority) DropDown.Get("_TargetPriority").ListIndex;
+		        }
+		        
 		        GUIContent[] Limbs =
 		        {
 			        new GUIContent("Left Foot"),
@@ -95,41 +130,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        RaycastOptions.TargetRagdoll.y = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.y, 200);
 			        GUILayout.Label("Ragdoll Vector: Z: " + RaycastOptions.TargetRagdoll.z, Prefab._TextStyle);
 			        RaycastOptions.TargetRagdoll.z = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.z, 200);
-		        }
-
-		        if (RaycastOptions.Enabled)
-		        {
-			        GUILayout.Space(10);
-			        Prefab.Toggle("Dynamic Sphere Radius", ref SphereOptions.DynamicSphere);
-			        GUILayout.Space(5);
-
-			        if (!SphereOptions.DynamicSphere)
-			        {
-				        GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
-				        Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
-				        GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m",
-					        Prefab._TextStyle);
-				        Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
-			        }
-
-			        GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
-			        SphereOptions.RecursionLevel = (int) Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
-
-			        GUIContent[] TargetPriorities =
-			        {
-				        new GUIContent("Players"),
-				        new GUIContent("Zombies"),
-				        new GUIContent("Sentries"),
-				        new GUIContent("Beds"),
-				        new GUIContent("Claim Flags"),
-				        new GUIContent("Storage"),
-				        new GUIContent("Vehicles")
-			        };
-
-			        if (Prefab.List(200, "_TargetPriority",
-				        new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text),
-				        TargetPriorities))
-				        RaycastOptions.Target = (TargetPriority) DropDown.Get("_TargetPriority").ListIndex;
 		        }
 
 		        GUILayout.EndVertical();

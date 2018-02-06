@@ -15,7 +15,7 @@ namespace Thanking.Overrides
 	public static class OV_LevelLighting
 	{
 		public static FieldInfo Time;
-
+		
 		[Initializer]
 		public static void Init() =>
 			Time = typeof(LevelLighting).GetField("_time", BindingFlags.NonPublic | BindingFlags.Static);
@@ -25,7 +25,7 @@ namespace Thanking.Overrides
 		{
 			float TBackup = LevelLighting.time;
 			
-			if (!DrawUtilities.ShouldRun() || !MiscOptions.SetTimeEnabled)
+			if (!DrawUtilities.ShouldRun() || !MiscOptions.SetTimeEnabled || PlayerCoroutines.IsSpying)
 			{
 				OverrideUtilities.CallOriginal();
 				return;

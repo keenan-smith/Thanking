@@ -27,15 +27,14 @@ namespace Thanking.Coroutines
 				yield break;
 			}
 			
+			IsSpying = true;
+			
 			LastSpy = Time.realtimeSinceStartup;
 			DisableAllVisuals();
-			
-			IsSpying = true;
 
 			#if DEBUG
             DebugUtilities.Log("TAKING SCREENSHOT");
 			#endif
-			yield return new WaitForFixedUpdate();
 
 			#region Take Screenshot
 
@@ -94,20 +93,8 @@ namespace Thanking.Coroutines
 		public static void DisableAllVisuals()
 		{	
 			SpyManager.InvokePre();
-			
 			if (DrawUtilities.ShouldRun())
 			{
-				SpecPlayer = MiscOptions.SpectatedPlayer;
-			
-				MiscOptions.SpectatedPlayer = null;
-				MiscOptions.Freecam = false;
-				
-				foreach (Highlighter h in ESPComponent.highlighters)
-				{
-					h.ConstantOffImmediate();
-					h.Die();
-				}
-
 				if (OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset pAsset)
 				{
 					UseableGun PGun = OptimizationVariables.MainPlayer.equipment.useable as UseableGun;
@@ -116,8 +103,7 @@ namespace Thanking.Coroutines
 						? WeaponComponent.AssetBackups[pAsset.id][5]
 						: WeaponComponent.AssetBackups[pAsset.id][6]);
 				}
-
-
+				
 				PlayerDashboardInformationUI.refreshDynamicMap();
 				PlayerLifeUI.updateCompass();
 				LevelLighting.updateLighting();
@@ -133,19 +119,8 @@ namespace Thanking.Coroutines
 			if (DrawUtilities.ShouldRun())
 			{
 				LevelLighting.updateLighting();
-
-				PlayerDashboardInformationUI.refreshDynamicMap();
 				PlayerLifeUI.updateCompass();
-
-
-				foreach (Highlighter h in ESPComponent.highlighters)
-				{
-					h.OccluderOn();
-					h.SeeThroughOn();
-					h.ConstantOnImmediate();
-				}
-
-				MiscOptions.SpectatedPlayer = SpecPlayer;
+				PlayerDashboardInformationUI.refreshDynamicMap();
 			}
 			
 			SpyManager.InvokePost();
