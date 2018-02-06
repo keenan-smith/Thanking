@@ -21,6 +21,7 @@ namespace Thanking.Components.Basic
     public class MiscComponent : MonoBehaviour
     {
         public static MiscComponent Instance;
+        public static float LastMovementCheck;
         
         private int currentKills = 0;
         
@@ -197,6 +198,11 @@ namespace Thanking.Components.Basic
             
         public static IEnumerator CheckVerification(Vector3 LastPos)
         {
+            if (Time.realtimeSinceStartup - LastMovementCheck < 0.8f)
+                yield break;
+
+            LastMovementCheck = Time.realtimeSinceStartup;
+            
             Vector3 NewPos = LastPos + new Vector3(0, 1337, 0);
             OptimizationVariables.MainPlayer.transform.position = NewPos;
             yield return new WaitForSeconds(0.5f);

@@ -68,6 +68,7 @@ namespace Thanking.Components.Basic
         void SetUpSphere()
         {
             Sphere.transform.parent = transform;
+            Sphere.transform.localPosition = Vector3.zero;
             Sphere.layer = LayerMasks.AGENT;
         }
     }

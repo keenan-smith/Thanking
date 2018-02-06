@@ -96,7 +96,6 @@ namespace Thanking.Overrides
 			{
 				for (int i = 0; i < Bullets.Count; i++)
 				{
-					BulletInfo bulletInfo = Bullets[i];
 					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
 					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
 					OptimizationVariables.MainPlayer.input.sendRaycast(ri);

@@ -10,7 +10,7 @@ namespace Thanking.Components.Basic
 	public class TriggerbotComponent : MonoBehaviour
 	{
 		public void Awake() =>
-		  InvokeRepeating(nameof(Check), 0f, 0.15f);
+		  InvokeRepeating(nameof(Check), 0f, 0.2f);
 
 		public void Check()
 		{

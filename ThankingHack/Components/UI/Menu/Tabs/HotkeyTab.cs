@@ -23,8 +23,8 @@ namespace Thanking.Components.UI.Menu.Tabs
             {
                 DrawSpacer("Aimbot", true);
                 
-                DrawButton("Toggle Aimbot", "_ToggleAimbot");
-                DrawButton("Toggle Aimbot on Key", "_AimbotOnKey");
+                DrawButton("Aimbot On/Off", "_ToggleAimbot");
+                DrawButton("Aimbot Key On/Off", "_AimbotOnKey");
                 DrawButton("Aimbot Key", "_AimbotKey");
                 
                 DrawSpacer("Vehicle Flight", false);
@@ -47,9 +47,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 DrawButton("Toggle All Visuals", "_PanicButton");
                 DrawButton("Toggle Freecam", "_ToggleFreecam");
                 DrawButton("Toggle Logo", "_ToggleLogo");
-                
-                DrawButton("Spectate Next Player", "_SPNextPlayer");
-                DrawButton("Spectate Last Player", "_SPLastPlayer");
                 
                 IsInitialized = true;
             });
@@ -85,16 +82,23 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 KeyCode key = HotkeyUtilities.ReturnKey;
 
-                if (key == KeyCode.None)
-                    Prefab.Button("...", 150);
-                else
+                switch (key)
                 {
-                    HotkeyUtilities.ReturnKey = KeyCode.None;
+                    case KeyCode.None:
+                        Prefab.Button("...", 150);
+                        break;
+                    case KeyCode.Mouse0:
+                    case KeyCode.Mouse1:
+                        Prefab.Button("...", 150);
+                        break;
+                    default:
+                        HotkeyUtilities.ReturnKey = KeyCode.None;
 
-                    Prefab.Button(key.ToString(), 150);
-                    HotkeyOptions.HotkeyDict[Identifier] = key;
+                        Prefab.Button(key.ToString(), 150);
+                        HotkeyOptions.HotkeyDict[Identifier] = key;
 
-                    ClickedOption = "";
+                        ClickedOption = "";
+                        break;
                 }
             }
             else

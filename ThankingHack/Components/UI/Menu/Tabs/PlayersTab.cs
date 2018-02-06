@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection.Emit;
 using SDG.Unturned;
+using Steamworks;
 using Thanking.Options;
 using Thanking.Threads;
 using Thanking.Utilities;
@@ -65,6 +66,13 @@ namespace Thanking.Components.UI.Menu.Tabs
                     PlayerCrashThread.PlayerCrashEnabled = true;
                 }
                 
+                if (PlayerCrashThread.PlayerCrashEnabled)
+                    if (Prefab.Button("Stop Crashing", 150))
+                    {
+                        PlayerCrashThread.CrashTarget = CSteamID.Nil;
+                        PlayerCrashThread.PlayerCrashEnabled = false;
+                    }
+
                 if (Prefab.Button("Spectate", 150))
                     MiscOptions.SpectatedPlayer = SelectedPlayer;
 
