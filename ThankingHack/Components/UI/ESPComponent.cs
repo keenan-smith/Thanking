@@ -218,13 +218,22 @@ namespace Thanking.Components.UI
 				}
 
 				Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
-
+				Vector3 LabelVector = Vector3.zero;
+				
                 if (visual.Boxes)
                 {
-                    if (visual.TwoDimensional)
-                        DrawUtilities.PrepareRectangleLines(MainCamera, b, c);
-                    else
-                        DrawUtilities.PrepareBoxLines(vectors, c);
+	                if (visual.TwoDimensional)
+	                {
+		                Vector2[] W2SVectors = DrawUtilities.GetRectangleLines(MainCamera, b, c);
+		                LabelVector = DrawUtilities.Get2DW2SVector(MainCamera, W2SVectors, ll);
+		                
+		                DrawUtilities.PrepareRectangleLines(W2SVectors, c);
+	                }
+	                else
+	                {
+		                DrawUtilities.PrepareBoxLines(vectors, c);
+		                LabelVector = DrawUtilities.Get3DW2SVector(MainCamera, b, ll);
+	                }
                 }
 
                 if (visual.Glow)
@@ -250,10 +259,7 @@ namespace Thanking.Components.UI
                 }
 
                 if (visual.Labels)
-                {
-                    Vector3 LabelVector = DrawUtilities.GetW2SVector(MainCamera, b, ll);
-                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength, outerText);
-                }
+	                DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength, outerText);
 
 				if (visual.LineToObject)
 					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2

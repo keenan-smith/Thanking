@@ -32,7 +32,8 @@ namespace Thanking.Components.UI
 		public void OnGUI()
 		{
 			if (WeaponOptions.NoSway)
-				OptimizationVariables.MainPlayer.animator.viewSway = Vector3.zero;
+				if (OptimizationVariables.MainPlayer != null && OptimizationVariables.MainPlayer.animator != null)
+					OptimizationVariables.MainPlayer.animator.viewSway = Vector3.zero;
 			
 			if (Event.current.type != EventType.Repaint)
 				return;

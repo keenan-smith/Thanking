@@ -46,6 +46,18 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Label("Time: " + MiscOptions.Time, Prefab._TextStyle);
 					GUILayout.Space(2);
 					MiscOptions.Time = (float)Math.Round(Prefab.Slider(0, 0.9f, MiscOptions.Time, 175), 2);
+					GUILayout.Space(8);
+				}
+
+				if (MiscOptions.NoMovementVerification)
+				{
+					Prefab.Toggle("Player Flight", ref MiscOptions.PlayerFlight);
+					if (MiscOptions.PlayerFlight)
+					{
+						GUILayout.Label("Speed Multiplier: " + MiscOptions.FlightSpeedMultiplier + "x", Prefab._TextStyle);
+						GUILayout.Space(2);
+						MiscOptions.FlightSpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.FlightSpeedMultiplier, 175), 2);
+					}
 				}
 
 				GUILayout.EndVertical();
@@ -68,9 +80,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 					MiscComponent.CheckMovementVerification();
 				
 				Prefab.Toggle("Always Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
-
-				if (MiscOptions.NoMovementVerification)
-					Prefab.Toggle("Flight", ref MiscOptions.PlayerFlight);
 									
 				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
 				if (MiscOptions.ExtendMeleeRange)
@@ -78,7 +87,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Space(2);
 					GUILayout.Label("Range: " + MiscOptions.MeleeRangeExtension, Prefab._TextStyle);
 					GUILayout.Space(2);
-					MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 15, MiscOptions.MeleeRangeExtension, 175), 1);
+					MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 7.5f, MiscOptions.MeleeRangeExtension, 175), 1);
 				}
 				
 				Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
@@ -94,19 +103,19 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 
-				Prefab.MenuArea(new Rect(10, 436 - 135, 220, 145), "SPAMMER", () =>
+				Prefab.MenuArea(new Rect(10, 436 - 135 - 10, 220, 135), "SPAMMER", () =>
                 {
                     Prefab.Toggle("Enabled", ref MiscOptions.SpammerEnabled);
 
 					GUILayout.Space(5);
                     MiscOptions.SpamText = Prefab.TextField(MiscOptions.SpamText, "Text: ", 150);
-                    GUILayout.Space(10);
+                    GUILayout.Space(10);	
                     GUILayout.Label("Delay: " + MiscOptions.SpammerDelay + "ms", Prefab._TextStyle);
                     GUILayout.Space(5);
                     MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 3000, MiscOptions.SpammerDelay, 175);
                 });
 
-                Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135, 221, 145), "INTERACT", () =>
+                Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135 - 30, 221, 155), "INTERACT", () =>
 				{
 					Prefab.Toggle("Interact Through Things", ref InteractionOptions.InteractThroughWalls);
 

@@ -44,6 +44,10 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 DrawButton("Fly Up", "_FlyUp");
                 DrawButton("Fly Down", "_FlyDown");
+                DrawButton("Fly Left", "_FlyLeft");
+                DrawButton("Fly Right", "_FlyRight");
+                DrawButton("Fly Forward", "_FlyForward");
+                DrawButton("Fly Backward", "_FlyBackward");
                 
                 DrawSpacer("Misc", false);
                 

@@ -116,9 +116,6 @@ namespace Thanking.Components.Basic
             else
                 currentKills = New;
             
-            VehicleFlight();
-            PlayerFlight();
-            
             if (MiscOptions.NightVision)
             {
                 LevelLighting.vision = ELightingVision.MILITARY;
@@ -138,31 +135,68 @@ namespace Thanking.Components.Basic
             }
         }
 
+        public void FixedUpdate()
+        {
+            VehicleFlight();
+            PlayerFlight();
+        }
+        
         public static void PlayerFlight()
         {
-            if (!MiscOptions.PlayerFlight)
-                return;
-            
-            Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
             Player plr = OptimizationVariables.MainPlayer;
 
+            if (plr == null)
+                return;
+            
+            if (!MiscOptions.PlayerFlight)
+            {
+                ItemCloudAsset asset = plr.equipment.asset as ItemCloudAsset;
+                plr.movement.itemGravityMultiplier = asset?.gravity ?? 1;
+                return;
+            }
+
+            plr.movement.itemGravityMultiplier = 0;
+            
+            if (plr == null)
+                return;
+                    
+            Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
+
+            float multiplier = MiscOptions.FlightSpeedMultiplier;
+            
             if (Input.GetKey(keys["_FlyUp"]))
-                plr.movement.itemGravityMultiplier = -1;
-            else if (Input.GetKey(keys["_FlyDown"]))
-                plr.movement.itemGravityMultiplier = 1;
-            else
-                plr.movement.itemGravityMultiplier = 0;
+                plr.transform.position += plr.transform.up / 5 * multiplier;
+            
+            if (Input.GetKey(keys["_FlyDown"]))
+                plr.transform.position -= plr.transform.up / 5 * multiplier;
+            
+            if (Input.GetKey(keys["_FlyLeft"]))
+                plr.transform.position -= plr.transform.right / 5 * multiplier;
+            
+            if (Input.GetKey(keys["_FlyRight"]))
+                plr.transform.position += plr.transform.right / 5 * multiplier;
+            
+            if (Input.GetKey(keys["_FlyForward"]))
+                plr.transform.position += plr.transform.forward / 5 * multiplier;
+
+            if (Input.GetKey(keys["_FlyBackward"]))
+                plr.transform.position -= plr.transform.forward / 5 * multiplier;
         }
         
 		public static void VehicleFlight()
-        {
+		{
+		    if (OptimizationVariables.MainPlayer == null)
+		        return;
+		    
             InteractableVehicle vehicle = OptimizationVariables.MainPlayer.movement.getVehicle();
 
-            if (vehicle == null) return;
+            if (vehicle == null) 
+                return;
 
             Rigidbody rb = vehicle.GetComponent<Rigidbody>();
 
-            if (rb == null) return;
+            if (rb == null) 
+                return;
 
             if (MiscOptions.VehicleFly)
             {
@@ -225,20 +259,16 @@ namespace Thanking.Components.Basic
 
             LastMovementCheck = Time.realtimeSinceStartup;
             
-            Vector3 NewPos = LastPos + new Vector3(0, 1337, 0);
+            Vector3 NewPos = LastPos + new Vector3(0, -1337, 0);
             OptimizationVariables.MainPlayer.transform.position = NewPos;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1);
 
             if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, NewPos) > 100)
-            {
                 MiscOptions.NoMovementVerification = false;
-                PlayerUI.hint(null, EPlayerMessage.EMPTY, "Movement verification on D:", Color.red);
-            }
             else
             {
                 MiscOptions.NoMovementVerification = true;
-                OptimizationVariables.MainPlayer.transform.position = LastPos + new Vector3(0, 3, 0);
-                PlayerUI.hint(null, EPlayerMessage.EMPTY, "Movement verification off :D", Color.green);
+                OptimizationVariables.MainPlayer.transform.position = LastPos + new Vector3(0, 5, 0);
             }
         }
     }

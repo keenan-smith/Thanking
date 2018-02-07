@@ -46,8 +46,8 @@ namespace Thanking.Options
 
 		public static Player SpectatedPlayer;
 		public static bool PlayerFlight = false;
+		public static float FlightSpeedMultiplier = 1;
 		
-		[Save] public static bool SafeTriggerbot = false;
 		[Save] public static bool Freecam = false;
 		
 		[Save] public static HashSet<ulong> Friends = new HashSet<ulong>();

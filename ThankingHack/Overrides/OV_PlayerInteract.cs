@@ -115,7 +115,7 @@ namespace Thanking.Overrides
         [Override(typeof(PlayerInteract), "Update", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_Update() // i have no idea what any of this does tbh
         {
-            if (!DrawUtilities.ShouldRun() || PlayerCoroutines.IsSpying)
+            if (!DrawUtilities.ShouldRun())
                 return;
 
             if (OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.DRIVING && OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.SITTING &&
@@ -146,20 +146,15 @@ namespace Thanking.Overrides
                     lastInteract = Time.realtimeSinceStartup;
 
                     // ic3 has tamed this area with cancerous code
-                    float Range = InteractionOptions.InteractThroughWalls ? 20f : 4f;
 
-                    int RayMask = InteractionOptions.InteractThroughWalls ? Mask : RayMasks.PLAYER_INTERACT;
+                    bool Run = InteractionOptions.InteractThroughWalls && !PlayerCoroutines.IsSpying;
+                    
+                    float Range = Run ? 20f : 4f;
+                    int RayMask = Run ? Mask : RayMasks.PLAYER_INTERACT;
                         
 
                     PlayerLook pLook = OptimizationVariables.MainPlayer.look;
                     PhysicsUtility.raycast(new Ray(pLook.aim.position, pLook.aim.forward), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, RayMask, 0);
-
-                    /*if (OptimizationVariables.MainPlayer.look.isCam)
-						PhysicsUtility.raycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward),
-							out hit, 20f, Mask);
-					else
-						PhysicsUtility.raycast(new Ray(OptimizationVariables.MainCam.transform.position, OptimizationVariables.MainCam.transform.forward),
-							out hit, OptimizationVariables.MainPlayer.look.perspective != EPlayerPerspective.THIRD ? 20 : 24, Mask);*/
                 }
 
                 if (hit.transform != focus)

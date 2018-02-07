@@ -28,7 +28,7 @@ namespace Thanking.Threads
             int call = channel.getCall("askStructures");
             channel.getPacket(ESteamPacket.UPDATE_RELIABLE_INSTANT, call, out Size, out Packet);
             
-            Provider.onClientDisconnected += OnDisconnect;
+            Provider.onEnemyDisconnected += OnDisconnect;
      
             while (true)
             {
@@ -46,8 +46,11 @@ namespace Thanking.Threads
                 }
             }
         }
-        
-        public static void OnDisconnect() =>
-            PlayerCrashEnabled = false;
+
+        public static void OnDisconnect(SteamPlayer player)
+        {
+            if (player.playerID.steamID == CrashTarget)
+                PlayerCrashEnabled = false;
+        }
     }
 }
