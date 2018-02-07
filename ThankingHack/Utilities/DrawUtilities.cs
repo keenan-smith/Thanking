@@ -25,7 +25,7 @@ namespace Thanking.Utilities
 			return vis.MaxTextSize - (int)(dist / ratio); // 400 / 100 = 4 -> 17 - 4 = 13
 		}
 
-		public static void PrepareRectangleLines(Camera cam, Bounds b, Color c)
+		public static Vector2[] GetRectangleLines(Camera cam, Bounds b, Color c)
 		{
 			Vector3[] pts = new Vector3[8]
 			{
@@ -52,15 +52,13 @@ namespace Thanking.Utilities
 				max = Vector3.Max(max, pts[i]);
 			}
 
-			Vector2[] vectors = new Vector2[4]
+			return new Vector2[4]
 			{
-				new Vector2(min.x, min.y),
-				new Vector2(max.x, min.y),
-				new Vector2(min.x, max.y),
-				new Vector2(max.x, max.y)
-			};
-
-			PrepareRectangleLines(vectors, c);
+				new Vector2(min.x, min.y), //Top left
+				new Vector2(max.x, min.y), //Top right
+				new Vector2(min.x, max.y), //Bottom left
+				new Vector2(max.x, max.y) //Bottom right
+			};;
 		}
 
 		public static Bounds GetBoundsRecursively(GameObject go)
@@ -219,14 +217,14 @@ namespace Thanking.Utilities
 			DrawTextWithOutline(rect, gcontent.text, LabelStyle, BorderColor, InnerColor, BorderWidth, outerContent);
 		}
 
-		public static Vector2 GetW2SVector(Camera cam, Bounds b, LabelLocation location)
+		public static Vector2 Get3DW2SVector(Camera cam, Bounds b, LabelLocation location)
 		{
 			switch (location)
 			{
 				case LabelLocation.BottomLeft:
 				case LabelLocation.BottomMiddle:
 				case LabelLocation.BottomRight:
-					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z)));
+					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z)));
 				case LabelLocation.Center:
 				case LabelLocation.MiddleLeft:
 				case LabelLocation.MiddleRight:
@@ -234,12 +232,39 @@ namespace Thanking.Utilities
 				case LabelLocation.TopLeft:
 				case LabelLocation.TopMiddle:
 				case LabelLocation.TopRight:
-					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y - b.extents.y, b.center.z)));
+					return InvertScreenSpace(cam.WorldToScreenPoint(new Vector3(b.center.x, b.center.y + b.extents.y, b.center.z)));
 				default:
 					return Vector2.zero;
 			}
 		}	
 
+		public static Vector2 Get2DW2SVector(Camera cam, Vector2[] Corners, LabelLocation location)
+		{
+			switch (location)
+			{
+				case LabelLocation.BottomLeft:
+					return Corners[3];
+				case LabelLocation.BottomMiddle:
+					return new Vector2((Corners[2].x + Corners[3].x) / 2, Corners[2].y);
+				case LabelLocation.BottomRight:
+					return Corners[2];
+				case LabelLocation.Center:
+					return new Vector2(Corners[2].x, (Corners[1].y + Corners[2].y) / 2);
+				case LabelLocation.MiddleLeft:
+					return new Vector2((Corners[2].x + Corners[3].x) / 2, (Corners[1].y + Corners[2].y) / 2);
+				case LabelLocation.MiddleRight:
+					return new Vector2(Corners[0].x, (Corners[1].y + Corners[2].y) / 2);
+				case LabelLocation.TopLeft:
+					return Corners[0];
+				case LabelLocation.TopMiddle:
+					return new Vector2((Corners[0].x + Corners[1].x) / 2, Corners[0].y);
+				case LabelLocation.TopRight:
+					return Corners[1];
+				default:
+					return Vector2.zero;
+			}
+		}	
+		
 		public static Vector3[] GetBoxVectors(Bounds b)
 		{
 			Vector3 v3Center = b.center;

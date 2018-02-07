@@ -42,6 +42,10 @@ namespace Thanking.Utilities
             
             AddHotkey("_FlyUp", KeyCode.Space);
             AddHotkey("_FlyDown", KeyCode.LeftControl);
+            AddHotkey("_FlyLeft", KeyCode.A);
+            AddHotkey("_FlyRight", KeyCode.D);
+            AddHotkey("_FlyForward", KeyCode.W);
+            AddHotkey("_FlyBackward", KeyCode.S);
         }
 
         public static void GetNextKeyDown() =>

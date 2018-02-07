@@ -35,9 +35,14 @@ namespace Thanking.Utilities
 				raycastInfo.animal = DamageTool.getAnimal(raycastInfo.transform);
 
 			raycastInfo.limb = DamageTool.getLimb(raycastInfo.transform);
-			if (RaycastOptions.UseRandomLimb)
+			
+			if (RaycastOptions.UseCustomLimb)
+				raycastInfo.limb = RaycastOptions.TargetLimb;
+			
+			else if (RaycastOptions.UseRandomLimb)
 			{
-				
+				ELimb[] Limbs = (ELimb[]) Enum.GetValues(typeof(ELimb));
+				raycastInfo.limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
 			}
 			
 			if (hit.transform.CompareTag("Vehicle"))
@@ -58,7 +63,7 @@ namespace Thanking.Utilities
 	    public static bool GenerateRaycast(out RaycastInfo info, bool DecreaseRange = false)
 	    {
 		    ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
-		    float Range = currentGun?.range ?? (MiscOptions.ExtendMeleeRange ? MiscOptions.MeleeRangeExtension : 1.75f);
+		    float Range = currentGun?.range ?? 15.5f;
 
 		    if (DecreaseRange)
 			    Range -= 10;
@@ -68,7 +73,7 @@ namespace Thanking.Utilities
 		    
 		    GetPlayers();
 		    
-		    if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point)) 
+		    if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point, Range)) 
 			    return false;
 		    
 		    info = GenerateRaycast(Object, Point);
@@ -97,7 +102,7 @@ namespace Thanking.Utilities
 	        };
         }
 	    
-		public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point)
+		public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point, float Range = -1)
 		{
 			Distance = 1337420;
 			Object = null;
@@ -105,7 +110,9 @@ namespace Thanking.Utilities
 			
 			ItemGunAsset CurrentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
 			Vector3 AimPos = OptimizationVariables.MainPlayer.look.aim.position;
-			float Range = CurrentGun?.range ?? 15.5f;
+
+			if (Range == -1)
+				Range = CurrentGun?.range ?? 15.5f;
 
 			for (int i = 0; i < Objects.Length; i++)
 			{
