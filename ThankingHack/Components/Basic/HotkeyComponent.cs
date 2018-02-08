@@ -2,6 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json.Serialization;
 using Thanking.Attributes;
+using Thanking.Components.UI.Menu;
 using Thanking.Components.UI.Menu.Tabs;
 using Thanking.Options;
 using Thanking.Utilities;
@@ -42,6 +43,9 @@ namespace Thanking.Components.Basic
 
                 CurrentKeyCount = CurrentKeys.Count;
             }
+
+            if (MenuComponent.IsInMenu)
+                return;
             
             foreach (KeyValuePair<string, Action> kvp in ActionDict)
                 if (HotkeyOptions.HotkeyDict.ContainsKey(kvp.Key) && HotkeyUtilities.IsHotkeyDown(kvp.Key))
