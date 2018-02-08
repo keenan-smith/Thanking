@@ -8,9 +8,14 @@ namespace Thanking
     public static class Loader
     {
         public static GameObject HookObject;
+
+        public static bool HasRun = false;
         
         public static void Hook()
         {
+            if (HasRun)
+                return;
+
             #if DEBUG
             DebugUtilities.Init();
 			DebugUtilities.Log("Initializing Thanking...");
@@ -26,6 +31,8 @@ namespace Thanking
             #if DEBUG
 			DebugUtilities.Log("Thanking initialized!");
             #endif
+
+            HasRun = true;
 		}
 
         public static void HookThread()
