@@ -144,10 +144,32 @@ namespace Thanking.Coroutines
             }
         }
 
+        private static void ApplyDropCorrection(ref Vector3 pos)
+        {
+
+        }
+
         public static void Aim(GameObject obj)
         {
             Camera mainCam = OptimizationVariables.MainCam;
             Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
+
+            if (OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset gun && AimbotOptions.DropCorrection)
+            {
+                float dist = Vector3.Distance(OptimizationVariables.MainPlayer.transform.position, obj.transform.position);
+                float drop = gun.ballisticDrop;
+
+                if (gun.hasBarrel)
+                {
+                    ItemBarrelAsset barrel = ((Attachments)typeof(ItemGunAsset)
+                        .GetField("thirdAttachments", BindingFlags.NonPublic | BindingFlags.Instance)
+                        .GetValue(gun)).barrelAsset;
+                    drop *= barrel.ballisticDrop;
+                }
+
+                skullPosition.y += (float)Math.Pow(gun.ballisticDrop * (dist + gun.ballisticDrop), 2) * gun.ballisticTravel;
+            }
+
             OptimizationVariables.MainPlayer.transform.LookAt(skullPosition);
             OptimizationVariables.MainPlayer.transform.eulerAngles = new Vector3(0f, OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y, 0f);
             mainCam.transform.LookAt(skullPosition);
@@ -166,6 +188,23 @@ namespace Thanking.Coroutines
         {
             Camera mainCam = OptimizationVariables.MainCam;
             Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
+
+            if (OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset gun && AimbotOptions.DropCorrection)
+            {
+                float dist = Vector3.Distance(OptimizationVariables.MainPlayer.transform.position, obj.transform.position);
+                float drop = gun.ballisticDrop;
+
+                if (gun.hasBarrel)
+                {
+                    ItemBarrelAsset barrel = ((Attachments)typeof(ItemGunAsset)
+                        .GetField("thirdAttachments", BindingFlags.NonPublic | BindingFlags.Instance)
+                        .GetValue(gun)).barrelAsset;
+                    drop *= barrel.ballisticDrop;
+                }
+
+                skullPosition.y += (float)Math.Pow(gun.ballisticDrop * (dist + gun.ballisticDrop), 2) * gun.ballisticTravel;
+            }
+
             OptimizationVariables.MainPlayer.transform.rotation = Quaternion.Slerp(OptimizationVariables.MainPlayer.transform.rotation, Quaternion.LookRotation( skullPosition - OptimizationVariables.MainPlayer.transform.position ), Time.deltaTime * AimbotOptions.AimSpeed);
             OptimizationVariables.MainPlayer.transform.eulerAngles = new Vector3(0f, OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y, 0f);
             mainCam.transform.localRotation = Quaternion.Slerp(mainCam.transform.localRotation, Quaternion.LookRotation(skullPosition - mainCam.transform.position), Time.deltaTime * AimbotOptions.AimSpeed);
