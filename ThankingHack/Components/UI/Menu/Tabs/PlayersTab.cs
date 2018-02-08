@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection.Emit;
 using SDG.Unturned;
 using Steamworks;
@@ -95,8 +96,10 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.BeginHorizontal();
                 GUILayout.BeginVertical();
                 
+                GUILayout.Label("Closest Location: " + LocationUtilities.GetClosestLocation(SelectedPlayer.transform.position).name, Prefab._TextStyle);
                 GUILayout.Label("Current Weapon: " + (SelectedPlayer.equipment.asset != null ? SelectedPlayer.equipment.asset.itemName : "Fists"), Prefab._TextStyle);
                 GUILayout.Label("Current Vehicle: " + (SelectedPlayer.movement.getVehicle() != null ? SelectedPlayer.movement.getVehicle().asset.name : "No Vehicle"), Prefab._TextStyle);
+                GUILayout.Label("Current Group Members: " + Provider.clients.Select(c => c.player != SelectedPlayer && c.player.quests.isMemberOfSameGroupAs(SelectedPlayer)).Count(), Prefab._TextStyle);
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();

@@ -53,17 +53,11 @@ namespace Thanking.Utilities
                 HotkeyOptions.HotkeyDict.Add(Identifier, new List<KeyCode> {DefaultKey});
         }
 
-        public static bool IsHotkeyDown(string Identifier)
-        {
-            bool IsDown = false;
-            foreach (KeyCode key in HotkeyOptions.HotkeyDict[Identifier])
-                if (Input.GetKeyDown(key))
-                {
-                    IsDown = true;
-                    break;
-                }
+        public static bool IsHotkeyDown(string Identifier) => 
+            HotkeyOptions.HotkeyDict[Identifier].Any(Input.GetKeyDown) && 
+            HotkeyOptions.HotkeyDict[Identifier].All(Input.GetKey);
 
-            return IsDown && HotkeyOptions.HotkeyDict[Identifier].All(k => Input.GetKey(k));
-        }
+        public static bool IsHotkeyHeld(string Identifier) => 
+            HotkeyOptions.HotkeyDict[Identifier].All(Input.GetKey);
     }
 }
