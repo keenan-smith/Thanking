@@ -2,6 +2,7 @@
 using Thanking.Attributes;
 using Thanking.Components.UI.Menu;
 using Thanking.Coroutines;
+using Thanking.Options;
 using Thanking.Options.VisualOptions;
 using Thanking.Variables;
 using UnityEngine;
@@ -12,13 +13,26 @@ namespace Thanking.Components.Basic
     /// Component used to manage the mirror camera
     /// </summary>
     [Component]
-    [SpyComponent]
     public class MirrorCameraComponent : MonoBehaviour
     {
-        Rect viewport = new Rect(1075, 10, Screen.width / 4, Screen.height / 4); //Viewport of the mirror camera
+        public static Rect viewport = new Rect(1075, 10, Screen.width / 4, Screen.height / 4); //Viewport of the mirror camera
         public static GameObject cam_obj;
         public static Camera subCam;
-
+        public static bool WasEnabled;
+        
+        [OnSpy]
+        public static void Disable()
+        {
+            WasEnabled = MirrorCameraOptions.Enabled;
+            MirrorCameraOptions.Enabled = false;
+            
+            Destroy(cam_obj);
+        }
+        
+        [OffSpy]
+        public static void Enable() =>
+            MirrorCameraOptions.Enabled = WasEnabled;
+        
         public void Update()
         {
             if (!cam_obj || !subCam)
@@ -86,7 +100,6 @@ namespace Thanking.Components.Basic
             Drawing.DrawRect(new Rect(0 + (viewport.width - 5), 0, 5, viewport.height), Color.black);
 
             GUI.DragWindow();
-
         }
 
         public static void FixCam()
