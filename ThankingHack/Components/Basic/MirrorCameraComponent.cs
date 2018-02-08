@@ -15,7 +15,7 @@ namespace Thanking.Components.Basic
     [Component]
     public class MirrorCameraComponent : MonoBehaviour
     {
-        Rect viewport = new Rect(1075, 10, Screen.width / 4, Screen.height / 4); //Viewport of the mirror camera
+        public static Rect viewport = new Rect(1075, 10, Screen.width / 4, Screen.height / 4); //Viewport of the mirror camera
         public static GameObject cam_obj;
         public static Camera subCam;
         public static bool WasEnabled;
