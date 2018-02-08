@@ -347,6 +347,17 @@ namespace Thanking.Components.UI
 				
 				Vector2[] W2SVectors = DrawUtilities.GetRectangleLines(MainCamera, b, c);
 				Vector3 LabelVector = DrawUtilities.Get2DW2SVector(MainCamera, W2SVectors, ll);
+
+				if (MirrorCameraOptions.Enabled && W2SVectors.Any(v => MirrorCameraComponent.viewport.Contains(v)))
+				{
+					Highlighter highlighter = go.GetComponent<Highlighter>();
+					if (highlighter != null)
+					{
+						highlighter.ConstantOffImmediate();
+						highlighter.Die();
+					}
+					continue;
+				}
 				
                 if (visual.Boxes)
                 {

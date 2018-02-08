@@ -218,9 +218,6 @@ namespace Thanking.Utilities
 
 			if (rect.x + 10 > Screen.width || rect.y + 10 > Screen.height)
 				return;
-
-			if (MirrorCameraOptions.Enabled && MirrorCameraComponent.viewport.Overlaps(rect))
-				return;
 			
 			DrawTextWithOutline(rect, gcontent.text, LabelStyle, BorderColor, InnerColor, BorderWidth, outerContent);
 		}
