@@ -343,5 +343,21 @@ namespace Thanking.Utilities
 				}
 			});
 		}
+
+		public static void DrawCircle(Material Mat, Color Col, Vector2 Center, float Radius)
+		{
+			GL.PushMatrix();
+			Mat.SetPass(0);
+			GL.Begin(GL.LINES);
+			GL.Color(Col);
+			float degRad = Mathf.PI / 180;
+			for(float theta = 0.0f; theta < (2*Mathf.PI); theta += 0.01f)
+			{
+				Vector2 ci = (new Vector3(Mathf.Cos(theta) * Radius + Center.x, Mathf.Sin(theta) * Radius + Center.y));
+				GL.Vertex(ci);
+			}
+			GL.End();
+			GL.PopMatrix();
+		}
 	}
 }
