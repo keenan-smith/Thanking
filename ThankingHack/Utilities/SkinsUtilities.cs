@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SDG.Provider;
 using Thanking.Components.UI.Menu;
 using Thanking.Options;
 using Thanking.Variables;
@@ -178,6 +179,30 @@ namespace Thanking.Utilities
                     }
                 });
             });
+        }
+        
+        public static void RefreshEconInfo()
+        {
+            if (SkinOptions.SkinWeapons.Skins.Count > 5) return; // shitty check but it works
+            foreach (UnturnedEconInfo info in TempSteamworksEconomy.econInfo)
+            {
+                if (info.type.Contains("Skin"))
+                    SkinOptions.SkinWeapons.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Shirt"))
+                    SkinOptions.SkinClothesShirts.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Pants"))
+                    SkinOptions.SkinClothesPants.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Backpack"))
+                    SkinOptions.SkinClothesBackpack.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Vest"))
+                    SkinOptions.SkinClothesVest.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Hat"))
+                    SkinOptions.SkinClothesHats.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Mask"))
+                    SkinOptions.SkinClothesMask.Skins.Add(new Skin(info.name, info.itemdefid));
+                if (info.type.Contains("Glass"))
+                    SkinOptions.SkinClothesGlasses.Skins.Add(new Skin(info.name, info.itemdefid));
+            }
         }
     }
 }
