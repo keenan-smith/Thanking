@@ -15,6 +15,22 @@ namespace Thanking.Overrides
 	public static class OV_LevelLighting
 	{
 		public static FieldInfo Time;
+		public static bool WasEnabled;
+        
+		[OnSpy]
+		public static void Disable()
+		{
+			WasEnabled = MiscOptions.ShowPlayersOnMap;
+			MiscOptions.ShowPlayersOnMap = false;
+			OV_updateLighting();
+		}
+        
+		[OffSpy]
+		public static void Enable()
+		{
+			MiscOptions.ShowPlayersOnMap = WasEnabled;
+			OV_updateLighting();
+		}
 		
 		[Initializer]
 		public static void Init() =>
