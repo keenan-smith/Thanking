@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Thanking.Attributes;
 using Thanking.Options;
 using UnityEngine;
@@ -54,11 +55,15 @@ namespace Thanking.Utilities
 
         public static bool IsHotkeyDown(string Identifier)
         {
+            bool IsDown = false;
             foreach (KeyCode key in HotkeyOptions.HotkeyDict[Identifier])
-                if (!Input.GetKeyDown(key))
-                    return false;
+                if (Input.GetKeyDown(key))
+                {
+                    IsDown = true;
+                    break;
+                }
 
-            return true;
+            return IsDown && HotkeyOptions.HotkeyDict[Identifier].All(k => Input.GetKey(k));
         }
     }
 }

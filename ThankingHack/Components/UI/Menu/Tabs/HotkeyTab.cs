@@ -79,7 +79,7 @@ namespace Thanking.Components.UI.Menu.Tabs
             
             if (ClickedOption == Identifier)
             {
-                if (Prefab.Button("Unassign", 100))
+                if (Prefab.Button("Unassign", 75))
                 {
                     HotkeyComponent.Clear();
                     HotkeyOptions.HotkeyDict[Identifier] = new List<KeyCode>();
@@ -97,14 +97,14 @@ namespace Thanking.Components.UI.Menu.Tabs
                     else
                         kCode = "Unassigned";
                     
-                    Prefab.Button(kCode, 150);
+                    Prefab.Button(kCode, 200);
                 }
                 else
                 {
                     HotkeyOptions.HotkeyDict[Identifier] = HotkeyComponent.CurrentKeys;
                     HotkeyComponent.Clear();
 
-                    Prefab.Button(string.Join(" + ", HotkeyOptions.HotkeyDict[Identifier].Select(k => k.ToString()).ToArray()), 150);
+                    Prefab.Button(string.Join(" + ", HotkeyOptions.HotkeyDict[Identifier].Select(k => k.ToString()).ToArray()), 200);
                     ClickedOption = "";
                 }
             }
@@ -118,7 +118,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 else
                     kCode = "Unassigned";
 
-                if (Prefab.Button(kCode, 150))
+                if (Prefab.Button(kCode, 200))
                 {
                     HotkeyComponent.Clear();
                     
