@@ -169,8 +169,8 @@ namespace Thanking.Utilities.Mesh_Utilities
             mesh.normals = normales;
 
             mesh.RecalculateBounds();
-
             sphere.AddComponent<MeshCollider>().sharedMesh = mesh;
+            
             return sphere;
         }
     }

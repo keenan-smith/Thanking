@@ -22,9 +22,42 @@ namespace Thanking.Components.Basic
     {
         public static MiscComponent Instance;
         public static float LastMovementCheck;
+        public static bool FreecamBeforeSpy;
         public static bool NightvisionBeforeSpy;
         
         private int currentKills = 0;
+        
+        [OnSpy] 
+        public static void Disable()
+        {
+            if (MiscOptions.WasNightVision)
+            {
+                NightvisionBeforeSpy = true;
+                MiscOptions.NightVision = false;
+            }
+
+            if (MiscOptions.Freecam)
+            {
+                FreecamBeforeSpy = true;
+                MiscOptions.Freecam = false;
+            }
+        }
+
+        [OffSpy]
+        public static void Enable()
+        {
+            if (NightvisionBeforeSpy)
+            {
+                NightvisionBeforeSpy = false;
+                MiscOptions.NightVision = true;
+            }
+
+            if (FreecamBeforeSpy)
+            {
+                FreecamBeforeSpy = false;
+                MiscOptions.Freecam = true;
+            }
+        }
         
         void Start()
         {
@@ -61,34 +94,6 @@ namespace Thanking.Components.Basic
                 else
                     MiscOptions.NoMovementVerification = false;
             };
-        }
-        
-        [OnSpy] 
-        public static void DisableNightVision()
-        {
-            if (!MiscOptions.WasNightVision) 
-                return;
-            
-            LevelLighting.vision = ELightingVision.NONE;
-            
-            LevelLighting.updateLighting();
-            PlayerLifeUI.updateGrayscale();
-            
-            MiscOptions.WasNightVision = false;
-            NightvisionBeforeSpy = true;
-        }
-
-        [OffSpy]
-        public static void EnableNightVision()
-        {
-            if (!NightvisionBeforeSpy)
-                return;
-
-            NightvisionBeforeSpy = false;
-            LevelLighting.vision = ELightingVision.MILITARY;
-            LevelLighting.updateLighting();
-            PlayerLifeUI.updateGrayscale();
-            MiscOptions.WasNightVision = true;
         }
         
         public void Update()
@@ -159,27 +164,25 @@ namespace Thanking.Components.Basic
             
             if (plr == null)
                 return;
-                    
-            Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
 
             float multiplier = MiscOptions.FlightSpeedMultiplier;
             
-            if (Input.GetKey(keys["_FlyUp"]))
+            if (HotkeyUtilities.IsHotkeyDown("_FlyUp"))
                 plr.transform.position += plr.transform.up / 5 * multiplier;
             
-            if (Input.GetKey(keys["_FlyDown"]))
+            if (HotkeyUtilities.IsHotkeyDown("_FlyDown"))
                 plr.transform.position -= plr.transform.up / 5 * multiplier;
             
-            if (Input.GetKey(keys["_FlyLeft"]))
+            if (HotkeyUtilities.IsHotkeyDown("_FlyLeft"))
                 plr.transform.position -= plr.transform.right / 5 * multiplier;
             
-            if (Input.GetKey(keys["_FlyRight"]))
+            if (HotkeyUtilities.IsHotkeyDown("_FlyRight"))
                 plr.transform.position += plr.transform.right / 5 * multiplier;
             
-            if (Input.GetKey(keys["_FlyForward"]))
+            if (HotkeyUtilities.IsHotkeyDown("_FlyForward"))
                 plr.transform.position += plr.transform.forward / 5 * multiplier;
 
-            if (Input.GetKey(keys["_FlyBackward"]))
+            if (HotkeyUtilities.IsHotkeyDown("_FlyBackward"))
                 plr.transform.position -= plr.transform.forward / 5 * multiplier;
         }
         
@@ -203,43 +206,41 @@ namespace Thanking.Components.Basic
                 rb.useGravity = false;
                 rb.isKinematic = true;
                 Transform tr = vehicle.transform;
-
-                Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
                 
-                if (Input.GetKey(keys["_VFStrafeUp"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeUp"))
                     tr.position = tr.position + new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(keys["_VFStrafeDown"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeDown"))
                     tr.position = tr.position - new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(keys["_VFStrafeLeft"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeLeft"))
                     rb.MovePosition(tr.position + tr.right / 5f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(keys["_VFStrafeRight"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeRight"))
                     rb.MovePosition(tr.position - tr.right / 5f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(keys["_VFMoveForward"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFMoveForward"))
                     rb.MovePosition(tr.position + tr.forward / 5f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(keys["_VFMoveBackward"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFMoveBackward"))
                     rb.MovePosition(tr.position - tr.forward / 6f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(keys["_VFRotateRight"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFRotateRight"))
                     tr.Rotate(0f, 0.6f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(keys["_VFRotateLeft"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFRotateLeft"))
                     tr.Rotate(0f, -0.6f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (Input.GetKey(keys["_VFRollLeft"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFRollLeft"))
                     tr.Rotate(0f, 0f, 0.8f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(keys["_VFRollRight"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFRollRight"))
                     tr.Rotate(0f, 0f, -0.8f * MiscOptions.SpeedMultiplier);
 
-                if (Input.GetKey(keys["_VFRotateUp"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFRotateUp"))
                     vehicle.transform.Rotate(-0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
 
-                if (Input.GetKey(keys["_VFRotateDown"]))
+                if (HotkeyUtilities.IsHotkeyDown("_VFRotateDown"))
                     vehicle.transform.Rotate(0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
             }
             else

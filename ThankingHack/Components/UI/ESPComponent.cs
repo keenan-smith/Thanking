@@ -33,8 +33,11 @@ namespace Thanking.Components.UI
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
 	        MainCamera = OptimizationVariables.MainCam;
 
-			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
-				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", new Color32(255, 0, 0, 255)));
+	        for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+	        {
+		        ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", new Color32(255, 0, 0, 255), false));
+		        ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", new Color32(0, 0, 0, 255), false));
+	        }
         }
 		
 		public void Update()
@@ -83,7 +86,7 @@ namespace Thanking.Components.UI
 				Vector3 position = go.transform.position;
 				double dist = VectorUtilities.GetDistance(position, localPos);
 
-				if (dist > visual.Distance && !visual.InfiniteDistance)
+				if (dist < 1.5 || (dist > visual.Distance && !visual.InfiniteDistance))
 					continue;
 
 				Vector3 cpos = MainCamera.WorldToScreenPoint(position);
@@ -91,144 +94,264 @@ namespace Thanking.Components.UI
 				if (cpos.z <= 0)
 					continue;
 
-
 				string text = "";
-				string outerText = null;
 
 				Vector3 scale = go.transform.localScale;
-				Bounds b = obj.Target == ESPTarget.Players || obj.Target == ESPTarget.Zombies //zombies have the same issue as players where shit doesn't exist for some fucking reason
-					? new Bounds(new Vector3(position.x, position.y + 1, position.z), new Vector3(scale.x * 2, scale.y * 3, scale.z * 2))
-					: go.GetComponent<Collider>().bounds;
+				Bounds b;
+				switch (obj.Target)
+				{
+					case ESPTarget.Players:
+					case ESPTarget.Zombies:
+						b = new Bounds(new Vector3(position.x, position.y + 1, position.z),
+							new Vector3(scale.x * 2, scale.y * 3, scale.z * 2));
+						break;
+					case ESPTarget.Vehicles:
+						
+						b = go.transform.FindChild("Model_0").GetComponent<MeshRenderer>().bounds;
+						Transform child = go.transform.FindChild("Model_1");
+						
+						if (child != null)
+							b.Encapsulate(child.GetComponent<MeshRenderer>().bounds);
+						
+						break;
+					default:
+						b = go.GetComponent<Collider>().bounds;
+						break;
+				}
 
-                int size = DrawUtilities.GetTextSize(visual, dist);
+				int size = DrawUtilities.GetTextSize(visual, dist);
 				double rounded = Math.Round(dist);
 
 				/*#if DEBUG
 				DebugUtilities.Log(obj.Target.ToString()); //Holy fuck nuggets this is laggy
 				#endif*/
+
+				string outerText = $"<size={size}>";
+				text = $"<size={size}>";
 				
 				switch (obj.Target)
 				{
 					#region Players
+
 					case ESPTarget.Players:
-						{
-							Player p = (Player)obj.Object;
+					{
+						Player p = (Player) obj.Object;
 
-							if (p.life.isDead)
-								continue;
+						if (p.life.isDead)
+							continue;
 
-							text = $"<size={size}>";
-							
-							if (ESPOptions.ShowPlayerName)
-								text += p.name + "\n";
-							if (ESPOptions.ShowPlayerWeapon)
-								text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
-							if (ESPOptions.ShowPlayerVehicle)
-								text += (p.movement.getVehicle() != null ? p.movement.getVehicle().asset.name : "No Vehicle") + "\n";
-							if (ESPOptions.ShowPlayerDistance)
-								text += Math.Round(dist);
-							
-							if(NetManager.Heccers != null)
-								if (ESPOptions.ShowHeccers)
-									if (NetManager.Heccers.ToList().Contains(PlayerTool.getSteamPlayer(p.name).playerID.steamID.m_SteamID))
-										text += "\nHeccer";
+						if (visual.ShowName)
+							text += p.name + "\n";
+						if (ESPOptions.ShowPlayerWeapon)
+							text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
+						if (ESPOptions.ShowPlayerVehicle)
+							text += (p.movement.getVehicle() != null ? p.movement.getVehicle().asset.name + "\n" : "No Vehicle\n");
 
-							text += "</size>";
-							
-							b.size = b.size / 2;
-							b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
+						if (NetManager.Heccers != null)
+							if (ESPOptions.ShowHeccers)
+								if (NetManager.Heccers.ToList().Contains(PlayerTool.getSteamPlayer(p.name).playerID.steamID.m_SteamID))
+									text += "Heccer\n";
 
-							if (FriendUtilities.IsFriendly(p) && ESPOptions.UsePlayerGroup)
-								c = ESPOptions.SameGroupColor.ToColor();
+						b.size = b.size / 2;
+						b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
 
-							break;
-						}
+						if (FriendUtilities.IsFriendly(p) && ESPOptions.UsePlayerGroup)
+							c = ESPOptions.SameGroupColor.ToColor();
+
+						break;
+					}
+
 					#endregion
+
 					#region Zombies
+
 					case ESPTarget.Zombies:
-						{
-							text = $"<size={size}>Zombie\n{rounded}</size>";
-							break;
-						}
+					{
+						if (visual.ShowName)
+							text += $"Zombie\n";
+						
+						break;
+					}
+
 					#endregion
+
 					#region Items
+
 					case ESPTarget.Items:
-						{
-							InteractableItem item = (InteractableItem)obj.Object;
+					{
+						InteractableItem item = (InteractableItem) obj.Object;
 
-							text = $"<size={size}>{item.asset.itemName}\n{rounded}</size>";
-							break;
-						}
+						if (visual.ShowName)
+							text += item.asset.itemName + "\n";
+						
+						break;
+					}
+
 					#endregion
+
 					#region Sentries
+
 					case ESPTarget.Sentries:
-						{
-							InteractableSentry sentry = (InteractableSentry)obj.Object;
+					{
+						InteractableSentry sentry = (InteractableSentry) obj.Object;
 
-							text = $"<size={size}>Sentry\n{SentryName(sentry.displayItem)}\n{rounded}</size>";
-							break;
+						if (visual.ShowName)
+						{
+							text += "Sentry\n";
+							outerText += "Sentry\n";
 						}
+
+						if (ESPOptions.ShowSentryItem)
+						{
+							outerText += SentryName(sentry.displayItem, false) + "\n"; 
+							text += SentryName(sentry.displayItem, true) + "\n";
+						}
+						
+						break;
+					}
+
 					#endregion
+
 					#region Beds
+
 					case ESPTarget.Beds:
+					{
+						InteractableBed bed = (InteractableBed) obj.Object;
+
+						if (visual.ShowName)
 						{
-							text = $"<size={size}>Bed\n{rounded}</size>";
-							break;
+							text += "Bed\n";
+							outerText += "Bed\n";
 						}
+
+						if (ESPOptions.ShowClaimed)
+						{
+							text += GetOwned(bed, true) + "\n";
+							outerText += GetOwned(bed, false) + "\n";
+						}
+						break;
+					}
+
 					#endregion
+
 					#region Claim Flags
+
 					case ESPTarget.ClaimFlags:
-						{
-							text = $"<size={size}>Claim Flag\n{rounded}</size>";
-							break;
-						}
+					{
+						if (visual.ShowName)
+							text += "Claim Flag\n";
+						
+						break;
+					}
+
 					#endregion
+
 					#region Vehicles
+
 					case ESPTarget.Vehicles:
+					{
+						InteractableVehicle vehicle = (InteractableVehicle) obj.Object;
+
+						if (vehicle.isExploded)
+							continue;
+
+						vehicle.getDisplayFuel(out ushort Fuel, out ushort MaxFuel);
+						
+						float health = Mathf.Round(100 * (vehicle.health / (float) vehicle.asset.health));
+						float fuel =  Mathf.Round(100 * (Fuel / (float) MaxFuel));
+
+						if (visual.ShowName)
 						{
-							InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
-
-							if (vehicle.isExploded)
-								return;
-
-							text = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle, true)}\n{rounded}</size>";
-							outerText = $"<size={size}>{vehicle.asset.name}\n{GetLocked(vehicle, false)}\n{rounded}</size>";
-							break;
+							text += vehicle.asset.name + "\n";	
+							outerText += vehicle.asset.name + "\n";	
 						}
+
+						if (ESPOptions.ShowVehicleHealth)
+						{
+							text += $"Health: {health}%\n";
+							outerText += $"Health: {health}%\n";
+						}
+
+						if (ESPOptions.ShowVehicleFuel)
+						{
+							text += $"Fuel: {fuel}%\n";
+							outerText += $"Fuel: {fuel}%\n";
+						}
+
+						if (ESPOptions.ShowVehicleLocked)
+						{
+							text += GetLocked(vehicle, true) + "\n";
+							outerText += GetLocked(vehicle, false) + "\n";
+						}
+						
+						break;
+					}
+
 					#endregion
+
 					#region Storage
-					case ESPTarget.Storage:
-						{
-							text = $"<size={size}>Storage\n{rounded}</size>";
-							break;
-						}
-					#endregion
-					#region Generators
-					case ESPTarget.Generators:
-						{
-							InteractableGenerator gen = (InteractableGenerator)obj.Object;
 
-							float fuel = 100 * (gen.fuel / (float) gen.capacity);
-							
-							text = $"<size={size}>Generator\n{fuel}%\n{GetPowered(gen, true)}\n{rounded}</size>";
-							outerText = $"<size={size}>Generator\n{fuel}%\n{GetPowered(gen, false)}\n{rounded}</size>";
-							break;
+					case ESPTarget.Storage:
+					{
+						if (visual.ShowName)
+							text += "Storage\n";
+						
+						break;
+					}
+
+					#endregion
+
+					#region Generators
+
+					case ESPTarget.Generators:
+					{
+						InteractableGenerator gen = (InteractableGenerator) obj.Object;
+
+						float fuel =  Mathf.Round(100 * (gen.fuel / (float) gen.capacity));
+
+						if (ESPOptions.ShowGeneratorFuel)
+						{
+							text += $"Fuel: {fuel}%\n";
+							outerText += $"Fuel: {fuel}%\n";
 						}
-						#endregion
+
+						if (ESPOptions.ShowGeneratorPowered)
+						{
+							text += GetPowered(gen, true) + "\n";
+							outerText += GetPowered(gen, false) + "\n";
+						}
+						
+						break;
+					}
+
+					#endregion
 				}
 
+				if (outerText == $"<size={size}>")
+					outerText = null;
+				
+				if (visual.ShowDistance)
+				{
+					text += $"{rounded}m\n";
+					
+					if (outerText != null)
+						outerText += $"{rounded}m\n";
+				}
+
+				text += "</size>";
+
+				if (outerText != null)
+					outerText += "</size>";
+				
 				Vector3[] vectors = DrawUtilities.GetBoxVectors(b);
-				Vector3 LabelVector = Vector3.zero;
+				
+				Vector2[] W2SVectors = DrawUtilities.GetRectangleLines(MainCamera, b, c);
+				Vector3 LabelVector = DrawUtilities.Get2DW2SVector(MainCamera, W2SVectors, ll);
 				
                 if (visual.Boxes)
                 {
 	                if (visual.TwoDimensional)
-	                {
-		                Vector2[] W2SVectors = DrawUtilities.GetRectangleLines(MainCamera, b, c);
-		                LabelVector = DrawUtilities.Get2DW2SVector(MainCamera, W2SVectors, ll);
-		                
 		                DrawUtilities.PrepareRectangleLines(W2SVectors, c);
-	                }
 	                else
 	                {
 		                DrawUtilities.PrepareBoxLines(vectors, c);
@@ -256,10 +379,10 @@ namespace Thanking.Components.UI
                         highlighter.ConstantOffImmediate();
                         highlighter.Die();
                     }
-                }
+                }	
 
                 if (visual.Labels)
-	                DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, Color.black, c, visual.BorderStrength, outerText);
+	                DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, c, ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
 
 				if (visual.LineToObject)
 					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2
@@ -323,14 +446,20 @@ namespace Thanking.Components.UI
             Highlighters.Clear();
         }
 
-		public static String SentryName(Item DisplayItem) => DisplayItem != null
+		public static string SentryName(Item DisplayItem, bool color) => DisplayItem != null
 			? Assets.find(EAssetType.ITEM, DisplayItem.id).name
-			: "<color=#ff0000ff>No Item</color>";
+			: color ? "<color=#ff0000ff>No Item</color>" : "No Item";
 
-		public static String GetLocked(InteractableVehicle Vehicle, bool color) =>
-			Vehicle.isLocked ? color ? "<color=#ff0000ff>LOCKED</color>" : "LOCKED" : color ? "<color=#00ff00ff>UNLOCKED</color>" : "LOCKED";
+		public static string GetLocked(InteractableVehicle Vehicle, bool color) =>
+			Vehicle.isLocked ? color ? "<color=#ff0000ff>LOCKED</color>" : "LOCKED" :
+			color ? "<color=#00ff00ff>UNLOCKED</color>" : "UNLOCKED";
 
-		public static String GetPowered(InteractableGenerator Generator, bool color) =>
-			Generator.isPowered ? color ? "<color=#00ff00ff>ON</color>" : "ON" : color ? "<color=#ff0000ff>OFF</color>" : "OFF";
+		public static string GetPowered(InteractableGenerator Generator, bool color) =>
+			Generator.isPowered ? color ? "<color=#00ff00ff>ON</color>" : "ON" :
+			color ? "<color=#ff0000ff>OFF</color>" : "OFF";
+
+		public static string GetOwned(InteractableBed bed, bool color) =>
+			bed.isClaimed ? color ? "<color=$00ff00ff>CLAIMED</color>" : "CLAIMED" :
+			color ? "<color=#ff0000ff>UNCLAIMED</color>" : "UNCLAIMED";
 	}
 }

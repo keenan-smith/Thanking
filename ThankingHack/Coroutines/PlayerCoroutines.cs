@@ -37,7 +37,8 @@ namespace Thanking.Coroutines
 			#endif
 
 			#region Take Screenshot
-
+			
+			yield return new WaitForFixedUpdate();
 			yield return new WaitForEndOfFrame();
 			Texture2D screenshotRaw =
 				new Texture2D(Screen.width, Screen.height, (TextureFormat) 3, false)
@@ -86,7 +87,9 @@ namespace Thanking.Coroutines
 			#endregion
 
 			yield return new WaitForFixedUpdate();
+			yield return new WaitForEndOfFrame();
 			IsSpying = false;
+			
 			EnableAllVisuals();
 		}
 

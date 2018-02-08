@@ -127,7 +127,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     Prefab.Toggle("Items", ref InteractionOptions.NoHitItems);
                     Prefab.Toggle("Vehicles", ref InteractionOptions.NoHitVehicles);
                     Prefab.Toggle("Resources", ref InteractionOptions.NoHitResources);
-					Prefab.Toggle("Ground", ref InteractionOptions.NoHitGround);
+					Prefab.Toggle("Ground/Buildings", ref InteractionOptions.NoHitEnvironment);
                 });
             });
         }

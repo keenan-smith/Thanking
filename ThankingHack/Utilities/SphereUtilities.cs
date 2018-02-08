@@ -14,7 +14,7 @@ namespace Thanking.Utilities
 {
     public static class SphereUtilities
     {
-		public static bool 	GetRaycast(GameObject Target, Vector3 StartPos, float Range, out Vector3 Point)
+		public static bool GetRaycast(GameObject Target, Vector3 StartPos, out Vector3 Point)
 		{
 			Point = Vector3.zero;
 			
@@ -38,7 +38,9 @@ namespace Thanking.Utilities
 				Vector3 Vertex = Component.Sphere.transform.TransformPoint(Vertices[i]);
 				Vector3 Normal = VectorUtilities.Normalize(Vertex - StartPos);
 
-				if (Physics.Raycast(StartPos, Normal, Range + 0.5f, RayMasks.DAMAGE_CLIENT))
+				double Distance = VectorUtilities.GetDistance(StartPos, Vertex);
+				
+				if (Physics.Raycast(StartPos, Normal, (float)Distance + 0.5f, RayMasks.DAMAGE_CLIENT))
 					continue;
 				
 				Target.layer = BackupLayer;

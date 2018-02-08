@@ -64,6 +64,7 @@ namespace Thanking.Coroutines
                         case TargetPriority.Vehicles:
                         {
                             RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<InteractableVehicle>()
+                                .Where(v => !v.isDead)
                                 .Select(s => s.gameObject).ToArray();
                             break;
                         }

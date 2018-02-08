@@ -7,9 +7,9 @@ namespace Thanking.Options
         [Save] public static bool InteractThroughWalls = true;
         [Save] public static bool NoHitStructures = false;
         [Save] public static bool NoHitBarricades = true;
-        [Save] public static bool NoHitItems = true;
+        [Save] public static bool NoHitItems = false;
         [Save] public static bool NoHitVehicles = true;
         [Save] public static bool NoHitResources = true;
-        [Save] public static bool NoHitGround = true;
+        [Save] public static bool NoHitEnvironment = true;
     }
 }

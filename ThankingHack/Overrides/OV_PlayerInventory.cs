@@ -14,7 +14,7 @@ namespace Thanking.Overrides
         [Override(typeof(PlayerInventory), "has", BindingFlags.Public | BindingFlags.Instance)]
         public InventorySearch has(ushort id)
         {
-            if (DrawUtilities.ShouldRun())
+            if (DrawUtilities.ShouldRun() && !PlayerCoroutines.IsSpying)
             {
                 if (id == 1176 && MiscOptions.GPS) return new InventorySearch(0, new ItemJar(new Item(1176, false)));
                 if (id == 1508 && MiscOptions.Compass) return new InventorySearch(0, new ItemJar(new Item(1508, false)));

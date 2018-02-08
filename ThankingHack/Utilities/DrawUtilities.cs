@@ -1,4 +1,7 @@
-﻿using SDG.Unturned;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SDG.Unturned;
 using Thanking.Coroutines;
 using Thanking.Variables;
 using UnityEngine;
@@ -64,11 +67,12 @@ namespace Thanking.Utilities
 		public static Bounds GetBoundsRecursively(GameObject go)
 		{
 			Bounds b = new Bounds();
-			MeshRenderer[] mf = go.GetComponentsInChildren<MeshRenderer>();
-
-			for (int i = 0; i < mf.Length; i++)
-				b.Encapsulate(mf[i].bounds);
-
+			
+			Collider[] cols = go.GetComponentsInChildren<Collider>();
+			
+			for (int i = 0; i < cols.Length; i++)
+				b.Encapsulate(cols[i].bounds);
+			
 			return b;
 		}
 
@@ -90,7 +94,7 @@ namespace Thanking.Utilities
 			return new Bounds { center = center, extents = extents };
 		}
 
-		public static void DrawTextWithOutline(Rect centerRect, string text, GUIStyle style, Color borderColor, Color innerColor, int borderWidth, string outlineText = null)
+		public static void DrawTextWithOutline(Rect centerRect, string text, GUIStyle style, Color innerColor, Color borderColor, int borderWidth, string outlineText = null)
 		{
 			if (outlineText == null)
 				outlineText = text;
@@ -152,8 +156,7 @@ namespace Thanking.Utilities
 				font = Font,
 				fontSize = 12
 			};
-
-
+			
 			Vector2 dim = LabelStyle.CalcSize(gcontent);
 			float width = dim.x;
 			float height = dim.y;

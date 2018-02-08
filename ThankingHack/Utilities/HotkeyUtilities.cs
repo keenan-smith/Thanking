@@ -1,4 +1,5 @@
-﻿using Thanking.Attributes;
+﻿using System.Collections.Generic;
+using Thanking.Attributes;
 using Thanking.Options;
 using UnityEngine;
 
@@ -6,9 +7,6 @@ namespace Thanking.Utilities
 {
     public static class HotkeyUtilities
     {
-        public static bool NeedsKey;
-        public static KeyCode ReturnKey = KeyCode.None;
-
         [Initializer]
         public static void Initialize()
         {
@@ -47,14 +45,20 @@ namespace Thanking.Utilities
             AddHotkey("_FlyForward", KeyCode.W);
             AddHotkey("_FlyBackward", KeyCode.S);
         }
-
-        public static void GetNextKeyDown() =>
-            NeedsKey = true;
-
+        
         public static void AddHotkey(string Identifier, KeyCode DefaultKey)
         {
             if (!HotkeyOptions.HotkeyDict.ContainsKey(Identifier))
-                HotkeyOptions.HotkeyDict.Add(Identifier, DefaultKey);
+                HotkeyOptions.HotkeyDict.Add(Identifier, new List<KeyCode> {DefaultKey});
+        }
+
+        public static bool IsHotkeyDown(string Identifier)
+        {
+            foreach (KeyCode key in HotkeyOptions.HotkeyDict[Identifier])
+                if (!Input.GetKeyDown(key))
+                    return false;
+
+            return true;
         }
     }
 }

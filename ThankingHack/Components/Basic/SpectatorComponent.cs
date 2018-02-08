@@ -1,9 +1,11 @@
 ﻿using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Coroutines;
 using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 
 namespace Thanking.Components.Basic
 {
@@ -15,7 +17,7 @@ namespace Thanking.Components.Basic
             if (!DrawUtilities.ShouldRun())
                 return;
             
-            if (MiscOptions.SpectatedPlayer != null)
+            if (MiscOptions.SpectatedPlayer != null && !PlayerCoroutines.IsSpying)
             {
                 OptimizationVariables.MainPlayer.look.isOrbiting = true;
 
@@ -26,15 +28,7 @@ namespace Thanking.Components.Basic
                 OptimizationVariables.MainPlayer.look.orbitPosition += new Vector3(0, 3, 0);
             }
             else
-            {
-                if (!MiscOptions.Freecam)
-                {
-                    OptimizationVariables.MainPlayer.look.isOrbiting = false;
-                    OptimizationVariables.MainPlayer.look.orbitPosition = Vector3.zero;
-                }
-                else
-                    OptimizationVariables.MainPlayer.look.isOrbiting = true;
-            }
+                OptimizationVariables.MainPlayer.look.isOrbiting = MiscOptions.Freecam;
         }
     }
 }

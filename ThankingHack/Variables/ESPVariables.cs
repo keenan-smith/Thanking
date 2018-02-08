@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SDG.Unturned;
 using Thanking.Misc;
 using UnityEngine;
 
@@ -35,6 +36,8 @@ namespace Thanking.Variables
 		public bool Enabled;
         public bool Boxes;
         public bool Labels;
+		public bool ShowName;
+		public bool ShowDistance;
         public bool TwoDimensional;
         public bool Glow;
         public bool InfiniteDistance;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Serialization;
 using Thanking.Attributes;
 using Thanking.Components.UI.Menu.Tabs;
@@ -14,28 +15,45 @@ namespace Thanking.Components.Basic
     [Component]
     public class HotkeyComponent : MonoBehaviour
     {
+        public static bool NeedsKeys;
+        public static bool StopKeys;
+        public static int CurrentKeyCount;
+        public static List<KeyCode> CurrentKeys;
+        
         public static Dictionary<string, Action> ActionDict = new Dictionary<string, Action>();
-        public static int[] Keys = (int[])System.Enum.GetValues(typeof(KeyCode));
+        public static KeyCode[] Keys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
         
         public void Update()
         {
-            if (HotkeyUtilities.NeedsKey)
+            if (NeedsKeys)
             {
-                for(int i = 0; i < Keys.Length; i++) 
-                {
-                    if (!Input.GetKeyDown((KeyCode) Keys[i]))
-                        continue;
-                    
-                    HotkeyUtilities.ReturnKey = (KeyCode) Keys[i];
-                    HotkeyUtilities.NeedsKey = false;
+                List<KeyCode> ClonedKeys = CurrentKeys.ToList();
+                CurrentKeys.Clear();
+            
+                foreach (KeyCode k in Keys)
+                    if (Input.GetKey(k))
+                        CurrentKeys.Add(k);
 
-                    break;
+                if (CurrentKeys.Count < CurrentKeyCount && CurrentKeyCount > 0)
+                {
+                    CurrentKeys = ClonedKeys;
+                    StopKeys = true;
                 }
+
+                CurrentKeyCount = CurrentKeys.Count;
             }
             
             foreach (KeyValuePair<string, Action> kvp in ActionDict)
-                if (HotkeyOptions.HotkeyDict.ContainsKey(kvp.Key) && Input.GetKeyDown(HotkeyOptions.HotkeyDict[kvp.Key]))
+                if (HotkeyOptions.HotkeyDict.ContainsKey(kvp.Key) && HotkeyUtilities.IsHotkeyDown(kvp.Key))
                     kvp.Value();
+        }
+
+        public static void Clear()
+        {
+            NeedsKeys = false;
+            StopKeys = false;
+            CurrentKeyCount = 0;
+            CurrentKeys = new List<KeyCode>();
         }
     }
 }
