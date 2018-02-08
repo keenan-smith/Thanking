@@ -167,22 +167,22 @@ namespace Thanking.Components.Basic
 
             float multiplier = MiscOptions.FlightSpeedMultiplier;
             
-            if (HotkeyUtilities.IsHotkeyDown("_FlyUp"))
+            if (HotkeyUtilities.IsHotkeyHeld("_FlyUp"))
                 plr.transform.position += plr.transform.up / 5 * multiplier;
             
-            if (HotkeyUtilities.IsHotkeyDown("_FlyDown"))
+            if (HotkeyUtilities.IsHotkeyHeld("_FlyDown"))
                 plr.transform.position -= plr.transform.up / 5 * multiplier;
             
-            if (HotkeyUtilities.IsHotkeyDown("_FlyLeft"))
+            if (HotkeyUtilities.IsHotkeyHeld("_FlyLeft"))
                 plr.transform.position -= plr.transform.right / 5 * multiplier;
             
-            if (HotkeyUtilities.IsHotkeyDown("_FlyRight"))
+            if (HotkeyUtilities.IsHotkeyHeld("_FlyRight"))
                 plr.transform.position += plr.transform.right / 5 * multiplier;
             
-            if (HotkeyUtilities.IsHotkeyDown("_FlyForward"))
+            if (HotkeyUtilities.IsHotkeyHeld("_FlyForward"))
                 plr.transform.position += plr.transform.forward / 5 * multiplier;
 
-            if (HotkeyUtilities.IsHotkeyDown("_FlyBackward"))
+            if (HotkeyUtilities.IsHotkeyHeld("_FlyBackward"))
                 plr.transform.position -= plr.transform.forward / 5 * multiplier;
         }
         
@@ -207,40 +207,40 @@ namespace Thanking.Components.Basic
                 rb.isKinematic = true;
                 Transform tr = vehicle.transform;
                 
-                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeUp"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeUp"))
                     tr.position = tr.position + new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeDown"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeDown"))
                     tr.position = tr.position - new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeLeft"))
-                    rb.MovePosition(tr.position + tr.right / 5f * MiscOptions.SpeedMultiplier);
-
-                if (HotkeyUtilities.IsHotkeyDown("_VFStrafeRight"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeLeft"))
                     rb.MovePosition(tr.position - tr.right / 5f * MiscOptions.SpeedMultiplier);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFMoveForward"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeRight"))
+                    rb.MovePosition(tr.position + tr.right / 5f * MiscOptions.SpeedMultiplier);
+
+                if (HotkeyUtilities.IsHotkeyHeld("_VFMoveForward"))
                     rb.MovePosition(tr.position + tr.forward / 5f * MiscOptions.SpeedMultiplier);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFMoveBackward"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFMoveBackward"))
                     rb.MovePosition(tr.position - tr.forward / 6f * MiscOptions.SpeedMultiplier);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFRotateRight"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFRotateRight"))
                     tr.Rotate(0f, 0.6f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFRotateLeft"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFRotateLeft"))
                     tr.Rotate(0f, -0.6f * MiscOptions.SpeedMultiplier, 0f);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFRollLeft"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFRollLeft"))
                     tr.Rotate(0f, 0f, 0.8f * MiscOptions.SpeedMultiplier);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFRollRight"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFRollRight"))
                     tr.Rotate(0f, 0f, -0.8f * MiscOptions.SpeedMultiplier);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFRotateUp"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFRotateUp"))
                     vehicle.transform.Rotate(-0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
 
-                if (HotkeyUtilities.IsHotkeyDown("_VFRotateDown"))
+                if (HotkeyUtilities.IsHotkeyHeld("_VFRotateDown"))
                     vehicle.transform.Rotate(0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
             }
             else

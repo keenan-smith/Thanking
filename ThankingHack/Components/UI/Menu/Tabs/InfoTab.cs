@@ -26,6 +26,11 @@ namespace Thanking.Components.UI.Menu.Tabs
 	                Application.OpenURL("https://goo.gl/forms/3JawxatKpTfPGXS73");
 	            
 	            GUILayout.Space(2);
+	            
+	            GUILayout.Label("Submit bug reports by E-Mailing them to this address:", Prefab._TextStyle);
+	            GUILayout.TextField("incoming+DualExploits/Thanking@gitlab.com", Prefab._TextStyle);
+	            
+	            GUILayout.Space(2);
                 
 	            if (Prefab.Button("Website", 200))
 		            Application.OpenURL("http://ironic.services");
