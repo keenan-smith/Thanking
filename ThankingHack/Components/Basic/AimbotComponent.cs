@@ -15,7 +15,6 @@ namespace Thanking.Components.Basic
 	[Component]
 	public class AimbotComponent : MonoBehaviour 
 	{
-		Dictionary<string, KeyCode> keys = HotkeyOptions.HotkeyDict;
 		public void Start()
 		{
 			CoroutineComponent.LockCoroutine = StartCoroutine(AimbotCoroutines.SetLockedObject());

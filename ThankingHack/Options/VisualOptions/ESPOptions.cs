@@ -24,6 +24,8 @@ namespace Thanking.Options.VisualOptions
                 Enabled = true,
                 Labels = true,
                 Boxes = true,
+	            ShowName = true,
+	            ShowDistance = true,
                 TwoDimensional = true,
                 Glow = false,
 				InfiniteDistance = true,
@@ -47,6 +49,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = true,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = true,
                 Glow = false,
                 InfiniteDistance = true,
@@ -70,6 +74,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = true,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = false,
                 Glow = false,
                 InfiniteDistance = false,
@@ -93,6 +99,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = false,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = false,
                 Glow = false,
                 InfiniteDistance = false,
@@ -116,6 +124,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = false,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = false,
                 Glow = false,
                 InfiniteDistance = false,
@@ -139,6 +149,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = false,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = false,
                 Glow = false,
                 InfiniteDistance = false,
@@ -162,6 +174,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = false,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = false,
                 Glow = false,
                 InfiniteDistance = false,
@@ -185,6 +199,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = false,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = false,
                 Glow = false,
                 InfiniteDistance = false,
@@ -208,6 +224,8 @@ namespace Thanking.Options.VisualOptions
 				Enabled = false,
 				Labels = true,
 				Boxes = true,
+				ShowName = true,
+				ShowDistance = true,
 				TwoDimensional = false,
                 Glow = false,
                 InfiniteDistance = false,
@@ -243,8 +261,6 @@ namespace Thanking.Options.VisualOptions
 
 		#region Player Options
 
-		[Save] public static bool ShowPlayerName = true;
-		[Save] public static bool ShowPlayerDistance = true;
 		[Save] public static bool ShowPlayerWeapon = true;
 		[Save] public static bool ShowPlayerVehicle = true;
 		[Save] public static bool UsePlayerGroup = true;
@@ -258,5 +274,32 @@ namespace Thanking.Options.VisualOptions
         [Save] public static bool FilterItems = false;
 
         #endregion
-    }
+		
+		#region Vehicle Options
+
+		[Save] public static bool ShowVehicleFuel;
+		[Save] public static bool ShowVehicleHealth;
+		[Save] public static bool ShowVehicleLocked;
+
+		#endregion
+		
+		#region Sentry Options
+
+		[Save] public static bool ShowSentryItem;
+
+		#endregion
+		
+		#region Bed Options
+
+		[Save] public static bool ShowClaimed;
+
+		#endregion
+		
+		#region Generator Options
+
+		[Save] public static bool ShowGeneratorFuel;
+		[Save] public static bool ShowGeneratorPowered;
+
+		#endregion
+	}
 }

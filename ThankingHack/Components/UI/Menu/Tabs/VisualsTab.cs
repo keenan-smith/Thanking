@@ -18,6 +18,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 {					
 					GUILayout.BeginHorizontal();
                     GUILayout.BeginVertical(GUILayout.Width(240));
+	                
                     BasicControls(ESPTarget.Players);
 
 					if (!ESPOptions.VisualOptions[(int)ESPTarget.Players].Enabled)
@@ -25,8 +26,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 					GUILayout.EndVertical();
                     GUILayout.BeginVertical();
-                    Prefab.Toggle("Show Player Name", ref ESPOptions.ShowPlayerName);
-                    Prefab.Toggle("Show Player Distance", ref ESPOptions.ShowPlayerDistance);
                     Prefab.Toggle("Show Player Weapon", ref ESPOptions.ShowPlayerWeapon);
 					Prefab.Toggle("Show Player Vehicle", ref ESPOptions.ShowPlayerVehicle);
 					Prefab.Toggle("Use Player Group", ref ESPOptions.UsePlayerGroup);
@@ -40,15 +39,38 @@ namespace Thanking.Components.UI.Menu.Tabs
                 });
                 Prefab.SectionTabButton("Vehicles", () =>
                 {
+	                GUILayout.BeginHorizontal();
+	                GUILayout.BeginVertical(GUILayout.Width(240));
+	                
                     BasicControls(ESPTarget.Vehicles);
+	                
+	                if (!ESPOptions.VisualOptions[(int)ESPTarget.Vehicles].Enabled)
+		                return;
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.BeginVertical();
+	                
+	                Prefab.Toggle("Show Vehicle Fuel", ref ESPOptions.ShowVehicleFuel);
+	                Prefab.Toggle("Show Vehicle Health", ref ESPOptions.ShowVehicleHealth);
+	                Prefab.Toggle("Show Vehicle Locked", ref ESPOptions.ShowVehicleLocked);
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.FlexibleSpace();
+	                GUILayout.EndHorizontal();
                 });
                 Prefab.SectionTabButton("Items", () =>
                 {
+	                GUILayout.BeginHorizontal();
+	                GUILayout.BeginVertical(GUILayout.Width(240));
+	                
 					BasicControls(ESPTarget.Items);
-
-					if (!ESPOptions.VisualOptions[(int)ESPTarget.Items].Enabled)
-						return;
-
+	                
+	                if (!ESPOptions.VisualOptions[(int)ESPTarget.Items].Enabled)
+		                return;
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.BeginVertical();
+	                
 					Prefab.Toggle("Filter Items", ref ESPOptions.FilterItems);
 					
 					if (ESPOptions.FilterItems) 
@@ -56,22 +78,72 @@ namespace Thanking.Components.UI.Menu.Tabs
 						GUILayout.Space(5);
 						ItemUtilities.DrawFilterTab(ItemOptions.ItemESPOptions);
 					}
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.FlexibleSpace();
+	                GUILayout.EndHorizontal();
                 });
                 Prefab.SectionTabButton("Storages", () =>
                 {
-                    BasicControls(ESPTarget.Storage);
+	                BasicControls(ESPTarget.Storage);
                 });
                 Prefab.SectionTabButton("Beds", () =>
                 {
-                    BasicControls(ESPTarget.Beds);
+	                GUILayout.BeginHorizontal();
+	                GUILayout.BeginVertical(GUILayout.Width(240));
+	                
+	                BasicControls(ESPTarget.Beds);
+	                
+	                if (!ESPOptions.VisualOptions[(int)ESPTarget.Beds].Enabled)
+		                return;
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.BeginVertical();
+
+	                Prefab.Toggle("Show Claimed", ref ESPOptions.ShowClaimed);
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.FlexibleSpace();
+	                GUILayout.EndHorizontal();
                 });
                 Prefab.SectionTabButton("Generators", () =>
                 {
-                    BasicControls(ESPTarget.Generators);
+	                GUILayout.BeginHorizontal();
+	                GUILayout.BeginVertical(GUILayout.Width(240));
+	                
+	                BasicControls(ESPTarget.Generators);
+	                
+	                if (!ESPOptions.VisualOptions[(int)ESPTarget.Generators].Enabled)
+		                return;
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.BeginVertical();
+	                
+	                Prefab.Toggle("Show Generator Fuel", ref ESPOptions.ShowGeneratorFuel);
+	                Prefab.Toggle("Show Generator Powered", ref ESPOptions.ShowGeneratorPowered);
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.FlexibleSpace();
+	                GUILayout.EndHorizontal();
                 });
                 Prefab.SectionTabButton("Sentries", () =>
                 {
-                    BasicControls(ESPTarget.Sentries);
+	                GUILayout.BeginHorizontal();
+	                GUILayout.BeginVertical(GUILayout.Width(240));
+	                
+	                BasicControls(ESPTarget.Sentries);
+	                
+	                if (!ESPOptions.VisualOptions[(int)ESPTarget.Sentries].Enabled)
+		                return;
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.BeginVertical();
+
+	                Prefab.Toggle("Show Sentry Item", ref ESPOptions.ShowSentryItem);
+	                
+	                GUILayout.EndVertical();
+	                GUILayout.FlexibleSpace();
+	                GUILayout.EndHorizontal();
                 });
                 Prefab.SectionTabButton("Claim Flags", () =>
                 {
@@ -122,6 +194,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 			Prefab.Toggle("Labels", ref visual.Labels);
 			Prefab.Toggle("Box ESP", ref visual.Boxes);
 			Prefab.Toggle("2D Boxes", ref visual.TwoDimensional);
+	        Prefab.Toggle("Show Name", ref visual.ShowName);
+	        Prefab.Toggle("Show Distance", ref visual.ShowDistance);
 			Prefab.Toggle("Glow", ref visual.Glow);
 			Prefab.Toggle("Line To Object", ref visual.LineToObject);
 

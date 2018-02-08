@@ -16,12 +16,11 @@ namespace Thanking.Options
 		[Save] public static float SalvageTime = 1f;
 
 		[Save] public static bool SetTimeEnabled = false;
-        //WHY THE FUCK DOES THIS SHIT SAVE LMAO
-        /* [Save] */public static float Time = 0f;
+        [Save] public static float Time = 0f;
 
 		[Save] public static bool SlowFall = false;
         [Save] public static bool AirStick = false;
-
+ 
         [Save] public static bool Compass = false;
         [Save] public static bool GPS = false;
         [Save] public static bool ShowPlayersOnMap = false; 
@@ -45,8 +44,8 @@ namespace Thanking.Options
 		[Save] public static bool AlwaysCheckMovementVerification = false;
 
 		public static Player SpectatedPlayer;
-		public static bool PlayerFlight = false;
-		public static float FlightSpeedMultiplier = 1;
+		[Save] public static bool PlayerFlight = false;
+		[Save] public static float FlightSpeedMultiplier = 1;
 		
 		[Save] public static bool Freecam = false;
 		

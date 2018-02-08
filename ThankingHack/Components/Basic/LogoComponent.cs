@@ -20,7 +20,7 @@ namespace Thanking.Components.UI
 				return;
 			
 			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.TopRight, new Vector2(20, 40),
-				$"Thanking v{Assembly.GetExecutingAssembly().GetName().Version}", Color.black, Color.cyan, 0);
+				$"Thanking v{Assembly.GetExecutingAssembly().GetName().Version}", Color.cyan, Color.black, 0);
 		}
 	}
 }

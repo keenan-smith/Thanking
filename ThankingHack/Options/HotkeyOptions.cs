@@ -6,6 +6,6 @@ namespace Thanking.Options
 {
     public static class HotkeyOptions
     {
-        [Save] public static Dictionary<string, KeyCode> HotkeyDict = new Dictionary<string, KeyCode>();
+        [Save] public static Dictionary<string, List<KeyCode>> HotkeyDict = new Dictionary<string, List<KeyCode>>();
     }
 }

@@ -51,7 +51,7 @@ namespace Thanking.Components.UI
 			ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
 			string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>";
 
-			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.black, Color.green, 4);
+			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.green, Color.black, 4);
 		}
 		
 		public static IEnumerator UpdateWeapon()

@@ -31,6 +31,7 @@ namespace Thanking.Utilities
 				
 			if (hit.transform.CompareTag("Zombie"))
 				raycastInfo.zombie = DamageTool.getZombie(raycastInfo.transform);
+			
 			if (hit.transform.CompareTag("Animal"))
 				raycastInfo.animal = DamageTool.getAnimal(raycastInfo.transform);
 
@@ -48,18 +49,18 @@ namespace Thanking.Utilities
 			if (hit.transform.CompareTag("Vehicle"))
 				raycastInfo.vehicle = DamageTool.getVehicle(raycastInfo.transform);
 
-			if (raycastInfo.zombie != null && raycastInfo.zombie.isRadioactive)
+			if (RaycastOptions.UseTargetMaterial && RaycastOptions.TargetMaterial != EPhysicsMaterial.NONE)
+				raycastInfo.material = RaycastOptions.TargetMaterial;
+			
+			else if (raycastInfo.zombie != null && raycastInfo.zombie.isRadioactive)
 				raycastInfo.material = EPhysicsMaterial.ALIEN_DYNAMIC;
 
 			else
 				raycastInfo.material = DamageTool.getMaterial(hit.point, hit.transform, hit.collider);
-
-			if (RaycastOptions.UseTargetMaterial)
-				raycastInfo.material = RaycastOptions.TargetMaterial;
 			
 			return raycastInfo;
 		}
-
+	    
 	    public static bool GenerateRaycast(out RaycastInfo info, bool DecreaseRange = false)
 	    {
 		    ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
@@ -89,13 +90,18 @@ namespace Thanking.Utilities
 		        ELimb[] Limbs = (ELimb[]) Enum.GetValues(typeof(ELimb));
 		        Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
 	        }
+
+	        EPhysicsMaterial mat = EPhysicsMaterial.ALIEN_DYNAMIC;
+
+	        if (RaycastOptions.UseTargetMaterial && RaycastOptions.TargetMaterial != EPhysicsMaterial.NONE)
+		        mat = RaycastOptions.TargetMaterial; 
 	        
 	        return new RaycastInfo(Object.transform)
 	        {
 		        point = Point,
 		        direction = RaycastOptions.TargetRagdoll.ToVector(),
 		        limb = Limb,
-		        material = RaycastOptions.TargetMaterial,
+		        material = mat,
 		        player = Object.GetComponent<Player>(),
 		        zombie = Object.GetComponent<Zombie>(),
 		        vehicle = Object.GetComponent<InteractableVehicle>()
@@ -140,7 +146,7 @@ namespace Thanking.Utilities
 				if (NewDistance > Distance)
 					continue;
 				
-				if (!SphereUtilities.GetRaycast(go, AimPos, Range, out Vector3 _Point))
+				if (!SphereUtilities.GetRaycast(go, AimPos, out Vector3 _Point))
 					continue;
 				
 				Object = go;

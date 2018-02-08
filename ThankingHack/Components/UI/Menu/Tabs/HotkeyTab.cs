@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using SDG.Framework.IO.FormattedFiles.KeyValueTables;
 using SDG.Framework.UI.Devkit.InspectorUI;
 using SDG.Unturned;
+using Thanking.Components.Basic;
 using Thanking.Options;
 using Thanking.Utilities;
 using UnityEngine;
@@ -72,51 +75,58 @@ namespace Thanking.Components.UI.Menu.Tabs
         public static void DrawButton(string Option, string Identifier)
         {
             GUILayout.BeginHorizontal();
-
             GUILayout.Label(Option, Prefab._TextStyle);
             
             if (ClickedOption == Identifier)
             {
                 if (Prefab.Button("Unassign", 100))
                 {
-                    HotkeyUtilities.ReturnKey = KeyCode.None;
-                    HotkeyOptions.HotkeyDict[Identifier] = KeyCode.None;
+                    HotkeyComponent.Clear();
+                    HotkeyOptions.HotkeyDict[Identifier] = new List<KeyCode>();
 
                     ClickedOption = "";
-                    return;
                 }
                 
-                KeyCode key = HotkeyUtilities.ReturnKey;
-
-                switch (key)
+                if (!HotkeyComponent.StopKeys)
                 {
-                    case KeyCode.None:
-                        Prefab.Button("...", 150);
-                        break;
-                    case KeyCode.Mouse0:
-                    case KeyCode.Mouse1:
-                        Prefab.Button("...", 150);
-                        break;
-                    default:
-                        HotkeyUtilities.ReturnKey = KeyCode.None;
+                    string kCode;
 
-                        Prefab.Button(key.ToString(), 150);
-                        HotkeyOptions.HotkeyDict[Identifier] = key;
+                    if (HotkeyOptions.HotkeyDict[Identifier].Count > 0)
+                        kCode = string.Join(" + ",
+                            HotkeyOptions.HotkeyDict[Identifier].Select(k => k.ToString()).ToArray());
+                    else
+                        kCode = "Unassigned";
+                    
+                    Prefab.Button(kCode, 150);
+                }
+                else
+                {
+                    HotkeyOptions.HotkeyDict[Identifier] = HotkeyComponent.CurrentKeys;
+                    HotkeyComponent.Clear();
 
-                        ClickedOption = "";
-                        break;
+                    Prefab.Button(string.Join(" + ", HotkeyOptions.HotkeyDict[Identifier].Select(k => k.ToString()).ToArray()), 150);
+                    ClickedOption = "";
                 }
             }
             else
             {
-                KeyCode key = HotkeyOptions.HotkeyDict[Identifier];
-                if (Prefab.Button(key.ToString(), 150))
+                string kCode;
+
+                if (HotkeyOptions.HotkeyDict[Identifier].Count > 0)
+                    kCode = string.Join(" + ",
+                        HotkeyOptions.HotkeyDict[Identifier].Select(k => k.ToString()).ToArray());
+                else
+                    kCode = "Unassigned";
+
+                if (Prefab.Button(kCode, 150))
                 {
+                    HotkeyComponent.Clear();
+                    
                     ClickedOption = Identifier;
-                    HotkeyUtilities.GetNextKeyDown();
+                    HotkeyComponent.NeedsKeys = true;
                 }
             }
-
+            
             GUILayout.EndHorizontal();
             GUILayout.Space(2);
         }

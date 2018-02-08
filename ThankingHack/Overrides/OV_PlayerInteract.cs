@@ -140,12 +140,10 @@ namespace Thanking.Overrides
                     if (!InteractionOptions.NoHitVehicles)
                         Mask |= RayMasks.VEHICLE;
 
-                    if (!InteractionOptions.NoHitGround)
-                        Mask |= RayMasks.GROUND;
+                    if (!InteractionOptions.NoHitEnvironment)
+                        Mask |= RayMasks.LARGE | RayMasks.MEDIUM | RayMasks.ENVIRONMENT | RayMasks.GROUND;
                     
                     lastInteract = Time.realtimeSinceStartup;
-
-                    // ic3 has tamed this area with cancerous code
 
                     bool Run = InteractionOptions.InteractThroughWalls && !PlayerCoroutines.IsSpying;
                     
