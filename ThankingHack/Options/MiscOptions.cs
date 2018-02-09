@@ -28,8 +28,6 @@ namespace Thanking.Options
 
         public static bool WasNightVision = false;
 
-        [Save] public static bool LogoEnabled = true;
-
         [Save] public static string SpamText = "http://ironic.services/";
         [Save] public static bool SpammerEnabled = false;
         [Save] public static int SpammerDelay = 0;
