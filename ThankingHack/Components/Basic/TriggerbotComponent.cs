@@ -22,7 +22,7 @@ namespace Thanking.Components.Basic
 			{
 				RaycastUtilities.GetPlayers();
 
-				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri, true))
+				if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
 				{
 					TriggerbotOptions.IsFiring = false;
 					return;

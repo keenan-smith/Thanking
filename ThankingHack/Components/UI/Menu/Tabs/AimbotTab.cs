@@ -13,6 +13,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.BeginHorizontal();
                 GUILayout.BeginVertical(GUILayout.Width(230));
                 Prefab.Toggle("Enabled", ref AimbotOptions.Enabled);
+                Prefab.Toggle("No Bullet Drop", ref AimbotOptions.NoAimbotDrop);
                 Prefab.Toggle("Use Gun Distance", ref AimbotOptions.UseGunDistance);
                 Prefab.Toggle("Smooth", ref AimbotOptions.Smooth);
                 GUILayout.Space(3);
