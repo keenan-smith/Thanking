@@ -18,23 +18,6 @@ namespace Thanking.Overrides
         [Initializer]
         public static void Init() =>
             DynamicContainerInfo = typeof(PlayerDashboardInformationUI).GetField("mapDynamicContainer", ReflectionVariables.PrivateStatic);
-
-        public static bool WasEnabled;
-        
-        [OnSpy]
-        public static void Disable()
-        {
-            WasEnabled = MiscOptions.ShowPlayersOnMap;
-            MiscOptions.ShowPlayersOnMap = false;
-            OV_refreshDynamicMap();
-        }
-        
-        [OffSpy]
-        public static void Enable()
-        {
-            MiscOptions.ShowPlayersOnMap = WasEnabled;
-            OV_refreshDynamicMap();
-        }
         
 		[Override(typeof(PlayerDashboardInformationUI), "refreshDynamicMap", BindingFlags.Public | BindingFlags.Static)]
         public static void OV_refreshDynamicMap()
@@ -147,7 +130,7 @@ namespace Thanking.Overrides
                     SteamPlayer steamPlayer = Provider.clients[i];
                     bool shouldDraw = steamPlayer.player.quests.isMemberOfSameGroupAs(OptimizationVariables.MainPlayer);
                     
-                    if (!shouldDraw && MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun()) 
+                    if (!shouldDraw && MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun() && !PlayerCoroutines.IsSpying) 
                         shouldDraw = true;
                     
                     if (steamPlayer.playerID.steamID != Provider.client && steamPlayer.model != null && shouldDraw)

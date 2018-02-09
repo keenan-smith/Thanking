@@ -97,6 +97,7 @@ namespace Thanking.Coroutines
 		{	
 			SpyManager.InvokePre();
 			if (DrawUtilities.ShouldRun())
+			{
 				if (OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset pAsset)
 				{
 					UseableGun PGun = OptimizationVariables.MainPlayer.equipment.useable as UseableGun;
@@ -105,6 +106,11 @@ namespace Thanking.Coroutines
 						? WeaponComponent.AssetBackups[pAsset.id][5]
 						: WeaponComponent.AssetBackups[pAsset.id][6]);
 				}
+				
+				PlayerDashboardInformationUI.refreshDynamicMap();
+				PlayerLifeUI.updateCompass();
+				LevelLighting.updateLighting();
+			}
 
 			SpyManager.DestroyComponents();
 		}
@@ -112,6 +118,14 @@ namespace Thanking.Coroutines
 		public static void EnableAllVisuals()
 		{
 			SpyManager.AddComponents();
+
+			if (DrawUtilities.ShouldRun())
+			{
+				LevelLighting.updateLighting();
+				PlayerLifeUI.updateCompass();
+				PlayerDashboardInformationUI.refreshDynamicMap();
+			}
+			
 			SpyManager.InvokePost();
 		}
 	}
