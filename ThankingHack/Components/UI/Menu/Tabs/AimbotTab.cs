@@ -15,7 +15,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Enabled", ref AimbotOptions.Enabled);
                 Prefab.Toggle("Use Gun Distance", ref AimbotOptions.UseGunDistance);
                 Prefab.Toggle("Smooth", ref AimbotOptions.Smooth);
-                Prefab.Toggle("Bullet Drop Compensation", ref AimbotOptions.DropCorrection);
                 GUILayout.Space(3);
 				if (AimbotOptions.Smooth)
 				{
