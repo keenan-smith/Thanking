@@ -27,17 +27,26 @@ namespace Thanking.Components.UI
 
         public static Camera MainCamera;
 
+		[Initializer]
+		public static void OnInit()
+		{
+			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+			{
+				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
+				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
+			}
+			
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendlyVisible", "Chams - Visible Friend", Color.green));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendlyInisible", "Chams - Invisible Friend", Color.blue));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red));
+		}
+		
 		public void Start()
         {
             CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
 	        MainCamera = OptimizationVariables.MainCam;
-
-	        for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
-	        {
-		        ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", new Color32(255, 0, 0, 255), false));
-		        ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", new Color32(0, 0, 0, 255), false));
-	        }
         }
 		
 		public void Update()
