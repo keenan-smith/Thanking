@@ -14,96 +14,136 @@ namespace Thanking.Overrides
 {
     public class OV_UseableGun
     {
-		private static FieldInfo BulletsField;
-		private static MethodInfo Trace;
+        private static FieldInfo BulletsField;
+        private static MethodInfo Trace;
 
-	    public OV_UseableGun()
-	    {
-	    }
+        public OV_UseableGun()
+        {
+        }
 
-	    [Initializer]
-		public static void Load()
-		{
-			BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
-			Trace = typeof(UseableGun).GetMethod("trace", ReflectionVariables.PrivateInstance);
-		}
+        [Initializer]
+        public static void Load()
+        {
+            BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
+            Trace = typeof(UseableGun).GetMethod("trace", ReflectionVariables.PrivateInstance);
+        }
 
-		[Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
-		public void OV_ballistics()
-		{
-			Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
-			
-			if (!RaycastOptions.Enabled)
-			{
-				OverrideUtilities.CallOriginal(PlayerUse);
-				return;
-			}
-			
-			ItemGunAsset PAsset = (ItemGunAsset)OptimizationVariables.MainPlayer.equipment.asset;
-			
-			if (PAsset.projectile != null)
-				return;
+        [Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
+        public void OV_ballistics()
+        {
+            Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
 
-			List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
-			if (Bullets.Count == 0)
-				return;
-			
-			
-			RaycastUtilities.GetPlayers();
-			if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
-			{
-				OverrideUtilities.CallOriginal(PlayerUse);
-				return;
-			}
-			
-			if (Provider.modeConfigData.Gameplay.Ballistics)
-			{
-				for (int i = 0; i < Bullets.Count; i++)
-				{
-					BulletInfo bulletInfo = Bullets[i];
-					double distance = VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, ri.point);
+            ItemGunAsset PAsset = (ItemGunAsset)OptimizationVariables.MainPlayer.equipment.asset;
 
-					if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
-					{
-						Trace.Invoke(PlayerUse,
-							PAsset.ballisticTravel < 32f
-								? new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir }
-								: new object[]
-								{
-										bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir
-								});
-					}
+            if (PAsset.projectile != null)
+                return;
 
-					if (bulletInfo.steps * PAsset.ballisticTravel < distance)
-						continue;
-					
-					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
-					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-					OptimizationVariables.MainPlayer.input.sendRaycast(ri);
-					bulletInfo.steps = 254;
-				}
+            List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
+            if (Bullets.Count == 0)
+                return;
+
+            if (!RaycastOptions.Enabled)
+            {
+                if (WeaponOptions.NoDrop)
+                {
+                    for (int i = 0; i < Bullets.Count; i++)
+                    {
+                        BulletInfo bulletInfo = Bullets[i];
+                        Ray ray = new Ray(bulletInfo.pos, bulletInfo.dir);
+                        RaycastInfo rayInfo = DamageTool.raycast(ray, PAsset.ballisticTravel, RayMasks.DAMAGE_CLIENT);
+
+                        if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
+                        {
+                            Trace.Invoke(PlayerUse,
+                                PAsset.ballisticTravel < 32f
+                                    ? new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir }
+                                    : new object[]
+                                    {
+                                        bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir
+                                    });
+                        }
+
+                        if (Player.player.input.isRaycastInvalid(rayInfo))
+                            bulletInfo.pos += bulletInfo.dir * PAsset.ballisticTravel;
+                        else
+                        {
+                            EPlayerHit playerHit = CalcHitMarker(PAsset, ref rayInfo);
+                            PlayerUI.hitmark(0, rayInfo.point, false, playerHit);
+                            OptimizationVariables.MainPlayer.input.sendRaycast(rayInfo);
+                            bulletInfo.steps = 254;
+                        }
+                    }
+
+                    for (int i = Bullets.Count - 1; i >= 0; i--)
+                    {
+                        BulletInfo bulletInfo = Bullets[i];
+                        bulletInfo.steps += 1;
+                        if (bulletInfo.steps >= PAsset.ballisticSteps)
+                            Bullets.RemoveAt(i);
+                    }
+
+                }
+                else
+                    OverrideUtilities.CallOriginal(PlayerUse);
+
+                return;
+            }
+
+            RaycastUtilities.GetPlayers();
+            if (!RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
+            {
+                OverrideUtilities.CallOriginal(PlayerUse);
+                return;
+            }
+
+            if (Provider.modeConfigData.Gameplay.Ballistics)
+            {
+                for (int i = 0; i < Bullets.Count; i++)
+                {
+                    BulletInfo bulletInfo = Bullets[i];
+                    double distance = VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, ri.point);
+
+                    if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
+                    {
+                        Trace.Invoke(PlayerUse,
+                            PAsset.ballisticTravel < 32f
+                                ? new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir }
+                                : new object[]
+                                {
+                                        bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir
+                                });
+                    }
+
+                    if (bulletInfo.steps * PAsset.ballisticTravel < distance)
+                        continue;
+
+                    EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
+                    PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
+                    OptimizationVariables.MainPlayer.input.sendRaycast(ri);
+                    bulletInfo.steps = 254;
+                }
 
 
-				for (int k = Bullets.Count - 1; k >= 0; k--)
-				{
-					BulletInfo bulletInfo = Bullets[k];
-					bulletInfo.steps += 1;
-					if (bulletInfo.steps >= PAsset.ballisticSteps)
-						Bullets.RemoveAt(k);
-				}
-			}
-			else
-			{
-				for (int i = 0; i < Bullets.Count; i++)
-				{
-					EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
-					PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-					OptimizationVariables.MainPlayer.input.sendRaycast(ri);
-				}
+                for (int k = Bullets.Count - 1; k >= 0; k--)
+                {
+                    BulletInfo bulletInfo = Bullets[k];
+                    bulletInfo.steps += 1;
+                    if (bulletInfo.steps >= PAsset.ballisticSteps)
+                        Bullets.RemoveAt(k);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Bullets.Count; i++)
+                {
+                    EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
+                    PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
+                    OptimizationVariables.MainPlayer.input.sendRaycast(ri);
+                }
 
-				Bullets.Clear();
-			}
-		}
+                Bullets.Clear();
+            }
+        }
 
         public static EPlayerHit CalcHitMarker(ItemGunAsset PAsset, ref RaycastInfo ri)
         {
@@ -120,64 +160,64 @@ namespace Thanking.Overrides
                 {
                     InteractableDoorHinge component = ri.transform.GetComponent<InteractableDoorHinge>();
                     if (component != null)
-						ri.transform = component.transform.parent.parent;
+                        ri.transform = component.transform.parent.parent;
 
-	                if (!ushort.TryParse(ri.transform.name, out ushort id)) return eplayerhit;
-	                
-	                ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset)Assets.find(EAssetType.ITEM, id);
-	                
-	                if (itemBarricadeAsset == null || !itemBarricadeAsset.isVulnerable && !PAsset.isInvulnerable)
-		                return eplayerhit;
-	                
-	                if (eplayerhit == EPlayerHit.NONE)
-		                eplayerhit = EPlayerHit.BUILD;
+                    if (!ushort.TryParse(ri.transform.name, out ushort id)) return eplayerhit;
+
+                    ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset)Assets.find(EAssetType.ITEM, id);
+
+                    if (itemBarricadeAsset == null || !itemBarricadeAsset.isVulnerable && !PAsset.isInvulnerable)
+                        return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
                 }
                 else if (ri.transform.CompareTag("Structure") && PAsset.structureDamage > 1f)
                 {
-	                if (!ushort.TryParse(ri.transform.name, out ushort id2)) return eplayerhit;
-	                
-	                ItemStructureAsset itemStructureAsset = (ItemStructureAsset)Assets.find(EAssetType.ITEM, id2);
+                    if (!ushort.TryParse(ri.transform.name, out ushort id2)) return eplayerhit;
 
-	                if (itemStructureAsset == null || !itemStructureAsset.isVulnerable && !PAsset.isInvulnerable)
-		                return eplayerhit;
-	                
-	                if (eplayerhit == EPlayerHit.NONE)
-		                eplayerhit = EPlayerHit.BUILD;
+                    ItemStructureAsset itemStructureAsset = (ItemStructureAsset)Assets.find(EAssetType.ITEM, id2);
+
+                    if (itemStructureAsset == null || !itemStructureAsset.isVulnerable && !PAsset.isInvulnerable)
+                        return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
                 }
                 else if (ri.transform.CompareTag("Resource") && PAsset.resourceDamage > 1f)
                 {
-	                if (!ResourceManager.tryGetRegion(ri.transform, out byte x, out byte y, out ushort index))
-		                return eplayerhit;
-	                
-	                ResourceSpawnpoint resourceSpawnpoint = ResourceManager.getResourceSpawnpoint(x, y, index);
+                    if (!ResourceManager.tryGetRegion(ri.transform, out byte x, out byte y, out ushort index))
+                        return eplayerhit;
 
-	                if (resourceSpawnpoint == null || resourceSpawnpoint.isDead ||
-	                    resourceSpawnpoint.asset.bladeID != PAsset.bladeID) return eplayerhit;
-	                
-	                if (eplayerhit == EPlayerHit.NONE)
-		                eplayerhit = EPlayerHit.BUILD;
+                    ResourceSpawnpoint resourceSpawnpoint = ResourceManager.getResourceSpawnpoint(x, y, index);
+
+                    if (resourceSpawnpoint == null || resourceSpawnpoint.isDead ||
+                        resourceSpawnpoint.asset.bladeID != PAsset.bladeID) return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
                 }
                 else if (PAsset.objectDamage > 1f)
                 {
                     InteractableObjectRubble component2 = ri.transform.GetComponent<InteractableObjectRubble>();
-	                
-	                if (component2 == null) return eplayerhit;
-	                
-	                ri.section = component2.getSection(ri.collider.transform);
 
-	                if (component2.isSectionDead(ri.section) ||
-	                    !component2.asset.rubbleIsVulnerable && !PAsset.isInvulnerable) return eplayerhit;
-	                
-	                if (eplayerhit == EPlayerHit.NONE)
-		                eplayerhit = EPlayerHit.BUILD;
+                    if (component2 == null) return eplayerhit;
+
+                    ri.section = component2.getSection(ri.collider.transform);
+
+                    if (component2.isSectionDead(ri.section) ||
+                        !component2.asset.rubbleIsVulnerable && !PAsset.isInvulnerable) return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
                 }
             }
             else if (ri.vehicle && !ri.vehicle.isDead && PAsset.vehicleDamage > 1f)
-				if (ri.vehicle.asset != null && (ri.vehicle.asset.isVulnerable || PAsset.isInvulnerable))
-					if (eplayerhit == EPlayerHit.NONE)
-						eplayerhit = EPlayerHit.BUILD;
+                if (ri.vehicle.asset != null && (ri.vehicle.asset.isVulnerable || PAsset.isInvulnerable))
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
 
-			return eplayerhit;
+            return eplayerhit;
         }
     }
 }
