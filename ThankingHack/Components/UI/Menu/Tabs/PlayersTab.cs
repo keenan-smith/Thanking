@@ -42,7 +42,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
             });
             
-            Prefab.MenuArea(new Rect(0, 250 + 10, 230, 150), "OPTIONS", () =>
+            Prefab.MenuArea(new Rect(0, 250 + 10, 190, 150), "OPTIONS", () =>
             {
                 if (SelectedPlayer == null)
                     return;
@@ -88,7 +88,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });
-            Prefab.MenuArea(new Rect(230 + 6, 250 + 10, 230, 150), "INFO", () =>
+            Prefab.MenuArea(new Rect(190 + 6, 250 + 10, 270, 150), "INFO", () =>
             {
                 if (SelectedPlayer == null)
                     return;
@@ -99,7 +99,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Label("Closest Location: " + LocationUtilities.GetClosestLocation(SelectedPlayer.transform.position).name, Prefab._TextStyle);
                 GUILayout.Label("Current Weapon: " + (SelectedPlayer.equipment.asset != null ? SelectedPlayer.equipment.asset.itemName : "Fists"), Prefab._TextStyle);
                 GUILayout.Label("Current Vehicle: " + (SelectedPlayer.movement.getVehicle() != null ? SelectedPlayer.movement.getVehicle().asset.name : "No Vehicle"), Prefab._TextStyle);
-                GUILayout.Label("Current Group Members: " + Provider.clients.Select(c => c.player != SelectedPlayer && c.player.quests.isMemberOfSameGroupAs(SelectedPlayer)).Count(), Prefab._TextStyle);
+                GUILayout.Label("Current Group Members: " + Provider.clients.Count(c => c.player != SelectedPlayer && c.player.quests.isMemberOfSameGroupAs(SelectedPlayer)), Prefab._TextStyle);
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();

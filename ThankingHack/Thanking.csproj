@@ -126,11 +126,11 @@
     <Compile Include="Options\AimOptions\WeaponOptions.cs" />
     <Compile Include="Options\HotkeyOptions.cs" />
     <Compile Include="Options\InteractionOptions.cs" />
-    <Compile Include="Options\SkinOptions.cs" />
     <Compile Include="Options\ItemOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
     <Compile Include="Options\VisualOptions\MirrorCameraOptions.cs" />
+    <Compile Include="Options\VisualOptions\SkinOptions.cs" />
     <Compile Include="Overrides\OV_ChatManager.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_LevelLighting.cs" />
@@ -151,6 +151,7 @@
     <Compile Include="Utilities\LocationUtilities.cs" />
     <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\SkinsUtilities.cs" />
+    <Compile Include="Variables\HotkeyVariables.cs" />
     <Compile Include="Variables\OptimizationVariables.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
