@@ -64,6 +64,7 @@ namespace Thanking.Utilities
 	    public static bool GenerateRaycast(out RaycastInfo info)
 	    {
 		    ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
+
 		    float Range = currentGun?.range ?? 15.5f;
 		    
 		    info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
