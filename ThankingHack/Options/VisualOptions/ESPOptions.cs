@@ -14,7 +14,6 @@ namespace Thanking.Options.VisualOptions
 		//[Save] public static KeyCode Toggle = KeyCode.LeftBracket;
         [Save] public static bool ChamsEnabled = true;
         [Save] public static bool ChamsFlat = false;
-		[Save] public static bool ShowHeccers = false;
 
         [Save]
         public static ESPVisual[] VisualOptions =

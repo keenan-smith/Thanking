@@ -1,4 +1,5 @@
-﻿using SDG.Provider;
+﻿using System.Reflection;
+using SDG.Provider;
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Managers.Main;
@@ -12,9 +13,7 @@ namespace Thanking.Components.UI.Menu
     [SpyComponent]
     [Component]
     public class MenuComponent : MonoBehaviour
-    {
-        public static float version = 2.0f;
-        
+    {   
         public static Font _TabFont;
         public static Font _TextFont;
         public static Texture2D _LogoTexLarge;
@@ -193,7 +192,7 @@ namespace Thanking.Components.UI.Menu
 
         static void LogoTab()
         {
-            Prefab.MenuArea(new Rect(0, 0, 466, 436), ":thanking: v" + version, () =>
+            Prefab.MenuArea(new Rect(0, 0, 466, 436), $":thanking: v{Assembly.GetExecutingAssembly().GetName().Version}", () =>
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();

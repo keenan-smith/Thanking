@@ -82,7 +82,6 @@
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\HotkeyComponent.cs" />
-    <Compile Include="Components\Basic\LogoComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
@@ -113,7 +112,6 @@
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Coroutines\RaycastCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
-    <Compile Include="Managers\Main\NetManager.cs" />
     <Compile Include="Managers\Submanagers\SpyManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="Misc\Loader.cs" />
