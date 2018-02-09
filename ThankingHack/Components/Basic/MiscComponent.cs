@@ -66,9 +66,6 @@ namespace Thanking.Components.Basic
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out currentKills);
             
-            HotkeyComponent.ActionDict.Add("_ToggleLogo", () =>
-                MiscOptions.LogoEnabled = !MiscOptions.LogoEnabled);
-            
             HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
                 AimbotOptions.Enabled = !AimbotOptions.Enabled);
 

@@ -82,7 +82,6 @@
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\HotkeyComponent.cs" />
-    <Compile Include="Components\Basic\LogoComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
