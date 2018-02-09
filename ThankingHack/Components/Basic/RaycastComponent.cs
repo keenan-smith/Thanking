@@ -24,7 +24,10 @@ namespace Thanking.Components.Basic
             StartCoroutine(CalcVelocity());
             StartCoroutine(CalcSphere());
         }
-  
+
+        private void FixedUpdate() =>
+            Sphere.transform.position = transform.position;
+        
         IEnumerator CalcVelocity()
         {
             while(true)
@@ -41,7 +44,7 @@ namespace Thanking.Components.Basic
         {
             SetRadius();
             Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
-            SetUpSphere();
+            Sphere.layer = LayerMasks.AGENT;
             
             while (true)
             {
@@ -49,8 +52,7 @@ namespace Thanking.Components.Basic
                 
                 Destroy(Sphere);
                 Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
-                
-                SetUpSphere();
+                Sphere.layer = LayerMasks.AGENT;
                 SetRadius();
             }
         }
@@ -62,13 +64,6 @@ namespace Thanking.Components.Basic
 
             if (Speed > 0)
                 Radius = 15.5f - Speed * Provider.ping * 1.3f;
-        }
-
-        void SetUpSphere()
-        {
-            Sphere.transform.parent = transform;
-            Sphere.transform.localPosition = Vector3.zero;
-            Sphere.layer = LayerMasks.AGENT;
         }
     }
 }

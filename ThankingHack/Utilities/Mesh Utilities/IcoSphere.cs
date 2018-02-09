@@ -169,10 +169,8 @@ namespace Thanking.Utilities.Mesh_Utilities
             mesh.normals = normales;
 
             mesh.RecalculateBounds();
-            
             sphere.AddComponent<MeshCollider>().sharedMesh = mesh;
-            sphere.GetComponent<MeshCollider>().convex = true;
-            
+                
             return sphere;
         }
     }
