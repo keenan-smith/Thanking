@@ -19,7 +19,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        Prefab.Toggle("No Recoil", ref WeaponOptions.NoRecoil);
 		        Prefab.Toggle("No Spread", ref WeaponOptions.NoSpread);
 		        Prefab.Toggle("No Sway", ref WeaponOptions.NoSway);
-		        Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
+                Prefab.Toggle("No Drop", ref WeaponOptions.NoDrop);
+                Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
 		        Prefab.Toggle("Oof on Death", ref WeaponOptions.OofOnDeath);
 		        Prefab.Toggle("Show Weapon Information", ref WeaponOptions.ShowWeaponInfo);
 		        GUILayout.Space(20);
