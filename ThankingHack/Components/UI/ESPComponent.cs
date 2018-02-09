@@ -35,7 +35,8 @@ namespace Thanking.Components.UI
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
 			}
-			
+
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ESPFriendly", "Friendly Players", Color.green));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendlyVisible", "Chams - Visible Friend", Color.green));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendlyInisible", "Chams - Invisible Friend", Color.blue));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255)));
@@ -156,16 +157,11 @@ namespace Thanking.Components.UI
 						if (ESPOptions.ShowPlayerVehicle)
 							text += (p.movement.getVehicle() != null ? p.movement.getVehicle().asset.name + "\n" : "No Vehicle\n");
 
-						if (NetManager.Heccers != null)
-							if (ESPOptions.ShowHeccers)
-								if (NetManager.Heccers.ToList().Contains(PlayerTool.getSteamPlayer(p.name).playerID.steamID.m_SteamID))
-									text += "Heccer\n";
-
 						b.size = b.size / 2;
 						b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
 
 						if (FriendUtilities.IsFriendly(p) && ESPOptions.UsePlayerGroup)
-							c = ESPOptions.SameGroupColor.ToColor();
+							c = ColorUtilities.getColor("_ESPFriendly");
 
 						break;
 					}
