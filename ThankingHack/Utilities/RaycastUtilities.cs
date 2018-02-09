@@ -61,13 +61,10 @@ namespace Thanking.Utilities
 			return raycastInfo;
 		}
 	    
-	    public static bool GenerateRaycast(out RaycastInfo info, bool DecreaseRange = false)
+	    public static bool GenerateRaycast(out RaycastInfo info)
 	    {
 		    ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
 		    float Range = currentGun?.range ?? 15.5f;
-
-		    if (DecreaseRange)
-			    Range -= 10;
 		    
 		    info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
 			    RayMasks.DAMAGE_CLIENT);

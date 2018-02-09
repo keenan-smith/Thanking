@@ -18,20 +18,14 @@ namespace Thanking.Overrides
 	
 	    [Override(typeof(DamageTool), "raycast", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)] 
 		public static RaycastInfo OV_raycast(Ray ray, float range, int mask)
-		{
-			switch (OVType)
-			{
-				case OverrideType.ExtendedMelee:
-					return RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
+	    {
+		    if (OVType == OverrideType.ExtendedMelee)
+			    return RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
 
-				case OverrideType.SilentAim:
-					if (RaycastUtilities.GenerateRaycast(out RaycastInfo ri))
-						return ri;
-
-					break;
-			}
-
-			return RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
-		}
+		    if (OVType != OverrideType.SilentAim) 
+			    return RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
+		    
+		    return RaycastUtilities.GenerateRaycast(out RaycastInfo ri) ? ri : RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
+	    }
 	}
 }
