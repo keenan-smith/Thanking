@@ -19,6 +19,9 @@ namespace Thanking.Overrides
 	    [OnSpy]
 	    public static void Disable()
 	    {
+		    if (!DrawUtilities.ShouldRun())
+			    return;
+		    
 		    WasGPSEnabled = MiscOptions.GPS;
 		    WasCompassEnabled = MiscOptions.Compass;
 
@@ -31,7 +34,10 @@ namespace Thanking.Overrides
         
 	    [OffSpy]
 	    public static void Enable()
-	    {
+	    { 
+		    if (!DrawUtilities.ShouldRun())
+			    return;
+		    
 		    MiscOptions.GPS = WasGPSEnabled;
 		    MiscOptions.Compass = WasCompassEnabled;
 		    
