@@ -18,7 +18,7 @@ namespace Thanking.Coroutines
         public static Shader LitChams;
         public static Shader UnlitChams;
         public static Shader Normal;
-
+	    
         public static IEnumerator DoChams()
         {
 	        #if DEBUG
@@ -79,11 +79,11 @@ namespace Thanking.Coroutines
         public static void EnableChams()
         {
 	        if (!ESPOptions.ChamsEnabled) return;
-	        
-	        Color32 friendly_front = new Color32(0, 255, 0, 255);
-	        Color32 friendly_back = new Color32(0, 0, 255, 255);
-	        Color32 enemy_front = new Color32(255, 255, 0, 255);
-	        Color32 enemy_back = new Color32(255, 0, 0, 255);
+
+	        Color32 friendly_front = ColorUtilities.getColor("_ChamsFriendVisible");
+	        Color32 friendly_back = ColorUtilities.getColor("_ChamsFriendInvisible");
+	        Color32 enemy_front = ColorUtilities.getColor("_ChamsEnemyVisible");
+	        Color32 enemy_back = ColorUtilities.getColor("_ChamsEnemyInvisible");
 
 	        SteamPlayer[] players = Provider.clients.ToArray();
 	        for (int index = 0; index < players.Length; index++)
