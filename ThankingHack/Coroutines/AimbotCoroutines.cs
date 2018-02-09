@@ -14,6 +14,8 @@ namespace Thanking.Coroutines
 {
     public static class AimbotCoroutines
     {
+        public static Vector3 PiVector = new Vector3(0, Mathf.PI, 0);
+        
         public static GameObject LockedObject;
         public static bool IsAiming = false;
 
@@ -51,63 +53,62 @@ namespace Thanking.Coroutines
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-                else
+                
+                Player p = null;
+                SteamPlayer[] players = Provider.clients.ToArray();
+                for (int i = 0; i < players.Length; i++)
                 {
-                    Player p = null;
-                    SteamPlayer[] players = Provider.clients.ToArray();
-                    for (int i = 0; i < players.Length; i++)
+                    SteamPlayer cPlayer = players[i];
+                    if (cPlayer == null || cPlayer.player == OptimizationVariables.MainPlayer || cPlayer.player.life == null ||
+                        cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player)) continue;
+
+                    switch (AimbotOptions.TargetMode)
                     {
-                        SteamPlayer cPlayer = players[i];
-                        if (cPlayer == null || cPlayer.player == OptimizationVariables.MainPlayer || cPlayer.player.life == null ||
-                            cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player)) continue;
-
-                        switch (AimbotOptions.TargetMode)
+                        case TargetMode.Distance:
                         {
-                            case TargetMode.Distance:
+                            if (p == null)
+                                p = players[i].player;
+                            else
                             {
-                                if (p == null)
-                                    p = players[i].player;
-                                else
-                                {
-                                    if (p != null)
-                                        if (VectorUtilities.GetDistance(p.transform.position) >
-                                            VectorUtilities.GetDistance(players[i].player.transform.position))
-                                            p = players[i].player;
-                                }
-                                break;
-                            }
-                            case TargetMode.FOV:
-                            {
-                                Vector3 v2dist =
-                                    OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(players[i].player.transform,
-                                        "Skull"));
-                                if (v2dist.z <= 0) continue;
-
-                                Vector2 pos = new Vector2(v2dist.x, v2dist.y);
-                                float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
-
-                                if (vdist < AimbotOptions.FOV && p == null)
-                                    p = players[i].player;
-
-                                else if (vdist < AimbotOptions.FOV)
-                                {
-                                    Vector3 v2dist_ =
-                                        OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
-                                    Vector2 pos_ = new Vector2(v2dist_.x, v2dist_.y);
-                                    float vdist_ = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2),
-                                        pos_);
-
-                                    if (vdist_ > vdist)
+                                if (p != null)
+                                    if (VectorUtilities.GetDistance(p.transform.position) >
+                                        VectorUtilities.GetDistance(players[i].player.transform.position))
                                         p = players[i].player;
-                                }
-                                break;
                             }
+                            break;
+                        }
+                        case TargetMode.FOV:
+                        {
+                            Vector3 v2dist =
+                                OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(players[i].player.transform,
+                                    "Skull"));
+                            if (v2dist.z <= 0) continue;
+
+                            Vector2 pos = new Vector2(v2dist.x, v2dist.y);
+                            float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
+
+                            if (vdist < AimbotOptions.FOV && p == null)
+                                p = players[i].player;
+
+                            else if (vdist < AimbotOptions.FOV)
+                            {
+                                Vector3 v2dist_ =
+                                    OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
+                                Vector2 pos_ = new Vector2(v2dist_.x, v2dist_.y);
+                                float vdist_ = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2),
+                                    pos_);
+
+                                if (vdist_ > vdist)
+                                    p = players[i].player;
+                            }
+                            break;
                         }
                     }
-                    if (!IsAiming)
-                        LockedObject = (p != null ? p.gameObject : null);
-                    yield return new WaitForEndOfFrame();
                 }
+                if (!IsAiming)
+                    LockedObject = (p != null ? p.gameObject : null);
+                
+                yield return new WaitForEndOfFrame();
             }
         }
 
@@ -127,7 +128,7 @@ namespace Thanking.Coroutines
                 
                 if (LockedObject != null && LockedObject.transform != null && ESPComponent.MainCamera != null)
                 {
-                    if (HotkeyUtilities.IsHotkeyDown("_AimbotKey") || !AimbotOptions.OnKey)
+                    if (HotkeyUtilities.IsHotkeyHeld("_AimbotKey") || !AimbotOptions.OnKey)
                     {
                         IsAiming = true;
                         if (AimbotOptions.Smooth)
@@ -148,6 +149,10 @@ namespace Thanking.Coroutines
         {
             Camera mainCam = OptimizationVariables.MainCam;
             Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
+            
+            if (skullPosition == PiVector)
+                return;
+            
             OptimizationVariables.MainPlayer.transform.LookAt(skullPosition);
             OptimizationVariables.MainPlayer.transform.eulerAngles = new Vector3(0f, OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y, 0f);
             mainCam.transform.LookAt(skullPosition);
@@ -166,6 +171,10 @@ namespace Thanking.Coroutines
         {
             Camera mainCam = OptimizationVariables.MainCam;
             Vector3 skullPosition = GetAimPosition(obj.transform, "Skull");
+            
+            if (skullPosition == PiVector)
+                return;
+            
             OptimizationVariables.MainPlayer.transform.rotation = Quaternion.Slerp(OptimizationVariables.MainPlayer.transform.rotation, Quaternion.LookRotation( skullPosition - OptimizationVariables.MainPlayer.transform.position ), Time.deltaTime * AimbotOptions.AimSpeed);
             OptimizationVariables.MainPlayer.transform.eulerAngles = new Vector3(0f, OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y, 0f);
             mainCam.transform.localRotation = Quaternion.Slerp(mainCam.transform.localRotation, Quaternion.LookRotation(skullPosition - mainCam.transform.position), Time.deltaTime * AimbotOptions.AimSpeed);
@@ -208,7 +217,8 @@ namespace Thanking.Coroutines
         {
             Transform[] componentsInChildren = parent.GetComponentsInChildren<Transform>();
             
-            if (componentsInChildren == null) return new Vector3(1000, 1000, 1000);
+            if (componentsInChildren == null) 
+                return PiVector;
             
             Transform[] array = componentsInChildren;
             
@@ -218,8 +228,8 @@ namespace Thanking.Coroutines
                 if (tr.name.Trim() == name)
                     return tr.position + new Vector3(0f, 0.4f, 0f);
             }
-            
-            return new Vector3(1000, 1000, 1000);
+
+            return PiVector;
         }
     }
 }

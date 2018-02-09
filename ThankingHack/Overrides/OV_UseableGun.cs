@@ -63,17 +63,6 @@ namespace Thanking.Overrides
 					BulletInfo bulletInfo = Bullets[i];
 					double distance = VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, ri.point);
 
-					if (bulletInfo.steps > 0 || PAsset.ballisticSteps <= 1)
-					{
-						Trace.Invoke(PlayerUse,
-							PAsset.ballisticTravel < 32f
-								? new object[] { bulletInfo.pos + bulletInfo.dir * 32f, bulletInfo.dir }
-								: new object[]
-								{
-										bulletInfo.pos + bulletInfo.dir * Random.Range(32f, PAsset.ballisticTravel), bulletInfo.dir
-								});
-					}
-
 					if (bulletInfo.steps * PAsset.ballisticTravel < distance)
 						continue;
 					

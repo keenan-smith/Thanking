@@ -33,7 +33,7 @@ namespace Thanking.Threads
             while (true)
             {
                 if (PlayerCrashEnabled)
-                    Provider.send(CrashTarget, ESteamPacket.UPDATE_RELIABLE_INSTANT, Packet, Size, 0);
+                    Provider.send(CrashTarget, ESteamPacket.UPDATE_RELIABLE_INSTANT, Packet, 65535, 0);
                 
                 else
                 {
