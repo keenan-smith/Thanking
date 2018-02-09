@@ -48,7 +48,7 @@ namespace Thanking.Components.Basic
                 return;
             
             foreach (KeyValuePair<string, Action> kvp in ActionDict)
-                if (HotkeyOptions.HotkeyDict.ContainsKey(kvp.Key) && HotkeyUtilities.IsHotkeyDown(kvp.Key))
+                if (HotkeyUtilities.IsHotkeyDown(kvp.Key))
                     kvp.Value();
         }
 

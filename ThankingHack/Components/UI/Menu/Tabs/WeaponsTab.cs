@@ -19,7 +19,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        Prefab.Toggle("No Recoil", ref WeaponOptions.NoRecoil);
 		        Prefab.Toggle("No Spread", ref WeaponOptions.NoSpread);
 		        Prefab.Toggle("No Sway", ref WeaponOptions.NoSway);
-		        Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
+                Prefab.Toggle("No Drop", ref WeaponOptions.NoDrop);
+                Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
 		        Prefab.Toggle("Oof on Death", ref WeaponOptions.OofOnDeath);
 		        Prefab.Toggle("Show Weapon Information", ref WeaponOptions.ShowWeaponInfo);
 		        GUILayout.Space(20);
@@ -29,41 +30,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        Prefab.Toggle("Custom Material", ref RaycastOptions.UseTargetMaterial);
 		        Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
 		        GUILayout.Space(10);
-
-		        if (RaycastOptions.Enabled)
-		        {
-			        GUILayout.Space(10);
-			        Prefab.Toggle("Dynamic Sphere Radius", ref SphereOptions.DynamicSphere);
-			        GUILayout.Space(5);
-
-			        if (!SphereOptions.DynamicSphere)
-			        {
-				        GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
-				        Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
-				        GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m",
-					        Prefab._TextStyle);
-				        Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
-			        }
-
-			        GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
-			        SphereOptions.RecursionLevel = (int) Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
-
-			        GUIContent[] TargetPriorities =
-			        {
-				        new GUIContent("Players"),
-				        new GUIContent("Zombies"),
-				        new GUIContent("Sentries"),
-				        new GUIContent("Beds"),
-				        new GUIContent("Claim Flags"),
-				        new GUIContent("Storage"),
-				        new GUIContent("Vehicles")
-			        };
-
-			        if (Prefab.List(200, "_TargetPriority",
-				        new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text),
-				        TargetPriorities))
-				        RaycastOptions.Target = (TargetPriority) DropDown.Get("_TargetPriority").ListIndex;
-		        }
 		        
 		        GUIContent[] Limbs =
 		        {
@@ -132,6 +98,41 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        RaycastOptions.TargetRagdoll.z = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.z, 200);
 		        }
 
+		        if (RaycastOptions.Enabled)
+		        {
+			        GUILayout.Space(10);
+			        Prefab.Toggle("Dynamic Sphere Radius", ref SphereOptions.DynamicSphere);
+			        GUILayout.Space(5);
+
+			        if (!SphereOptions.DynamicSphere)
+			        {
+				        GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
+				        Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
+				        GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m",
+					        Prefab._TextStyle);
+				        Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
+			        }
+
+			        GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
+			        SphereOptions.RecursionLevel = (int) Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
+
+			        GUIContent[] TargetPriorities =
+			        {
+				        new GUIContent("Players"),
+				        new GUIContent("Zombies"),
+				        new GUIContent("Sentries"),
+				        new GUIContent("Beds"),
+				        new GUIContent("Claim Flags"),
+				        new GUIContent("Storage"),
+				        new GUIContent("Vehicles")
+			        };
+
+			        if (Prefab.List(200, "_TargetPriority",
+				        new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text),
+				        TargetPriorities))
+				        RaycastOptions.Target = (TargetPriority) DropDown.Get("_TargetPriority").ListIndex;
+		        }
+		        
 		        GUILayout.EndVertical();
 		        GUILayout.FlexibleSpace();
 		        GUILayout.EndHorizontal();

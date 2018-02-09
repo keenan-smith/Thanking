@@ -14,7 +14,6 @@ namespace Thanking.Options.AimOptions
     {
         [Save] public static bool Enabled = true;
         [Save] public static bool UseGunDistance = false;
-        [Save] public static bool FOV_Mode = false;
         [Save] public static bool Smooth = true;
         [Save] public static bool OnKey = true;
 
@@ -25,5 +24,7 @@ namespace Thanking.Options.AimOptions
 
         [Save] public static ELimb TargetLimb = ELimb.SKULL;
         [Save] public static TargetMode TargetMode = TargetMode.Distance;
+
+        [Save] public static bool NoAimbotDrop = false;
     }
 }

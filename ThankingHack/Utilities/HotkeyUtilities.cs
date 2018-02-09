@@ -2,6 +2,7 @@
 using System.Linq;
 using Thanking.Attributes;
 using Thanking.Options;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Utilities
@@ -11,53 +12,60 @@ namespace Thanking.Utilities
         [Initializer]
         public static void Initialize()
         {
-            AddHotkey("_ToggleAimbot", KeyCode.Period);
-            AddHotkey("_AimbotOnKey", KeyCode.Comma);
-            AddHotkey("_AimbotKey", KeyCode.F);
+            AddHotkey("Aimbot", "Aimbot On/Off", "_ToggleAimbot", KeyCode.Period);
+            AddHotkey("Aimbot", "Aimbot On Key On/Off", "_AimbotOnKey", KeyCode.Comma);
+            AddHotkey("Aimbot", "Aimbot Key", "_AimbotKey", KeyCode.F);
 
-            AddHotkey("_VFStrafeUp", KeyCode.RightControl);
-            AddHotkey("_VFStrafeDown", KeyCode.LeftControl);
-            AddHotkey("_VFStrafeLeft", KeyCode.LeftBracket);
-            AddHotkey("_VFStrafeRight", KeyCode.RightBracket);
-            AddHotkey("_VFMoveForward", KeyCode.W);
-            AddHotkey("_VFMoveBackward", KeyCode.S);
-            AddHotkey("_VFRotateLeft", KeyCode.A);
-            AddHotkey("_VFRotateRight", KeyCode.D);
-            AddHotkey("_VFRollLeft", KeyCode.Q);
-            AddHotkey("_VFRollRight", KeyCode.E);
-            AddHotkey("_VFRotateUp", KeyCode.Space);
-            AddHotkey("_VFRotateDown", KeyCode.LeftShift);
-
-            AddHotkey("_PanicButton", KeyCode.RightControl);
-            AddHotkey("_ToggleFreecam", KeyCode.Keypad2);
-            AddHotkey("_ToggleLogo", KeyCode.Keypad5);
+            AddHotkey("Vehicle Flight", "Strafe Up", "_VFStrafeUp", KeyCode.RightControl);
+            AddHotkey("Vehicle Flight", "Strafe Down","_VFStrafeDown", KeyCode.LeftControl);
+            AddHotkey("Vehicle Flight", "Strafe Left","_VFStrafeLeft", KeyCode.LeftBracket);
+            AddHotkey("Vehicle Flight", "Strafe Right","_VFStrafeRight", KeyCode.RightBracket);
+            AddHotkey("Vehicle Flight", "Move Forward","_VFMoveForward", KeyCode.W);
+            AddHotkey("Vehicle Flight", "Move Backward","_VFMoveBackward", KeyCode.S);
+            AddHotkey("Vehicle Flight", "Rotate Left","_VFRotateLeft", KeyCode.A);
+            AddHotkey("Vehicle Flight", "Rotate Right","_VFRotateRight", KeyCode.D);
+            AddHotkey("Vehicle Flight", "Rotate Up","_VFRotateUp", KeyCode.Space);
+            AddHotkey("Vehicle Flight", "Rotate Down","_VFRotateDown", KeyCode.LeftShift);
+            AddHotkey("Vehicle Flight", "Roll Left","_VFRollLeft", KeyCode.Q);
+            AddHotkey("Vehicle Flight", "Roll Right","_VFRollRight", KeyCode.E);
             
-            AddHotkey("_PanicButton", KeyCode.RightControl);
-            AddHotkey("_ToggleFreecam", KeyCode.Keypad2);
-            AddHotkey("_ToggleLogo", KeyCode.Keypad5);
+            AddHotkey("Player Flight", "Fly Up", "_FlyUp", KeyCode.Space);
+            AddHotkey("Player Flight", "Fly Down", "_FlyDown", KeyCode.LeftControl);
+            AddHotkey("Player Flight", "Fly Left", "_FlyLeft", KeyCode.A);
+            AddHotkey("Player Flight", "Fly Right", "_FlyRight", KeyCode.D);
+            AddHotkey("Player Flight", "Fly Forward", "_FlyForward", KeyCode.W);
+            AddHotkey("Player Flight", "Fly Backward", "_FlyBackward", KeyCode.S);
             
-            AddHotkey("_SPNextPlayer", KeyCode.Keypad9);
-            AddHotkey("_SPLastPlayer", KeyCode.Keypad7);
-            
-            AddHotkey("_FlyUp", KeyCode.Space);
-            AddHotkey("_FlyDown", KeyCode.LeftControl);
-            AddHotkey("_FlyLeft", KeyCode.A);
-            AddHotkey("_FlyRight", KeyCode.D);
-            AddHotkey("_FlyForward", KeyCode.W);
-            AddHotkey("_FlyBackward", KeyCode.S);
+            AddHotkey("Misc", "Toggle All Visuals", "_PanicButton", KeyCode.Keypad0);
+            AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.Keypad2);
+            AddHotkey("Misc", "Toggle Logo", "_ToggleLogo", KeyCode.Keypad5);
         }
         
-        public static void AddHotkey(string Identifier, KeyCode DefaultKey)
+        public static void AddHotkey(string Group, string Name, string Identifier, params KeyCode[] DefaultKeys)
         {
-            if (!HotkeyOptions.HotkeyDict.ContainsKey(Identifier))
-                HotkeyOptions.HotkeyDict.Add(Identifier, new List<KeyCode> {DefaultKey});
+            if (!HotkeyOptions.HotkeyDict.ContainsKey(Group))
+                HotkeyOptions.HotkeyDict.Add(Group, new Dictionary<string, Hotkey>());
+
+            Dictionary<string, Hotkey> GroupHotkeys = HotkeyOptions.HotkeyDict[Group];
+            
+            if (GroupHotkeys.ContainsKey(Identifier)) 
+                return;
+
+            Hotkey HKey = new Hotkey
+            {
+                Name = Name,
+                Keys = DefaultKeys
+            };
+            
+            GroupHotkeys.Add(Identifier, HKey);
+            HotkeyOptions.UnorganizedHotkeys.Add(Identifier, HKey);
         }
 
         public static bool IsHotkeyDown(string Identifier) => 
-            HotkeyOptions.HotkeyDict[Identifier].Any(Input.GetKeyDown) && 
-            HotkeyOptions.HotkeyDict[Identifier].All(Input.GetKey);
+            HotkeyOptions.UnorganizedHotkeys[Identifier].Keys.Any(Input.GetKeyDown) && 
+            HotkeyOptions.UnorganizedHotkeys[Identifier].Keys.All(Input.GetKey);
 
         public static bool IsHotkeyHeld(string Identifier) => 
-            HotkeyOptions.HotkeyDict[Identifier].All(Input.GetKey);
+            HotkeyOptions.UnorganizedHotkeys[Identifier].Keys.All(Input.GetKey);
     }
 }

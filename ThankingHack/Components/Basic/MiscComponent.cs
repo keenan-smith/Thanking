@@ -94,6 +94,8 @@ namespace Thanking.Components.Basic
                 else
                     MiscOptions.NoMovementVerification = false;
             };
+            
+            SkinsUtilities.RefreshEconInfo();
         }
         
         public void Update()

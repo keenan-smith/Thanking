@@ -20,6 +20,9 @@ namespace Thanking.Overrides
 		[OnSpy]
 		public static void Disable()
 		{
+			if (!DrawUtilities.ShouldRun())
+				return;
+		    
 			WasEnabled = MiscOptions.ShowPlayersOnMap;
 			MiscOptions.ShowPlayersOnMap = false;
 			OV_updateLighting();
@@ -28,6 +31,9 @@ namespace Thanking.Overrides
 		[OffSpy]
 		public static void Enable()
 		{
+			if (!DrawUtilities.ShouldRun())
+				return;
+		    
 			MiscOptions.ShowPlayersOnMap = WasEnabled;
 			OV_updateLighting();
 		}
