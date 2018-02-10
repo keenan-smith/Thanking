@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.ComTypes;
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Components.Basic;
+using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -15,17 +16,11 @@ namespace Thanking.Overrides
     public class OV_UseableGun
     {
         private static FieldInfo BulletsField;
-        private static MethodInfo Trace;
-
-        public OV_UseableGun()
-        {
-        }
-
+        
         [Initializer]
         public static void Load()
         {
             BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
-            Trace = typeof(UseableGun).GetMethod("trace", ReflectionVariables.PrivateInstance);
         }
 
         [Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
@@ -44,20 +39,27 @@ namespace Thanking.Overrides
             if (Bullets.Count == 0)
                 return;
 
-            RaycastInfo ri;
+            RaycastInfo ri = null;
             
             if (RaycastOptions.Enabled)
             {
                 RaycastUtilities.GetPlayers();
-                if (!RaycastUtilities.GenerateRaycast(out ri))
-                {
-                    OverrideUtilities.CallOriginal(PlayerUse);
-                    return;
-                }
+                RaycastUtilities.GenerateRaycast(out ri);
             }
+            
             else if (AimbotOptions.NoAimbotDrop)
-                ri = RaycastUtilities.GenerateOriginalRaycast(new Ray(Look.aim.position, Look.aim.forward),
-                    PAsset.range, RayMasks.DAMAGE_CLIENT);
+            {
+                if (AimbotCoroutines.IsAiming && AimbotCoroutines.LockedObject != null)
+                {
+                    Vector3 AimPos = AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull");
+                    Ray AimRay = GetAimRay(Look.aim.position, AimPos);
+
+                    float Dist = (float) VectorUtilities.GetDistance(Look.aim.position, AimPos);
+                    
+                    if (!Physics.Raycast(AimRay, out RaycastHit hit, Dist, RayMasks.DAMAGE_SERVER))
+                        ri = RaycastUtilities.GenerateOriginalRaycast(AimRay, Dist, RayMasks.ENEMY);
+                }
+            } 
             
             else if (WeaponOptions.NoDrop)
             {
@@ -97,7 +99,8 @@ namespace Thanking.Overrides
                 
                 return;
             }
-            else
+            
+            if (ri == null)
             {
                 OverrideUtilities.CallOriginal(PlayerUse);
                 return;
@@ -214,6 +217,12 @@ namespace Thanking.Overrides
                         eplayerhit = EPlayerHit.BUILD;
 
             return eplayerhit;
+        }
+
+        public static Ray GetAimRay(Vector3 origin, Vector3 pos)
+        {
+            Vector3 normal = VectorUtilities.Normalize(pos - origin);
+            return new Ray(pos, normal);
         }
     }
 }

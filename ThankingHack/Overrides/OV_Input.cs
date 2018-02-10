@@ -13,7 +13,7 @@ namespace Thanking.Overrides
 {
 	public static class OV_Input
 	{
-		public static bool InputEnabled;
+		public static bool InputEnabled = true;
 
 		[OnSpy]
 		public static void OnSpied() =>
@@ -26,7 +26,7 @@ namespace Thanking.Overrides
 		[Override(typeof(Input), "GetKey", BindingFlags.Public | BindingFlags.Static, 1)]
         public static bool OV_GetKey(KeyCode key)
 		{
-			if (!DrawUtilities.ShouldRun())
+			if (!DrawUtilities.ShouldRun() || !InputEnabled)
 				return (bool) OverrideUtilities.CallOriginal(null, key);
 
 			if (key == ControlsSettings.primary && TriggerbotOptions.IsFiring)

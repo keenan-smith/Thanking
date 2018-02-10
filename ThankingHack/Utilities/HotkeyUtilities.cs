@@ -16,6 +16,7 @@ namespace Thanking.Utilities
             AddHotkey("Aimbot", "Aimbot On Key On/Off", "_AimbotOnKey", KeyCode.Comma);
             AddHotkey("Aimbot", "Aimbot Key", "_AimbotKey", KeyCode.F);
 
+            AddHotkey("Vehicle Flight", "Toggle Vehicle Flight", "_VFToggle", KeyCode.Slash);
             AddHotkey("Vehicle Flight", "Strafe Up", "_VFStrafeUp", KeyCode.RightControl);
             AddHotkey("Vehicle Flight", "Strafe Down","_VFStrafeDown", KeyCode.LeftControl);
             AddHotkey("Vehicle Flight", "Strafe Left","_VFStrafeLeft", KeyCode.LeftBracket);
