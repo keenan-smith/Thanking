@@ -153,6 +153,7 @@
     <Compile Include="Utilities\SkinsUtilities.cs" />
     <Compile Include="Variables\HotkeyVariables.cs" />
     <Compile Include="Variables\OptimizationVariables.cs" />
+    <Compile Include="Variables\TracerLine.cs" />
     <Compile Include="Variables\UIVariables\ColorVariable.cs" />
     <Compile Include="Variables\UIVariables\DropDown.cs" />
     <Compile Include="Variables\UIVariables\MenuTabOption.cs" />
