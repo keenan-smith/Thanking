@@ -125,14 +125,6 @@ namespace Thanking.Coroutines
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
-
-                if (WeaponOptions.NoDrop || AimbotOptions.NoAimbotDrop)
-                    if (Time.realtimeSinceStartup - PlayerLifeUI.hitmarkers[0].lastHit > PlayerUI.HIT_TIME)
-                    {
-                        PlayerLifeUI.hitmarkers[0].hitBuildImage.isVisible = false;
-                        PlayerLifeUI.hitmarkers[0].hitCriticalImage.isVisible = false;
-                        PlayerLifeUI.hitmarkers[0].hitEntitiyImage.isVisible = false;
-                    }
                 
                 if (LockedObject != null && LockedObject.transform != null && ESPComponent.MainCamera != null)
                 {
