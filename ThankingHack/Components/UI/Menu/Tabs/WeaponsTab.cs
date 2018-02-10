@@ -22,7 +22,8 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("No Drop", ref WeaponOptions.NoDrop);
                 Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
 		        Prefab.Toggle("Oof on Death", ref WeaponOptions.OofOnDeath);
-		        Prefab.Toggle("Show Weapon Information", ref WeaponOptions.ShowWeaponInfo);
+                Prefab.Toggle("Bullet Tracers", ref WeaponOptions.BulletTracers);
+                Prefab.Toggle("Show Weapon Information", ref WeaponOptions.ShowWeaponInfo);
 		        GUILayout.Space(20);
 		        Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
 		        Prefab.Toggle("Custom Ragdoll Vector", ref RaycastOptions.UseModifiedVector);
