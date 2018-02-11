@@ -66,6 +66,9 @@ namespace Thanking.Components.Basic
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out currentKills);
             
+            HotkeyComponent.ActionDict.Add("_VFToggle", () => 
+                MiscOptions.VehicleFly = !MiscOptions.VehicleFly);
+            
             HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
                 AimbotOptions.Enabled = !AimbotOptions.Enabled);
 
