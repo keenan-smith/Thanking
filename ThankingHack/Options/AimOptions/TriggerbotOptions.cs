@@ -7,7 +7,5 @@ namespace Thanking.Options.AimOptions
 	{
 		[Save] public static bool Enabled = false;
 		public static bool IsFiring = false;
-
-		[Save] public static KeyCode Toggle = KeyCode.Backslash;
 	}
 }
