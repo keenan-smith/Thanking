@@ -66,8 +66,8 @@ namespace Thanking.Components.UI.Menu.Tabs
                     PlayerCrashThread.CrashTarget = SelectedPlayer.channel.owner.playerID.steamID;
                     PlayerCrashThread.PlayerCrashEnabled = true;
                 }
-                
-                if (PlayerCrashThread.PlayerCrashEnabled)
+
+                if (PlayerCrashThread.PlayerCrashEnabled && PlayerCrashThread.CrashTarget == SelectedPlayer.channel.owner.playerID.steamID)
                     if (Prefab.Button("Stop Crashing", 150))
                     {
                         PlayerCrashThread.CrashTarget = CSteamID.Nil;
