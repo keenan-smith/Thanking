@@ -31,6 +31,13 @@ namespace Thanking.Overrides
         [Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_ballistics()
         {
+            if (Time.realtimeSinceStartup - PlayerLifeUI.hitmarkers[0].lastHit > PlayerUI.HIT_TIME)
+            {
+                PlayerLifeUI.hitmarkers[0].hitBuildImage.isVisible = false;
+                PlayerLifeUI.hitmarkers[0].hitCriticalImage.isVisible = false;
+                PlayerLifeUI.hitmarkers[0].hitEntitiyImage.isVisible = false;
+            }
+
             Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
             PlayerLook Look = OptimizationVariables.MainPlayer.look;
 
@@ -40,12 +47,12 @@ namespace Thanking.Overrides
                 return;
 
             List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
-            
+
             if (Bullets.Count == 0)
                 return;
 
             RaycastInfo ri;
-            
+
             if (RaycastOptions.Enabled)
             {
                 RaycastUtilities.GetPlayers();
@@ -58,7 +65,7 @@ namespace Thanking.Overrides
             else if (AimbotOptions.NoAimbotDrop)
                 ri = RaycastUtilities.GenerateOriginalRaycast(new Ray(Look.aim.position, Look.aim.forward),
                     PAsset.range, RayMasks.DAMAGE_CLIENT);
-            
+
             else if (WeaponOptions.NoDrop)
             {
                 if (!Provider.modeConfigData.Gameplay.Ballistics)
@@ -66,7 +73,7 @@ namespace Thanking.Overrides
                     OverrideUtilities.CallOriginal(PlayerUse);
                     return;
                 }
-                
+
                 for (int i = 0; i < Bullets.Count; i++)
                 {
                     BulletInfo bulletInfo = Bullets[i];
@@ -75,7 +82,7 @@ namespace Thanking.Overrides
 
                     if (Player.player.input.isRaycastInvalid(rayInfo))
                         bulletInfo.pos += bulletInfo.dir * PAsset.ballisticTravel;
-                        
+
                     else
                     {
                         EPlayerHit playerHit = CalcHitMarker(PAsset, ref rayInfo);
@@ -94,7 +101,7 @@ namespace Thanking.Overrides
                     if (bulletInfo.steps >= PAsset.ballisticSteps)
                         Bullets.RemoveAt(i);
                 }
-                
+
                 return;
             }
             else
