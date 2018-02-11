@@ -59,18 +59,10 @@ namespace Thanking.Coroutines
 
 	            for (int k = 0; k < materials.Length; k++)
 	            {
-		            if (ESPOptions.ChamsFlat)
-		            {
-			            materials[k].shader = UnlitChams;
-			            materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
-			            materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
-		            }
-		            else
-		            {
-			            materials[k].shader = LitChams;
-			            materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, 255));
-			            materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, 255));
-		            }
+		            materials[k].shader = ESPOptions.ChamsFlat ? UnlitChams : LitChams;
+		            
+		            materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, front.a));
+		            materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, behind.a));
 	            }
             }
         }
@@ -138,10 +130,11 @@ namespace Thanking.Coroutines
 					yield return new WaitForSeconds(2);
 					continue;
 				}
-					List<ESPObject> objects = ESPVariables.Objects;
-					objects.Clear();
+				List<ESPObject> objects = ESPVariables.Objects;
+				objects.Clear();
 
-					List<ESPTarget> targets = ESPOptions.PriorityTable.Keys.OrderByDescending(k => ESPOptions.PriorityTable[k]).ToList();
+				List<ESPTarget> targets =
+					ESPOptions.PriorityTable.Keys.OrderByDescending(k => ESPOptions.PriorityTable[k]).ToList();
 
 				for (int i = 0; i < targets.Count; i++)
 				{
@@ -263,10 +256,10 @@ namespace Thanking.Coroutines
 							for (int j = 0; j < objarr.Length; j++)
 							{
 								InteractableVehicle obj = objarr[j];
-								
+
 								if (obj.isDead)
 									continue;
-								
+
 								objects.Add(new ESPObject(target, obj, obj.gameObject));
 							}
 							break;
