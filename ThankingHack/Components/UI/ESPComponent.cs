@@ -256,8 +256,8 @@ namespace Thanking.Components.UI
 					case ESPTarget.Vehicles:
 					{
 						InteractableVehicle vehicle = (InteractableVehicle) obj.Object;
-
-						if (vehicle.isExploded)
+						
+						if (vehicle.health == 0)
 							continue;
 
 						vehicle.getDisplayFuel(out ushort Fuel, out ushort MaxFuel);
@@ -441,8 +441,26 @@ namespace Thanking.Components.UI
 				ESPBox2 box = ESPVariables.DrawBuffer2.Dequeue();
 
 				GL.Color(box.Color);
-
 				Vector2[] vertices = box.Vertices;
+
+				bool Run = true;
+				
+				for (int j = 0; j < vertices.Length; j++)
+					if (j < vertices.Length - 1)
+					{
+						Vector2 v1 = vertices[j];
+						Vector2 v2 = vertices[j + 1];
+						
+						if (Vector2.Distance(v2, v1) > Screen.width / 2)
+						{
+							Run = false;
+							break;
+						}
+					}
+
+				if (!Run)
+					continue;
+				
 				for (int j = 0; j < vertices.Length; j++)
 					GL.Vertex3(vertices[j].x, vertices[j].y, 0);
 
