@@ -177,6 +177,7 @@
     <Compile Include="Variables\AssetVariables.cs" />
     <Compile Include="Variables\ESPVariables.cs" />
     <Compile Include="Variables\ReflectionVariables.cs" />
+    <Compile Include="Variables\WeaponVariables.cs" />
     <Compile Include="Wrappers\OverrideWrapper.cs" />
     <Compile Include="Utilities\RaycastUtilities.cs" />
     <Compile Include="Utilities\SphereUtilities.cs" />
