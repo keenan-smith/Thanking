@@ -359,5 +359,5 @@ namespace Thanking.Utilities
 			GL.End();
 			GL.PopMatrix();
 		}
-    }
+	}
 }

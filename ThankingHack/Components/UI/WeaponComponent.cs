@@ -63,50 +63,14 @@ namespace Thanking.Components.UI
 			
 			if (Event.current.type != EventType.Repaint)
 				return;
+			
+			if (!WeaponOptions.ShowWeaponInfo)
+				return;
 
 			if (!DrawUtilities.ShouldRun())
 				return;
 
-            if (WeaponOptions.BulletTracers)
-            {
-                ESPComponent.GLMat.SetPass(0);
-
-                for (int i = 0; i < Tracers.Count; i++)
-                {
-                    TracerLine Tracer = Tracers[i];
-
-                    Vector3 W2SStart = OptimizationVariables.MainCam.WorldToScreenPoint(Tracer.StartPosition);
-                    Vector3 W2SEnd = OptimizationVariables.MainCam.WorldToScreenPoint(Tracer.EndPosition);
-
-                    W2SStart.y = Screen.height - W2SStart.y;
-                    W2SEnd.y = Screen.height - W2SEnd.y;
-
-                    if (W2SStart.z > 0 || W2SEnd.z > 0)
-                    {
-                        GL.PushMatrix();
-                        GL.Begin(GL.LINES);
-                        GL.Color(Tracer.Hit ? ColorUtilities.getColor("_BulletTracersHitColor") : ColorUtilities.getColor("_BulletTracersColor"));
-
-                        GL.Vertex3(W2SStart.x, W2SStart.y, 0);
-                        GL.Vertex3(W2SEnd.x, W2SEnd.y, 0);
-
-                        GL.End();
-                        GL.PopMatrix();
-                    }
-
-                    if ((DateTime.Now - Tracer.CreationTime).TotalMilliseconds > 3000)
-                        Tracers.Remove(Tracer);
-                }
-            }
-
-#if DEBUG
-
-#endif
-
-            if (!WeaponOptions.ShowWeaponInfo)
-                return;
-
-            if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
+			if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
 				return;
 
 			GUI.depth = 0;
@@ -180,16 +144,16 @@ namespace Thanking.Components.UI
 		}
 
 		public static void Reload()
-		{			
+		{
+			#if DEBUG
+			DebugUtilities.Log($"Ammo: {Ammo()}");
+			#endif
+			
 			if (!WeaponOptions.AutoReload || Ammo() > 0) return;
-
-#if DEBUG
-            DebugUtilities.Log($"Ammo: {Ammo()}");
-#endif
-
-#if DEBUG
-            DebugUtilities.Log("Ammo less than or equal to 0");
-#endif
+			
+			#if DEBUG
+			DebugUtilities.Log("Ammo less than or equal to 0");
+			#endif
 			
 			IEnumerable<InventorySearch> magazineSearch = 
 				OptimizationVariables.MainPlayer.inventory.search(EItemType.MAGAZINE,
@@ -202,9 +166,9 @@ namespace Thanking.Components.UI
 					.OrderByDescending(i => i.jar.item.amount)
 					.First();
 
-#if DEBUG
+			#if DEBUG
 			DebugUtilities.Log("Magazine reloaded");
-#endif
+				#endif
 
 			OptimizationVariables.MainPlayer.channel.send("askAttachMagazine", ESteamCall.SERVER,
 				ESteamPacket.UPDATE_UNRELIABLE_BUFFER, search.page, search.jar.x,

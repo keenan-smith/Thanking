@@ -185,9 +185,9 @@ namespace Thanking.Coroutines
             Yaw = OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y;
         }
 
-        private static Vector2 CalcAngle(GameObject obj) // Unused
+        private static Vector2 CalcAngle(GameObject obj)
         {
-            Vector3 W2SPos = OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(obj.transform, "Skull"));
+            Vector3 W2SPos = ESPComponent.MainCamera.WorldToScreenPoint(GetAimPosition(obj.transform, "Skull"));
             Vector2 angles = Vector2.zero;
             // lol idk how 2 trig pls help
             return angles;

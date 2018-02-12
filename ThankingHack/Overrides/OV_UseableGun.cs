@@ -30,6 +30,13 @@ namespace Thanking.Overrides
         [Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_ballistics()
         {
+            if (Time.realtimeSinceStartup - PlayerLifeUI.hitmarkers[0].lastHit > PlayerUI.HIT_TIME)
+            {
+                PlayerLifeUI.hitmarkers[0].hitBuildImage.isVisible = false;
+                PlayerLifeUI.hitmarkers[0].hitCriticalImage.isVisible = false;
+                PlayerLifeUI.hitmarkers[0].hitEntitiyImage.isVisible = false;
+            }
+
             Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
             PlayerLook Look = OptimizationVariables.MainPlayer.look;
 
@@ -39,7 +46,7 @@ namespace Thanking.Overrides
                 return;
 
             List<BulletInfo> Bullets = (List<BulletInfo>)BulletsField.GetValue(PlayerUse);
-            
+
             if (Bullets.Count == 0)
                 return;
 

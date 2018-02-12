@@ -99,7 +99,7 @@ namespace Thanking.Components.UI
 				if (dist < 1.5 || (dist > visual.Distance && !visual.InfiniteDistance))
 					continue;
 
-				Vector3 cpos = OptimizationVariables.MainCam.WorldToScreenPoint(position);
+				Vector3 cpos = MainCamera.WorldToScreenPoint(position);
 
 				if (cpos.z <= 0)
 					continue;
