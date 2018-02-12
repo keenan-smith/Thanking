@@ -9,7 +9,9 @@ using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
 using System.Linq;
+using Thanking.Components.Basic;
 using Thanking.Coroutines;
+using Thanking.Options;
 
 namespace Thanking.Components.UI
 {
@@ -19,6 +21,7 @@ namespace Thanking.Components.UI
 	{
 		public static Dictionary<ushort, float[]> AssetBackups = new Dictionary<ushort, float[]>();
 		public static FieldInfo AmmoInfo;
+		public static MethodInfo UpdateCrosshairInfo;
         public static List<TracerLine> Tracers = new List<TracerLine>();
 
 		public static byte Ammo() => 
@@ -29,7 +32,27 @@ namespace Thanking.Components.UI
             ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 0, 0, 255)));
             ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers Hit", new Color32(255, 255, 255, 255)));
             AmmoInfo = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
+			UpdateCrosshairInfo =
+				typeof(UseableGun).GetMethod("updateCrosshair", BindingFlags.NonPublic | BindingFlags.Instance);
 			StartCoroutine(UpdateWeapon());
+			
+			
+		}
+
+		[Initializer]
+		public void AddHotkeys()
+		{
+			HotkeyComponent.ActionDict.Add("_ToggleTriggerbot", () =>
+				TriggerbotOptions.Enabled = !TriggerbotOptions.Enabled);
+			
+			HotkeyComponent.ActionDict.Add("_ToggleNoRecoil", () =>
+				WeaponOptions.NoRecoil = !WeaponOptions.NoRecoil);
+			
+			HotkeyComponent.ActionDict.Add("_ToggleNoSpread", () =>
+				WeaponOptions.NoSpread = !WeaponOptions.NoSpread);
+			
+			HotkeyComponent.ActionDict.Add("_ToggleNoSway", () =>
+				WeaponOptions.NoSway = !WeaponOptions.NoSway);
 		}
 		
 		public void OnGUI()
@@ -143,16 +166,14 @@ namespace Thanking.Components.UI
 				{
 					PAsset.spreadAim = 0;
 					PAsset.spreadHip = 0;
-
-					PlayerUI.updateCrosshair(0);
 				}
 				else
 				{
 					PAsset.spreadAim = AssetBackups[PAsset.id][5];
 					PAsset.spreadHip = AssetBackups[PAsset.id][6];
-
-					PlayerUI.updateCrosshair(AssetBackups[PAsset.id][OptimizationVariables.MainPlayer.equipment.secondary ? 5 : 6]);
 				}
+
+				UpdateCrosshairInfo.Invoke(OptimizationVariables.MainPlayer.equipment.useable, null);
 			
 				Reload();
 			}
