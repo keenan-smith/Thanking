@@ -38,8 +38,8 @@ namespace Thanking.Components.UI
 			}
 
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ESPFriendly", "Friendly Players", Color.green));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendlyVisible", "Chams - Visible Friend", Color.green));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendlyInisible", "Chams - Invisible Friend", Color.blue));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255)));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red));
 		}
