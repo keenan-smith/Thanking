@@ -115,7 +115,7 @@ namespace Thanking.Components.UI
 					PAsset.spreadAim = AssetBackups[PAsset.id][5];
 					PAsset.spreadHip = AssetBackups[PAsset.id][6];
 
-					PlayerUI.updateCrosshair(AssetBackups[PAsset.id][OptimizationVariables.MainPlayer.equipment.secondary ? 5 : 6]);
+					Player.player.equipment.useable.updateState(Player.player.equipment.state);
 				}
 			
 				Reload();
