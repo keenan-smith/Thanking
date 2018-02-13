@@ -39,6 +39,7 @@ namespace Thanking.Utilities
             
             AddHotkey("Misc", "Toggle All Visuals", "_PanicButton", KeyCode.Keypad0);
             AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.Keypad2);
+            AddHotkey("Misc", "Select Player", "_SelectPlayer", KeyCode.LeftAlt);
         }
         
         public static void AddHotkey(string Group, string Name, string Identifier, params KeyCode[] DefaultKeys)
