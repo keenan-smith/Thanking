@@ -13,14 +13,14 @@ namespace Thanking.Utilities
         [Initializer]
         public static void Initialize()
         {
-            AddHotkey("Aimbot", "Aimbot On/Off", "_ToggleAimbot", KeyCode.None);
-            AddHotkey("Aimbot", "Aimbot On Key On/Off", "_AimbotOnKey", KeyCode.None);
-            AddHotkey("Aimbot", "Aimbot Key", "_AimbotKey", KeyCode.None);
+            AddHotkey("Aimbot", "Aimbot On/Off", "_ToggleAimbot", KeyCode.Keypad3);
+            AddHotkey("Aimbot", "Aimbot On Key On/Off", "_AimbotOnKey", KeyCode.Keypad4);
+            AddHotkey("Aimbot", "Aimbot Key", "_AimbotKey", KeyCode.F);
             
-            AddHotkey("Weapons", "Toggle Triggerbot", "_ToggleTriggerbot", KeyCode.None);
-            AddHotkey("Weapons", "Toggle No Recoil", "_ToggleNoRecoil", KeyCode.None);
-            AddHotkey("Weapons", "Toggle No Spread", "_ToggleNoSpread", KeyCode.None);
-            AddHotkey("Weapons", "Toggle No Sway", "_ToggleNoSway", KeyCode.None);
+            AddHotkey("Weapons", "Toggle Triggerbot", "_ToggleTriggerbot", KeyCode.Keypad5);
+            AddHotkey("Weapons", "Toggle No Recoil", "_ToggleNoRecoil", KeyCode.Keypad6);
+            AddHotkey("Weapons", "Toggle No Spread", "_ToggleNoSpread", KeyCode.Keypad7);
+            AddHotkey("Weapons", "Toggle No Sway", "_ToggleNoSway", KeyCode.Keypad8);
 
             AddHotkey("Vehicle Flight", "Toggle Vehicle Flight", "_VFToggle", KeyCode.Slash);
             AddHotkey("Vehicle Flight", "Strafe Up", "_VFStrafeUp", KeyCode.RightControl);
