@@ -68,7 +68,7 @@ namespace Thanking.Overrides
                 }
             } 
             
-            else if (WeaponOptions.NoDrop)
+            if (WeaponOptions.NoDrop && ri == null)
             {
                 if (!Provider.modeConfigData.Gameplay.Ballistics)
                 {
