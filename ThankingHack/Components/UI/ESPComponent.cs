@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Thanking.Managers.Main;
 using UnityEngine.PostProcessing;
+using Thanking.Options.AimOptions;
 
 namespace Thanking.Components.UI
 {
@@ -152,6 +153,8 @@ namespace Thanking.Components.UI
 
 						if (visual.ShowName)
 							text += p.name + "\n";
+                        if (RaycastUtilities.TargetedPlayer == p && RaycastOptions.EnablePlayerSelection)
+                            text += "[Targeted]\n";
 						if (ESPOptions.ShowPlayerWeapon)
 							text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
 						if (ESPOptions.ShowPlayerVehicle)

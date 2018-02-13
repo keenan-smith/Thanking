@@ -43,8 +43,9 @@ namespace Thanking.Utilities
             AddHotkey("Player Flight", "Fly Forward", "_FlyForward", KeyCode.W);
             AddHotkey("Player Flight", "Fly Backward", "_FlyBackward", KeyCode.S);
             
-            AddHotkey("Misc", "Toggle All Visuals", "_PanicButton", KeyCode.None);
-            AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.None);
+            AddHotkey("Misc", "Toggle All Visuals", "_PanicButton", KeyCode.Keypad0);
+            AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.Keypad2);
+            AddHotkey("Misc", "Select Player", "_SelectPlayer", KeyCode.LeftAlt);
         }
         
         public static void AddHotkey(string Group, string Name, string Identifier, params KeyCode[] DefaultKeys)

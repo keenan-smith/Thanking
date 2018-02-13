@@ -1,17 +1,17 @@
-﻿    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using SDG.Unturned;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Components.UI;
 using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
-    using Thanking.Options.VisualOptions;
-    using Thanking.Threads;
-    using Thanking.Variables;
+using Thanking.Options.VisualOptions;
+using Thanking.Threads;
+using Thanking.Variables;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 
@@ -24,10 +24,10 @@ namespace Thanking.Components.Basic
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
         public static bool NightvisionBeforeSpy;
-        
+
         private int currentKills = 0;
-        
-        [OnSpy] 
+
+        [OnSpy]
         public static void Disable()
         {
             if (MiscOptions.WasNightVision)
@@ -58,11 +58,11 @@ namespace Thanking.Components.Basic
                 MiscOptions.Freecam = true;
             }
         }
-        
+
         void Start()
         {
             Instance = this;
-            
+
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out currentKills);
             
@@ -74,10 +74,10 @@ namespace Thanking.Components.Basic
 
             HotkeyComponent.ActionDict.Add("_AimbotOnKey", () =>
                 AimbotOptions.OnKey = !AimbotOptions.OnKey);
-            
-            HotkeyComponent.ActionDict.Add("_ToggleFreecam", () => 
+
+            HotkeyComponent.ActionDict.Add("_ToggleFreecam", () =>
                 MiscOptions.Freecam = !MiscOptions.Freecam);
-            
+
             HotkeyComponent.ActionDict.Add("_PanicButton", () =>
             {
                 MiscOptions.PanicMode = !MiscOptions.PanicMode;
@@ -87,6 +87,23 @@ namespace Thanking.Components.Basic
                     PlayerCoroutines.EnableAllVisuals();
             });
 
+            HotkeyComponent.ActionDict.Add("_SelectPlayer", () =>
+            {
+                if (RaycastOptions.EnablePlayerSelection)
+                {
+                    Ray ray = new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward);
+                    RaycastInfo hit = DamageTool.raycast(ray, Mathf.Infinity, RayMasks.ENEMY);
+
+                    if (hit.player != null)
+                    {
+                        RaycastUtilities.TargetedPlayer = hit.player;
+
+                        if (hit.player.gameObject.GetComponent<RaycastComponent>() == null)
+                            hit.player.gameObject.AddComponent<RaycastComponent>();
+                    }
+                }
+            });
+
             Provider.onClientConnected += () =>
             {
                 if (MiscOptions.AlwaysCheckMovementVerification)
@@ -94,10 +111,10 @@ namespace Thanking.Components.Basic
                 else
                     MiscOptions.NoMovementVerification = false;
             };
-            
+
             SkinsUtilities.RefreshEconInfo();
         }
-        
+
         public void Update()
         {
             if (Player.player != null && OptimizationVariables.MainPlayer == null)
@@ -105,7 +122,7 @@ namespace Thanking.Components.Basic
 
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = Camera.main;
-            
+
             if (!DrawUtilities.ShouldRun())
                 return;
 
@@ -122,7 +139,7 @@ namespace Thanking.Components.Basic
             }
             else
                 currentKills = New;
-            
+
             if (MiscOptions.NightVision)
             {
                 LevelLighting.vision = ELightingVision.MILITARY;
@@ -132,9 +149,9 @@ namespace Thanking.Components.Basic
             }
             else
             {
-                if (!MiscOptions.WasNightVision) 
+                if (!MiscOptions.WasNightVision)
                     return;
-                
+
                 LevelLighting.vision = ELightingVision.NONE;
                 LevelLighting.updateLighting();
                 PlayerLifeUI.updateGrayscale();
@@ -147,14 +164,14 @@ namespace Thanking.Components.Basic
             VehicleFlight();
             PlayerFlight();
         }
-        
+
         public static void PlayerFlight()
         {
             Player plr = OptimizationVariables.MainPlayer;
 
             if (plr == null)
                 return;
-            
+
             if (!MiscOptions.PlayerFlight)
             {
                 ItemCloudAsset asset = plr.equipment.asset as ItemCloudAsset;
@@ -163,44 +180,44 @@ namespace Thanking.Components.Basic
             }
 
             plr.movement.itemGravityMultiplier = 0;
-            
+
             if (plr == null)
                 return;
 
             float multiplier = MiscOptions.FlightSpeedMultiplier;
-            
+
             if (HotkeyUtilities.IsHotkeyHeld("_FlyUp"))
                 plr.transform.position += plr.transform.up / 5 * multiplier;
-            
+
             if (HotkeyUtilities.IsHotkeyHeld("_FlyDown"))
                 plr.transform.position -= plr.transform.up / 5 * multiplier;
-            
+
             if (HotkeyUtilities.IsHotkeyHeld("_FlyLeft"))
                 plr.transform.position -= plr.transform.right / 5 * multiplier;
-            
+
             if (HotkeyUtilities.IsHotkeyHeld("_FlyRight"))
                 plr.transform.position += plr.transform.right / 5 * multiplier;
-            
+
             if (HotkeyUtilities.IsHotkeyHeld("_FlyForward"))
                 plr.transform.position += plr.transform.forward / 5 * multiplier;
 
             if (HotkeyUtilities.IsHotkeyHeld("_FlyBackward"))
                 plr.transform.position -= plr.transform.forward / 5 * multiplier;
         }
-        
-		public static void VehicleFlight()
-		{
-		    if (OptimizationVariables.MainPlayer == null)
-		        return;
-		    
+
+        public static void VehicleFlight()
+        {
+            if (OptimizationVariables.MainPlayer == null)
+                return;
+
             InteractableVehicle vehicle = OptimizationVariables.MainPlayer.movement.getVehicle();
 
-            if (vehicle == null) 
+            if (vehicle == null)
                 return;
 
             Rigidbody rb = vehicle.GetComponent<Rigidbody>();
 
-            if (rb == null) 
+            if (rb == null)
                 return;
 
             if (MiscOptions.VehicleFly)
@@ -208,7 +225,7 @@ namespace Thanking.Components.Basic
                 rb.useGravity = false;
                 rb.isKinematic = true;
                 Transform tr = vehicle.transform;
-                
+
                 if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeUp"))
                     tr.position = tr.position + new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
 
@@ -254,14 +271,14 @@ namespace Thanking.Components.Basic
 
         public static void CheckMovementVerification() =>
             Instance.StartCoroutine(CheckVerification(OptimizationVariables.MainPlayer.transform.position));
-            
+
         public static IEnumerator CheckVerification(Vector3 LastPos)
         {
             if (Time.realtimeSinceStartup - LastMovementCheck < 0.8f)
                 yield break;
 
             LastMovementCheck = Time.realtimeSinceStartup;
-            
+
             Vector3 NewPos = LastPos + new Vector3(0, -1337, 0);
             OptimizationVariables.MainPlayer.transform.position = NewPos;
             yield return new WaitForSeconds(1);

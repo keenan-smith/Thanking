@@ -28,7 +28,10 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        Prefab.Toggle("Custom Ragdoll Vector", ref RaycastOptions.UseModifiedVector);
 		        Prefab.Toggle("Custom Limb", ref RaycastOptions.UseCustomLimb);
 		        Prefab.Toggle("Custom Material", ref RaycastOptions.UseTargetMaterial);
-		        Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
+                Prefab.Toggle("Select Player", ref RaycastOptions.EnablePlayerSelection);
+                if (RaycastOptions.EnablePlayerSelection)
+                    Prefab.Toggle("Only Shoot At Selected Player", ref RaycastOptions.OnlyShootAtSelectedPlayer);
+                Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
 		        GUILayout.Space(10);
 		        
 		        GUIContent[] Limbs =
