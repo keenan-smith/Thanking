@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
 using Thanking.Attributes;
-using Thanking.Utilities;
 
 namespace Thanking.Overrides
 {

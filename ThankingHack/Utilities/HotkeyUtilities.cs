@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Thanking.Attributes;
-using Thanking.Components.Basic;
 using Thanking.Options;
 using Thanking.Variables;
 using UnityEngine;
@@ -67,7 +66,7 @@ namespace Thanking.Utilities
             GroupHotkeys.Add(Identifier, HKey);
             HotkeyOptions.UnorganizedHotkeys.Add(Identifier, HKey);
         }
-        
+
         public static bool IsHotkeyDown(string Identifier) => 
             HotkeyOptions.UnorganizedHotkeys[Identifier].Keys.Any(Input.GetKeyDown) && 
             HotkeyOptions.UnorganizedHotkeys[Identifier].Keys.All(Input.GetKey);
