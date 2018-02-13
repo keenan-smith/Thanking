@@ -97,7 +97,6 @@ namespace Thanking.Components.Basic
                     if (hit.player != null)
                     {
                         RaycastUtilities.TargetedPlayer = hit.player;
-                        DebugUtilities.Log(RaycastUtilities.TargetedPlayer.name);
 
                         if (hit.player.gameObject.GetComponent<RaycastComponent>() == null)
                             hit.player.gameObject.AddComponent<RaycastComponent>();
