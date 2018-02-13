@@ -10,9 +10,6 @@ namespace Thanking.Overrides
 		[Override(typeof(PlayerUI), "updateCrosshair", BindingFlags.Public | BindingFlags.Static)]
 		public static void updateCrosshair(float spread)
 		{
-			if (!DrawUtilities.ShouldRun())
-				return;
-			
 			if (!Provider.modeConfigData.Gameplay.Crosshair) return;
 			
 			PlayerLifeUI.crosshairLeftImage.positionOffset_X = (int)(-spread * 400f) - 4;
