@@ -68,9 +68,13 @@ namespace Thanking.Coroutines
                         {
                             if (p == null)
                                 p = players[i].player;
-                            else if (VectorUtilities.GetDistance(p.transform.position) >
-                                     VectorUtilities.GetDistance(players[i].player.transform.position))
-                                p = players[i].player;
+                            else
+                            {
+                                if (p != null)
+                                    if (VectorUtilities.GetDistance(p.transform.position) >
+                                        VectorUtilities.GetDistance(players[i].player.transform.position))
+                                        p = players[i].player;
+                            }
                             break;
                         }
                         case TargetMode.FOV:
