@@ -22,8 +22,10 @@ namespace Thanking.Options.AimOptions
 		[Save] public static bool UseCustomLimb = false;
 		[Save] public static bool UseTargetMaterial = true;
 		[Save] public static bool UseModifiedVector = true;
+        [Save] public static bool EnablePlayerSelection = true;
+        [Save] public static bool OnlyShootAtSelectedPlayer = false;
 
-		[Save] public static TargetPriority Target = TargetPriority.Players;
+        [Save] public static TargetPriority Target = TargetPriority.Players;
 		[Save] public static EPhysicsMaterial TargetMaterial = EPhysicsMaterial.ALIEN_DYNAMIC;
 		[Save] public static ELimb TargetLimb = ELimb.SKULL;
 		[Save] public static SerializableVector TargetRagdoll = new SerializableVector(0, 10, 0);
