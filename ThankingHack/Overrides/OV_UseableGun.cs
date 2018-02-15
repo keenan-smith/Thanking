@@ -68,7 +68,7 @@ namespace Thanking.Overrides
                 }
             } 
             
-            else if (WeaponOptions.NoDrop)
+            else if (WeaponOptions.NoDrop && !RaycastOptions.Enabled)
             {
                 if (!Provider.modeConfigData.Gameplay.Ballistics)
                 {
