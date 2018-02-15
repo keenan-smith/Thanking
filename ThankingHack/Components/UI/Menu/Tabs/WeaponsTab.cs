@@ -31,8 +31,8 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Select Player", ref RaycastOptions.EnablePlayerSelection);
                 if (RaycastOptions.EnablePlayerSelection)
                 {
-                    GUILayout.Label("Selection FOV: " + AimbotOptions.FOV, Prefab._TextStyle);
-                    RaycastOptions.FOV = Prefab.Slider(1, 300, AimbotOptions.FOV, 200);
+                    GUILayout.Label("Selection FOV: " + RaycastOptions.FOV, Prefab._TextStyle);
+                    RaycastOptions.FOV = Prefab.Slider(1, 300, RaycastOptions.FOV, 200);
                     Prefab.Toggle("Only Shoot at Selected Player", ref RaycastOptions.OnlyShootAtSelectedPlayer);
                 }
                 Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
