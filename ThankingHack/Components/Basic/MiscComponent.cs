@@ -91,15 +91,29 @@ namespace Thanking.Components.Basic
             {
                 if (RaycastOptions.EnablePlayerSelection)
                 {
-                    Ray ray = new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward);
-                    RaycastInfo hit = DamageTool.raycast(ray, Mathf.Infinity, RayMasks.ENEMY);
-
-                    if (hit.player != null)
+                    RaycastUtilities.GetPlayers();
+                    foreach (GameObject o in RaycastUtilities.Objects)
                     {
-                        RaycastUtilities.TargetedPlayer = hit.player;
+                        Player player = o.GetComponent<Player>();
+                        if (player != null)
+                        {
+                            Vector3 screenPos3d = OptimizationVariables.MainCam
+                                .WorldToScreenPoint(AimbotCoroutines.GetAimPosition(player.transform, "Skull"));
 
-                        if (hit.player.gameObject.GetComponent<RaycastComponent>() == null)
-                            hit.player.gameObject.AddComponent<RaycastComponent>();
+                            if (screenPos3d.z <= 0)
+                                continue;
+
+                            Vector2 screenPos = new Vector2(screenPos3d.x, screenPos3d.y);
+                            float crosshairDistance = Vector2.Distance(screenPos, Input.mousePosition);
+
+                            if (crosshairDistance < RaycastOptions.FOV)
+                            {
+                                RaycastUtilities.TargetedPlayer = player;
+                                if (player.gameObject.GetComponent<RaycastComponent>() == null)
+                                    player.gameObject.AddComponent<RaycastComponent>();
+                                break;
+                            }
+                        }
                     }
                 }
             });
