@@ -16,11 +16,7 @@ namespace Thanking.Overrides
     public class OV_UseableGun
     {
         private static FieldInfo BulletsField;
-
-        public OV_UseableGun()
-        {
-        }
-
+        
         [Initializer]
         public static void Load()
         {
@@ -51,78 +47,72 @@ namespace Thanking.Overrides
                 return;
 
             RaycastInfo ri = null;
-
+            
             if (RaycastOptions.Enabled)
             {
                 RaycastUtilities.GetPlayers();
                 RaycastUtilities.GenerateRaycast(out ri);
             }
-            else
+
+            if (Provider.modeConfigData.Gameplay.Ballistics)
             {
-                if (AimbotOptions.NoAimbotDrop)
+                if (ri == null)
                 {
-                    if (AimbotCoroutines.IsAiming && AimbotCoroutines.LockedObject != null)
+                    if (AimbotOptions.NoAimbotDrop)
                     {
-                        Vector3 AimPos =
-                            AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull");
-                        Ray AimRay = GetAimRay(Look.aim.position, AimPos);
+                        if (AimbotCoroutines.IsAiming && AimbotCoroutines.LockedObject != null)
+                        {
+                            Vector3 AimPos =
+                                AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull");
+                            Ray AimRay = GetAimRay(Look.aim.position, AimPos);
 
-                        float Dist = (float) VectorUtilities.GetDistance(Look.aim.position, AimPos) + 0.5f;
+                            float Dist = (float) VectorUtilities.GetDistance(Look.aim.position, AimPos);
 
-                        if (Dist < PAsset.range)
                             if (!Physics.Raycast(AimRay, out RaycastHit hit, Dist, RayMasks.DAMAGE_SERVER))
-                                ri = RaycastUtilities.GenerateOriginalRaycast(AimRay, Dist, RayMasks.ENEMY);
+                                ri = RaycastUtilities.GenerateOriginalRaycast(AimRay, PAsset.range, RayMasks.ENEMY);
+                        }
                     }
-                }
 
-                if (WeaponOptions.NoDrop && ri == null)
-                {
-                    if (!Provider.modeConfigData.Gameplay.Ballistics)
+                    if (WeaponOptions.NoDrop && ri == null)
+                    {
+                        for (int i = 0; i < Bullets.Count; i++)
+                        {
+                            BulletInfo bulletInfo = Bullets[i];
+                            Ray ray = new Ray(bulletInfo.pos, bulletInfo.dir);
+                            RaycastInfo rayInfo =
+                                DamageTool.raycast(ray, PAsset.ballisticTravel, RayMasks.DAMAGE_CLIENT);
+
+                            if (Player.player.input.isRaycastInvalid(rayInfo))
+                                bulletInfo.pos += bulletInfo.dir * PAsset.ballisticTravel;
+
+                            else
+                            {
+                                EPlayerHit playerHit = CalcHitMarker(PAsset, ref rayInfo);
+                                PlayerUI.hitmark(0, rayInfo.point, false, playerHit);
+
+                                OptimizationVariables.MainPlayer.input.sendRaycast(rayInfo);
+                                bulletInfo.steps = 254;
+                            }
+                        }
+
+                        for (int i = Bullets.Count - 1; i >= 0; i--)
+                        {
+                            BulletInfo bulletInfo = Bullets[i];
+                            bulletInfo.steps += 1;
+
+                            if (bulletInfo.steps >= PAsset.ballisticSteps)
+                                Bullets.RemoveAt(i);
+                        }
+
+                        return;
+                    }
+
+                    if (ri == null)
                     {
                         OverrideUtilities.CallOriginal(PlayerUse);
                         return;
                     }
-
-                    for (int i = 0; i < Bullets.Count; i++)
-                    {
-                        BulletInfo bulletInfo = Bullets[i];
-                        Ray ray = new Ray(bulletInfo.pos, bulletInfo.dir);
-                        RaycastInfo rayInfo = DamageTool.raycast(ray, PAsset.ballisticTravel, RayMasks.DAMAGE_CLIENT);
-
-                        if (Player.player.input.isRaycastInvalid(rayInfo))
-                            bulletInfo.pos += bulletInfo.dir * PAsset.ballisticTravel;
-
-                        else
-                        {
-                            EPlayerHit playerHit = CalcHitMarker(PAsset, ref rayInfo);
-                            PlayerUI.hitmark(0, rayInfo.point, false, playerHit);
-
-                            OptimizationVariables.MainPlayer.input.sendRaycast(rayInfo);
-                            bulletInfo.steps = 254;
-                        }
-                    }
-
-                    for (int i = Bullets.Count - 1; i >= 0; i--)
-                    {
-                        BulletInfo bulletInfo = Bullets[i];
-                        bulletInfo.steps += 1;
-
-                        if (bulletInfo.steps >= PAsset.ballisticSteps)
-                            Bullets.RemoveAt(i);
-                    }
-
-                    return;
                 }
-            }
-            
-            if (ri == null)
-            {
-                OverrideUtilities.CallOriginal(PlayerUse);
-                return;
-            }
-
-            if (Provider.modeConfigData.Gameplay.Ballistics)
-            {
                 for (int i = 0; i < Bullets.Count; i++)
                 {
                     BulletInfo bulletInfo = Bullets[i];
