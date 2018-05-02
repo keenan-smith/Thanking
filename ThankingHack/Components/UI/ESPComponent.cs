@@ -37,11 +37,11 @@ namespace Thanking.Components.UI
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
 			}
 
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ESPFriendly", "Friendly Players", Color.green));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255)));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green, false));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue, false));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255), false));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red, false));
 		}
 		
 		public void Start()

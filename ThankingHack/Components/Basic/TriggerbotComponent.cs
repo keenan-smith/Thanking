@@ -52,7 +52,7 @@ namespace Thanking.Components.Basic
 						
 						if (AimbotCoroutines.LockedObject != null && AimbotCoroutines.IsAiming)
 						{
-							Ray r = OV_UseableGun.GetAimRay(look.transform.position, AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull"));
+							Ray r = OV_UseableGun.GetAimRay(look.aim.position, AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull"));
 							ri = RaycastUtilities.GenerateOriginalRaycast(new Ray(r.origin, r.direction), PAsset.range, RayMasks.DAMAGE_CLIENT);
 						}
 
@@ -85,7 +85,7 @@ namespace Thanking.Components.Basic
 						
 						if (AimbotCoroutines.LockedObject != null && AimbotCoroutines.IsAiming)
 						{
-							Ray r = OV_UseableGun.GetAimRay(look.transform.position, AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull"));
+							Ray r = OV_UseableGun.GetAimRay(look.aim.position, AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull"));
 							ri = RaycastUtilities.GenerateOriginalRaycast(new Ray(r.origin, r.direction), MAsset.range, RayMasks.DAMAGE_CLIENT);
 						}
 
