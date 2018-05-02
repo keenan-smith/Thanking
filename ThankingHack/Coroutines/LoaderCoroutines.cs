@@ -16,6 +16,10 @@ namespace Thanking.Coroutines
 
 		public static String AssetPath = $"{Application.dataPath}/assets";
 
+		/// <summary>
+		/// Loads Thanking's assets from online or offline assetbundle
+		/// </summary>
+		/// <returns></returns>
 		public static IEnumerator LoadAssets()
 		{
 			#if DEBUG
@@ -26,41 +30,41 @@ namespace Thanking.Coroutines
 
 			Byte[] Loader;
 
-			if (!File.Exists(AssetPath))
+			if (!File.Exists(AssetPath)) // Assets don't exist, download them
 			{
 				#if DEBUG
 				DebugUtilities.Log("Assets not downloaded, downloading now.");
 				#endif
 
 
-				WWW loader = new WWW("http://ironic.services/client/304930/assets");
+				WWW loader = new WWW("http://ironic.services/client/304930/assets"); // Download the assets
 				yield return loader;
 
-				File.WriteAllBytes(AssetPath, loader.bytes);
+				File.WriteAllBytes(AssetPath, loader.bytes); // Save the assets for later use
 
-				Loader = loader.bytes;
+				Loader = loader.bytes; // For actually loading assets from the bundle
 			}
-			else
+			else // Assets exist, check if they are updated
 			{
 				Loader = File.ReadAllBytes(AssetPath);
 
-				if (HashUtilities.GetSHA2HashString(Loader) !=
+				if (HashUtilities.GetSHA2HashString(Loader) != // If there is a hash mismatch (usually outdated assets)
 				    new WebClient().DownloadString("http://ironic.services/client/304930/Hash").Trim())
 				{
 					#if DEBUG
 					DebugUtilities.Log("Hash mismatch, updating assets");
 					#endif
 
-					WWW loader = new WWW("http://ironic.services/client/304930/assets");
+					WWW loader = new WWW("http://ironic.services/client/304930/assets"); // Download updated assets
 					yield return loader;
 
-					File.WriteAllBytes(AssetPath, loader.bytes);
+					File.WriteAllBytes(AssetPath, loader.bytes); // Save assets
 
-					Loader = File.ReadAllBytes(AssetPath); //loader.bytes;
+					Loader = loader.bytes;
 				}
 			}
 
-			AssetBundle bundle = AssetBundle.LoadFromMemory(Loader);
+			AssetBundle bundle = AssetBundle.LoadFromMemory(Loader); // Here and below are just loading assets from the bundle
 			AssetVariables.ABundle = bundle;
 
 			foreach (Shader s in bundle.LoadAllAssets<Shader>())
