@@ -44,5 +44,18 @@ namespace Thanking.Managers.Submanagers
             // Add override to the list
             Overrides.Add(attribute, wrapper);
         }
+
+        public static void InitHook()
+        {
+            foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                foreach (MethodInfo M in T.GetMethods())
+                {
+                    // Collect and override methods marked with the attribute
+                    if (M.Name == "OV_GetKey" && M.IsDefined(typeof(OverrideAttribute), false))
+                        LoadOverride(M);
+                }
+            }
+        }
     }
 }

@@ -59,6 +59,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 						MiscOptions.FlightSpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.FlightSpeedMultiplier, 175), 2);
 					}
 				}
+				
+				Prefab.Toggle("Punch Killaura", ref MiscComponent.PunchEnabled);
 
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
@@ -74,12 +76,17 @@ namespace Thanking.Components.UI.Menu.Tabs
 							OptimizationVariables.MainPlayer.look.orbitPosition = Vector3.zero;
 				}
 
-				Prefab.Toggle("Continuous Player Crash", ref PlayerCrashThread.ContinuousPlayerCrash);
+				Prefab.Toggle("Crash Server", ref ServerCrashThread.ServerCrashEnabled);
 				
-				if (Prefab.Button("Check Movement Verification", 210))
-					MiscComponent.CheckMovementVerification();
+				Prefab.Toggle("Always Crash On Join", ref ServerCrashThread.AlwaysCrash);
 				
 				Prefab.Toggle("Always Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
+
+				if (Provider.isConnected)
+				{
+					if (Prefab.Button("Check Movement Verification", 210))
+						MiscComponent.CheckMovementVerification();
+				}
 									
 				Prefab.Toggle("Extended Melee Range", ref MiscOptions.ExtendMeleeRange);
 				if (MiscOptions.ExtendMeleeRange)

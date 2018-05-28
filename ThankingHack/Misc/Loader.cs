@@ -32,7 +32,7 @@ namespace Thanking
         {
             while (true)
             {
-                System.Threading.Thread.Sleep(4000);
+                System.Threading.Thread.Sleep(10000);
 
                 if (HookObject == null)
                     Hook();

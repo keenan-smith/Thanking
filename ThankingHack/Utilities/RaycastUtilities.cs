@@ -91,7 +91,8 @@ namespace Thanking.Utilities
                     info = GenerateRaycast(p, point);
                     return true;
                 }
-                else if (RaycastOptions.OnlyShootAtSelectedPlayer)
+                
+                if (RaycastOptions.OnlyShootAtSelectedPlayer)
                     return false;
             }
 
