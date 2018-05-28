@@ -10,6 +10,7 @@ namespace Thanking.Managers.Main
 {
     public static class AttributeManager
     {
+        
         public static void Init()
         {
 	        #if DEBUG

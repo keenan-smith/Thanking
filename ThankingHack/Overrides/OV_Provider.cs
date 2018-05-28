@@ -11,16 +11,31 @@ namespace Thanking.Overrides
 {
 	public static class OV_Provider
 	{
+		public static bool IsConnected;
+		public static int LastPing;
+	
 		[Override(typeof(Provider), "receiveClient", BindingFlags.NonPublic | BindingFlags.Static)]
 		public static void OV_receiveClient(CSteamID steamID, byte[] packet, int offset, int size, int channel)
 		{
+			if (!IsConnected)
+			{
+				LastPing = Mathf.FloorToInt(Time.realtimeSinceStartup); 
+				IsConnected = true;
+			}
+
+			if ((ESteamPacket) packet[0] == ESteamPacket.PING_RESPONSE)
+				LastPing = Mathf.FloorToInt(Time.realtimeSinceStartup); 
+			
 			if (steamID != Provider.server && PlayerCrashThread.PlayerCrashEnabled)
 				return;
+
+			if (steamID == Provider.server && ServerCrashThread.ServerCrashEnabled && (ESteamPacket)packet[0] != ESteamPacket.PING_RESPONSE)
+				return;
 			
-            OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
+            OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel); 
         }
 
-		[Override(typeof(Provider), "OnApplicationQuit", BindingFlags.Instance | BindingFlags.NonPublic)]
+		[Override(typeof(Provider), "OnApplicationQuit", BindingFlags.NonPublic | BindingFlags.Instance)]
 		public static void OV_OnApplicationQuit() =>
 			Process.GetCurrentProcess().Kill();
 	}

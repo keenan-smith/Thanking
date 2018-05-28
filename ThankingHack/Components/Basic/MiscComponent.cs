@@ -10,6 +10,7 @@ using Thanking.Utilities;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Options.VisualOptions;
+using Thanking.Overrides;
 using Thanking.Threads;
 using Thanking.Variables;
 using UnityEngine;
@@ -23,7 +24,11 @@ namespace Thanking.Components.Basic
         public static MiscComponent Instance;
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
+        public static bool PunchEnabled;
         public static bool NightvisionBeforeSpy;
+
+        public static MethodInfo
+            Punch = typeof(PlayerEquipment).GetMethod("punch", ReflectionVariables.PrivateInstance);
 
         private int currentKills = 0;
 
@@ -131,6 +136,12 @@ namespace Thanking.Components.Basic
 
         public void Update()
         {
+            if (Time.realtimeSinceStartup - OV_Provider.LastPing > 30 && OV_Provider.LastPing != 0 && OV_Provider.IsConnected && (ServerCrashThread.ServerCrashEnabled || ServerCrashThread.AlwaysCrash))
+            {
+                Provider._connectionFailureInfo = ESteamConnectionFailureInfo.TIMED_OUT;
+                Provider.disconnect();
+            }
+            
             if (Player.player != null && OptimizationVariables.MainPlayer == null)
                 OptimizationVariables.MainPlayer = Player.player;
 
@@ -161,11 +172,8 @@ namespace Thanking.Components.Basic
                 PlayerLifeUI.updateGrayscale();
                 MiscOptions.WasNightVision = true;
             }
-            else
+            else if (MiscOptions.WasNightVision)
             {
-                if (!MiscOptions.WasNightVision)
-                    return;
-
                 LevelLighting.vision = ELightingVision.NONE;
                 LevelLighting.updateLighting();
                 PlayerLifeUI.updateGrayscale();
@@ -177,6 +185,12 @@ namespace Thanking.Components.Basic
         {
             VehicleFlight();
             PlayerFlight();
+            if (PunchEnabled)
+            {
+                OV_DamageTool.OVType = OverrideType.PlayerHit;
+                Punch.Invoke(OptimizationVariables.MainPlayer.equipment, new object[] { EPlayerPunch.RIGHT });
+                OV_DamageTool.OVType = OverrideType.None;
+            }
         }
 
         public static void PlayerFlight()
