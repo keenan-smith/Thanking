@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Thanking.Managers.Main;
 using Thanking.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Thanking
 {
@@ -18,11 +20,16 @@ namespace Thanking
     
 			HookObject = new GameObject();
 			Object.DontDestroyOnLoad(HookObject);
-            
-			ConfigManager.Init();
-		    AttributeManager.Init();
-			AssetManager.Init();
-            
+            try
+            {
+                ConfigManager.Init();
+                AttributeManager.Init();
+                AssetManager.Init();
+            }
+            catch (Exception e)
+            {
+                DebugUtilities.LogException(e);
+            }
             #if DEBUG
 			DebugUtilities.Log("Thanking initialized!");
             #endif
