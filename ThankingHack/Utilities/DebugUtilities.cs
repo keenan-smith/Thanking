@@ -6,8 +6,6 @@ namespace Thanking.Utilities
 {
     public class DebugUtilities
     {
-        public static String DebugPath = $"{Application.dataPath}/Thanking.log";
-        
         public static void Log(object Output) =>
              Debug.Log($"{Output}\r\n");
         
@@ -15,6 +13,6 @@ namespace Thanking.Utilities
             Debug.Log($"\r\nBEGIN EXCEPTION\r\n{Exception}\r\nEND EXCEPTION\r\n");
 
         public static void Init() =>
-            Debug.Log($"{DateTime.Now}\r\n\r\n");
+            Debug.Log($"Thanking Debug Init Start: {DateTime.Now}\r\n\r\n");
     }
 }

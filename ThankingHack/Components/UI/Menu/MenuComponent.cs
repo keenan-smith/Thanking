@@ -192,7 +192,7 @@ namespace Thanking.Components.UI.Menu
 
         static void LogoTab()
         {
-            Prefab.MenuArea(new Rect(0, 0, 466, 436), $":thanking: v2", () =>
+            Prefab.MenuArea(new Rect(0, 0, 466, 436), $":thanking: v{Assembly.GetExecutingAssembly().GetName().Version}", () =>
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();

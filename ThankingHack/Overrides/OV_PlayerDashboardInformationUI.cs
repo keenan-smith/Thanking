@@ -126,7 +126,7 @@ namespace Thanking.Overrides
                     if (!(steamPlayer.model == null))
                     {
                         PlayerQuests quests = steamPlayer.player.quests;
-                        if (!(steamPlayer.playerID.steamID != Provider.client) || quests.isMemberOfSameGroupAs(OptimizationVariables.MainPlayer))
+                        if (steamPlayer.playerID.steamID == Provider.client || quests.isMemberOfSameGroupAs(OptimizationVariables.MainPlayer) || (MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun() && !PlayerCoroutines.IsSpying))
                         {
                             if (quests.isMarkerPlaced)
                             {
@@ -146,34 +146,6 @@ namespace Thanking.Overrides
                                 mapDynamicContainer.add(sleekImageTexture11);
                             }
                         }
-                    }
-                }
-                for (int i = 0; i < Provider.clients.Count; i++)
-                {
-                    SteamPlayer steamPlayer = Provider.clients[i];
-                    bool shouldDraw = steamPlayer.player.quests.isMemberOfSameGroupAs(OptimizationVariables.MainPlayer);
-                    
-                    if (!shouldDraw && MiscOptions.ShowPlayersOnMap && DrawUtilities.ShouldRun()) 
-                        shouldDraw = true;
-                    
-                    if (steamPlayer.playerID.steamID != Provider.client && steamPlayer.model != null && shouldDraw)
-                    {
-                        SleekImageTexture sleekImageTexture12 = new SleekImageTexture();
-                        sleekImageTexture12.positionOffset_X = -10;
-                        sleekImageTexture12.positionOffset_Y = -10;
-                        sleekImageTexture12.positionScale_X = steamPlayer.player.transform.position.x / (Level.size - Level.border * 2) + 0.5f;
-                        sleekImageTexture12.positionScale_Y = 0.5f - steamPlayer.player.transform.position.z / (Level.size - Level.border * 2);
-                        sleekImageTexture12.sizeOffset_X = 20;
-                        sleekImageTexture12.sizeOffset_Y = 20;
-
-						if (!OptionsSettings.streamer)
-                            sleekImageTexture12.texture = Provider.provider.communityService.getIcon(steamPlayer.playerID.steamID);
-                        if (string.IsNullOrEmpty(steamPlayer.playerID.nickName))
-                            sleekImageTexture12.addLabel(steamPlayer.playerID.characterName, ESleekSide.RIGHT);
-                        else
-                            sleekImageTexture12.addLabel(steamPlayer.playerID.nickName, ESleekSide.RIGHT);
-                        sleekImageTexture12.shouldDestroyTexture = true;
-                        mapDynamicContainer.add(sleekImageTexture12);
                     }
                 }
                 if (OptimizationVariables.MainPlayer != null)

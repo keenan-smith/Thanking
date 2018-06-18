@@ -60,6 +60,10 @@ namespace Thanking.Managers.Main
             SpyManager.Components = Components;
             SpyManager.PostSpy = Post;
             SpyManager.PreSpy = Pre;
+            
+            #if DEBUG
+            DebugUtilities.Log("Attribute manager initialized.");
+            #endif
         }
     }
 }

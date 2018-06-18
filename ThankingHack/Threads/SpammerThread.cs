@@ -18,7 +18,8 @@ namespace Thanking.Threads
             while (true)
             {
                 Thread.Sleep(MiscOptions.SpammerDelay);
-                if (!MiscOptions.SpammerEnabled) continue;
+                if (!MiscOptions.SpammerEnabled) 
+                    continue;
 
                 ChatManager.instance.channel.send("askChat", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_BUFFER,
                     (byte) EChatMode.GLOBAL, MiscOptions.SpamText);
