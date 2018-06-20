@@ -83,6 +83,7 @@
     <Compile Include="Attributes\SpyComponentAttribute.cs" />
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\HotkeyComponent.cs" />
+    <Compile Include="Components\Basic\MainThreadDispatcherComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Options\InteractionOptions.cs" />
     <Compile Include="Options\ItemOptions.cs" />
     <Compile Include="Options\MiscOptions.cs" />
+    <Compile Include="Options\OptimizationOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
     <Compile Include="Options\VisualOptions\MirrorCameraOptions.cs" />
     <Compile Include="Options\VisualOptions\SkinOptions.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Overrides\OV_PlayerInventory.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
     <Compile Include="TerminalCommands\Connect.cs" />
+    <Compile Include="Threads\PacketThread.cs" />
     <Compile Include="Threads\PlayerCrashThread.cs" />
     <Compile Include="Threads\ServerCrashThread.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
