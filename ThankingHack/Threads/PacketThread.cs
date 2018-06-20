@@ -7,6 +7,7 @@ using SDG.SteamworksProvider.Services.Community;
 using SDG.Unturned;
 using Steamworks;
 using Thanking.Attributes;
+using Thanking.Components.Basic;
 using Thanking.Options;
 using Thanking.Overrides;
 
@@ -73,72 +74,72 @@ namespace Thanking.Threads
 
         public static void Listen(int channel)
         {
-            if (Provider.provider.multiplayerService.clientMultiplayerService.read(out var communityEntity,
-                PacketBuffer, out ulong size, channel))
-            {
-                if (size > uint.MaxValue || size < 2) // size check
-                    return;
+            if (!Provider.provider.multiplayerService.clientMultiplayerService.read(out var communityEntity,
+                PacketBuffer, out ulong size, channel)) 
+                return;
+            
+            if (size > uint.MaxValue || size < 2) // size check
+                return;
                 
-                CSteamID SteamID = ((SteamworksCommunityEntity) communityEntity).steamID;
+            CSteamID SteamID = ((SteamworksCommunityEntity) communityEntity).steamID;
 
-                // will work on rate limiting later
-                // if (PacketRates[SteamID] > 25 && SteamID != Provider.server)
-                //    continue; 
+            // will work on rate limiting later
+            // if (PacketRates[SteamID] > 25 && SteamID != Provider.server)
+            //    continue; 
 
-                byte Packet = PacketBuffer[0];
-                if (Packet > 25) //packet validation check
-                    return;
+            byte Packet = PacketBuffer[0];
+            if (Packet > 25) //packet validation check
+                return;
 
-                ESteamPacket EPacket = (ESteamPacket) Packet;
-                switch (EPacket)
-                {
-                    case ESteamPacket.UPDATE_RELIABLE_BUFFER:
-                    case ESteamPacket.UPDATE_UNRELIABLE_BUFFER:
-                    case ESteamPacket.UPDATE_RELIABLE_INSTANT:
-                    case ESteamPacket.UPDATE_UNRELIABLE_INSTANT:
-                    case ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER:
-                    case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER:
-                    case ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT:
-                    case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT:
-                    case ESteamPacket.UPDATE_VOICE:
-                        SteamChannel c = Receivers[channel];
-                        c.receive(SteamID, PacketBuffer, 0, (int)size);
-                        break;
-                    case ESteamPacket.ACCEPTED:
-                        break;
-                    case ESteamPacket.SHUTDOWN:
-                        break;
-                    case ESteamPacket.WORKSHOP:
-                        break;
-                    case ESteamPacket.CONNECT:
-                        break;
-                    case ESteamPacket.VERIFY:
-                        break;
-                    case ESteamPacket.AUTHENTICATE:
-                        break;
-                    case ESteamPacket.REJECTED:
-                        break;
-                    case ESteamPacket.ADMINED:
-                        break;
-                    case ESteamPacket.UNADMINED:
-                        break;
-                    case ESteamPacket.BANNED:
-                        break;
-                    case ESteamPacket.KICKED:
-                        break;
-                    case ESteamPacket.CONNECTED:
-                        break;
-                    case ESteamPacket.DISCONNECTED:
-                        break;
-                    case ESteamPacket.PING_REQUEST:
-                        break;
-                    case ESteamPacket.PING_RESPONSE:
-                        break;
-                    case ESteamPacket.BATTLEYE:
-                        break;
-                    case ESteamPacket.GUIDTABLE:
-                        break;
-                }
+            ESteamPacket EPacket = (ESteamPacket) Packet;
+            switch (EPacket)
+            {
+                case ESteamPacket.UPDATE_RELIABLE_BUFFER:
+                case ESteamPacket.UPDATE_UNRELIABLE_BUFFER:
+                case ESteamPacket.UPDATE_RELIABLE_INSTANT:
+                case ESteamPacket.UPDATE_UNRELIABLE_INSTANT:
+                case ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER:
+                case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER:
+                case ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT:
+                case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT:
+                case ESteamPacket.UPDATE_VOICE:
+                    SteamChannel c = Receivers[channel];
+                    MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
+                    break;
+                case ESteamPacket.ACCEPTED:
+                    break;
+                case ESteamPacket.SHUTDOWN:
+                    break;
+                case ESteamPacket.WORKSHOP:
+                    break;
+                case ESteamPacket.CONNECT:
+                    break;
+                case ESteamPacket.VERIFY:
+                    break;
+                case ESteamPacket.AUTHENTICATE:
+                    break;
+                case ESteamPacket.REJECTED:
+                    break;
+                case ESteamPacket.ADMINED:
+                    break;
+                case ESteamPacket.UNADMINED:
+                    break;
+                case ESteamPacket.BANNED:
+                    break;
+                case ESteamPacket.KICKED:
+                    break;
+                case ESteamPacket.CONNECTED:
+                    break;
+                case ESteamPacket.DISCONNECTED:
+                    break;
+                case ESteamPacket.PING_REQUEST:
+                    break;
+                case ESteamPacket.PING_RESPONSE:
+                    break;
+                case ESteamPacket.BATTLEYE:
+                    break;
+                case ESteamPacket.GUIDTABLE:
+                    break;
             }
         }
     }
