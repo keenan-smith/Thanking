@@ -82,7 +82,7 @@ namespace Thanking.Threads
                 return;
                 
             CSteamID SteamID = ((SteamworksCommunityEntity) communityEntity).steamID;
-
+            
             // will work on rate limiting later
             // if (PacketRates[SteamID] > 25 && SteamID != Provider.server)
             //    continue; 
@@ -92,6 +92,16 @@ namespace Thanking.Threads
                 return;
 
             ESteamPacket EPacket = (ESteamPacket) Packet;
+
+            if (SteamID != Provider.server)
+            {
+                if (EPacket != ESteamPacket.UPDATE_VOICE)
+                    return;
+                
+                SteamChannel c = Receivers[channel];
+                MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
+            }
+            
             switch (EPacket)
             {
                 case ESteamPacket.UPDATE_RELIABLE_BUFFER:
@@ -102,7 +112,6 @@ namespace Thanking.Threads
                 case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER:
                 case ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT:
                 case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT:
-                case ESteamPacket.UPDATE_VOICE:
                     SteamChannel c = Receivers[channel];
                     MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
                     break;
