@@ -151,7 +151,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Players:
 						{
 							SteamPlayer[] objarray = Provider.clients
-								.OrderByDescending(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)).ToArray();
+								.OrderBy(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarray = objarray.Take(vis.ObjectCap).ToArray();
@@ -171,7 +171,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Zombies:
 						{
 							Zombie[] objarr = ZombieManager.regions.SelectMany(r => r.zombies)
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -186,7 +186,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Items:
 						{
 							InteractableItem[] objarr = Object.FindObjectsOfType<InteractableItem>()
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -203,7 +203,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Sentries:
 						{
 							InteractableSentry[] objarr = Object.FindObjectsOfType<InteractableSentry>()
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -218,7 +218,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Beds:
 						{
 							InteractableBed[] objarr = Object.FindObjectsOfType<InteractableBed>()
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -233,7 +233,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.ClaimFlags:
 						{
 							InteractableClaim[] objarr = Object.FindObjectsOfType<InteractableClaim>()
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -248,7 +248,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Vehicles:
 						{
 							InteractableVehicle[] objarr = Object.FindObjectsOfType<InteractableVehicle>()
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -267,7 +267,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Storage:
 						{
 							InteractableStorage[] objarr = Object.FindObjectsOfType<InteractableStorage>()
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -282,7 +282,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Generators:
 						{
 							InteractableGenerator[] objarr = Object.FindObjectsOfType<InteractableGenerator>()
-								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();

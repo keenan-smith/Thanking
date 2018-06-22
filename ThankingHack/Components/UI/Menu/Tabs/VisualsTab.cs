@@ -220,7 +220,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 	        
 	        Prefab.Toggle("Limit Object Numer", ref visual.UseObjectCap);
 	        if (visual.UseObjectCap)
-		        visual.ObjectCap = Prefab.TextField(visual.ObjectCap, "Object cap:", 30);
+		        visual.ObjectCap = Prefab.TextField(visual.ObjectCap, "Object cap:", 0, ushort.MaxValue);
 	        
 			visual.BorderStrength = Prefab.TextField(visual.BorderStrength, "Border Strength:", 30);
 			GUILayout.Space(3);
