@@ -58,7 +58,6 @@ namespace Thanking.Components.Basic
             Radius = SphereOptions.SphereRadius;
 
             float Calculated = Speed * Provider.ping * 1.3f;
-            Debug.Log((int)Calculated);
 
             if (Calculated > 15)
                 Radius = 1;
