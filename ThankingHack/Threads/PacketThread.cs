@@ -17,7 +17,7 @@ namespace Thanking.Threads
     {
         public static byte[] PacketBuffer = new byte[65535];
 
-        public static List<SteamChannel> Receivers;
+        public static List<SteamChannel> Receivers = new List<SteamChannel>();
 
         public static int ReceiverCount = 0;
         
@@ -44,30 +44,33 @@ namespace Thanking.Threads
             }
         }
         */
+
+        public static void Reset()
+        {
+            Receivers.Clear();
+            ReceiverCount = 0;
+        }
+        
+        public static void InitReceivers()
+        {
+            Reset();
+            foreach (SteamChannel ch in UnityEngine.Object.FindObjectsOfType<SteamChannel>())
+            {
+                Receivers.Add(ch);
+                ReceiverCount++;
+            }
+        }
+        
         [Thread]
         public static void Start()
         {
-            Provider.onClientConnected += () => //reset channels every time the client reconnects
-            {
-                Receivers.Clear();
-                ReceiverCount = 0;
-                
-                SteamChannel[] channels = UnityEngine.Object.FindObjectsOfType<SteamChannel>();
-                foreach (SteamChannel c in channels)
-                {
-                    Receivers.Add(c);
-                    ReceiverCount++;
-                }
-            };
+            Provider.onClientDisconnected += Reset;
             
             while (true)
             {
                 Thread.Sleep(OptimizationOptions.PacketRefreshRate);
                 
-                if (!OV_Provider.IsConnected) 
-                    continue;
-                
-               for (int i = 0; i < ReceiverCount; i++)
+                for (int i = 0; i < ReceiverCount; i++)
                    Listen(i);
             }
         }
@@ -93,13 +96,14 @@ namespace Thanking.Threads
 
             ESteamPacket EPacket = (ESteamPacket) Packet;
 
-            if (SteamID != Provider.server)
+            if (SteamID != Provider.server) //dont crash me asshole
             {
                 if (EPacket != ESteamPacket.UPDATE_VOICE)
                     return;
                 
                 SteamChannel c = Receivers[channel];
                 MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
+                return;
             }
             
             switch (EPacket)
@@ -115,39 +119,9 @@ namespace Thanking.Threads
                     SteamChannel c = Receivers[channel];
                     MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
                     break;
-                case ESteamPacket.ACCEPTED:
-                    break;
-                case ESteamPacket.SHUTDOWN:
-                    break;
-                case ESteamPacket.WORKSHOP:
-                    break;
-                case ESteamPacket.CONNECT:
-                    break;
-                case ESteamPacket.VERIFY:
-                    break;
-                case ESteamPacket.AUTHENTICATE:
-                    break;
-                case ESteamPacket.REJECTED:
-                    break;
-                case ESteamPacket.ADMINED:
-                    break;
-                case ESteamPacket.UNADMINED:
-                    break;
-                case ESteamPacket.BANNED:
-                    break;
-                case ESteamPacket.KICKED:
-                    break;
-                case ESteamPacket.CONNECTED:
-                    break;
-                case ESteamPacket.DISCONNECTED:
-                    break;
-                case ESteamPacket.PING_REQUEST:
-                    break;
-                case ESteamPacket.PING_RESPONSE:
-                    break;
-                case ESteamPacket.BATTLEYE:
-                    break;
-                case ESteamPacket.GUIDTABLE:
+                        
+                default: //im not gonna implement the rest of the packets because there's no fucking reason to, they're not called nearly as much
+                    MainThreadDispatcherComponent.InvokeOnMain(() => OV_Provider.OV_receiveClient(SteamID, PacketBuffer, 0, (int)size, channel));
                     break;
             }
         }
