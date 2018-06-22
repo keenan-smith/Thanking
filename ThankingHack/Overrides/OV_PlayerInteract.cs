@@ -125,24 +125,28 @@ namespace Thanking.Overrides
                 {
                     int Mask = 0;
 
-                    if (!InteractionOptions.NoHitBarricades)
-                        Mask |= RayMasks.BARRICADE;
+                    if (InteractionOptions.InteractThroughWalls)
+                    {
+                        if (!InteractionOptions.NoHitBarricades)
+                            Mask |= RayMasks.BARRICADE;
 
-                    if (!InteractionOptions.NoHitItems)
-                        Mask |= RayMasks.ITEM;
+                        if (!InteractionOptions.NoHitItems)
+                            Mask |= RayMasks.ITEM;
 
-                    if (!InteractionOptions.NoHitResources)
-                        Mask |= RayMasks.RESOURCE;
+                        if (!InteractionOptions.NoHitResources)
+                            Mask |= RayMasks.RESOURCE;
 
-                    if (!InteractionOptions.NoHitStructures)
-                        Mask |= RayMasks.STRUCTURE;
+                        if (!InteractionOptions.NoHitStructures)
+                            Mask |= RayMasks.STRUCTURE;
 
-                    if (!InteractionOptions.NoHitVehicles)
-                        Mask |= RayMasks.VEHICLE;
+                        if (!InteractionOptions.NoHitVehicles)
+                            Mask |= RayMasks.VEHICLE;
 
-                    if (!InteractionOptions.NoHitEnvironment)
-                        Mask |= RayMasks.LARGE | RayMasks.MEDIUM | RayMasks.ENVIRONMENT | RayMasks.GROUND;
-                    
+                        if (!InteractionOptions.NoHitEnvironment)
+                            Mask |= RayMasks.LARGE | RayMasks.MEDIUM | RayMasks.ENVIRONMENT | RayMasks.GROUND;
+                    }
+                    else
+                        Mask = RayMasks.PLAYER_INTERACT;
                     lastInteract = Time.realtimeSinceStartup;
 
                     bool Run = InteractionOptions.InteractThroughWalls && !PlayerCoroutines.IsSpying;
