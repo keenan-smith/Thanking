@@ -35,14 +35,14 @@ namespace Thanking.Overrides
             OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel); 
         }
 
-		[Override(typeof(Provider), "connect", BindingFlags.Public | BindingFlags.Static)]
+		//[Override(typeof(Provider), "connect", BindingFlags.Public | BindingFlags.Static)]
 		public static void OV_connect(SteamServerInfo info, string password)
 		{
 			PacketThread.InitReceivers();
 			OverrideUtilities.CallOriginal(null, info, password);
 		}
 		
-		[Override(typeof(Provider), "listenClient", BindingFlags.NonPublic | BindingFlags.Static)]
+		//[Override(typeof(Provider), "listenClient", BindingFlags.NonPublic | BindingFlags.Static)]
 		public static void OV_listenClient(int channel) { }
 		
 		[Override(typeof(Provider), "OnApplicationQuit", BindingFlags.NonPublic | BindingFlags.Instance)]

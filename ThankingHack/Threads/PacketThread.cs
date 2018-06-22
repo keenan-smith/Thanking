@@ -61,7 +61,7 @@ namespace Thanking.Threads
             }
         }
         
-        [Thread]
+        //[Thread]
         public static void Start()
         {
             Provider.onClientDisconnected += Reset;
@@ -70,8 +70,9 @@ namespace Thanking.Threads
             {
                 Thread.Sleep(OptimizationOptions.PacketRefreshRate);
                 
+                Listen(0);
                 for (int i = 0; i < ReceiverCount; i++)
-                   Listen(i);
+                   Listen(Receivers[i].id);
             }
         }
 
@@ -116,7 +117,7 @@ namespace Thanking.Threads
                 case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER:
                 case ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT:
                 case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT:
-                    SteamChannel c = Receivers[channel];
+                    SteamChannel c = Receivers.First(r => r.id == channel);
                     MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
                     break;
                         
