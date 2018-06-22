@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Thanking.Misc
 {
@@ -11,3 +11,4 @@ namespace Thanking.Misc
 			new SerializableColor(c.r, c.g, c.b, c.a);
 	}
 }
+//Discord test
