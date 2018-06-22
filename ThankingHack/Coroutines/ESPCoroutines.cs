@@ -154,7 +154,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarray = objarray.Skip(vis.ObjectCap).ToArray();
+								objarray = objarray.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarray.Length; j++)
 							{
@@ -174,7 +174,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
@@ -189,7 +189,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
@@ -206,7 +206,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
@@ -221,7 +221,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
@@ -236,7 +236,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
@@ -251,7 +251,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
@@ -270,7 +270,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
@@ -285,7 +285,7 @@ namespace Thanking.Coroutines
 								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
-								objarr = objarr.Skip(vis.ObjectCap).ToArray();
+								objarr = objarr.Take(vis.ObjectCap).ToArray();
 
 							for (int j = 0; j < objarr.Length; j++)
 							{
