@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using SDG.Provider.Services.Community;
 using SDG.SteamworksProvider.Services.Community;
@@ -10,17 +12,18 @@ using Thanking.Attributes;
 using Thanking.Components.Basic;
 using Thanking.Options;
 using Thanking.Overrides;
+using Thanking.Utilities;
+using UnityEngine;
+using Types = SDG.Unturned.Types;
 
 namespace Thanking.Threads
 {
     public class PacketThread
     {
-        public static byte[] PacketBuffer = new byte[65535];
+        private static readonly byte[] PacketBuffer = new byte[Block.BUFFER_SIZE];
+        private static readonly List<SteamChannel> Receivers = new List<SteamChannel>();
+        private static readonly int ESTEAMPACKET_MAX_VALUE = Enum.GetValues(typeof(ESteamPacket)).Cast<int>().Max();
 
-        public static List<SteamChannel> Receivers = new List<SteamChannel>();
-
-        public static int ReceiverCount = 0;
-        
         //public static Dictionary<CSteamID, int> PacketRates = new Dictionary<CSteamID, int>();
 
         /*[Thread]
@@ -48,20 +51,18 @@ namespace Thanking.Threads
         public static void Reset()
         {
             Receivers.Clear();
-            ReceiverCount = 0;
         }
         
         public static void InitReceivers()
         {
             Reset();
             foreach (SteamChannel ch in UnityEngine.Object.FindObjectsOfType<SteamChannel>())
-            {
                 Receivers.Add(ch);
-                ReceiverCount++;
-            }
+
+            DebugUtilities.Log(Receivers.Count + " receivers loaded");
         }
         
-        //[Thread]
+        [Thread]
         public static void Start()
         {
             Provider.onClientDisconnected += Reset;
@@ -71,59 +72,68 @@ namespace Thanking.Threads
                 Thread.Sleep(OptimizationOptions.PacketRefreshRate);
                 
                 Listen(0);
-                for (int i = 0; i < ReceiverCount; i++)
+
+                for (int i = 0; i < Receivers.Count; i++)
                    Listen(Receivers[i].id);
             }
         }
 
         public static void Listen(int channel)
         {
-            if (!Provider.provider.multiplayerService.clientMultiplayerService.read(out var communityEntity,
-                PacketBuffer, out ulong size, channel)) 
-                return;
-            
-            if (size > uint.MaxValue || size < 2) // size check
-                return;
-                
-            CSteamID SteamID = ((SteamworksCommunityEntity) communityEntity).steamID;
-            
-            // will work on rate limiting later
-            // if (PacketRates[SteamID] > 25 && SteamID != Provider.server)
-            //    continue; 
-
-            byte Packet = PacketBuffer[0];
-            if (Packet > 25) //packet validation check
-                return;
-
-            ESteamPacket EPacket = (ESteamPacket) Packet;
-
-            if (SteamID != Provider.server) //dont crash me asshole
+            while (Provider.provider.multiplayerService.clientMultiplayerService.read(out var communityEntity,
+                PacketBuffer, out ulong size, channel))
             {
-                if (EPacket != ESteamPacket.UPDATE_VOICE)
+                byte packet = PacketBuffer[0];
+                ESteamPacket packetType = (ESteamPacket)packet;
+
+                if (packetType != ESteamPacket.PING_RESPONSE)
+                    DebugUtilities.Log("Received packet: " + packetType);
+
+                if (size > uint.MaxValue || (size < 2 && packetType != ESteamPacket.VERIFY)) // size check
                     return;
-                
-                SteamChannel c = Receivers[channel];
-                MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
-                return;
-            }
-            
-            switch (EPacket)
-            {
-                case ESteamPacket.UPDATE_RELIABLE_BUFFER:
-                case ESteamPacket.UPDATE_UNRELIABLE_BUFFER:
-                case ESteamPacket.UPDATE_RELIABLE_INSTANT:
-                case ESteamPacket.UPDATE_UNRELIABLE_INSTANT:
-                case ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER:
-                case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER:
-                case ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT:
-                case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT:
+
+                CSteamID steamId = ((SteamworksCommunityEntity)communityEntity).steamID;
+
+                // will work on rate limiting later
+                // if (PacketRates[SteamID] > 25 && SteamID != Provider.server)
+                //    continue; 
+
+                if (packet > ESTEAMPACKET_MAX_VALUE) //packet validation check
+                    return;
+
+                if (steamId != Provider.server) //dont crash me asshole
+                {
+                    if (packetType != ESteamPacket.UPDATE_VOICE)
+                        return;
+
                     SteamChannel c = Receivers.First(r => r.id == channel);
-                    MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(SteamID, PacketBuffer, 0, (int)size));
-                    break;
-                        
-                default: //im not gonna implement the rest of the packets because there's no fucking reason to, they're not called nearly as much
-                    MainThreadDispatcherComponent.InvokeOnMain(() => OV_Provider.OV_receiveClient(SteamID, PacketBuffer, 0, (int)size, channel));
-                    break;
+                    MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(steamId, PacketBuffer, 0, (int)size));
+                    return;
+                }
+
+                // simply does not work without copying the buffer
+                // something something thread safety
+                var copiedBuffer = new byte[Block.BUFFER_SIZE];
+                PacketBuffer.CopyTo(copiedBuffer, 0);
+
+                switch (packetType)
+                {
+                    case ESteamPacket.UPDATE_RELIABLE_BUFFER:
+                    case ESteamPacket.UPDATE_UNRELIABLE_BUFFER:
+                    case ESteamPacket.UPDATE_RELIABLE_INSTANT:
+                    case ESteamPacket.UPDATE_UNRELIABLE_INSTANT:
+                    case ESteamPacket.UPDATE_RELIABLE_CHUNK_BUFFER:
+                    case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER:
+                    case ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT:
+                    case ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT:
+                        SteamChannel c = Receivers.First(r => r.id == channel);
+                        MainThreadDispatcherComponent.InvokeOnMain(() => c.receive(steamId, copiedBuffer, 0, (int)size));
+                        break;
+                    
+                    default: //im not gonna implement the rest of the packets because there's no fucking reason to, they're not called nearly as much
+                        MainThreadDispatcherComponent.InvokeOnMain(() => OV_Provider.OV_receiveClient(steamId, copiedBuffer, 0, (int)size, channel));
+                        break;
+                }
             }
         }
     }
