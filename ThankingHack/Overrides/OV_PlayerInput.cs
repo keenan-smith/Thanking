@@ -54,7 +54,7 @@ using Thanking.Variables;
 		 public List<PlayerInputPacket> ClientsidePackets = new List<PlayerInputPacket>();
 
 		 
-		 [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
+		 //[Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
 		 public void OV_sendRaycast(RaycastInfo info)
 		 {
 			 PlayerInputPacket playerInputPacket = ClientsidePackets.Last();
@@ -64,7 +64,7 @@ using Thanking.Variables;
 			 playerInputPacket.clientsideInputs.Add(info);
 		 }
 
-		 [Override(typeof(PlayerInput), "askAck", BindingFlags.Public | BindingFlags.Instance)]
+		 //[Override(typeof(PlayerInput), "askAck", BindingFlags.Public | BindingFlags.Instance)]
 		 public void OV_askAck(CSteamID steamID, int ack)
 		 {
 			 if (!Channel.checkServer(steamID))
@@ -75,9 +75,12 @@ using Thanking.Variables;
 					 ClientsidePackets.RemoveAt(i);
 		 }
 
-		 [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
+		 //[Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
 		 public void OV_FixedUpdate()
 		 {
+			 if (Channel == null)
+				 Channel = PInstance.input.channel;
+			 
 			 if (ModCount % PlayerInput.SAMPLES == 0u)
 			 {
 				 Keys[0] = PInstance.movement.jump;
@@ -172,12 +175,11 @@ using Thanking.Variables;
 		 }
 
 		 
-		 [Override(typeof(PlayerInput), "Start", BindingFlags.NonPublic | BindingFlags.Instance)]
+		// [Override(typeof(PlayerInput), "Start", BindingFlags.NonPublic | BindingFlags.Instance)]
 		 public void Start()
 		 {
 			 OptimizationVariables.MainPlayer = Player.player;
 			 PInstance = Player.player;
-			 Channel = PInstance.input.channel;
 			 
 			 Simulation = 0u;
 			 Clock = 0u;

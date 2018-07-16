@@ -14,8 +14,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Label("Current Server Info (IP/Port): ", Prefab._TextStyle);
 					GUILayout.Space(2);
 
-					GUILayout.TextField($"{Parser.getIPFromUInt32(Provider.currentServerInfo.ip)}", Prefab._TextStyle);
-					GUILayout.TextField($"{Provider.currentServerInfo.port}", Prefab._TextStyle);
+					GUILayout.TextField($"{Parser.getIPFromUInt32(Provider.currentServerInfo.ip)}:{Provider.currentServerInfo.port}", Prefab._TextStyle);
 					GUILayout.Space(8);
 				}
 
@@ -28,7 +27,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 	            GUILayout.Space(2);
 	            
 	            GUILayout.Label("Submit bug reports by E-Mailing them to this address:", Prefab._TextStyle);
-	            GUILayout.TextField("incoming+DualExploits/Thanking@gitlab.com", Prefab._TextStyle);
+	            GUILayout.TextField("incoming+DualExploits/Thanking@incoming.gitlab.com", Prefab._TextStyle);
 	            
 	            GUILayout.Space(2);
                 

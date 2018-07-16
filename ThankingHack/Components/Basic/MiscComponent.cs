@@ -142,6 +142,9 @@ namespace Thanking.Components.Basic
                 Provider.disconnect();
             }
 
+            if (Player.player != null && OptimizationVariables.MainPlayer == null) 
+                OptimizationVariables.MainPlayer = Player.player;
+            
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = Camera.main;
 
