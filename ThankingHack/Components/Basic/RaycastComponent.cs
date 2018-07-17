@@ -13,8 +13,7 @@ namespace Thanking.Components.Basic
     [DisallowMultipleComponent]
     public class RaycastComponent : MonoBehaviour
     {
-        private Vector3 prevPos = Vector3.zero;
-        public GameObject Sphere;
+        public GameObject Sphere;    
         public float Speed = -1;
         public float Radius = SphereOptions.SphereRadius;
 
@@ -23,18 +22,34 @@ namespace Thanking.Components.Basic
             StartCoroutine(CalcVelocity());
             StartCoroutine(CalcSphere());
         }
-
-        private void FixedUpdate() =>
-            Sphere.transform.position = transform.position;
         
         IEnumerator CalcVelocity()
         {
             while(true)
             {
-                prevPos = transform.position;
-                yield return new WaitForSeconds(0.25f);
+                Vector3 p1 = transform.position;
+                yield return new WaitForSeconds(0.1f);
+                Vector3 p2 = transform.position;
+                double d1 = VectorUtilities.GetDistance(transform.position, p1);
+                if (d1 > 100)
+                    d1 = 0;
+                yield return new WaitForSeconds(0.1f);
+                Vector3 p3 = transform.position;
+                double d2 = VectorUtilities.GetDistance(transform.position, p2);
+                if (d2 > 100)
+                    d2 = 0;
+                yield return new WaitForSeconds(0.1f);
+                Vector3 p4 = transform.position;
+                double d3 = VectorUtilities.GetDistance(transform.position, p3);
+                if (d3 > 100)
+                    d3 = 0;
+                yield return new WaitForSeconds(0.1f);
+                
+                double d4 = VectorUtilities.GetDistance(transform.position, p4);
+                if (d4 > 100)
+                    d4 = 0;
 
-                Speed = (float) VectorUtilities.GetDistance(prevPos, transform.position) * 4;
+                Speed = (float) ((d1 + d2 + d3 + d4) / 4 * 10);
             }
         }
 
@@ -46,6 +61,9 @@ namespace Thanking.Components.Basic
                 
                 Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
                 Sphere.layer = LayerMasks.AGENT;
+                Sphere.transform.parent = transform;
+                Sphere.transform.localPosition = new Vector3(0, 0, 0);
+                
                 SetRadius();
                 
                 yield return new WaitForSeconds(0.25f);
@@ -59,7 +77,7 @@ namespace Thanking.Components.Basic
 
             float Calculated = Speed * Provider.ping * 1.3f;
 
-            if (Calculated > 15)
+            if (Mathf.Abs(Calculated) > 15f)
                 Radius = 1;
             
             else if (Speed > 0)
