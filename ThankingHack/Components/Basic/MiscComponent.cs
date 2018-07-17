@@ -24,7 +24,6 @@ namespace Thanking.Components.Basic
         public static MiscComponent Instance;
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
-        public static bool PunchEnabled;
         public static bool NightvisionBeforeSpy;
 
         public static FieldInfo Primary =
