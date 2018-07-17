@@ -38,8 +38,8 @@ namespace Thanking.Threads
 
                     PlayerCrashEnabled = true;
                     
-                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 1 : 0)
-                        .First(!FriendUtilities.IsFriendly(p.player)).playerID.steamID;
+                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
+                        .First(p => !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
                 }
             }
         }
@@ -47,10 +47,7 @@ namespace Thanking.Threads
         public static void OnDisconnect(SteamPlayer player)
         {
             if (player.playerID.steamID == CrashTarget) 
-            {
                 PlayerCrashEnabled = false;
-                CrashTarget = CSteamID.Nil;
-            }
-        }
+        }  
     }
 }
