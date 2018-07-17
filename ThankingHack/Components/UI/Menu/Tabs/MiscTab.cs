@@ -60,7 +60,9 @@ namespace Thanking.Components.UI.Menu.Tabs
 					}
 				}
 				
-				Prefab.Toggle("Punch Killaura", ref MiscComponent.PunchEnabled);
+				Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
+				
+				Prefab.Toggle("Punch Silent Aim", ref MiscOptions.PunchSilentAim);
 
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
