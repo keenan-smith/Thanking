@@ -1,5 +1,6 @@
 ﻿﻿using System.Linq;
-using System.Threading;
+ using System.Reflection;
+ using System.Threading;
 using SDG.Unturned;
 using Steamworks;    
 using Thanking.Attributes;
@@ -23,20 +24,25 @@ namespace Thanking.Threads
 			#endif
             Provider.onEnemyDisconnected += OnDisconnect;
 
-            ZombieManager.instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
-                ZombieManager.instance.channel.getCall("askZombies"), out int size, out byte[] Packet, (byte)0, (byte)0);
+            ResourceManager instance = (ResourceManager) typeof(ResourceManager)
+                .GetField("manager", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+            
+            instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
+                instance.channel.getCall("askResources"), out int size, out byte[] Packet, (byte)0, (byte)0);
             
             while (true)
             {
                 if (PlayerCrashEnabled)
-                    Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, Packet, size, ZombieManager.instance.channel.id);
+                    Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, Packet, size, instance.channel.id);
                 
                 else
                 {
+                    Thread.Sleep(1000);
                     if (!ContinuousPlayerCrash || Provider.clients.Count == 0)
                         continue;
 
                     PlayerCrashEnabled = true;
+                    Thread.Sleep(1000);
                     
                     CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
                         .First(p => !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
@@ -46,8 +52,15 @@ namespace Thanking.Threads
 
         public static void OnDisconnect(SteamPlayer player)
         {
-            if (player.playerID.steamID == CrashTarget) 
-                PlayerCrashEnabled = false;
+            if (player.playerID.steamID == CrashTarget)
+            {
+                if (!ContinuousPlayerCrash)
+                    PlayerCrashEnabled = false;
+                
+                else
+                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
+                        .First(p => p.playerID.steamID != CrashTarget && !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
+            }
         }  
     }
 }
