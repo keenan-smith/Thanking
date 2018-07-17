@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using Thanking.Attributes;
 using Thanking.Misc;
 using Thanking.Variables;
@@ -16,245 +18,33 @@ namespace Thanking.Options.VisualOptions
         [Save] public static bool ChamsFlat = false;
 
         [Save]
-        public static ESPVisual[] VisualOptions =
+        public static ESPVisual[] VisualOptions = Enumerable.Repeat(new ESPVisual
         {
-            new ESPVisual
-            {
-                Enabled = true,
-                Labels = true,
-                Boxes = true,
-	            ShowName = true,
-	            ShowDistance = true,
-                TwoDimensional = true,
-                Glow = false,
-				InfiniteDistance = true,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = false,
+            Enabled = false,
+            Labels = true,
+            Boxes = true,
+            ShowName = true,
+            ShowDistance = true,
+            TwoDimensional = false,
+            Glow = false,
+            InfiniteDistance = false,
+            LineToObject = false,
+            TextScaling = true,
+            UseObjectCap = true,
 
-				Distance = 500,
-				Location = LabelLocation.BottomMiddle,
+            Distance = 250,
+            Location = LabelLocation.BottomMiddle,
 
-				FixedTextSize = 12,
-				MinTextSize = 8,
-				MaxTextSize = 17,
-				MinTextSizeDistance = 900,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Players
+            FixedTextSize = 11,
+            MinTextSize = 8,
+            MaxTextSize = 11,
+            MinTextSizeDistance = 800,
+            BorderStrength = 2,
+            ObjectCap = 24
+        }, Enum.GetValues(typeof(ESPTarget)).Length).ToArray();
 
-			new ESPVisual
-			{
-				Enabled = true,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = true,
-                Glow = false,
-                InfiniteDistance = true,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 500,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 12,
-				MinTextSize = 8,
-				MaxTextSize = 17,
-				MinTextSizeDistance = 900,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Zombies
-
-			new ESPVisual
-			{
-				Enabled = true,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = false,
-                Glow = false,
-                InfiniteDistance = false,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 250,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 11,
-				MinTextSize = 8,
-				MaxTextSize = 14,
-				MinTextSizeDistance = 800,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Items
-
-			new ESPVisual
-			{
-				Enabled = false,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = false,
-                Glow = false,
-                InfiniteDistance = false,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 250,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 11,
-				MinTextSize = 8,
-				MaxTextSize = 11,
-				MinTextSizeDistance = 800,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Sentries
-
-			new ESPVisual
-			{
-				Enabled = false,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = false,
-                Glow = false,
-                InfiniteDistance = false,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 250,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 11,
-				MinTextSize = 8,
-				MaxTextSize = 11,
-				MinTextSizeDistance = 800,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Beds
-
-			new ESPVisual
-			{
-				Enabled = false,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = false,
-                Glow = false,
-                InfiniteDistance = false,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 250,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 11,
-				MinTextSize = 8,
-				MaxTextSize = 11,
-				MinTextSizeDistance = 800,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Claim Flags
-
-			new ESPVisual
-			{
-				Enabled = false,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = false,
-                Glow = false,
-                InfiniteDistance = false,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 250,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 11,
-				MinTextSize = 8,
-				MaxTextSize = 11,
-				MinTextSizeDistance = 800,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Vehicles
-
-			new ESPVisual
-			{
-				Enabled = false,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = false,
-                Glow = false,
-                InfiniteDistance = false,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 250,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 11,
-				MinTextSize = 8,
-				MaxTextSize = 11,
-				MinTextSizeDistance = 800,
-				BorderStrength = 2,
-				ObjectCap = 24
-			}, //Storage
-
-			new ESPVisual
-			{
-				Enabled = false,
-				Labels = true,
-				Boxes = true,
-				ShowName = true,
-				ShowDistance = true,
-				TwoDimensional = false,
-                Glow = false,
-                InfiniteDistance = false,
-				LineToObject = false,
-				TextScaling = true,
-				UseObjectCap = true,
-
-				Distance = 250,
-				Location = LabelLocation.BottomMiddle,
-
-				FixedTextSize = 11,
-				MinTextSize = 8,
-				MaxTextSize = 11,
-				MinTextSizeDistance = 800,
-				BorderStrength = 2,
-				ObjectCap = 24
-			} //Generators
-		};
-
-		[Save] public static Dictionary<ESPTarget, int> PriorityTable = new Dictionary<ESPTarget, int>
-		{
-			{ESPTarget.Players, 0},
-			{ESPTarget.Items, 1},
-			{ESPTarget.Sentries, 2},
-			{ESPTarget.Beds, 3},
-			{ESPTarget.ClaimFlags, 4},
-			{ESPTarget.Vehicles, 5},
-			{ESPTarget.Storage, 6},
-			{ESPTarget.Generators, 7}
-		};
+        [Save]
+        public static Dictionary<ESPTarget, int> PriorityTable = Enum.GetValues(typeof(ESPTarget)).Cast<ESPTarget>().ToDictionary(x => x, x => (int)x);
 
 		#endregion
 
