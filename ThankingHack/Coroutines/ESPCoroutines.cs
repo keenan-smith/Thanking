@@ -181,6 +181,7 @@ namespace Thanking.Coroutines
 								Zombie obj = objarr[j];
 								objects.Add(new ESPObject(target, obj, obj.gameObject));
 							}
+
 							break;
 						}
 						case ESPTarget.Items:
