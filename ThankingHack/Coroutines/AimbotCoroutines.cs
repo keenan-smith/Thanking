@@ -8,6 +8,7 @@ using UnityEngine;
 using System;
 using System.Reflection;
 using Thanking.Options;
+using Thanking.Overrides;
 using Thanking.Variables;
 
 namespace Thanking.Coroutines
@@ -18,28 +19,7 @@ namespace Thanking.Coroutines
         
         public static GameObject LockedObject;
         public static bool IsAiming = false;
-
-        public static FieldInfo PitchInfo;
-        public static FieldInfo YawInfo;
-
-        public static float Pitch
-        {
-            get => OptimizationVariables.MainPlayer.look.pitch;
-            set => PitchInfo.SetValue(OptimizationVariables.MainPlayer.look, value);
-        }
-
-        public static float Yaw
-        {
-            get => OptimizationVariables.MainPlayer.look.yaw;
-            set => YawInfo.SetValue(OptimizationVariables.MainPlayer.look, value);
-        }
-
-        [Initializer]
-        public static void Init()
-        {
-            PitchInfo = typeof(PlayerLook).GetField("_pitch", BindingFlags.NonPublic | BindingFlags.Instance);
-            YawInfo = typeof(PlayerLook).GetField("_yaw", BindingFlags.NonPublic | BindingFlags.Instance);
-        }
+        
         public static IEnumerator SetLockedObject()
         {
             #if DEBUG
@@ -163,8 +143,8 @@ namespace Thanking.Coroutines
             else if (num4 >= 270f && num4 <= 360f)
                 num4 = mainCam.transform.localRotation.eulerAngles.x - 270f;
 
-            Pitch = num4;
-            Yaw = OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y;
+            OV_PlayerInput.Pitch = num4;
+            OV_PlayerInput.Yaw = OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y;
         }
 
         public static void SmoothAim(GameObject obj)
@@ -185,32 +165,8 @@ namespace Thanking.Coroutines
             else if (num4 >= 270f && num4 <= 360f)
                 num4 = mainCam.transform.localRotation.eulerAngles.x - 270f;
 
-            Pitch = num4;
-            Yaw = OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y;
-        }
-
-        private static Vector2 CalcAngle(GameObject obj)
-        {
-            Vector3 W2SPos = ESPComponent.MainCamera.WorldToScreenPoint(GetAimPosition(obj.transform, "Skull"));
-            Vector2 angles = Vector2.zero;
-            // lol idk how 2 trig pls help
-            return angles;
-        }
-
-        public static void AimMouseTo(float x, float y)
-        {
-            //if (AimbotOptions.Smooth)
-            //{
-            //    x = Mathf.Lerp(Pitch, x, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
-            //    y = Mathf.Lerp(Yaw, y, Time.deltaTime * (AimbotOptions.MaxSpeed - (AimbotOptions.AimSpeed + 1)));
-            //}
-            
-            #if DEBUG
-            DebugUtilities.Log($"yaw:{Yaw}|pitch:{Pitch}|x:{x}|y:{y}");
-            #endif        
-    
-            Yaw = x; // left right
-            Pitch = y; // up down
+            OV_PlayerInput.Pitch = num4;
+            OV_PlayerInput.Yaw = OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y;
         }
 
         public static Vector3 GetAimPosition(Transform parent, string name)

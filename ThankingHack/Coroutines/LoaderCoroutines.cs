@@ -36,7 +36,7 @@ namespace Thanking.Coroutines
 				DebugUtilities.Log("Assets not downloaded, downloading now.");
 				#endif
 
-
+ 
 				WWW loader = new WWW("http://ironic.services/client/304930/assets"); // Download the assets
 				yield return loader;
 
@@ -51,7 +51,7 @@ namespace Thanking.Coroutines
 				if (HashUtilities.GetSHA2HashString(Loader) != // If there is a hash mismatch (usually outdated assets)
 				    new WebClient().DownloadString("http://ironic.services/client/304930/Hash").Trim())
 				{
-					#if DEBUG
+					#if DEBUG		
 					DebugUtilities.Log("Hash mismatch, updating assets");
 					#endif
 

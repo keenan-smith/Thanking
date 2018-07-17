@@ -14,7 +14,6 @@ namespace Thanking.Components.Basic
     public class RaycastComponent : MonoBehaviour
     {
         private Vector3 prevPos = Vector3.zero;
-        private Vector3 Velocity = Vector3.zero;
         public GameObject Sphere;
         public float Speed = -1;
         public float Radius = SphereOptions.SphereRadius;
@@ -33,27 +32,23 @@ namespace Thanking.Components.Basic
             while(true)
             {
                 prevPos = transform.position;
-                yield return new WaitForSeconds(0.5f);
-                
-                Velocity = (transform.position - prevPos) * 2;
-                Speed = (float) VectorUtilities.GetMagnitude(Velocity);
+                yield return new WaitForSeconds(0.25f);
+
+                Speed = (float) VectorUtilities.GetDistance(prevPos, transform.position) * 4;
             }
         }
 
         IEnumerator CalcSphere()
         {
-            SetRadius();
-            Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
-            Sphere.layer = LayerMasks.AGENT;
-            
             while (true)
             {
-                yield return new WaitForSeconds(0.5f);
-                
                 Destroy(Sphere);
+                
                 Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
                 Sphere.layer = LayerMasks.AGENT;
                 SetRadius();
+                
+                yield return new WaitForSeconds(0.25f);
             }
         }
 
@@ -62,8 +57,13 @@ namespace Thanking.Components.Basic
             Speed = SphereOptions.DynamicSphere ? Speed : -1;
             Radius = SphereOptions.SphereRadius;
 
-            if (Speed > 0)
-                Radius = 15.5f - Speed * Provider.ping * 1.3f;
+            float Calculated = Speed * Provider.ping * 1.3f;
+
+            if (Calculated > 15)
+                Radius = 1;
+            
+            else if (Speed > 0)
+                Radius = 15.5f - Calculated;
         }
     }
 }

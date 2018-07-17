@@ -216,7 +216,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.Label("ESP Distance: " + Mathf.RoundToInt(visual.Distance), Prefab._TextStyle);
 				Prefab.Slider(0, 4000, ref visual.Distance, 200);
 				GUILayout.Space(3);
-			}
+			}	
 	        
 	        Prefab.Toggle("Limit Object Numer", ref visual.UseObjectCap);
 	        if (visual.UseObjectCap)

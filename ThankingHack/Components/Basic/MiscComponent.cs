@@ -27,8 +27,8 @@ namespace Thanking.Components.Basic
         public static bool PunchEnabled;
         public static bool NightvisionBeforeSpy;
 
-        public static MethodInfo
-            Punch = typeof(PlayerEquipment).GetMethod("punch", ReflectionVariables.PrivateInstance);
+        public static FieldInfo Primary =
+            typeof(PlayerEquipment).GetField("_primary", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private int currentKills = 0;
 
@@ -141,10 +141,10 @@ namespace Thanking.Components.Basic
                 Provider._connectionFailureInfo = ESteamConnectionFailureInfo.TIMED_OUT;
                 Provider.disconnect();
             }
-            
-            if (Player.player != null && OptimizationVariables.MainPlayer == null)
-                OptimizationVariables.MainPlayer = Player.player;
 
+            if (Player.player != null && OptimizationVariables.MainPlayer == null) 
+                OptimizationVariables.MainPlayer = Player.player;
+            
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = Camera.main;
 
@@ -185,12 +185,6 @@ namespace Thanking.Components.Basic
         {
             VehicleFlight();
             PlayerFlight();
-            if (PunchEnabled)
-            {
-                OV_DamageTool.OVType = OverrideType.PlayerHit;
-                Punch.Invoke(OptimizationVariables.MainPlayer.equipment, new object[] { EPlayerPunch.RIGHT });
-                OV_DamageTool.OVType = OverrideType.None;
-            }
         }
 
         public static void PlayerFlight()
@@ -208,9 +202,6 @@ namespace Thanking.Components.Basic
             }
 
             plr.movement.itemGravityMultiplier = 0;
-
-            if (plr == null)
-                return;
 
             float multiplier = MiscOptions.FlightSpeedMultiplier;
 

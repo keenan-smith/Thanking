@@ -139,104 +139,101 @@ namespace Thanking.Overrides
             }
             else
             {
-                for (int i = 0; i < Bullets.Count; i++)
+                if (ri != null)
                 {
-                    EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
-                    PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
-                    OptimizationVariables.MainPlayer.input.sendRaycast(ri);
+                    for (int i = 0; i < Bullets.Count; i++)
+                    {
+                        EPlayerHit eplayerhit = CalcHitMarker(PAsset, ref ri);
+                        PlayerUI.hitmark(0, Vector3.zero, false, eplayerhit);
+                        OptimizationVariables.MainPlayer.input.sendRaycast(ri);
+                    }
+                    
+                    Bullets.Clear();
                 }
-
-                Bullets.Clear();
+                else
+                    OverrideUtilities.CallOriginal(PlayerUse);
             }
         }
 
         public static EPlayerHit CalcHitMarker(ItemGunAsset PAsset, ref RaycastInfo ri)
         {
-            try
+            EPlayerHit eplayerhit = EPlayerHit.NONE;
+
+            if (ri == null || PAsset == null)
             {
-                EPlayerHit eplayerhit = EPlayerHit.NONE;
-
-                if (ri == null || PAsset == null)
-                {
-                    return eplayerhit;
-                }
-
-                if (ri.animal || ri.player || ri.zombie)
-                {
-                    eplayerhit = EPlayerHit.ENTITIY;
-                    if (ri.limb == ELimb.SKULL)
-                        eplayerhit = EPlayerHit.CRITICAL;
-                }
-                else if (ri.transform)
-                {
-                    if (ri.transform.CompareTag("Barricade") && PAsset.barricadeDamage > 1f)
-                    {
-                        InteractableDoorHinge component = ri.transform.GetComponent<InteractableDoorHinge>();
-                        if (component != null)
-                            ri.transform = component.transform.parent.parent;
-
-                        if (!ushort.TryParse(ri.transform.name, out ushort id)) return eplayerhit;
-
-                        ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset)Assets.find(EAssetType.ITEM, id);
-
-                        if (itemBarricadeAsset == null || !itemBarricadeAsset.isVulnerable && !PAsset.isInvulnerable)
-                            return eplayerhit;
-
-                        if (eplayerhit == EPlayerHit.NONE)
-                            eplayerhit = EPlayerHit.BUILD;
-                    }
-                    else if (ri.transform.CompareTag("Structure") && PAsset.structureDamage > 1f)
-                    {
-                        if (!ushort.TryParse(ri.transform.name, out ushort id2)) return eplayerhit;
-
-                        ItemStructureAsset itemStructureAsset = (ItemStructureAsset)Assets.find(EAssetType.ITEM, id2);
-
-                        if (itemStructureAsset == null || !itemStructureAsset.isVulnerable && !PAsset.isInvulnerable)
-                            return eplayerhit;
-
-                        if (eplayerhit == EPlayerHit.NONE)
-                            eplayerhit = EPlayerHit.BUILD;
-                    }
-                    else if (ri.transform.CompareTag("Resource") && PAsset.resourceDamage > 1f)
-                    {
-                        if (!ResourceManager.tryGetRegion(ri.transform, out byte x, out byte y, out ushort index))
-                            return eplayerhit;
-
-                        ResourceSpawnpoint resourceSpawnpoint = ResourceManager.getResourceSpawnpoint(x, y, index);
-
-                        if (resourceSpawnpoint == null || resourceSpawnpoint.isDead ||
-                            resourceSpawnpoint.asset.bladeID != PAsset.bladeID) return eplayerhit;
-
-                        if (eplayerhit == EPlayerHit.NONE)
-                            eplayerhit = EPlayerHit.BUILD;
-                    }
-                    else if (PAsset.objectDamage > 1f)
-                    {
-                        InteractableObjectRubble component2 = ri.transform.GetComponent<InteractableObjectRubble>();
-
-                        if (component2 == null) return eplayerhit;
-
-                        ri.section = component2.getSection(ri.collider.transform);
-
-                        if (component2.isSectionDead(ri.section) ||
-                            !component2.asset.rubbleIsVulnerable && !PAsset.isInvulnerable) return eplayerhit;
-
-                        if (eplayerhit == EPlayerHit.NONE)
-                            eplayerhit = EPlayerHit.BUILD;
-                    }
-                }
-                else if (ri.vehicle && !ri.vehicle.isDead && PAsset.vehicleDamage > 1f)
-                    if (ri.vehicle.asset != null && (ri.vehicle.asset.isVulnerable || PAsset.isInvulnerable))
-                        if (eplayerhit == EPlayerHit.NONE)
-                            eplayerhit = EPlayerHit.BUILD;
-
                 return eplayerhit;
             }
-            catch(Exception e)
+
+            if (ri.animal || ri.player || ri.zombie)
             {
-                UnityEngine.Debug.LogException(e);
-                return EPlayerHit.NONE;
+                eplayerhit = EPlayerHit.ENTITIY;
+                if (ri.limb == ELimb.SKULL)
+                    eplayerhit = EPlayerHit.CRITICAL;
             }
+            else if (ri.transform)
+            {
+                if (ri.transform.CompareTag("Barricade") && PAsset.barricadeDamage > 1f)
+                {
+                    InteractableDoorHinge component = ri.transform.GetComponent<InteractableDoorHinge>();
+                    if (component != null)
+                        ri.transform = component.transform.parent.parent;
+
+                    if (!ushort.TryParse(ri.transform.name, out ushort id)) return eplayerhit;
+
+                    ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset) Assets.find(EAssetType.ITEM, id);
+
+                    if (itemBarricadeAsset == null || !itemBarricadeAsset.isVulnerable && !PAsset.isInvulnerable)
+                        return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
+                }
+                else if (ri.transform.CompareTag("Structure") && PAsset.structureDamage > 1f)
+                {
+                    if (!ushort.TryParse(ri.transform.name, out ushort id2)) return eplayerhit;
+
+                    ItemStructureAsset itemStructureAsset = (ItemStructureAsset) Assets.find(EAssetType.ITEM, id2);
+
+                    if (itemStructureAsset == null || !itemStructureAsset.isVulnerable && !PAsset.isInvulnerable)
+                        return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
+                }
+                else if (ri.transform.CompareTag("Resource") && PAsset.resourceDamage > 1f)
+                {
+                    if (!ResourceManager.tryGetRegion(ri.transform, out byte x, out byte y, out ushort index))
+                        return eplayerhit;
+
+                    ResourceSpawnpoint resourceSpawnpoint = ResourceManager.getResourceSpawnpoint(x, y, index);
+
+                    if (resourceSpawnpoint == null || resourceSpawnpoint.isDead ||
+                        resourceSpawnpoint.asset.bladeID != PAsset.bladeID) return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
+                }
+                else if (PAsset.objectDamage > 1f)
+                {
+                    InteractableObjectRubble component2 = ri.transform.GetComponent<InteractableObjectRubble>();
+
+                    if (component2 == null) return eplayerhit;
+
+                    ri.section = component2.getSection(ri.collider.transform);
+
+                    if (component2.isSectionDead(ri.section) ||
+                        !component2.asset.rubbleIsVulnerable && !PAsset.isInvulnerable) return eplayerhit;
+
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
+                }
+            }
+            else if (ri.vehicle && !ri.vehicle.isDead && PAsset.vehicleDamage > 1f)
+                if (ri.vehicle.asset != null && (ri.vehicle.asset.isVulnerable || PAsset.isInvulnerable))
+                    if (eplayerhit == EPlayerHit.NONE)
+                        eplayerhit = EPlayerHit.BUILD;
+
+            return eplayerhit;
         }
 
         public static Ray GetAimRay(Vector3 origin, Vector3 pos)
