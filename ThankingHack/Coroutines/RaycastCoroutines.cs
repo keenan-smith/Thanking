@@ -14,6 +14,7 @@ namespace Thanking.Coroutines
 {
     public class RaycastCoroutines
     {
+        public static List<Player> CachedPlayers = new List<Player>();
         public static IEnumerator UpdateObjects()
         {
             while (true)
@@ -27,63 +28,75 @@ namespace Thanking.Coroutines
                 
                 try
                 {
+                    ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
+                    float Range = currentGun?.range ?? 15.5f;
+                    Range += 10f;
+                    
+                    GameObject[] gameObjects =
+                        Physics.OverlapSphere(OptimizationVariables.MainPlayer.transform.position, Range).Select(c => c.gameObject).ToArray();
+
+                    
                     switch (RaycastOptions.Target)
                     {
                         case TargetPriority.Players:
                         {
-                            RaycastUtilities.Objects = Provider.clients
-                                .Where(o => !o.player.life.isDead && o.player != OptimizationVariables.MainPlayer &&
-                                            FriendUtilities.IsFriendly(o.player)).Select(o => o.player.gameObject)
-                                .ToArray();
+                            CachedPlayers.Clear();
+                            foreach (GameObject g in gameObjects)
+                            {
+                                Player p = DamageTool.getPlayer(g.transform);
+                                if (p == null || CachedPlayers.Contains(p) || p == OptimizationVariables.MainPlayer || p.life.isDead)
+                                    continue;
+
+                                CachedPlayers.Add(p);
+                            }
+
+                            RaycastUtilities.Objects = CachedPlayers.Select(c => c.gameObject).ToArray();
                             break;
                         }
                         case TargetPriority.Zombies:
                         {
-                            RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<Zombie>()
-                                .Select(z => z.gameObject).ToArray();
+                            RaycastUtilities.Objects =
+                                gameObjects.Where(g => g.GetComponent<Zombie>() != null).ToArray();
                             break;
                         }
                         case TargetPriority.Sentries:
                         {
-                            RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<InteractableSentry>()
-                                .Select(s => s.gameObject).ToArray();
+                            RaycastUtilities.Objects =
+                                gameObjects.Where(g => g.GetComponent<InteractableSentry>() != null).ToArray();
                             break;
                         }
                         case TargetPriority.Beds:
                         {
-                            RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<InteractableBed>()
-                                .Select(b => b.gameObject).ToArray();
+                            RaycastUtilities.Objects =
+                                gameObjects.Where(g => g.GetComponent<InteractableBed>() != null).ToArray();
                             break;
                         }
                         case TargetPriority.ClaimFlags:
                         {
-                            RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<InteractableClaim>()
-                                .Select(c => c.gameObject).ToArray();
+                            RaycastUtilities.Objects =
+                                gameObjects.Where(g => g.GetComponent<InteractableClaim>() != null).ToArray();
                             break;
                         }
                         case TargetPriority.Vehicles:
                         {
-                            RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<InteractableVehicle>()
-                                .Where(v => !v.isDead)
-                                .Select(s => s.gameObject).ToArray();
+                            RaycastUtilities.Objects =
+                                gameObjects.Where(g => g.GetComponent<InteractableVehicle>() != null).ToArray();
                             break;
                         }
                         case TargetPriority.Storage:
                         {
-                            RaycastUtilities.Objects = UnityEngine.Object.FindObjectsOfType<InteractableStorage>()
-                                .Select(s => s.gameObject).ToArray();
+                            RaycastUtilities.Objects =
+                                gameObjects.Where(g => g.GetComponent<InteractableStorage>() != null).ToArray();
                             break;
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    #if DEBUG
                     DebugUtilities.LogException(e);
-                    #endif
                 }
                 
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(2);
             }
         }
     }
