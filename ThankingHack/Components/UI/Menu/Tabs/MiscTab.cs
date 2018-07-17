@@ -78,6 +78,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 				Prefab.Toggle("Crash Server", ref ServerCrashThread.ServerCrashEnabled);
 				
+				Prefab.Toggle("Crash All Players", ref PlayerCrashThread.ContinuousPlayerCrash);
+				
 				Prefab.Toggle("Always Crash On Join", ref ServerCrashThread.AlwaysCrash);
 				
 				Prefab.Toggle("Always Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);

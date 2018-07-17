@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿﻿using System.Linq;
 using System.Threading;
 using SDG.Unturned;
 using Steamworks;    
@@ -38,9 +38,8 @@ namespace Thanking.Threads
 
                     PlayerCrashEnabled = true;
                     
-                    if (CrashTarget == CSteamID.Nil)
-                        CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 1 : 0)
-                            .First(p => p.isAdmin && !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
+                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 1 : 0)
+                        .First(!FriendUtilities.IsFriendly(p.player)).playerID.steamID;
                 }
             }
         }
