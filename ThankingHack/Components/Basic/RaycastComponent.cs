@@ -13,7 +13,9 @@ namespace Thanking.Components.Basic
     [DisallowMultipleComponent]
     public class RaycastComponent : MonoBehaviour
     {
-        public GameObject Sphere;    
+        public GameObject Sphere;
+        public Vector3 lPos;
+        public float LSpeed = 0;
         public float Speed = -1;
         public float Radius = SphereOptions.SphereRadius;
 
@@ -27,29 +29,15 @@ namespace Thanking.Components.Basic
         {
             while(true)
             {
-                Vector3 p1 = transform.position;
-                yield return new WaitForSeconds(0.1f);
-                Vector3 p2 = transform.position;
-                double d1 = VectorUtilities.GetDistance(transform.position, p1);
-                if (d1 > 100)
-                    d1 = 0;
-                yield return new WaitForSeconds(0.1f);
-                Vector3 p3 = transform.position;
-                double d2 = VectorUtilities.GetDistance(transform.position, p2);
-                if (d2 > 100)
-                    d2 = 0;
-                yield return new WaitForSeconds(0.1f);
-                Vector3 p4 = transform.position;
-                double d3 = VectorUtilities.GetDistance(transform.position, p3);
-                if (d3 > 100)
-                    d3 = 0;
-                yield return new WaitForSeconds(0.1f);
+                lPos = transform.position;
+                yield return new WaitForSeconds(0.25f);
+                double d = VectorUtilities.GetDistance(transform.position, lPos);
                 
-                double d4 = VectorUtilities.GetDistance(transform.position, p4);
-                if (d4 > 100)
-                    d4 = 0;
+                if (d  > 100)
+                    d = 0;
 
-                Speed = (float) ((d1 + d2 + d3 + d4) / 4 * 10);
+                Speed = (float) (d * 4 + LSpeed) / 2;
+                LSpeed = Speed;
             }
         }
 
@@ -72,16 +60,13 @@ namespace Thanking.Components.Basic
 
         void SetRadius()
         {
-            Speed = SphereOptions.DynamicSphere ? Speed : -1;
+            float CSpeed = SphereOptions.DynamicSphere ? Speed : -1;
             Radius = SphereOptions.SphereRadius;
-
-            float Calculated = Speed * Provider.ping * 1.3f;
-
-            if (Mathf.Abs(Calculated) > 15f)
-                Radius = 1;
             
-            else if (Speed > 0)
+            if (CSpeed > 0) {
+                float Calculated = CSpeed * Provider.ping * 2.5f;
                 Radius = 15.5f - Calculated;
+            }
         }
     }
 }

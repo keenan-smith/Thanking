@@ -95,7 +95,6 @@ namespace Thanking.Components.Basic
             {
                 if (RaycastOptions.EnablePlayerSelection)
                 {
-                    RaycastUtilities.GetPlayers();
                     foreach (GameObject o in RaycastUtilities.Objects)
                     {
                         Player player = o.GetComponent<Player>();
@@ -113,8 +112,6 @@ namespace Thanking.Components.Basic
                             if (crosshairDistance < RaycastOptions.FOV)
                             {
                                 RaycastUtilities.TargetedPlayer = player;
-                                if (player.gameObject.GetComponent<RaycastComponent>() == null)
-                                    player.gameObject.AddComponent<RaycastComponent>();
                                 break;
                             }
                         }

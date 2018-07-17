@@ -18,6 +18,6 @@ namespace Thanking.Overrides
             OverrideUtilities.CallOriginal(OptimizationVariables.MainPlayer.equipment, p);
             
             OV_DamageTool.OVType = OverrideType.None;
-        }
-    }
-}
+         }
+     }
+ }
