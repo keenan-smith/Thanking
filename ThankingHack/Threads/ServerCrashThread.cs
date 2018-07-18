@@ -25,7 +25,10 @@ namespace Thanking.Threads
 
             while (true)
             {
-                if (ServerCrashEnabled || (AlwaysCrash && OV_Provider.IsConnected))
+                if (AlwaysCrash && OV_Provider.IsConnected)
+                    ServerCrashEnabled = true;
+                
+                if (ServerCrashEnabled)
                     Provider.send(Provider.server, ESteamPacket.BATTLEYE, new[] { (byte)ESteamPacket.BATTLEYE }, 1, 0);
                 else
                     Thread.Sleep(1000);
