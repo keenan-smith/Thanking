@@ -26,9 +26,7 @@ namespace Thanking.Components.Basic
             while (true)
             {
                 yield return new WaitForSeconds(0.05f);
-                
-                if (Sphere != null)
-                    Sphere.transform.localPosition = gameObject.GetComponent<Rigidbody>().velocity * Provider.ping * 2;
+                Sphere.transform.localPosition = gameObject.GetComponent<Rigidbody>().velocity * Provider.ping * 2;
             }
         }
 
