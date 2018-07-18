@@ -151,7 +151,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Players:
 						{
 							SteamPlayer[] objarray = Provider.clients
-								.OrderBy(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)).ToArray();
+								.OrderByDescending(p => VectorUtilities.GetDistance(pPos, p.player.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarray = objarray.Take(vis.ObjectCap).ToArray();
