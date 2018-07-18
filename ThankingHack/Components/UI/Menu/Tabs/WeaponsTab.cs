@@ -108,16 +108,13 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        if (RaycastOptions.Enabled)
 		        {
 			        GUILayout.Space(10);
-			        Prefab.Toggle("Dynamic Sphere Radius", ref SphereOptions.DynamicSphere);
+			        Prefab.Toggle("Sphere position prediction", ref SphereOptions.SpherePrediction);
 			        GUILayout.Space(5);
 
-			        if (!SphereOptions.DynamicSphere)
+			        if (!SphereOptions.SpherePrediction)
 			        {
 				        GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
 				        Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
-				        GUILayout.Label("Vehicle Sphere Radius: " + Math.Round(SphereOptions.VehicleSphereRadius, 2) + "m",
-					        Prefab._TextStyle);
-				        Prefab.Slider(0, 16, ref SphereOptions.VehicleSphereRadius, 200);
 			        }
 
 			        GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
