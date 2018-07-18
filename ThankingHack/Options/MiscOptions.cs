@@ -8,6 +8,9 @@ namespace Thanking.Options
 	public static class MiscOptions
 	{
 		public static bool PanicMode = false;
+
+		[Save] public static bool PunchSilentAim = false;
+		[Save] public static bool PunchAura = false;
 		
 		[Save] public static bool NoSnow = false;
 		[Save] public static bool NoRain = false;

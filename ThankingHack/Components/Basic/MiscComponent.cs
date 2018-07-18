@@ -24,7 +24,6 @@ namespace Thanking.Components.Basic
         public static MiscComponent Instance;
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
-        public static bool PunchEnabled;
         public static bool NightvisionBeforeSpy;
 
         public static FieldInfo Primary =
@@ -96,7 +95,6 @@ namespace Thanking.Components.Basic
             {
                 if (RaycastOptions.EnablePlayerSelection)
                 {
-                    RaycastUtilities.GetPlayers();
                     foreach (GameObject o in RaycastUtilities.Objects)
                     {
                         Player player = o.GetComponent<Player>();
@@ -114,8 +112,6 @@ namespace Thanking.Components.Basic
                             if (crosshairDistance < RaycastOptions.FOV)
                             {
                                 RaycastUtilities.TargetedPlayer = player;
-                                if (player.gameObject.GetComponent<RaycastComponent>() == null)
-                                    player.gameObject.AddComponent<RaycastComponent>();
                                 break;
                             }
                         }

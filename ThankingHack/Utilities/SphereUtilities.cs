@@ -26,7 +26,7 @@ namespace Thanking.Utilities
 
 			RaycastComponent Component = Target.GetComponent<RaycastComponent>();
 
-			if (VectorUtilities.GetDistance(Target.transform.position, StartPos) <= Component.Radius)
+			if (VectorUtilities.GetDistance(Target.transform.position, StartPos) <= 15.5f)
 			{
 				Point = OptimizationVariables.MainPlayer.transform.position;
 				return true;
