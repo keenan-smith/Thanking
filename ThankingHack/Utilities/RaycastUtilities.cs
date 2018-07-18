@@ -65,14 +65,13 @@ namespace Thanking.Utilities
         public static bool GenerateRaycast(out RaycastInfo info)
         {
             ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
-
-            float Range = currentGun?.range ?? 15.5f;
+            ItemMeleeAsset currentMelee = OptimizationVariables.MainPlayer.equipment.asset as ItemMeleeAsset;
+            
+            float Range = currentGun?.range ?? currentMelee?.range ?? 7.5f;
 
             info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
                 RayMasks.DAMAGE_CLIENT);
-
-            GetPlayers();
-
+            
             if (RaycastOptions.EnablePlayerSelection && TargetedPlayer != null)
             {
                 GameObject p = TargetedPlayer.gameObject;
@@ -130,18 +129,13 @@ namespace Thanking.Utilities
             };
         }
 
-        public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point, float Range = -1)
+        public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point, float Range)
         {
             Distance = 1337420;
             Object = null;
             Point = Vector3.zero;
 
-            ItemGunAsset CurrentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
             Vector3 AimPos = OptimizationVariables.MainPlayer.look.aim.position;
-
-            if (Range == -1)
-                Range = CurrentGun?.range ?? 15.5f;
-
             for (int i = 0; i < Objects.Length; i++)
             {
                 GameObject go = Objects[i];
@@ -149,16 +143,13 @@ namespace Thanking.Utilities
                 if (go == null)
                     continue;
 
-                if (go.GetComponent<RaycastComponent>() == null)
+                RaycastComponent Component = go.GetComponent<RaycastComponent>();
+
+                if (Component == null)
                 {
                     go.AddComponent<RaycastComponent>();
                     continue;
                 }
-
-                RaycastComponent Component = go.GetComponent<RaycastComponent>();
-
-                if (Component.Radius <= 0)
-                    continue;
 
                 double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
 
@@ -177,17 +168,6 @@ namespace Thanking.Utilities
             }
 
             return Object != null;
-        }
-
-        //only need to do this here 'cause players have specific properties that make it annoying to do shit with them xd
-        public static void GetPlayers()
-        {
-            if (RaycastOptions.Target != TargetPriority.Players)
-                return;
-
-            Objects = Provider.clients
-                .Where(o => !o.player.life.isDead && o.player != OptimizationVariables.MainPlayer && !FriendUtilities.IsFriendly(o.player))
-                .Select(o => o.player.gameObject).ToArray();
         }
     }
 }

@@ -13,57 +13,36 @@ namespace Thanking.Components.Basic
     [DisallowMultipleComponent]
     public class RaycastComponent : MonoBehaviour
     {
-        private Vector3 prevPos = Vector3.zero;
         public GameObject Sphere;
-        public float Speed = -1;
-        public float Radius = SphereOptions.SphereRadius;
-
+        
         void Awake()
         {
-            StartCoroutine(CalcVelocity());
+            StartCoroutine(RedoSphere());
             StartCoroutine(CalcSphere());
-        }
-
-        private void FixedUpdate() =>
-            Sphere.transform.position = transform.position;
-        
-        IEnumerator CalcVelocity()
-        {
-            while(true)
-            {
-                prevPos = transform.position;
-                yield return new WaitForSeconds(0.25f);
-
-                Speed = (float) VectorUtilities.GetDistance(prevPos, transform.position) * 4;
-            }
         }
 
         IEnumerator CalcSphere()
         {
             while (true)
             {
-                Destroy(Sphere);
-                
-                Sphere = IcoSphere.Create("HitSphere", Radius, SphereOptions.RecursionLevel);
-                Sphere.layer = LayerMasks.AGENT;
-                SetRadius();
-                
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(0.05f);
+                Sphere.transform.localPosition = gameObject.GetComponent<Rigidbody>().velocity * Provider.ping * 2;
             }
         }
 
-        void SetRadius()
+        IEnumerator RedoSphere()
         {
-            Speed = SphereOptions.DynamicSphere ? Speed : -1;
-            Radius = SphereOptions.SphereRadius;
-
-            float Calculated = Speed * Provider.ping * 1.3f;
-
-            if (Calculated > 15)
-                Radius = 1;
-            
-            else if (Speed > 0)
-                Radius = 15.5f - Calculated;
+            while (true)
+            {
+                Destroy(Sphere);
+                
+                Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15.5f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
+                Sphere.layer = LayerMasks.AGENT;
+                Sphere.transform.parent = transform;
+                Sphere.transform.localPosition = new Vector3(0, 0, 0);
+                
+                yield return new WaitForSeconds(0.25f);
+            }
         }
     }
 }

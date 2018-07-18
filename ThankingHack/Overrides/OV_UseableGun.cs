@@ -50,11 +50,8 @@ namespace Thanking.Overrides
             RaycastInfo ri = null;
             
             if (RaycastOptions.Enabled)
-            {
-                RaycastUtilities.GetPlayers();
                 RaycastUtilities.GenerateRaycast(out ri);
-            }
-
+            
             if (Provider.modeConfigData.Gameplay.Ballistics)
             {
                 if (ri == null)
