@@ -28,6 +28,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);
+                    bool Spectating = MiscOptions.SpectatedPlayer == player;
                     bool Crash = PlayerCrashThread.CrashTarget == player.channel.owner.playerID.steamID;
                     bool Selected = player == SelectedPlayer;
                     
@@ -35,7 +36,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                         Crash ? "<color=#ff0000ff>"
                         : (Friend ? "<color=#00ff00ff>" : "");
                     
-                    if (Prefab.Button((Selected ? "<b>" : "") + color + $"{Provider.clients[i].player.name}" + (Friend || Crash ? "</color>" : "") + (Selected ? "</b>" : ""), 400))
+                    if (Prefab.Button((Selected ? "<b>" : "") + (Spectating ? "<color=#0000ffff>[SPECTATING]</color> " : "") + color + $"{Provider.clients[i].player.name}" + (Friend || Crash ? "</color>" : "") + (Selected ? "</b>" : ""), 400))
                         SelectedPlayer = player;
 
 					GUILayout.Space(2);
@@ -49,8 +50,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 GUILayout.BeginHorizontal();
                 GUILayout.BeginVertical();
-                bool Friend = FriendUtilities.IsFriendly(SelectedPlayer);
-                if (Friend)
+                if (FriendUtilities.IsFriendly(SelectedPlayer))
                 {
                     if (Prefab.Button("Remove Friend", 150))
                         FriendUtilities.RemoveFriend(SelectedPlayer);
@@ -77,7 +77,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 if (Prefab.Button("Spectate", 150))
                     MiscOptions.SpectatedPlayer = SelectedPlayer;
 
-                if (MiscOptions.SpectatedPlayer != null)
+                if (MiscOptions.SpectatedPlayer != null && MiscOptions.SpectatedPlayer == SelectedPlayer)
                     if (Prefab.Button("End Spectating", 150))
                         MiscOptions.SpectatedPlayer = null;
                 
@@ -96,7 +96,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.BeginHorizontal();
                 GUILayout.BeginVertical();
                 
-                GUILayout.Label("Closest Location: " + LocationUtilities.GetClosestLocation(SelectedPlayer.transform.position).name, Prefab._TextStyle);
+                GUILayout.TextField("Closest Location: " + LocationUtilities.GetClosestLocation(SelectedPlayer.transform.position).name, Prefab._TextStyle);
                 GUILayout.Label("Current Weapon: " + (SelectedPlayer.equipment.asset != null ? SelectedPlayer.equipment.asset.itemName : "Fists"), Prefab._TextStyle);
                 GUILayout.Label("Current Vehicle: " + (SelectedPlayer.movement.getVehicle() != null ? SelectedPlayer.movement.getVehicle().asset.name : "No Vehicle"), Prefab._TextStyle);
                 GUILayout.Label("Current Group Members: " + Provider.clients.Count(c => c.player != SelectedPlayer && c.player.quests.isMemberOfSameGroupAs(SelectedPlayer)), Prefab._TextStyle);
