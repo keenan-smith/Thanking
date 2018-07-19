@@ -60,14 +60,12 @@ namespace Thanking.Components.UI.Menu.Tabs
 					}
 				}
 				
-				Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
-				
 				Prefab.Toggle("Punch Silent Aim", ref MiscOptions.PunchSilentAim);
 
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
 
-				if (Provider.isConnected)
+				if (Provider.isConnected && OptimizationVariables.MainPlayer != null)
 				{
 					if (!OptimizationVariables.MainPlayer.look.isOrbiting)
 						OptimizationVariables.MainPlayer.look.orbitPosition = Vector3.zero;
@@ -79,12 +77,11 @@ namespace Thanking.Components.UI.Menu.Tabs
 				}
 
 				Prefab.Toggle("Crash Server", ref ServerCrashThread.ServerCrashEnabled);
+				Prefab.Toggle("Crash Server Automatically", ref ServerCrashThread.AlwaysCrash);
 				
 				Prefab.Toggle("Crash All Players", ref PlayerCrashThread.ContinuousPlayerCrash);
 				
-				Prefab.Toggle("Always Crash On Join", ref ServerCrashThread.AlwaysCrash);
-				
-				Prefab.Toggle("Always Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
+				Prefab.Toggle("Auto Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
 
 				if (Provider.isConnected)
 				{
@@ -103,14 +100,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 				
 				Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
 
-				GUILayout.Space(2);
-				GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);
-				GUILayout.Space(2);
-				ItemOptions.ItemPickupDelay = (int)Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
-				GUILayout.Space(5);
-
-				ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);
-				
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 
