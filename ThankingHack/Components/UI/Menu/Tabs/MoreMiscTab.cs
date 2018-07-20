@@ -1,4 +1,6 @@
 ﻿using Thanking.Options;
+using Thanking.Options.AimOptions;
+using Thanking.Options.UIVariables;
 using Thanking.Utilities;
 using UnityEngine;
 
@@ -11,12 +13,43 @@ namespace Thanking.Components.UI.Menu.Tabs
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MORE MISC", () =>
             {
                 GUILayout.Space(2);
+                Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
+                GUILayout.Space(5);
                 GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);
                 GUILayout.Space(2);
                 ItemOptions.ItemPickupDelay = (int) Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
                 GUILayout.Space(5);
 
                 ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);
+                
+                GUILayout.Space(5);
+                GUILayout.Label($"Player Crash Method: {MiscOptions.PCrashMethod}", Prefab._TextStyle);
+                GUILayout.Space(2);
+                MiscOptions.PCrashMethod = (int) Prefab.Slider(0, 5, (float)MiscOptions.PCrashMethod, 150);
+                
+                GUILayout.Space(5);
+                GUILayout.Label($"Server Crash Method: {MiscOptions.SCrashMethod}", Prefab._TextStyle);
+                GUILayout.Space(2);
+                MiscOptions.SCrashMethod = (int) Prefab.Slider(0, 3, (float)MiscOptions.SCrashMethod, 150);
+
+                GUIContent[] SpyMethods =
+                {
+                    new GUIContent("Remove All Visuals"),
+                    new GUIContent("Random Image in Folder"),
+                    new GUIContent("No Anti Spy") 
+                };
+
+                GUILayout.Space(5);
+                if (Prefab.List(200, "_SpyMethods",
+                    new GUIContent("Priority: " + SpyMethods[DropDown.Get("_SpyMethods").ListIndex].text),
+                    SpyMethods))
+                    MiscOptions.AntiSpyMethod = DropDown.Get("_SpyMethods").ListIndex;
+
+                if (MiscOptions.AntiSpyMethod == 1)
+                {
+                    GUILayout.Space(2);
+                    MiscOptions.AntiSpyPath = Prefab.TextField(MiscOptions.AntiSpyPath, "Antispy Image Path: ", 175);
+                }
             });
         }
     }

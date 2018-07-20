@@ -171,7 +171,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Zombies:
 						{
 							Zombie[] objarr = ZombieManager.regions.SelectMany(r => r.zombies)
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -187,7 +187,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Items:
 						{
 							InteractableItem[] objarr = Object.FindObjectsOfType<InteractableItem>()
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -204,7 +204,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Sentries:
 						{
 							InteractableSentry[] objarr = Object.FindObjectsOfType<InteractableSentry>()
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -219,7 +219,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Beds:
 						{
 							InteractableBed[] objarr = Object.FindObjectsOfType<InteractableBed>()
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -234,7 +234,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.ClaimFlags:
 						{
 							InteractableClaim[] objarr = Object.FindObjectsOfType<InteractableClaim>()
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -249,7 +249,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Vehicles:
 						{
 							InteractableVehicle[] objarr = Object.FindObjectsOfType<InteractableVehicle>()
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -268,7 +268,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Storage:
 						{
 							InteractableStorage[] objarr = Object.FindObjectsOfType<InteractableStorage>()
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();
@@ -283,7 +283,7 @@ namespace Thanking.Coroutines
 						case ESPTarget.Generators:
 						{
 							InteractableGenerator[] objarr = Object.FindObjectsOfType<InteractableGenerator>()
-								.OrderBy(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
+								.OrderByDescending(obj => VectorUtilities.GetDistance(pPos, obj.transform.position)).ToArray();
 
 							if (vis.UseObjectCap)
 								objarr = objarr.Take(vis.ObjectCap).ToArray();

@@ -16,6 +16,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("No Bullet Drop", ref AimbotOptions.NoAimbotDrop);
                 Prefab.Toggle("Use Gun Distance", ref AimbotOptions.UseGunDistance);
                 Prefab.Toggle("Smooth", ref AimbotOptions.Smooth);
+                Prefab.Toggle("Use Key", ref AimbotOptions.OnKey);
                 GUILayout.Space(3);
 				if (AimbotOptions.Smooth)
 				{
