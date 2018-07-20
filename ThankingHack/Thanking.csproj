@@ -92,6 +92,7 @@
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\Basic\RaycastComponent.cs" />
     <Compile Include="Components\UI\ESPComponent.cs" />
+    <Compile Include="Components\UI\Menu\CursorComponent.cs" />
     <Compile Include="Components\UI\Menu\Drawing.cs" />
     <Compile Include="Components\UI\Menu\MenuComponent.cs" />
     <Compile Include="Components\UI\Menu\MenuTabs.cs" />
