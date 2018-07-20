@@ -147,7 +147,7 @@ namespace Thanking.Components.UI.Menu
             if (Prefab.MenuTabAbsolute(new Vector2(0, 325 - 33), "prev", ref temp) && _pIndex > 0)
                 _pIndex--;
             
-            if (Prefab.MenuTabAbsolute(new Vector2(55 + 15, 325 - 33), "next", ref temp) && _pIndex < MenuTabOption.tabs.Length - 1)
+            if (Prefab.MenuTabAbsolute(new Vector2(55 + 25, 325 - 33), "next", ref temp) && _pIndex < MenuTabOption.tabs.Length - 1)
                 _pIndex++;
             
             GUILayout.EndArea();
