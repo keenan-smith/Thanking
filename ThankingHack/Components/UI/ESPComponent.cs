@@ -60,8 +60,8 @@ namespace Thanking.Components.UI
         }
 
 		public void OnGUI()
-        {
-            if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
+		{
+			if (Event.current.type != EventType.Repaint || !ESPOptions.Enabled)
 				return;
 
 			if (!DrawUtilities.ShouldRun())
