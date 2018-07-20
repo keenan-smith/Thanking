@@ -52,5 +52,10 @@ namespace Thanking.Options
 		
 		[Save] public static HashSet<ulong> Friends = new HashSet<ulong>();
 
+		[Save] public static int PCrashMethod = 0;
+		[Save] public static int SCrashMethod = 0;
+
+		[Save] public static int AntiSpyMethod = 0;
+		[Save] public static string AntiSpyPath = "";
 	}
 }

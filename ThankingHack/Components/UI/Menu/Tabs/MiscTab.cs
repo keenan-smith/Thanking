@@ -97,8 +97,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Space(2);
 					MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 7.5f, MiscOptions.MeleeRangeExtension, 175), 1);
 				}
-				
-				Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
 
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();

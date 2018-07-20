@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DualExploits")]
 [assembly: AssemblyProduct("Thanking")]
-[assembly: AssemblyCopyright("Copyright © DualExploits 2017")]
+[assembly: AssemblyCopyright("Copyright © DualExploits 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

