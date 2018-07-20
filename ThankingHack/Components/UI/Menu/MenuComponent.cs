@@ -150,13 +150,13 @@ namespace Thanking.Components.UI.Menu
             if (Prefab.MenuTabAbsolute(new Vector2(55 + 25, 325 - 33), "next", ref temp) && _pIndex < MenuTabOption.tabs.Length - 1)
                 _pIndex++;
             
-            GUILayout.EndArea();
+            GUILayout.EndArea();    
         }
 
         void DrawTabs()
         {
             GUILayout.BeginArea(new Rect(160, 25, 466, 436));
-            if (MenuTabOption.CurrentTab != null)
+            if (MenuTabOption.CurrentTab != null)      
             {
                 MenuTabOption.CurrentTab.tab();
             }

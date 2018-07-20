@@ -42,7 +42,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 GUILayout.Label("Antispy method:", Prefab._TextStyle);
                 if (Prefab.List(200, "_SpyMethods",
-                    new GUIContent("" + SpyMethods[DropDown.Get("_SpyMethods").ListIndex].text),
+                    new GUIContent(SpyMethods[DropDown.Get("_SpyMethods").ListIndex].text),
                     SpyMethods))
                     MiscOptions.AntiSpyMethod = DropDown.Get("_SpyMethods").ListIndex;
 
