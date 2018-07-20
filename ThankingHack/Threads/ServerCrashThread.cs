@@ -33,16 +33,16 @@ namespace Thanking.Threads
                 {
                     switch (MiscOptions.SCrashMethod)
                     {
-                        case 0:
+                        case 1:
                             Provider.send(Provider.server, ESteamPacket.BATTLEYE, new[] {(byte) ESteamPacket.BATTLEYE},
                                 1, 0);
                             break;
-                        case 1:
+                        case 2:
                             Provider.send(Provider.server, ESteamPacket.WORKSHOP, new[] {(byte) ESteamPacket.WORKSHOP},
                                 1, 0);
                             break;
-                        case 2:
-                            Provider.send(Provider.server, ESteamPacket.VERIFY, new[] {(byte) ESteamPacket.VERIFY},
+                        case 3:
+                            Provider.send(Provider.server, ESteamPacket.GUIDTABLE, new[] {(byte) ESteamPacket.GUIDTABLE},
                                 1, 0);
                             break;
                     }

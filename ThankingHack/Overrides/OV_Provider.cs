@@ -23,15 +23,19 @@ namespace Thanking.Overrides
 				IsConnected = true;
 			}
 
-			if ((ESteamPacket) packet[0] == ESteamPacket.PING_RESPONSE)
-				LastPing = Mathf.FloorToInt(Time.realtimeSinceStartup); 
+			if ((ESteamPacket) packet[0] == ESteamPacket.PING_RESPONSE && steamID == Provider.server)
+			{
+				LastPing = Mathf.FloorToInt(Time.realtimeSinceStartup);
+				OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
+				return;
+			}
 			
-			if (steamID != Provider.server && PlayerCrashThread.PlayerCrashEnabled)
+			if (steamID == Provider.server && ServerCrashThread.ServerCrashEnabled)
 				return;
 
-			if (steamID == Provider.server && ServerCrashThread.ServerCrashEnabled && (ESteamPacket)packet[0] != ESteamPacket.PING_RESPONSE)
+			if (steamID == PlayerCrashThread.CrashTarget && PlayerCrashThread.PlayerCrashEnabled)
 				return;
-			
+
             OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel); 
         }
 

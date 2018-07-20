@@ -25,23 +25,24 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 GUILayout.Label($"Player Crash Method: {MiscOptions.PCrashMethod}", Prefab._TextStyle);
                 GUILayout.Space(2);
-                MiscOptions.PCrashMethod = (int) Prefab.Slider(0, 5, (float)MiscOptions.PCrashMethod, 150);
+                MiscOptions.PCrashMethod = (int) Prefab.Slider(1, 5, (float)MiscOptions.PCrashMethod, 150);
                 
                 GUILayout.Space(5);
                 GUILayout.Label($"Server Crash Method: {MiscOptions.SCrashMethod}", Prefab._TextStyle);
                 GUILayout.Space(2);
-                MiscOptions.SCrashMethod = (int) Prefab.Slider(0, 3, (float)MiscOptions.SCrashMethod, 150);
+                MiscOptions.SCrashMethod = (int) Prefab.Slider(1, 3, (float)MiscOptions.SCrashMethod, 150);
 
                 GUIContent[] SpyMethods =
                 {
                     new GUIContent("Remove All Visuals"),
                     new GUIContent("Random Image in Folder"),
-                    new GUIContent("No Anti Spy") 
+                    new GUIContent("No Antispy") 
                 };
 
                 GUILayout.Space(5);
+                GUILayout.Label("Antispy method:", Prefab._TextStyle);
                 if (Prefab.List(200, "_SpyMethods",
-                    new GUIContent("Priority: " + SpyMethods[DropDown.Get("_SpyMethods").ListIndex].text),
+                    new GUIContent("" + SpyMethods[DropDown.Get("_SpyMethods").ListIndex].text),
                     SpyMethods))
                     MiscOptions.AntiSpyMethod = DropDown.Get("_SpyMethods").ListIndex;
 

@@ -35,7 +35,9 @@ namespace Thanking.Coroutines
 					IsSpying = true;
 
 					LastSpy = Time.realtimeSinceStartup;
-					DisableAllVisuals();
+					
+					if (!MiscOptions.PanicMode)
+						DisableAllVisuals();
 
 					yield return new WaitForFixedUpdate();
 					yield return new WaitForEndOfFrame();
@@ -86,8 +88,8 @@ namespace Thanking.Coroutines
 					yield return new WaitForFixedUpdate();
 					yield return new WaitForEndOfFrame();
 					IsSpying = false;
-
-					EnableAllVisuals();
+					if (!MiscOptions.PanicMode)
+						EnableAllVisuals();
 					break;
 				}
 				case 1:

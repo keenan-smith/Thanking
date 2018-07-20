@@ -27,6 +27,14 @@ namespace Thanking.Overrides
         [Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_ballistics()
         {
+            Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
+            
+            if (Provider.isServer)
+            {
+                OverrideUtilities.CallOriginal(PlayerUse);
+                return;
+            }
+            
             if (Time.realtimeSinceStartup - PlayerLifeUI.hitmarkers[0].lastHit > PlayerUI.HIT_TIME)
             {
                 PlayerLifeUI.hitmarkers[0].hitBuildImage.isVisible = false;
@@ -34,10 +42,8 @@ namespace Thanking.Overrides
                 PlayerLifeUI.hitmarkers[0].hitEntitiyImage.isVisible = false;
             }
 
-            Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
-            PlayerLook Look = OptimizationVariables.MainPlayer.look;
-
             ItemGunAsset PAsset = (ItemGunAsset)OptimizationVariables.MainPlayer.equipment.asset;
+            PlayerLook Look = OptimizationVariables.MainPlayer.look;
 
             if (PAsset.projectile != null)
                 return;
@@ -157,9 +163,7 @@ namespace Thanking.Overrides
             EPlayerHit eplayerhit = EPlayerHit.NONE;
 
             if (ri == null || PAsset == null)
-            {
-                return eplayerhit;
-            }
+                return eplayerhit;    
 
             if (ri.animal || ri.player || ri.zombie)
             {
