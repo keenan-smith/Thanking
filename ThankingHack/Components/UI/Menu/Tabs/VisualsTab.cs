@@ -166,7 +166,14 @@ namespace Thanking.Components.UI.Menu.Tabs
 
             Prefab.MenuArea(new Rect(225 + 5, 180 + 5, 466 - 225 - 5, 436 - 186), "TOGGLE", () =>
             {
-                Prefab.Toggle("ESP", ref ESPOptions.Enabled);
+	            if (Prefab.Toggle("ESP", ref ESPOptions.Enabled) && !ESPOptions.Enabled)
+	            {
+		            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+			            ESPOptions.VisualOptions[i].Glow = false;
+		            
+		            Loader.HookObject.GetComponent<ESPComponent>().OnGUI();
+	            }
+	            
 				Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled);
 
 				if (ESPOptions.ChamsEnabled)
