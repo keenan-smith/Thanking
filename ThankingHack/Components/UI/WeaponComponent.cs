@@ -139,9 +139,11 @@ namespace Thanking.Components.UI
 					((ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset).magazineCalibers)
 					.Where(i => i.jar.item.amount > 0);
 
-			if (!magazineSearch.Any()) return;
+			var inventorySearches = magazineSearch.ToList();
+			if (inventorySearches.Count == 0)
+				return;
 			
-			InventorySearch search = magazineSearch
+			InventorySearch search = inventorySearches
 					.OrderByDescending(i => i.jar.item.amount)
 					.First();
 

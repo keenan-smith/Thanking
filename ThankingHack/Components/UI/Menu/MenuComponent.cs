@@ -30,6 +30,9 @@ namespace Thanking.Components.UI.Menu
         public static Color32 _Accent1;
         public static Color32 _Accent2;
 
+        private Rect _cursor = new Rect(0, 0, 20f, 20f);
+        private Texture _cursorTexture;
+        
         private int _pIndex = 0;
 
         // Use this for initialization
@@ -64,8 +67,17 @@ namespace Thanking.Components.UI.Menu
         {
             if (IsInMenu && _LogoTexLarge != null)
             {
+                if (_cursorTexture == null)
+                    _cursorTexture = Resources.Load("UI/Cursor") as Texture;
+                
                 GUI.depth = -1;
                 MenuRect = GUI.Window(0, MenuRect, DoMenu, "Ironic");
+
+                GUI.depth = -2;
+                PlayerUI.window.showCursor = true;
+                _cursor.x = Input.mousePosition.x;
+                _cursor.y = Screen.height - Input.mousePosition.y;
+                GUI.DrawTexture(_cursor, _cursorTexture);
             }
         }
 
