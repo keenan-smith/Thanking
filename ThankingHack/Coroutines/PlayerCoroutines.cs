@@ -138,6 +138,8 @@ namespace Thanking.Coroutines
 					break;
 				}
 				case 2:
+					break;
+				case 3:
 				{
 					yield return new WaitForFixedUpdate();
 					yield return new WaitForEndOfFrame();
