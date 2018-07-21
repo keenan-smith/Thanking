@@ -21,7 +21,7 @@ namespace Thanking.Components.UI.Menu
         public static bool IsInMenu;
         public static KeyCode MenuKey = KeyCode.F1;
 
-        public static Rect MenuRect = new Rect(29, 29, 640, 480);
+        public static Rect MenuRect = new Rect(29, 29, 640, 480); //GOD SAID 640 BY 480.
 
         public static Color32 _OutlineBorderBlack;
         public static Color32 _OutlineBorderLightGray;
