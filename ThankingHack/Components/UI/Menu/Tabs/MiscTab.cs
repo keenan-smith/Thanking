@@ -110,7 +110,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     GUILayout.Space(10);	
                     GUILayout.Label("Delay: " + MiscOptions.SpammerDelay + "ms", Prefab._TextStyle);
                     GUILayout.Space(5);
-                    MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 3000, MiscOptions.SpammerDelay, 175);
+                    MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 10000, MiscOptions.SpammerDelay, 175);
                 });
 
                 Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135 - 30, 221, 155), "INTERACT", () =>

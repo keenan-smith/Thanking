@@ -190,7 +190,24 @@ namespace Thanking.Coroutines
 					break;
 				}
 			}
-			
+
+			if (MiscOptions.AlertOnSpy)
+				OptimizationVariables.MainPlayer.StartCoroutine(ScreenShotMessageCoroutine());
+		}
+		
+		public static IEnumerator ScreenShotMessageCoroutine()
+		{
+			var started = Time.realtimeSinceStartup;
+			while (true)
+			{
+				yield return new WaitForEndOfFrame();
+
+				if (!IsSpying)
+					PlayerUI.hint(null, EPlayerMessage.INTERACT, "BOO, YOU JUST GOT SCREENSHOTTED", Color.red);
+
+				if (Time.realtimeSinceStartup - started > 3)
+					yield break;
+			}
 		}
 
 		public static void DisableAllVisuals()

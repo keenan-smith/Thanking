@@ -49,8 +49,12 @@ namespace Thanking.Components.UI.Menu.Tabs
                 if (MiscOptions.AntiSpyMethod == 1)
                 {
                     GUILayout.Space(2);
-                    MiscOptions.AntiSpyPath = Prefab.TextField(MiscOptions.AntiSpyPath, "Antispy Image Path: ", 175);
+                    GUILayout.Label("Antispy image folder:", Prefab._TextStyle);
+                    MiscOptions.AntiSpyPath = Prefab.TextField(MiscOptions.AntiSpyPath, "", 225);
                 }
+                
+                GUILayout.Space(5);
+                Prefab.Toggle("Alert on Spy", ref MiscOptions.AlertOnSpy);
             });
         }
     }
