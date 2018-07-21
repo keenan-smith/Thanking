@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Thanking.Attributes;
 using Thanking.Components.UI.Menu;
+using Thanking.Coroutines;
 using UnityEngine;
 
 namespace Thanking.Overrides
@@ -11,7 +12,7 @@ namespace Thanking.Overrides
         
         [Override(typeof(Cursor), "get_lockState", BindingFlags.Public | BindingFlags.Static)]
         public static CursorLockMode OV_get_lockState() => 
-            MenuComponent.IsInMenu ? CursorLockMode.None : RealMode;
+            MenuComponent.IsInMenu && !PlayerCoroutines.IsSpying ? CursorLockMode.None : RealMode;
 
         [Override(typeof(Cursor), "set_lockState", BindingFlags.Public | BindingFlags.Static)]
         public static void OV_set_lockState(CursorLockMode mode) =>
