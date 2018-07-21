@@ -37,7 +37,7 @@ namespace Thanking.Components.Basic
             while (true)
             {
                 if (Sphere != null)
-                    Destroy(Sphere);
+                    DestroyImmediate(Sphere);
                 
                 Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15.5f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
                 Sphere.layer = LayerMasks.AGENT;
