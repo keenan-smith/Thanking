@@ -36,13 +36,14 @@ namespace Thanking.Components.Basic
         {
             while (true)
             {
-                if (Sphere != null)
-                    DestroyImmediate(Sphere);
+                GameObject tmp = Sphere;
                 
                 Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15.5f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
                 Sphere.layer = LayerMasks.AGENT;
                 Sphere.transform.parent = transform;
                 Sphere.transform.localPosition = new Vector3(0, 0, 0);
+                
+                Destroy(tmp);
                 
                 yield return new WaitForSeconds(1);
             }

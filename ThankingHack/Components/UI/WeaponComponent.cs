@@ -55,6 +55,8 @@ namespace Thanking.Components.UI
 				ESPComponent.GLMat.SetPass(0);
 
 				GL.PushMatrix();
+				GL.LoadProjectionMatrix(MainCamera.projectionMatrix);
+				GL.modelview = MainCamera.worldToCameraMatrix;
 				GL.Begin(GL.LINES);
 				
 				for (int i = Tracers.Count - 1; i > -1; i--)
