@@ -74,9 +74,9 @@ namespace Thanking.Components.UI.Menu
                 MenuRect = GUI.Window(0, MenuRect, DoMenu, "Ironic");
 
                 GUI.depth = -2;
-                PlayerUI.window.showCursor = true;
                 _cursor.x = Input.mousePosition.x;
                 _cursor.y = Screen.height - Input.mousePosition.y;
+                
                 GUI.DrawTexture(_cursor, _cursorTexture);
             }
         }

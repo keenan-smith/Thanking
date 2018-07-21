@@ -26,7 +26,9 @@ namespace Thanking.Components.Basic
             while (true)
             {
                 yield return new WaitForSeconds(0.1f);
-                Sphere.transform.localPosition = gameObject.GetComponent<Rigidbody>().velocity * Provider.ping * 2;
+                
+                if (Sphere != null)
+                    Sphere.transform.localPosition = gameObject.GetComponent<Rigidbody>().velocity * Provider.ping * 2;
             }
         }
 
@@ -34,7 +36,8 @@ namespace Thanking.Components.Basic
         {
             while (true)
             {
-                Destroy(Sphere);
+                if (Sphere != null)
+                    Destroy(Sphere);
                 
                 Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15.5f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
                 Sphere.layer = LayerMasks.AGENT;

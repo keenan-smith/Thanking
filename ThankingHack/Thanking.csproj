@@ -134,10 +134,12 @@
     <Compile Include="Options\VisualOptions\MirrorCameraOptions.cs" />
     <Compile Include="Options\VisualOptions\SkinOptions.cs" />
     <Compile Include="Overrides\OV_ChatManager.cs" />
+    <Compile Include="Overrides\OV_Cursor.cs" />
     <Compile Include="Overrides\OV_DamageTool.cs" />
     <Compile Include="Overrides\OV_LevelLighting.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
     <Compile Include="Overrides\OV_PlayerEquipment.cs" />
+    <Compile Include="Overrides\OV_PlayerInput.cs" />
     <Compile Include="Overrides\OV_PlayerLifeUI.cs" />
     <Compile Include="Overrides\OV_UseableMelee.cs" />
     <Compile Include="Overrides\OV_Provider.cs" />
@@ -154,7 +156,6 @@
     <Compile Include="Utilities\HWIDUtilities.cs" />
     <Compile Include="Utilities\ItemUtilities.cs" />
     <Compile Include="Utilities\LocationUtilities.cs" />
-    <Compile Include="Utilities\ReflectionUtilities.cs" />
     <Compile Include="Utilities\SkinsUtilities.cs" />
     <Compile Include="Variables\HotkeyVariables.cs" />
     <Compile Include="Variables\OptimizationVariables.cs" />
@@ -189,12 +190,6 @@
     <Compile Include="Utilities\SphereUtilities.cs" />
     <Compile Include="Utilities\FriendUtilities.cs">
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
-    <Content Include="Libraries\Assembly-CSharp.dll" />
-    <Content Include="Libraries\Newtonsoft.Json.dll" />
-    <Content Include="Libraries\UnityEngine.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
