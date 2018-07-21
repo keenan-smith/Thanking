@@ -27,7 +27,7 @@ namespace Thanking.Overrides
         public static bool OV_GetKey(KeyCode key)
 		{
 			if (!DrawUtilities.ShouldRun() || !InputEnabled)
-				return (bool) OverrideUtilities.CallOriginal(null, key);
+				return (bool) OverrideUtilities.CallOriginal(null, key);		
 
 			if (key == ControlsSettings.primary && TriggerbotOptions.IsFiring)
 				return true;

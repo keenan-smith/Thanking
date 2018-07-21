@@ -57,5 +57,7 @@ namespace Thanking.Options
 
 		[Save] public static int AntiSpyMethod = 0;
 		[Save] public static string AntiSpyPath = "";
+		
+		[Save] public static bool AlertOnSpy = false;
 	}
 }

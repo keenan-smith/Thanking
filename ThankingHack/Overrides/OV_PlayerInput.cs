@@ -17,8 +17,8 @@ namespace Thanking.Overrides
             {
                 StartPosition = OptimizationVariables.MainPlayer.transform.position,
                 EndPosition = ri.point,
-                Hit = !OV_UseableGun.IsRaycastInvalid(ri),
-                CreationTime = DateTime.Now
+                Hit = ri.animal || ri.player || ri.zombie,
+                CreationTime = DateTime.Now    
             };
             WeaponComponent.Tracers.Add(tl);
             OverrideUtilities.CallOriginal(OptimizationVariables.MainPlayer.input, ri);
