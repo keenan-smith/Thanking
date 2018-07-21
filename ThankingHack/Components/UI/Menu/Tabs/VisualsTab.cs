@@ -166,12 +166,15 @@ namespace Thanking.Components.UI.Menu.Tabs
 
             Prefab.MenuArea(new Rect(225 + 5, 180 + 5, 466 - 225 - 5, 436 - 186), "TOGGLE", () =>
             {
-	            if (Prefab.Toggle("ESP", ref ESPOptions.Enabled) && !ESPOptions.Enabled)
+	            if (Prefab.Toggle("ESP", ref ESPOptions.Enabled))
 	            {
-		            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
-			            ESPOptions.VisualOptions[i].Glow = false;
+		            if (!ESPOptions.Enabled)
+		            {
+			            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+				            ESPOptions.VisualOptions[i].Glow = false;
 		            
-		            Loader.HookObject.GetComponent<ESPComponent>().OnGUI();
+			            Loader.HookObject.GetComponent<ESPComponent>().OnGUI();		
+		            }
 	            }
 	            
 				Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled);
@@ -198,7 +201,10 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 			Prefab.Toggle("Labels", ref visual.Labels);
 			Prefab.Toggle("Box ESP", ref visual.Boxes);
-			Prefab.Toggle("2D Boxes", ref visual.TwoDimensional);
+	        
+	        if (visual.Boxes)
+				Prefab.Toggle("2D Boxes", ref visual.TwoDimensional);
+	        
 	        Prefab.Toggle("Show Name", ref visual.ShowName);
 	        Prefab.Toggle("Show Distance", ref visual.ShowDistance);
 			Prefab.Toggle("Glow", ref visual.Glow);

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Components.Basic;
+using Thanking.Components.UI;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
@@ -24,6 +25,9 @@ namespace Thanking.Overrides
             BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
         }
 
+        public static bool IsRaycastInvalid(RaycastInfo info) =>
+            info.player == null && info.zombie == null && info.animal == null && info.vehicle == null && info.transform == null;
+        
         [Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_ballistics()
         {
@@ -86,14 +90,13 @@ namespace Thanking.Overrides
                             RaycastInfo rayInfo =
                                 DamageTool.raycast(ray, PAsset.ballisticTravel, RayMasks.DAMAGE_CLIENT);
 
-                            if (Player.player.input.isRaycastInvalid(rayInfo))
+                            if (IsRaycastInvalid(rayInfo))
                                 bulletInfo.pos += bulletInfo.dir * PAsset.ballisticTravel;
 
                             else
                             {
                                 EPlayerHit playerHit = CalcHitMarker(PAsset, ref rayInfo);
-                                PlayerUI.hitmark(0, rayInfo.point, false, playerHit);
-
+                                PlayerUI.hitmark(0, Vector3.zero, false, playerHit);
                                 OptimizationVariables.MainPlayer.input.sendRaycast(rayInfo);
                                 bulletInfo.steps = 254;
                             }

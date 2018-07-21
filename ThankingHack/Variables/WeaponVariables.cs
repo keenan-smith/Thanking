@@ -9,8 +9,5 @@ namespace Thanking.Variables
         public Vector3 EndPosition;
         public bool Hit = false;
         public DateTime CreationTime;
-
-        public TracerLine() =>
-            CreationTime = DateTime.Now;
     }
 }

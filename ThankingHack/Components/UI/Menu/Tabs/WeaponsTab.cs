@@ -133,6 +133,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				        Prefab.Toggle("Only Shoot Selected", ref RaycastOptions.OnlyShootAtSelectedPlayer);
 			        }
 		        }
+		        GUILayout.Space(2);
 		        
 		        Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
 		        
@@ -153,6 +154,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        GUILayout.Label("Ragdoll Vector: Z: " + RaycastOptions.TargetRagdoll.z, Prefab._TextStyle);
 			        RaycastOptions.TargetRagdoll.z = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.z, 200);
 		        }
+		        GUILayout.Space(2);
+		        Prefab.Toggle("Bullet Tracers", ref WeaponOptions.Tracers);
 		        
 		        GUILayout.EndVertical();
 		        GUILayout.FlexibleSpace();
