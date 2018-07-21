@@ -155,7 +155,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        RaycastOptions.TargetRagdoll.z = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.z, 200);
 		        }
 		        GUILayout.Space(2);
-		        Prefab.Toggle("Bullet Tracers", ref WeaponOptions.Tracers);
+		        Prefab.Toggle("Tracers", ref WeaponOptions.Tracers);
 		        
 		        GUILayout.EndVertical();
 		        GUILayout.FlexibleSpace();

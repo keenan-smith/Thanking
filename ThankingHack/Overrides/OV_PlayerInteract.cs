@@ -125,7 +125,7 @@ namespace Thanking.Overrides
                 {
                     int Mask = 0;
 
-                    if (InteractionOptions.InteractThroughWalls)
+                    if (InteractionOptions.InteractThroughWalls && !PlayerCoroutines.IsSpying)
                     {
                         if (!InteractionOptions.NoHitBarricades)
                             Mask |= RayMasks.BARRICADE;
@@ -147,6 +147,7 @@ namespace Thanking.Overrides
                     }
                     else
                         Mask = RayMasks.PLAYER_INTERACT;
+                    
                     lastInteract = Time.realtimeSinceStartup;
 
                     bool Run = InteractionOptions.InteractThroughWalls && !PlayerCoroutines.IsSpying;

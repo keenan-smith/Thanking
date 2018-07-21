@@ -36,6 +36,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 {
                     new GUIContent("Remove All Visuals"),
                     new GUIContent("Random Image in Folder"),
+                    new GUIContent("Send no Image"),
                     new GUIContent("No Antispy") 
                 };
 
@@ -55,6 +56,9 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 GUILayout.Space(5);
                 Prefab.Toggle("Alert on Spy", ref MiscOptions.AlertOnSpy);
+                
+                GUILayout.Space(5);
+                Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
             });
         }
     }

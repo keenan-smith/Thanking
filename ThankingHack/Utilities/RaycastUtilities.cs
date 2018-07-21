@@ -86,7 +86,7 @@ namespace Thanking.Utilities
 
                 if (shouldFire)
                 {
-                    info = GenerateRaycast(p, point);
+                    info = GenerateRaycast(p, point, info.collider);
                     return true;
                 }
                 
@@ -97,11 +97,11 @@ namespace Thanking.Utilities
             if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point, Range))
                 return false;
 
-            info = GenerateRaycast(Object, Point);
+            info = GenerateRaycast(Object, Point, info.collider);
             return true;
         }
 
-        public static RaycastInfo GenerateRaycast(GameObject Object, Vector3 Point)
+        public static RaycastInfo GenerateRaycast(GameObject Object, Vector3 Point, Collider col)
         {
             ELimb Limb = RaycastOptions.TargetLimb;
 
@@ -111,9 +111,9 @@ namespace Thanking.Utilities
                 Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
             }
 
-            EPhysicsMaterial mat = EPhysicsMaterial.ALIEN_DYNAMIC;
+            EPhysicsMaterial mat = col == null ? EPhysicsMaterial.NONE : DamageTool.getMaterial(Point, Object.transform, col);
 
-            if (RaycastOptions.UseTargetMaterial && RaycastOptions.TargetMaterial != EPhysicsMaterial.NONE)
+            if (RaycastOptions.UseTargetMaterial)
                 mat = RaycastOptions.TargetMaterial;
 
             return new RaycastInfo(Object.transform)
@@ -127,8 +127,7 @@ namespace Thanking.Utilities
                 vehicle = Object.GetComponent<InteractableVehicle>()
             };
         }
-
-        public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point, float Range)
+	    public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point, float Range)
         {
             Distance = 1337420;
             Object = null;
@@ -140,6 +139,14 @@ namespace Thanking.Utilities
                 GameObject go = Objects[i];
 
                 if (go == null)
+                    continue;
+
+                Player p = go.GetComponent<Player>();
+                if (p && p.life.isDead)
+                    continue;
+                
+                Zombie z = go.GetComponent<Zombie>();
+                if (z && z.isDead)
                     continue;
 
                 RaycastComponent Component = go.GetComponent<RaycastComponent>();

@@ -24,7 +24,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 {
 					Player player = Provider.clients[i].player;
                     
-                    if (Provider.clients[i].player == OptimizationVariables.MainPlayer)
+                    if (player == OptimizationVariables.MainPlayer || player == null)
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);
@@ -36,7 +36,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                         Crash ? "<color=#ff0000ff>"
                         : (Friend ? "<color=#00ff00ff>" : "");
                     
-                    if (Prefab.Button((Selected ? "<b>" : "") + (Spectating ? "<color=#0000ffff>[SPECTATING]</color> " : "") + color + $"{Provider.clients[i].player.name}" + (Friend || Crash ? "</color>" : "") + (Selected ? "</b>" : ""), 400))
+                    if (Prefab.Button((Selected ? "<b>" : "") + (Spectating ? "<color=#0000ffff>[SPECTATING]</color> " : "") + color + $"{player.name}" + (Friend || Crash ? "</color>" : "") + (Selected ? "</b>" : ""), 400))
                         SelectedPlayer = player;
 
 					GUILayout.Space(2);

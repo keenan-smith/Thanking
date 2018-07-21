@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using SDG.Unturned;
 using Thanking.Attributes;
@@ -25,9 +26,16 @@ namespace Thanking.Components.Basic
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
         public static bool NightvisionBeforeSpy;
+        public static List<PlayerInputPacket> ClientsidePackets;
 
         public static FieldInfo Primary =
             typeof(PlayerEquipment).GetField("_primary", BindingFlags.NonPublic | BindingFlags.Instance);
+        
+        public static FieldInfo Sequence =
+            typeof(PlayerInput).GetField("sequence", BindingFlags.NonPublic | BindingFlags.Instance);
+        
+        public static FieldInfo CPField =
+            typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private int currentKills = 0;
 
@@ -179,6 +187,9 @@ namespace Thanking.Components.Basic
 
         public void FixedUpdate()
         {
+            if (!OptimizationVariables.MainPlayer) 
+                return;
+            
             VehicleFlight();
             PlayerFlight();
         }
@@ -186,10 +197,7 @@ namespace Thanking.Components.Basic
         public static void PlayerFlight()
         {
             Player plr = OptimizationVariables.MainPlayer;
-
-            if (plr == null)
-                return;
-
+            
             if (!MiscOptions.PlayerFlight)
             {
                 ItemCloudAsset asset = plr.equipment.asset as ItemCloudAsset;
@@ -222,9 +230,6 @@ namespace Thanking.Components.Basic
 
         public static void VehicleFlight()
         {
-            if (OptimizationVariables.MainPlayer == null)
-                return;
-
             InteractableVehicle vehicle = OptimizationVariables.MainPlayer.movement.getVehicle();
 
             if (vehicle == null)
