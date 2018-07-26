@@ -362,7 +362,6 @@ namespace Thanking.Components.UI
 					if (highlighter != null)
 					{
 						highlighter.ConstantOffImmediate();
-						highlighter.Die();
 					}
 					continue;
 				}
@@ -380,25 +379,20 @@ namespace Thanking.Components.UI
 
                 if (visual.Glow)
                 {
-                    Highlighter highlighter = go.GetComponent<Highlighter>();
-                    if (highlighter == null)
-                    {
-                        highlighter = go.AddComponent<Highlighter>();
-                        highlighter.OccluderOn();
-                        highlighter.SeeThroughOn();
-                        highlighter.ConstantOnImmediate();
-                        Highlighters.Add(highlighter);
-                    }
+                    Highlighter highlighter = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
+                    highlighter.OccluderOn();
+                    highlighter.SeeThroughOn();
+                    highlighter.ConstantOnImmediate();
+                    Highlighters.Add(highlighter);
                 }
                 else
                 {
                     Highlighter highlighter = go.GetComponent<Highlighter>();
-                    if (highlighter != null)
+                    if (highlighter != null && highlighter != TrajectoryComponent.Highlighted)
                     {
                         highlighter.ConstantOffImmediate();
-                        highlighter.Die();
                     }
-                }	
+                }
 
                 if (visual.Labels)
 	                DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, c, ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
@@ -478,7 +472,6 @@ namespace Thanking.Components.UI
             foreach(Highlighter highlighter in Highlighters) // pls dont go apeshit kr4ken its only called once every spy and it's not like update() where its called every milisecond
             {
                 highlighter.ConstantOffImmediate();
-                highlighter.Die();
             }
             Highlighters.Clear();
         }
