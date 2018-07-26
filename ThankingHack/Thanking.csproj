@@ -107,6 +107,7 @@
     <Compile Include="Components\UI\Menu\Tabs\StatsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\VisualsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\WeaponsTab.cs" />
+    <Compile Include="Components\UI\TrajectoryComponent.cs" />
     <Compile Include="Components\UI\WeaponComponent.cs" />
     <Compile Include="Coroutines\AimbotCoroutines.cs" />
     <Compile Include="Coroutines\ESPCoroutines.cs" />
