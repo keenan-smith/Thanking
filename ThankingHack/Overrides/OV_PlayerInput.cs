@@ -13,6 +13,7 @@ using UnityEngine;
 
 namespace Thanking.Overrides
 {
+/*
     public class OV_PlayerInput
     {
 	    public float Tick;
@@ -24,7 +25,7 @@ namespace Thanking.Overrides
 	    
 	    public byte Analog;
 	    
-	    public int Sequence;
+		public int Sequence;
 	    
 	    public List<PlayerInputPacket> ClientsidePackets;
 	    
@@ -55,7 +56,7 @@ namespace Thanking.Overrides
         }
 
 	    [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
-	    private void OV_FixedUpdate()
+	    public void OV_FixedUpdate()
 	    {
 		    if (Provider.isServer)
 		    {
@@ -63,6 +64,9 @@ namespace Thanking.Overrides
 			    return;
 		    }
 
+		    if (!DrawUtilities.ShouldRun())
+			    return;
+		    
 		    Player plr = OptimizationVariables.MainPlayer;
 		    PlayerInput inp = plr.input;
 
@@ -119,7 +123,7 @@ namespace Thanking.Overrides
 					    };
 
 					    ClientsidePackets.Add(playerInputPacket4);
-					    plr.equipment.simulate(ESiumulation++, plr.equipment.primary, plr.equipment.secondary, plr.stance.sprint);
+					    plr.equipment.simulate(ESiumulation++, inp.keys[1], plr.equipment.secondary, plr.stance.sprint);
 				    }
 			    }
 			    plr.equipment.simulate(ESiumulation++, plr.equipment.primary, plr.equipment.secondary, plr.stance.sprint);
@@ -203,4 +207,5 @@ namespace Thanking.Overrides
 		    ClientsidePackets = new List<PlayerInputPacket>();
 	    }
     }
+    */
 }
