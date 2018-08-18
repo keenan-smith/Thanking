@@ -20,6 +20,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.BeginVertical(GUILayout.Width(230));
 
 				Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
+				Prefab.Toggle("Use Max Vehicle Speed", ref MiscOptions.VehicleUseMaxSpeed);
 				
 				if (MiscOptions.VehicleFly)
 				{

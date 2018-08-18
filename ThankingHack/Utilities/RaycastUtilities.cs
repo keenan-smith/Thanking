@@ -94,7 +94,7 @@ namespace Thanking.Utilities
                     return false;
             }
 
-            if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point, Range))
+            if (!GetTargetObject(Objects, out GameObject Object, out Vector3 Point, Range))
                 return false;
 
             info = GenerateRaycast(Object, Point, info.collider);
@@ -127,13 +127,18 @@ namespace Thanking.Utilities
                 vehicle = Object.GetComponent<InteractableVehicle>()
             };
         }
-	    public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point, float Range)
+        
+	    public static bool GetTargetObject(GameObject[] Objects, out GameObject Object, out Vector3 Point, float Range)
         {
-            Distance = 1337420;
+            double Distance = Range + 1;
+            double FOV = 180;
+            
             Object = null;
             Point = Vector3.zero;
 
             Vector3 AimPos = OptimizationVariables.MainPlayer.look.aim.position;
+            Vector3 AimForward = OptimizationVariables.MainPlayer.look.aim.forward;
+            
             for (int i = 0; i < Objects.Length; i++)
             {
                 GameObject go = Objects[i];
@@ -141,8 +146,10 @@ namespace Thanking.Utilities
                 if (go == null)
                     continue;
 
+                Vector3 TargetPos = go.transform.position;
+
                 Player p = go.GetComponent<Player>();
-                if (p && p.life.isDead)
+                if (p && (p.life.isDead || FriendUtilities.IsFriendly(p)))
                     continue;
                 
                 Zombie z = go.GetComponent<Zombie>();
@@ -157,13 +164,25 @@ namespace Thanking.Utilities
                     continue;
                 }
 
-                double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
+                double NewDistance = VectorUtilities.GetDistance(AimPos, TargetPos);
 
                 if (NewDistance > Range)
                     continue;
+                
+                if (RaycastOptions.SilentAimUseFOV)
+                {
+                    double _FOV = VectorUtilities.GetAngleDelta(AimPos, AimForward, TargetPos);
+                    if (_FOV > RaycastOptions.SilentAimFOV)
+                        continue;
 
-                if (NewDistance > Distance)
-                    continue;
+                    if (_FOV > FOV)
+                        continue;
+
+                    FOV = _FOV;
+                }
+                
+                else if (NewDistance > Distance)
+                        continue;
 
                 if (!SphereUtilities.GetRaycast(go, AimPos, out Vector3 _Point))
                     continue;

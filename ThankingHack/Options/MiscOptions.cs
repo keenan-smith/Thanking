@@ -36,6 +36,7 @@ namespace Thanking.Options
         [Save] public static int SpammerDelay = 0;
 
         [Save] public static bool VehicleFly = false;
+		[Save] public static bool VehicleUseMaxSpeed = false;
         [Save] public static float SpeedMultiplier = 1f;
 
 		[Save] public static bool ExtendMeleeRange = false;

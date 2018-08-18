@@ -55,6 +55,10 @@ namespace Thanking.Coroutines
                 }
                 
                 Player p = null;
+                
+                Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
+                Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
+                
                 SteamPlayer[] players = Provider.clients.ToArray();
                 for (int i = 0; i < players.Length; i++)
                 {
@@ -70,37 +74,17 @@ namespace Thanking.Coroutines
                                 p = players[i].player;
                             else
                             {
-                                if (p != null)
-                                    if (VectorUtilities.GetDistance(p.transform.position) >
-                                        VectorUtilities.GetDistance(players[i].player.transform.position))
-                                        p = players[i].player;
+                                if (VectorUtilities.GetDistance(p.transform.position) >
+                                    VectorUtilities.GetDistance(players[i].player.transform.position))
+                                    p = players[i].player;
                             }
                             break;
                         }
                         case TargetMode.FOV:
                         {
-                            Vector3 v2dist =
-                                OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(players[i].player.transform,
-                                    "Skull"));
-                            if (v2dist.z <= 0) continue;
-
-                            Vector2 pos = new Vector2(v2dist.x, v2dist.y);
-                            float vdist = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2), pos);
-
-                            if (vdist < AimbotOptions.FOV && p == null)
+                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < AimbotOptions.FOV)
                                 p = players[i].player;
 
-                            else if (vdist < AimbotOptions.FOV)
-                            {
-                                Vector3 v2dist_ =
-                                    OptimizationVariables.MainCam.WorldToScreenPoint(GetAimPosition(p.transform, "Skull"));
-                                Vector2 pos_ = new Vector2(v2dist_.x, v2dist_.y);
-                                float vdist_ = Vector2.Distance(new Vector2(Screen.width / 2, Screen.height / 2),
-                                    pos_);
-
-                                if (vdist_ > vdist)
-                                    p = players[i].player;
-                            }
                             break;
                         }
                     }

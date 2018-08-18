@@ -27,10 +27,7 @@ namespace Thanking.Coroutines
 				case 0:
 				{
 					if (Time.realtimeSinceStartup - LastSpy < 0.5f || IsSpying) // Checks for spam spy 
-					{
-						yield return new WaitForSeconds(0.5f); // Make sure they can't fuck us over
 						yield break;
-					}
 
 					IsSpying = true;
 
@@ -41,6 +38,7 @@ namespace Thanking.Coroutines
 
 					yield return new WaitForFixedUpdate();
 					yield return new WaitForEndOfFrame();
+					
 					Texture2D screenshotRaw =
 						new Texture2D(Screen.width, Screen.height, (TextureFormat) 3, false)
 						{

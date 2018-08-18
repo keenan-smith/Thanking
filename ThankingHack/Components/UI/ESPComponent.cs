@@ -35,6 +35,7 @@ namespace Thanking.Components.UI
 			{
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
+				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Glow", $"ESP - {(ESPTarget)i} (Glow)", Color.yellow, false));
 			}
 
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
@@ -74,14 +75,24 @@ namespace Thanking.Components.UI
 
             Vector3 localPos = OptimizationVariables.MainPlayer.transform.position;
 
+			Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
+			Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
+
             for (int i = 0; i < ESPVariables.Objects.Count; i++)
 			{
 				ESPObject obj = ESPVariables.Objects[i];
 				ESPVisual visual = ESPOptions.VisualOptions[(int)obj.Target];
 
-				if (!visual.Enabled)
-					continue;
+				GameObject go = obj.GObject;
 
+				if (!visual.Enabled)
+				{
+					Highlighter highlighter = go.GetComponent<Highlighter>();
+					if (highlighter != null && highlighter != TrajectoryComponent.Highlighted)
+						highlighter.ConstantOffImmediate();	
+					
+					continue;
+				}
                 if (obj.Target == ESPTarget.Items && ESPOptions.FilterItems)
                     if (!ItemUtilities.Whitelisted(((InteractableItem)obj.Object).asset, ItemOptions.ItemESPOptions))
                         continue;
@@ -89,15 +100,13 @@ namespace Thanking.Components.UI
 				Color c = ColorUtilities.getColor($"_{obj.Target}");
 				LabelLocation ll = visual.Location;
 
-				GameObject go = obj.GObject;
-
 				if (go == null)
 					continue;
 
 				Vector3 position = go.transform.position;
 				double dist = VectorUtilities.GetDistance(position, localPos);
 
-				if (dist < 1.5 || (dist > visual.Distance && !visual.InfiniteDistance))
+				if (dist < 0.5 || (dist > visual.Distance && !visual.InfiniteDistance))
 					continue;
 
 				Vector3 cpos = MainCamera.WorldToScreenPoint(position);
@@ -175,6 +184,9 @@ namespace Thanking.Components.UI
 
 					case ESPTarget.Zombies:
 					{
+						if (((Zombie) obj.Object).isDead)
+							continue;
+						
 						if (visual.ShowName)
 							text += $"Zombie\n";
 						
@@ -263,6 +275,9 @@ namespace Thanking.Components.UI
 						if (vehicle.health == 0)
 							continue;
 
+						if (ESPOptions.FilterVehicleLocked && vehicle.isLocked)
+							continue;
+
 						vehicle.getDisplayFuel(out ushort Fuel, out ushort MaxFuel);
 						
 						float health = Mathf.Round(100 * (vehicle.health / (float) vehicle.asset.health));
@@ -346,6 +361,15 @@ namespace Thanking.Components.UI
 						outerText += $"{rounded}m\n";
 				}
 
+				if (visual.ShowAngle)
+				{
+					double roundedFOV = Math.Round(VectorUtilities.GetAngleDelta(aimPos, aimForward, position), 2);
+					text += $"Angle: {roundedFOV}°\n";
+					
+					if (outerText != null)
+						outerText += $"{roundedFOV}°\n";
+				}
+
 				text += "</size>";
 
 				if (outerText != null)
@@ -360,9 +384,8 @@ namespace Thanking.Components.UI
 				{
 					Highlighter highlighter = go.GetComponent<Highlighter>();
 					if (highlighter != null)
-					{
 						highlighter.ConstantOffImmediate();
-					}
+					
 					continue;
 				}
 				
@@ -382,16 +405,14 @@ namespace Thanking.Components.UI
                     Highlighter highlighter = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
                     highlighter.OccluderOn();
                     highlighter.SeeThroughOn();
-                    highlighter.ConstantOnImmediate();
+                    highlighter.ConstantOnImmediate(ColorUtilities.getColor($"_{obj.Target}_Glow"));
                     Highlighters.Add(highlighter);
                 }
                 else
                 {
                     Highlighter highlighter = go.GetComponent<Highlighter>();
                     if (highlighter != null && highlighter != TrajectoryComponent.Highlighted)
-                    {
-                        highlighter.ConstantOffImmediate();
-                    }
+	                    highlighter.ConstantOffImmediate();
                 }
 
                 if (visual.Labels)
