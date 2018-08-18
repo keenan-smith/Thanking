@@ -18,9 +18,8 @@ namespace Thanking.Options.UIVariables
         {
             DropDown dropdown;
             if (DropDownManager.TryGetValue(identifier, out dropdown))
-            {
                 return dropdown;
-            }
+            
             dropdown = new DropDown();
             DropDownManager.Add(identifier, dropdown);
             return dropdown;

@@ -2,6 +2,7 @@
 using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Options.UIVariables;
+using Thanking.Threads;
 using Thanking.Utilities;
 using UnityEngine;
 
@@ -24,14 +25,9 @@ namespace Thanking.Components.UI.Menu.Tabs
                 ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);
                 
                 GUILayout.Space(5);
-                GUILayout.Label($"Player Crash Method: {MiscOptions.PCrashMethod}", Prefab._TextStyle);
-                GUILayout.Space(2);
-                MiscOptions.PCrashMethod = (int) Prefab.Slider(1, 5, (float)MiscOptions.PCrashMethod, 150);
-                
-                GUILayout.Space(5);
                 GUILayout.Label($"Server Crash Method: {MiscOptions.SCrashMethod}", Prefab._TextStyle);
                 GUILayout.Space(2);
-                MiscOptions.SCrashMethod = (int) Prefab.Slider(1, 3, (float)MiscOptions.SCrashMethod, 150);
+                MiscOptions.SCrashMethod = (int) Prefab.Slider(1, 2, (float)MiscOptions.SCrashMethod, 150);
 
                 GUIContent[] SpyMethods =
                 {
@@ -44,7 +40,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 GUILayout.Label("Antispy method:", Prefab._TextStyle);
                 if (Prefab.List(200, "_SpyMethods",
-                    new GUIContent(SpyMethods[DropDown.Get("_SpyMethods").ListIndex].text),
+                    new GUIContent(SpyMethods[MiscOptions.AntiSpyMethod].text),
                     SpyMethods))
                     MiscOptions.AntiSpyMethod = DropDown.Get("_SpyMethods").ListIndex;
 
@@ -64,6 +60,10 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 if (Prefab.Button("Instant Disconnect", 200))
                     Provider.disconnect();
+                
+                GUILayout.Space(5);
+                if (Prefab.Button("Clear Auto Crasher", 200))
+                    PlayerCrashThread.CrashTargets.Clear();
             });
         }
     }

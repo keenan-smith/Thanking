@@ -43,10 +43,12 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
             });
             
-            Prefab.MenuArea(new Rect(0, 250 + 10, 190, 150), "OPTIONS", () =>
+            Prefab.MenuArea(new Rect(0, 250 + 10, 190, 175), "OPTIONS", () =>
             {
                 if (SelectedPlayer == null)
                     return;
+
+                CSteamID steamId = SelectedPlayer.channel.owner.playerID.steamID;
                 
                 GUILayout.BeginHorizontal();
                 GUILayout.BeginVertical();
@@ -62,17 +64,22 @@ namespace Thanking.Components.UI.Menu.Tabs
                 }
 
                 if (Prefab.Button("Crash Player", 150))
+                    PlayerCrashThread.CrashTarget = steamId;
+                
+                if (!PlayerCrashThread.CrashTargets.Contains(steamId))
                 {
-                    PlayerCrashThread.CrashTarget = SelectedPlayer.channel.owner.playerID.steamID;
-                    PlayerCrashThread.PlayerCrashEnabled = true;
+                    if (Prefab.Button("Auto Crash Player", 150))
+                        PlayerCrashThread.CrashTargets.Add(steamId);
+                }
+                else
+                {
+                    if (Prefab.Button("Stop Auto Crash", 150))
+                        PlayerCrashThread.CrashTargets.Remove(steamId);
                 }
 
-                if (PlayerCrashThread.PlayerCrashEnabled && PlayerCrashThread.CrashTarget == SelectedPlayer.channel.owner.playerID.steamID)
+                if (PlayerCrashThread.CrashTarget == steamId)
                     if (Prefab.Button("Stop Crashing", 150))
-                    {
                         PlayerCrashThread.CrashTarget = CSteamID.Nil;
-                        PlayerCrashThread.PlayerCrashEnabled = false;
-                    }
 
                 if (Prefab.Button("Spectate", 150))
                     MiscOptions.SpectatedPlayer = SelectedPlayer;
@@ -88,7 +95,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });
-            Prefab.MenuArea(new Rect(190 + 6, 250 + 10, 270, 150), "INFO", () =>
+            Prefab.MenuArea(new Rect(190 + 6, 250 + 10, 270, 175), "INFO", () =>
             {
                 if (SelectedPlayer == null)
                     return;

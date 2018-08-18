@@ -244,7 +244,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			visual.BorderStrength = Prefab.TextField(visual.BorderStrength, "Border Strength:", 30);
 			GUILayout.Space(3);
 			GUIContent[] LabelLocations = { new GUIContent("Top Right"), new GUIContent("Top Middle"), new GUIContent("Top Left"), new GUIContent("Middle Right"), new GUIContent("Center"), new GUIContent("Middle Left"), new GUIContent("Bottom Right"), new GUIContent("Bottom Middle"), new GUIContent("Bottom Left") };
-			if (Prefab.List(200, "_LabelLocations", new GUIContent("Label Location: " + LabelLocations[DropDown.Get("_LabelLocations").ListIndex].text), LabelLocations))
+			if (Prefab.List(200, "_LabelLocations", new GUIContent("Label Location: " + LabelLocations[(int)ESPOptions.VisualOptions[target].Location].text), LabelLocations))
 				ESPOptions.VisualOptions[target].Location = (LabelLocation)DropDown.Get("_LabelLocations").ListIndex;
 		}
 	}

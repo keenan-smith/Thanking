@@ -77,10 +77,11 @@ namespace Thanking.Components.UI.Menu
                 _cursor.x = Input.mousePosition.x;
                 _cursor.y = Screen.height - Input.mousePosition.y;
 
+                GUI.DrawTexture(_cursor, _cursorTexture);
+                Cursor.lockState = CursorLockMode.None;
+                
                 if (PlayerUI.window != null)
                     PlayerUI.window.showCursor = true;
-                
-                GUI.DrawTexture(_cursor, _cursorTexture);
             }
         }
 

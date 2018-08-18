@@ -145,7 +145,6 @@
     <Compile Include="Overrides\OV_UseableMelee.cs" />
     <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
-    <Compile Include="TerminalCommands\Connect.cs" />
     <Compile Include="Threads\PacketThread.cs" />
     <Compile Include="Threads\PlayerCrashThread.cs" />
     <Compile Include="Threads\ServerCrashThread.cs" />

@@ -33,10 +33,9 @@ namespace Thanking.Components.UI.Menu.Tabs
                     new GUIContent("FOV")
                 };
 
-                if (Prefab.List(200, "_TargetMode", new GUIContent("Target Mode: " + TargetMode[DropDown.Get("_TargetMode").ListIndex].text), TargetMode))
-                {
+                if (Prefab.List(200, "_TargetMode", new GUIContent("Target Mode: " + TargetMode[(int)AimbotOptions.TargetMode].text), TargetMode))
                     AimbotOptions.TargetMode = (TargetMode)DropDown.Get("_TargetMode").ListIndex;
-                }
+                
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });

@@ -18,18 +18,6 @@ namespace Thanking.Overrides
 		{
 			if (!IsConnected)
 				IsConnected = true;
-			
-			if (steamID == Provider.server && ServerCrashThread.ServerCrashEnabled)
-				return;
-
-			if ((ESteamPacket) packet[0] == ESteamPacket.PING_RESPONSE && steamID == Provider.server)
-			{
-				OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel);
-				return;
-			}
-			
-			if (steamID == PlayerCrashThread.CrashTarget && PlayerCrashThread.PlayerCrashEnabled)
-				return;
 
             OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel); 
         }
@@ -40,9 +28,15 @@ namespace Thanking.Overrides
 			PacketThread.InitReceivers();
 			OverrideUtilities.CallOriginal(null, info, password);
 		}
-		
+
 		//[Override(typeof(Provider), "listenClient", BindingFlags.NonPublic | BindingFlags.Static)]
-		public static void OV_listenClient(int channel) { }
+		public static void OV_listenClient(int channel)
+		{
+			if (ServerCrashThread.ServerCrashEnabled)
+				return;
+
+			OverrideUtilities.CallOriginal(null, channel);
+		}
 		
 		[Override(typeof(Provider), "OnApplicationQuit", BindingFlags.NonPublic | BindingFlags.Instance)]
 		public static void OV_OnApplicationQuit() =>

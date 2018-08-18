@@ -29,7 +29,10 @@ namespace Thanking.Components.UI
 		public void Start()
 		{
             ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers (Hit)", new Color32(255, 0, 0, 255)));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 255, 255, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 255, 255, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoColor", "Weapons - Information", new Color32(0, 255, 0, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoBorder", "Weapons - Information (Border)", new Color32(0, 0, 0, 255)));
+			
             AmmoInfo = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
 			UpdateCrosshair = typeof(UseableGun).GetMethod("updateCrosshair", BindingFlags.NonPublic | BindingFlags.Instance);
 			StartCoroutine(UpdateWeapon());
@@ -90,7 +93,7 @@ namespace Thanking.Components.UI
 				string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>";
 
 				DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft,
-					new Vector2(Screen.width - 20, Screen.height / 2), text, Color.green, Color.black, 4);
+					new Vector2(Screen.width - 20, Screen.height / 2), text,  ColorUtilities.getColor("_WeaponInfoColor"), ColorUtilities.getColor("_WeaponInfoBorder"), 4);
 			}
 		}
 

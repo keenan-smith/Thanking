@@ -1,4 +1,5 @@
 ﻿﻿using System;
+ using System.Collections.Generic;
  using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -15,8 +16,8 @@ namespace Thanking.Threads
 {
     public static class PlayerCrashThread
     {
-        public static bool PlayerCrashEnabled;
         public static bool ContinuousPlayerCrash;
+        public static List<CSteamID> CrashTargets = new List<CSteamID>();
         public static CSteamID CrashTarget;
         
         [Thread]
@@ -25,67 +26,37 @@ namespace Thanking.Threads
             #if DEBUG
 			DebugUtilities.Log("Player Crash Thread Started");
 			#endif
-            Provider.onEnemyDisconnected += OnDisconnect;
 
-            byte[] P1;
-            int S1;
-            int C1;
+            byte[] P1 = {(byte)ESteamPacket.UPDATE_RELIABLE_INSTANT, 0, 0};
             
             while (true)
-            {    
-                if (Provider.isConnected)
-                {
-                    SteamChannel c = OptimizationVariables.MainPlayer.quests.channel;
-                    c.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT, c.getCall("askCreateGroup"), out S1, out P1);
-
-                    C1 = c.id;
-                    break;
-                }
-                
-                Thread.Sleep(1000);
-            }
-
-            while (true)
-            {
-                if (PlayerCrashEnabled)
-                {
-                    switch (MiscOptions.PCrashMethod)
-                    {
-                        case 1:
-                        case 2:    
-                        case 3:
-                        case 4:
-                        case 5:
-                            Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, P1, S1, C1);
-                            break;
-                    }
-                }
-                
-                else
-                {
-                    Thread.Sleep(1000);
-                    if (!ContinuousPlayerCrash || Provider.clients.Count == 0)
-                        continue;
-
-                    PlayerCrashEnabled = true;
-                    Thread.Sleep(1000);
-                    
-                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
-                        .First(p => !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
-                }
-            }
+                if (CrashTarget != CSteamID.Nil)
+                    SteamNetworking.SendP2PPacket(CrashTarget, P1, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
         }
 
-        public static void OnDisconnect(SteamPlayer player)
+        [Thread]
+        public static void CheckThread()
         {
-            if (player.playerID.steamID == CrashTarget)
+            while (true)
             {
-                if (!ContinuousPlayerCrash)
-                    PlayerCrashEnabled = false;
-                
-                else
-                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
-                        .First(p => p.playerID.steamID != CrashTarget && !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
+                if (Provider.clients.All(p => CrashTarget != p.playerID.steamID))
+                {
+                    if (ContinuousPlayerCrash && Provider.clients.Count > 1)
+                    {
+                        CSteamID? sid = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
+                            .FirstOrDefault(p =>
+                                p.playerID.steamID != CrashTarget && !FriendUtilities.IsFriendly(p.player))
+                            ?.playerID
+                            .steamID;
+
+                        if (sid.HasValue)
+                            CrashTarget = sid.Value;
+                    }
+                    else
+                        CrashTarget = CrashTargets.Count > 0 ? CrashTargets.First(c => Provider.clients.Any(p => p.playerID.steamID == c)) : CSteamID.Nil;
+                }
+
+                Thread.Sleep(500);
             }
         }  
     }
