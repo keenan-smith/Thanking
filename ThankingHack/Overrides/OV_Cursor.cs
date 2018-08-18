@@ -8,7 +8,7 @@ namespace Thanking.Overrides
 {
     public static class OV_Cursor
     {
-        public static CursorLockMode RealMode;
+        public static CursorLockMode RealMode = CursorLockMode.Locked;
         
         [Override(typeof(Cursor), "get_lockState", BindingFlags.Public | BindingFlags.Static)]
         public static CursorLockMode OV_get_lockState() => 

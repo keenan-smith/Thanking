@@ -24,7 +24,9 @@ namespace Thanking.Options.AimOptions
 		[Save] public static bool UseModifiedVector = true;
         [Save] public static bool EnablePlayerSelection = true;
         [Save] public static bool OnlyShootAtSelectedPlayer = false;
-        [Save] public static float FOV = 10F;
+        [Save] public static float SelectedFOV = 10F;
+		[Save] public static bool SilentAimUseFOV = false;
+		[Save] public static float SilentAimFOV = 10F;
 
         [Save] public static TargetPriority Target = TargetPriority.Players;
 		[Save] public static EPhysicsMaterial TargetMaterial = EPhysicsMaterial.ALIEN_DYNAMIC;

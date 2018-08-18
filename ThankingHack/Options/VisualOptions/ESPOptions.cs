@@ -25,6 +25,7 @@ namespace Thanking.Options.VisualOptions
             Boxes = true,
             ShowName = true,
             ShowDistance = true,
+	        ShowAngle = true,
             TwoDimensional = false,
             Glow = false,
             InfiniteDistance = false,
@@ -69,6 +70,7 @@ namespace Thanking.Options.VisualOptions
 		[Save] public static bool ShowVehicleFuel;
 		[Save] public static bool ShowVehicleHealth;
 		[Save] public static bool ShowVehicleLocked;
+		[Save] public static bool FilterVehicleLocked;
 
 		#endregion
 		

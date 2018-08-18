@@ -1,4 +1,5 @@
-﻿using Thanking.Options;
+﻿using SDG.Unturned;
+using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Options.UIVariables;
 using Thanking.Utilities;
@@ -59,6 +60,10 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 GUILayout.Space(5);
                 Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
+                
+                GUILayout.Space(5);
+                if (Prefab.Button("Instant Disconnect", 200))
+                    Provider.disconnect();
             });
         }
     }

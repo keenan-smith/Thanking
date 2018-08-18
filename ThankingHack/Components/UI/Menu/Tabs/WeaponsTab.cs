@@ -132,12 +132,22 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        if (RaycastOptions.EnablePlayerSelection)
 			        {
 				        GUILayout.Space(2);
-				        GUILayout.Label("Selection FOV: " + RaycastOptions.FOV, Prefab._TextStyle);
-				        RaycastOptions.FOV = Prefab.Slider(1, 300, RaycastOptions.FOV, 200);
+				        GUILayout.Label("Selection FOV: " + RaycastOptions.SelectedFOV, Prefab._TextStyle);
+				        RaycastOptions.SelectedFOV = Prefab.Slider(1, 300, RaycastOptions.SelectedFOV, 200);
 				        Prefab.Toggle("Only Shoot Selected", ref RaycastOptions.OnlyShootAtSelectedPlayer);
 			        }
+			        GUILayout.Space(2);
+			        Prefab.Toggle("Use FOV", ref RaycastOptions.SilentAimUseFOV);
+
+			        if (RaycastOptions.SilentAimUseFOV)
+			        {
+				        GUILayout.Space(2);
+				        GUILayout.Label("Aim FOV: " + RaycastOptions.SilentAimFOV, Prefab._TextStyle);
+				        RaycastOptions.SilentAimFOV = Prefab.Slider(1, 300, RaycastOptions.SilentAimFOV, 200);
+			        }
+			        
+			        GUILayout.Space(2);
 		        }
-		        GUILayout.Space(2);
 		        
 		        Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
 		        
