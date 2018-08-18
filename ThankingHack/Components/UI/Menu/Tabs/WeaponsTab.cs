@@ -60,8 +60,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        };
 
 			        if (Prefab.List(200, "_TargetPriority",
-				        new GUIContent("Priority: " + TargetPriorities[DropDown.Get("_TargetPriority").ListIndex].text),
-				        TargetPriorities))
+				        new GUIContent("Priority: " + TargetPriorities[(int) RaycastOptions.Target].text),
+				        TargetPriorities))				        
 				        RaycastOptions.Target = (TargetPriority) DropDown.Get("_TargetPriority").ListIndex;
 			    }
 		        
@@ -112,7 +112,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        
 		        if (RaycastOptions.UseCustomLimb)
 			        if (Prefab.List(200, "_TargetLimb",
-				        new GUIContent("Limb: " + Limbs[DropDown.Get("_TargetLimb").ListIndex].text),
+				        new GUIContent("Limb: " + Limbs[(int)RaycastOptions.TargetLimb].text),
 				        Limbs))
 				        RaycastOptions.TargetLimb = (ELimb) DropDown.Get("_TargetLimb").ListIndex;
 
@@ -120,7 +120,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        
 		        if (RaycastOptions.UseTargetMaterial)
 			        if (Prefab.List(200, "_TargetMaterial",
-				        new GUIContent("Material: " + Materials[DropDown.Get("_TargetMaterial").ListIndex].text), Materials))
+				        new GUIContent("Material: " + Materials[(int)RaycastOptions.TargetMaterial].text), Materials))
 				        RaycastOptions.TargetMaterial = (EPhysicsMaterial) DropDown.Get("_TargetMaterial").ListIndex;
 		        
 		        GUILayout.EndVertical();

@@ -28,13 +28,11 @@ namespace Thanking.Threads
                 OV_Provider.IsConnected = false;
             };
 
-            byte[] P1 = {(byte) ESteamPacket.WORKSHOP};
-            byte[] P2 = {(byte) ESteamPacket.GUIDTABLE};
-            byte[] P3 = {(byte) ESteamPacket.VERIFY};
+            byte[] P1 = {(byte) ESteamPacket.WORKSHOP, 69, 69};
+            byte[] P2 = {(byte) ESteamPacket.BATTLEYE, 69, 69};
 
             int S1 = P1.Length;
             int S2 = P2.Length;
-            int S3 = P3.Length;
             
             while (true)
             {
@@ -49,32 +47,12 @@ namespace Thanking.Threads
                             Provider.send(Provider.server, ESteamPacket.WORKSHOP, P1, S1, 0);
                             break;
                         case 2:
-                            Provider.send(Provider.server, ESteamPacket.GUIDTABLE, P2, S2, 0);
-                            break;
-                        case 3:
-                            Provider.send(Provider.server, ESteamPacket.VERIFY, P3, S3, 0);
+                            Provider.send(Provider.server, ESteamPacket.BATTLEYE, P2, S2, 0);
                             break;
                     }
                 }
                 else
                     Thread.Sleep(1000);
-            }
-        }
-
-        [Thread]
-        public static void PingCheck()
-        {
-            while (true)
-            {
-                Thread.Sleep(15);
-                
-                if (!OV_Provider.IsConnected)
-                    continue;
-                
-                Provider.send(Provider.server, ESteamPacket.PING_REQUEST, new byte[]
-                {
-                    13
-                }, 1, 0);
             }
         }
     }
