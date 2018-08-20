@@ -113,7 +113,7 @@ namespace Thanking.Overrides
         }
 
         [OnSpy]
-        public void OnSpied()
+        public static void OnSpied()
         {
             Transform cPos = OptimizationVariables.MainCam.transform;
             PhysicsUtility.raycast(new Ray(cPos.position, cPos.forward), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? 6 : 4, RayMasks.PLAYER_INTERACT, 0);

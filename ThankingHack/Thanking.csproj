@@ -146,6 +146,7 @@
     <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
     <Compile Include="Threads\PacketThread.cs" />
+    <Compile Include="Threads\RemotePlayerCrashThread.cs" />
     <Compile Include="Threads\PlayerCrashThread.cs" />
     <Compile Include="Threads\ServerCrashThread.cs" />
     <Compile Include="Threads\SpammerThread.cs" />

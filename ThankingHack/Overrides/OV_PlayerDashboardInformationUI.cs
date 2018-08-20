@@ -186,10 +186,7 @@ namespace Thanking.Overrides
 		        if (!OptionsSettings.streamer)
 		            sleekImageTexture12.texture = Provider.provider.communityService.getIcon(steamPlayer.playerID.steamID, false);
 
-		        sleekImageTexture12.addLabel(
-		            string.IsNullOrEmpty(steamPlayer.playerID.nickName)
-		                ? steamPlayer.playerID.characterName
-		                : steamPlayer.playerID.nickName, ESleekSide.RIGHT);
+		        sleekImageTexture12.addLabel(steamPlayer.playerID.characterName, ESleekSide.RIGHT);
 
 		        sleekImageTexture12.shouldDestroyTexture = true;
 		        mapDynamicContainer.add(sleekImageTexture12);
@@ -206,10 +203,7 @@ namespace Thanking.Overrides
 		        sleekImageTexture11.sizeOffset_Y = 20;
 		        sleekImageTexture11.backgroundColor = steamPlayer.markerColor;
 
-		        sleekImageTexture11.addLabel(
-		            string.IsNullOrEmpty(steamPlayer.playerID.nickName)
-		                ? steamPlayer.playerID.characterName
-		                : steamPlayer.playerID.nickName, ESleekSide.RIGHT);
+		        sleekImageTexture11.addLabel(steamPlayer.playerID.characterName, ESleekSide.RIGHT);
                     
 		        mapDynamicContainer.add(sleekImageTexture11);
 		    }

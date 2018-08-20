@@ -25,10 +25,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        Prefab.Toggle("Show Weapon Information", ref WeaponOptions.ShowWeaponInfo);
                 Prefab.Toggle("Bullet Drop Prediction", ref WeaponOptions.EnableBulletDropPrediction);
 
-                    Prefab.Toggle("Highlight Prediction Target", ref WeaponOptions.HighlightBulletDropPredictionTarget);
-                if (WeaponOptions.EnableBulletDropPrediction)
-
-                GUILayout.Space(20);
+                Prefab.Toggle("Highlight Prediction Target", ref WeaponOptions.HighlightBulletDropPredictionTarget);
 		        Prefab.Toggle("Custom Material", ref RaycastOptions.UseTargetMaterial);
 		        GUILayout.Space(2);
 		       
@@ -110,7 +107,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        
 		        GUILayout.Space(2);
 		        
-		        if (RaycastOptions.UseCustomLimb)
+		        if (RaycastOptions.UseCustomLimb && !RaycastOptions.UseRandomLimb)
 			        if (Prefab.List(200, "_TargetLimb",
 				        new GUIContent("Limb: " + Limbs[(int)RaycastOptions.TargetLimb].text),
 				        Limbs))
