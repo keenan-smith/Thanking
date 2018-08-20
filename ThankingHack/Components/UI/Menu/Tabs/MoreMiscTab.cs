@@ -1,4 +1,5 @@
 ﻿using SDG.Unturned;
+using Steamworks;
 using Thanking.Options;
 using Thanking.Options.AimOptions;
 using Thanking.Options.UIVariables;
@@ -27,7 +28,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 GUILayout.Label($"Server Crash Method: {MiscOptions.SCrashMethod}", Prefab._TextStyle);
                 GUILayout.Space(2);
-                MiscOptions.SCrashMethod = (int) Prefab.Slider(1, 2, (float)MiscOptions.SCrashMethod, 150);
+                MiscOptions.SCrashMethod = (int) Prefab.Slider(1, 2, MiscOptions.SCrashMethod, 150);
 
                 GUIContent[] SpyMethods =
                 {
@@ -64,6 +65,10 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 if (Prefab.Button("Clear Auto Crasher", 200))
                     PlayerCrashThread.CrashTargets.Clear();
+                
+                GUILayout.Space(5);
+                string CT = Prefab.TextField(RemotePlayerCrashThread.CrashTarget.ToString(), "Crash Target: ", 150);
+                RemotePlayerCrashThread.CrashTarget = ulong.TryParse(CT, out ulong CTN) ? new CSteamID(CTN) : CSteamID.Nil;
             });
         }
     }
