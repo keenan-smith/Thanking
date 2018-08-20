@@ -52,8 +52,7 @@ namespace Thanking.Options
 		[Save] public static bool Freecam = false;
 		
 		[Save] public static HashSet<ulong> Friends = new HashSet<ulong>();
-
-		[Save] public static int PCrashMethod = 1;
+		
 		[Save] public static int SCrashMethod = 1;
 
 		[Save] public static int AntiSpyMethod = 0;

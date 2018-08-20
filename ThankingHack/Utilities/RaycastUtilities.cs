@@ -119,7 +119,7 @@ namespace Thanking.Utilities
             return new RaycastInfo(Object.transform)
             {
                 point = Point,
-                direction = RaycastOptions.TargetRagdoll.ToVector(),
+                direction = RaycastOptions.UseModifiedVector ? RaycastOptions.TargetRagdoll.ToVector() : OptimizationVariables.MainPlayer.look.aim.forward,
                 limb = Limb,
                 material = mat,
                 player = Object.GetComponent<Player>(),

@@ -72,19 +72,23 @@ namespace Thanking.Coroutines
                         {
                             if (p == null)
                                 p = players[i].player;
-                            else
-                            {
-                                if (VectorUtilities.GetDistance(p.transform.position) >
+                            
+                            else if (VectorUtilities.GetDistance(p.transform.position) >
                                     VectorUtilities.GetDistance(players[i].player.transform.position))
                                     p = players[i].player;
-                            }
+                            
                             break;
                         }
                         case TargetMode.FOV:
                         {
-                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < AimbotOptions.FOV)
-                                p = players[i].player;
-
+                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward,
+                                    players[i].player.transform.position) < AimbotOptions.FOV) {
+                                if (p == null)
+                                    p = players[i].player;
+                                
+                                else if (VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < VectorUtilities.GetAngleDelta(aimPos, aimForward, p.transform.position))
+                                    p = players[i].player;
+                            }
                             break;
                         }
                     }

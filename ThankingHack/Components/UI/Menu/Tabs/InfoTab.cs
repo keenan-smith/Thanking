@@ -11,10 +11,14 @@ namespace Thanking.Components.UI.Menu.Tabs
             {
 				if (Provider.isConnected)
 				{
-					GUILayout.Label("Current Server Info (IP/Port): ", Prefab._TextStyle);
+					GUILayout.Label("Current Server Info: ", Prefab._TextStyle);
 					GUILayout.Space(2);
 
 					GUILayout.TextField($"{Parser.getIPFromUInt32(Provider.currentServerInfo.ip)}:{Provider.currentServerInfo.port}", Prefab._TextStyle);
+					
+					GUILayout.Label("Current Server SteamID: ", Prefab._TextStyle);
+					GUILayout.Space(2);
+					GUILayout.TextField($"{Provider.server}", Prefab._TextStyle);
 					GUILayout.Space(8);
 				}
 
