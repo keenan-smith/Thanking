@@ -18,25 +18,15 @@ namespace Thanking.Overrides
 		{
 			if (!IsConnected)
 				IsConnected = true;
+			
+			if (ServerCrashThread.ServerCrashEnabled && packet[0] == (byte)ESteamPacket.WORKSHOP)
+				return;
+			
+			if (steamID != Provider.server && packet[0] != (byte)ESteamPacket.UPDATE_VOICE)
+				return;
 
             OverrideUtilities.CallOriginal(null, steamID, packet, offset, size, channel); 
         }
-
-		//[Override(typeof(Provider), "connect", BindingFlags.Public | BindingFlags.Static)]
-		public static void OV_connect(SteamServerInfo info, string password)
-		{
-			PacketThread.InitReceivers();
-			OverrideUtilities.CallOriginal(null, info, password);
-		}
-
-		//[Override(typeof(Provider), "listenClient", BindingFlags.NonPublic | BindingFlags.Static)]
-		public static void OV_listenClient(int channel)
-		{
-			if (ServerCrashThread.ServerCrashEnabled)
-				return;
-
-			OverrideUtilities.CallOriginal(null, channel);
-		}
 		
 		[Override(typeof(Provider), "OnApplicationQuit", BindingFlags.NonPublic | BindingFlags.Instance)]
 		public static void OV_OnApplicationQuit() =>

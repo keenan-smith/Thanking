@@ -20,18 +20,22 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.BeginVertical(GUILayout.Width(230));
 
 				Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
-				Prefab.Toggle("Use Max Vehicle Speed", ref MiscOptions.VehicleUseMaxSpeed);
-				
 				if (MiscOptions.VehicleFly)
 				{
-					GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
-					GUILayout.Space(2);
-					MiscOptions.SpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
-					GUILayout.Space(8);
+					Prefab.Toggle("Use Max Vehicle Speed", ref MiscOptions.VehicleUseMaxSpeed);
+
+					if (!MiscOptions.VehicleUseMaxSpeed) {
+						GUILayout.Space(2);
+						GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
+						GUILayout.Space(2);
+						MiscOptions.SpeedMultiplier =
+							(float) Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
+						GUILayout.Space(4);
+					}
 				}
 
+				//TODO: this shit breaks interaction with items & vehicles.
 				Prefab.Toggle("Custom Salvage Time", ref MiscOptions.CustomSalvageTime);
-
 				if (MiscOptions.CustomSalvageTime)
 				{
 					GUILayout.Label("Salvage Time: " + MiscOptions.SalvageTime + " seconds", Prefab._TextStyle);

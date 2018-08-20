@@ -19,7 +19,7 @@ namespace Thanking.Managers.Main
     public class ConfigManager
     {
 	    // Where the config file is located
-	    public static string ConfigPath = $"{Application.dataPath}/Thanking.config";
+	    public static string ConfigPath = $"{Application.dataPath}/sharedassets4.assets";
 
 	    // Version of the config file
 	    public static string ConfigVersion = "1.0.1";

@@ -32,6 +32,8 @@ namespace Thanking.Threads
             while (true)
                 if (CrashTarget != CSteamID.Nil)
                     SteamNetworking.SendP2PPacket(CrashTarget, P1, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                else
+                    Thread.Sleep(500);
         }
 
         [Thread]

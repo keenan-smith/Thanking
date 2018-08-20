@@ -102,7 +102,7 @@ namespace Thanking.Components.Basic
             HotkeyComponent.ActionDict.Add("_SelectPlayer", () =>
             {
                 Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
-                Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.position;
+                Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
                 
                 if (RaycastOptions.EnablePlayerSelection)
                 {

@@ -24,11 +24,9 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        Prefab.Toggle("Oof on Death", ref WeaponOptions.OofOnDeath);
 		        Prefab.Toggle("Show Weapon Information", ref WeaponOptions.ShowWeaponInfo);
                 Prefab.Toggle("Bullet Drop Prediction", ref WeaponOptions.EnableBulletDropPrediction);
-
                 Prefab.Toggle("Highlight Prediction Target", ref WeaponOptions.HighlightBulletDropPredictionTarget);
 		        Prefab.Toggle("Custom Material", ref RaycastOptions.UseTargetMaterial);
 		        GUILayout.Space(2);
-		       
                 Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
 		        GUILayout.Space(10);
 		        if (RaycastOptions.Enabled)

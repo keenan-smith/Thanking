@@ -14,7 +14,8 @@ namespace Thanking.Overrides
 		None,
 		Extended,
 		PlayerHit,
-		SilentAim
+		SilentAim,
+		SilentAimMelee
 	}
 	public static class OV_DamageTool
 	{
@@ -27,10 +28,19 @@ namespace Thanking.Overrides
 		    {
 			    case OverrideType.Extended:
 				    return RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
-			    
-			    case OverrideType.SilentAim:		    
-				    return RaycastUtilities.GenerateRaycast(out RaycastInfo ri) ? ri : RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
-			    
+
+			    case OverrideType.SilentAim: {
+				    return RaycastUtilities.GenerateRaycast(out RaycastInfo ri)
+					    ? ri
+					    : RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
+			    }
+
+			    case OverrideType.SilentAimMelee: {
+				    return RaycastUtilities.GenerateRaycast(out RaycastInfo ri)
+					    ? ri
+					    : RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
+			    }
+
 			    case OverrideType.PlayerHit: 
 				    for (int i = 0; i < Provider.clients.Count; i++)
 				    {

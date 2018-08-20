@@ -65,10 +65,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 if (Prefab.Button("Clear Auto Crasher", 200))
                     PlayerCrashThread.CrashTargets.Clear();
-                
-                GUILayout.Space(5);
-                string CT = Prefab.TextField(RemotePlayerCrashThread.CrashTarget.ToString(), "Crash Target: ", 150);
-                RemotePlayerCrashThread.CrashTarget = ulong.TryParse(CT, out ulong CTN) ? new CSteamID(CTN) : CSteamID.Nil;
             });
         }
     }

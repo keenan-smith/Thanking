@@ -22,7 +22,7 @@ namespace Thanking.Options.AimOptions
 		[Save] public static bool UseCustomLimb = false;
 		[Save] public static bool UseTargetMaterial = true;
 		[Save] public static bool UseModifiedVector = true;
-        [Save] public static bool EnablePlayerSelection = true;
+        [Save] public static bool EnablePlayerSelection = false;
         [Save] public static bool OnlyShootAtSelectedPlayer = false;
         [Save] public static float SelectedFOV = 10F;
 		[Save] public static bool SilentAimUseFOV = false;

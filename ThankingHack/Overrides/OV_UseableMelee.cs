@@ -13,8 +13,16 @@ namespace Thanking.Overrides
         [Override(typeof(UseableMelee), "fire", BindingFlags.NonPublic | BindingFlags.Instance)]
         public static void OV_fire()
         {
-            OV_DamageTool.OVType = RaycastOptions.Enabled ? OverrideType.SilentAim :
-                MiscOptions.ExtendMeleeRange ? OverrideType.Extended : OverrideType.None;
+            OV_DamageTool.OVType = OverrideType.None;
+            
+            if (RaycastOptions.Enabled && MiscOptions.ExtendMeleeRange)
+                OV_DamageTool.OVType = OverrideType.SilentAimMelee;
+            
+            else if (RaycastOptions.Enabled)
+                OV_DamageTool.OVType = OverrideType.SilentAim;
+            
+            else if (MiscOptions.ExtendMeleeRange)
+                OV_DamageTool.OVType = OverrideType.Extended;
 
             OverrideUtilities.CallOriginal(OptimizationVariables.MainPlayer.equipment.useable);
 
