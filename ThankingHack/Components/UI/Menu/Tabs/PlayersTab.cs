@@ -103,6 +103,10 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.BeginHorizontal();
                 GUILayout.BeginVertical();
                 
+                GUILayout.Label("SteamID:");
+                GUILayout.TextField(SelectedPlayer.channel.owner.playerID.steamID.ToString(), Prefab._TextStyle);
+                GUILayout.Space(2);
+                
                 GUILayout.TextField("Closest Location: " + LocationUtilities.GetClosestLocation(SelectedPlayer.transform.position).name, Prefab._TextStyle);
                 GUILayout.Label("Current Weapon: " + (SelectedPlayer.equipment.asset != null ? SelectedPlayer.equipment.asset.itemName : "Fists"), Prefab._TextStyle);
                 GUILayout.Label("Current Vehicle: " + (SelectedPlayer.movement.getVehicle() != null ? SelectedPlayer.movement.getVehicle().asset.name : "No Vehicle"), Prefab._TextStyle);
