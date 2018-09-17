@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using SDG.Unturned;
 using Thanking.Attributes;
 using Thanking.Components.Basic;
+using Thanking.Components.UI;
 using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
@@ -24,9 +25,20 @@ namespace Thanking.Overrides
             BulletsField = typeof(UseableGun).GetField("bullets", ReflectionVariables.PrivateInstance);
         }
 
+        public static bool IsRaycastInvalid(RaycastInfo info) =>
+            info.player == null && info.zombie == null && info.animal == null && info.vehicle == null && info.transform == null;
+        
         [Override(typeof(UseableGun), "ballistics", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_ballistics()
         {
+            Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
+            
+            if (Provider.isServer)
+            {
+                OverrideUtilities.CallOriginal(PlayerUse);
+                return;
+            }
+            
             if (Time.realtimeSinceStartup - PlayerLifeUI.hitmarkers[0].lastHit > PlayerUI.HIT_TIME)
             {
                 PlayerLifeUI.hitmarkers[0].hitBuildImage.isVisible = false;
@@ -34,10 +46,8 @@ namespace Thanking.Overrides
                 PlayerLifeUI.hitmarkers[0].hitEntitiyImage.isVisible = false;
             }
 
-            Useable PlayerUse = OptimizationVariables.MainPlayer.equipment.useable;
-            PlayerLook Look = OptimizationVariables.MainPlayer.look;
-
             ItemGunAsset PAsset = (ItemGunAsset)OptimizationVariables.MainPlayer.equipment.asset;
+            PlayerLook Look = OptimizationVariables.MainPlayer.look;
 
             if (PAsset.projectile != null)
                 return;
@@ -80,14 +90,13 @@ namespace Thanking.Overrides
                             RaycastInfo rayInfo =
                                 DamageTool.raycast(ray, PAsset.ballisticTravel, RayMasks.DAMAGE_CLIENT);
 
-                            if (Player.player.input.isRaycastInvalid(rayInfo))
+                            if (IsRaycastInvalid(rayInfo))
                                 bulletInfo.pos += bulletInfo.dir * PAsset.ballisticTravel;
 
                             else
                             {
                                 EPlayerHit playerHit = CalcHitMarker(PAsset, ref rayInfo);
-                                PlayerUI.hitmark(0, rayInfo.point, false, playerHit);
-
+                                PlayerUI.hitmark(0, Vector3.zero, false, playerHit);
                                 OptimizationVariables.MainPlayer.input.sendRaycast(rayInfo);
                                 bulletInfo.steps = 254;
                             }
@@ -157,9 +166,7 @@ namespace Thanking.Overrides
             EPlayerHit eplayerhit = EPlayerHit.NONE;
 
             if (ri == null || PAsset == null)
-            {
-                return eplayerhit;
-            }
+                return eplayerhit;    
 
             if (ri.animal || ri.player || ri.zombie)
             {

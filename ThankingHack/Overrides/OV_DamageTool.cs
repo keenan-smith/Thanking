@@ -1,5 +1,7 @@
-﻿using SDG.Unturned;
+﻿using System.Reflection;
+using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Components.UI;
 using Thanking.Options;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -12,23 +14,33 @@ namespace Thanking.Overrides
 		None,
 		Extended,
 		PlayerHit,
-		SilentAim
+		SilentAim,
+		SilentAimMelee
 	}
 	public static class OV_DamageTool
 	{
 		public static OverrideType OVType = OverrideType.None;
-	
-	    [Override(typeof(DamageTool), "raycast", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)] 
+		
+	    [Override(typeof(DamageTool), "raycast", BindingFlags.Public | BindingFlags.Static)] 
 		public static RaycastInfo OV_raycast(Ray ray, float range, int mask)
 	    {
 		    switch (OVType)
 		    {
 			    case OverrideType.Extended:
 				    return RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
-			    
-			    case OverrideType.SilentAim:		    
-				    return RaycastUtilities.GenerateRaycast(out RaycastInfo ri) ? ri : RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
-			    
+
+			    case OverrideType.SilentAim: {
+				    return RaycastUtilities.GenerateRaycast(out RaycastInfo ri)
+					    ? ri
+					    : RaycastUtilities.GenerateOriginalRaycast(ray, range, mask);
+			    }
+
+			    case OverrideType.SilentAimMelee: {
+				    return RaycastUtilities.GenerateRaycast(out RaycastInfo ri)
+					    ? ri
+					    : RaycastUtilities.GenerateOriginalRaycast(ray, MiscOptions.MeleeRangeExtension, mask);
+			    }
+
 			    case OverrideType.PlayerHit: 
 				    for (int i = 0; i < Provider.clients.Count; i++)
 				    {

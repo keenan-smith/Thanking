@@ -65,9 +65,8 @@ namespace Thanking.Utilities
         public static bool GenerateRaycast(out RaycastInfo info)
         {
             ItemGunAsset currentGun = OptimizationVariables.MainPlayer.equipment.asset as ItemGunAsset;
-            ItemMeleeAsset currentMelee = OptimizationVariables.MainPlayer.equipment.asset as ItemMeleeAsset;
             
-            float Range = currentGun?.range ?? currentMelee?.range ?? 7.5f;
+            float Range = currentGun?.range ?? 15.5f;
 
             info = GenerateOriginalRaycast(new Ray(OptimizationVariables.MainPlayer.look.aim.position, OptimizationVariables.MainPlayer.look.aim.forward), Range,
                 RayMasks.DAMAGE_CLIENT);
@@ -87,7 +86,7 @@ namespace Thanking.Utilities
 
                 if (shouldFire)
                 {
-                    info = GenerateRaycast(p, point);
+                    info = GenerateRaycast(p, point, info.collider);
                     return true;
                 }
                 
@@ -95,14 +94,14 @@ namespace Thanking.Utilities
                     return false;
             }
 
-            if (!GetClosestObject(Objects, out double Distance, out GameObject Object, out Vector3 Point, Range))
+            if (!GetTargetObject(Objects, out GameObject Object, out Vector3 Point, Range))
                 return false;
 
-            info = GenerateRaycast(Object, Point);
+            info = GenerateRaycast(Object, Point, info.collider);
             return true;
         }
 
-        public static RaycastInfo GenerateRaycast(GameObject Object, Vector3 Point)
+        public static RaycastInfo GenerateRaycast(GameObject Object, Vector3 Point, Collider col)
         {
             ELimb Limb = RaycastOptions.TargetLimb;
 
@@ -112,15 +111,15 @@ namespace Thanking.Utilities
                 Limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
             }
 
-            EPhysicsMaterial mat = EPhysicsMaterial.ALIEN_DYNAMIC;
+            EPhysicsMaterial mat = col == null ? EPhysicsMaterial.NONE : DamageTool.getMaterial(Point, Object.transform, col);
 
-            if (RaycastOptions.UseTargetMaterial && RaycastOptions.TargetMaterial != EPhysicsMaterial.NONE)
+            if (RaycastOptions.UseTargetMaterial)
                 mat = RaycastOptions.TargetMaterial;
 
             return new RaycastInfo(Object.transform)
             {
                 point = Point,
-                direction = RaycastOptions.TargetRagdoll.ToVector(),
+                direction = RaycastOptions.UseModifiedVector ? RaycastOptions.TargetRagdoll.ToVector() : OptimizationVariables.MainPlayer.look.aim.forward,
                 limb = Limb,
                 material = mat,
                 player = Object.GetComponent<Player>(),
@@ -128,19 +127,33 @@ namespace Thanking.Utilities
                 vehicle = Object.GetComponent<InteractableVehicle>()
             };
         }
-
-        public static bool GetClosestObject(GameObject[] Objects, out double Distance, out GameObject Object, out Vector3 Point, float Range)
+        
+	    public static bool GetTargetObject(GameObject[] Objects, out GameObject Object, out Vector3 Point, float Range)
         {
-            Distance = 1337420;
+            double Distance = Range + 1;
+            double FOV = 180;
+            
             Object = null;
             Point = Vector3.zero;
 
             Vector3 AimPos = OptimizationVariables.MainPlayer.look.aim.position;
+            Vector3 AimForward = OptimizationVariables.MainPlayer.look.aim.forward;
+            
             for (int i = 0; i < Objects.Length; i++)
             {
                 GameObject go = Objects[i];
 
                 if (go == null)
+                    continue;
+
+                Vector3 TargetPos = go.transform.position;
+
+                Player p = go.GetComponent<Player>();
+                if (p && (p.life.isDead || FriendUtilities.IsFriendly(p)))
+                    continue;
+                
+                Zombie z = go.GetComponent<Zombie>();
+                if (z && z.isDead)
                     continue;
 
                 RaycastComponent Component = go.GetComponent<RaycastComponent>();
@@ -151,13 +164,25 @@ namespace Thanking.Utilities
                     continue;
                 }
 
-                double NewDistance = VectorUtilities.GetDistance(AimPos, go.transform.position);
+                double NewDistance = VectorUtilities.GetDistance(AimPos, TargetPos);
 
                 if (NewDistance > Range)
                     continue;
+                
+                if (RaycastOptions.SilentAimUseFOV)
+                {
+                    double _FOV = VectorUtilities.GetAngleDelta(AimPos, AimForward, TargetPos);
+                    if (_FOV > RaycastOptions.SilentAimFOV)
+                        continue;
 
-                if (NewDistance > Distance)
-                    continue;
+                    if (_FOV > FOV)
+                        continue;
+
+                    FOV = _FOV;
+                }
+                
+                else if (NewDistance > Distance)
+                        continue;
 
                 if (!SphereUtilities.GetRaycast(go, AimPos, out Vector3 _Point))
                     continue;

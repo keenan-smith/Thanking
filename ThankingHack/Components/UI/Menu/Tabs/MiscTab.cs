@@ -20,17 +20,22 @@ namespace Thanking.Components.UI.Menu.Tabs
 				GUILayout.BeginVertical(GUILayout.Width(230));
 
 				Prefab.Toggle("Vehicle Flight", ref MiscOptions.VehicleFly);
-				
 				if (MiscOptions.VehicleFly)
 				{
-					GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
-					GUILayout.Space(2);
-					MiscOptions.SpeedMultiplier = (float)Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
-					GUILayout.Space(8);
+					Prefab.Toggle("Use Max Vehicle Speed", ref MiscOptions.VehicleUseMaxSpeed);
+
+					if (!MiscOptions.VehicleUseMaxSpeed) {
+						GUILayout.Space(2);
+						GUILayout.Label("Speed Multiplier: " + MiscOptions.SpeedMultiplier + "x", Prefab._TextStyle);
+						GUILayout.Space(2);
+						MiscOptions.SpeedMultiplier =
+							(float) Math.Round(Prefab.Slider(0, 10, MiscOptions.SpeedMultiplier, 175), 2);
+						GUILayout.Space(4);
+					}
 				}
 
+				//TODO: this shit breaks interaction with items & vehicles.
 				Prefab.Toggle("Custom Salvage Time", ref MiscOptions.CustomSalvageTime);
-
 				if (MiscOptions.CustomSalvageTime)
 				{
 					GUILayout.Label("Salvage Time: " + MiscOptions.SalvageTime + " seconds", Prefab._TextStyle);
@@ -60,14 +65,12 @@ namespace Thanking.Components.UI.Menu.Tabs
 					}
 				}
 				
-				Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
-				
 				Prefab.Toggle("Punch Silent Aim", ref MiscOptions.PunchSilentAim);
 
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
 
-				if (Provider.isConnected)
+				if (Provider.isConnected && OptimizationVariables.MainPlayer != null)
 				{
 					if (!OptimizationVariables.MainPlayer.look.isOrbiting)
 						OptimizationVariables.MainPlayer.look.orbitPosition = Vector3.zero;
@@ -79,12 +82,11 @@ namespace Thanking.Components.UI.Menu.Tabs
 				}
 
 				Prefab.Toggle("Crash Server", ref ServerCrashThread.ServerCrashEnabled);
+				Prefab.Toggle("Crash Server Automatically", ref ServerCrashThread.AlwaysCrash);
 				
 				Prefab.Toggle("Crash All Players", ref PlayerCrashThread.ContinuousPlayerCrash);
 				
-				Prefab.Toggle("Always Crash On Join", ref ServerCrashThread.AlwaysCrash);
-				
-				Prefab.Toggle("Always Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
+				Prefab.Toggle("Auto Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
 
 				if (Provider.isConnected)
 				{
@@ -100,17 +102,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Space(2);
 					MiscOptions.MeleeRangeExtension = (float)Math.Round(Prefab.Slider(0, 7.5f, MiscOptions.MeleeRangeExtension, 175), 1);
 				}
-				
-				Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
 
-				GUILayout.Space(2);
-				GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);
-				GUILayout.Space(2);
-				ItemOptions.ItemPickupDelay = (int)Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
-				GUILayout.Space(5);
-
-				ItemUtilities.DrawFilterTab(ItemOptions.ItemFilterOptions);
-				
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 
@@ -123,7 +115,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     GUILayout.Space(10);	
                     GUILayout.Label("Delay: " + MiscOptions.SpammerDelay + "ms", Prefab._TextStyle);
                     GUILayout.Space(5);
-                    MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 3000, MiscOptions.SpammerDelay, 175);
+                    MiscOptions.SpammerDelay = (int)Prefab.Slider(0, 10000, MiscOptions.SpammerDelay, 175);
                 });
 
                 Prefab.MenuArea(new Rect(220 + 10 + 5, 436 - 135 - 30, 221, 155), "INTERACT", () =>

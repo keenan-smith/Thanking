@@ -36,10 +36,11 @@ namespace Thanking.Options
         [Save] public static int SpammerDelay = 0;
 
         [Save] public static bool VehicleFly = false;
+		[Save] public static bool VehicleUseMaxSpeed = false;
         [Save] public static float SpeedMultiplier = 1f;
 
 		[Save] public static bool ExtendMeleeRange = false;
-		[Save] public static float MeleeRangeExtension = 10f;
+		[Save] public static float MeleeRangeExtension = 7.5f;
 
 		public static bool NoMovementVerification = false;
 		[Save] public static bool AlwaysCheckMovementVerification = false;
@@ -51,6 +52,12 @@ namespace Thanking.Options
 		[Save] public static bool Freecam = false;
 		
 		[Save] public static HashSet<ulong> Friends = new HashSet<ulong>();
+		
+		[Save] public static int SCrashMethod = 1;
 
+		[Save] public static int AntiSpyMethod = 0;
+		[Save] public static string AntiSpyPath = "";
+		
+		[Save] public static bool AlertOnSpy = false;
 	}
 }

@@ -13,12 +13,16 @@ namespace Thanking.Overrides
         [Override(typeof(UseableMelee), "fire", BindingFlags.NonPublic | BindingFlags.Instance)]
         public static void OV_fire()
         {
-            if (MiscOptions.ExtendMeleeRange && !(OptimizationVariables.MainPlayer.equipment.useable is UseableGun))
-                OV_DamageTool.OVType = OverrideType.Extended;
+            OV_DamageTool.OVType = OverrideType.None;
+            
+            if (RaycastOptions.Enabled && MiscOptions.ExtendMeleeRange)
+                OV_DamageTool.OVType = OverrideType.SilentAimMelee;
+            
             else if (RaycastOptions.Enabled)
                 OV_DamageTool.OVType = OverrideType.SilentAim;
-            else
-                OV_DamageTool.OVType = OverrideType.None;
+            
+            else if (MiscOptions.ExtendMeleeRange)
+                OV_DamageTool.OVType = OverrideType.Extended;
 
             OverrideUtilities.CallOriginal(OptimizationVariables.MainPlayer.equipment.useable);
 

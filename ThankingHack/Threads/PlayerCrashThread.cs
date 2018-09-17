@@ -1,65 +1,64 @@
-﻿﻿using System.Linq;
- using System.Reflection;
- using System.Threading;
+﻿﻿using System;
+ using System.Collections.Generic;
+ using System.Linq;
+using System.Reflection;
+using System.Threading;
 using SDG.Unturned;
 using Steamworks;    
 using Thanking.Attributes;
-using Thanking.Utilities;
-using UnityEngine;
+ using Thanking.Options;
+ using Thanking.Overrides;
+ using Thanking.Utilities;
+ using Thanking.Variables;
+ using UnityEngine;
 
 namespace Thanking.Threads
 {
     public static class PlayerCrashThread
     {
-        public static bool PlayerCrashEnabled;
         public static bool ContinuousPlayerCrash;
+        public static List<CSteamID> CrashTargets = new List<CSteamID>();
         public static CSteamID CrashTarget;
         
         [Thread]
         public static void Start()
         {
-            Thread.Sleep(5000);
             #if DEBUG
 			DebugUtilities.Log("Player Crash Thread Started");
 			#endif
-            Provider.onEnemyDisconnected += OnDisconnect;
 
-            ResourceManager instance = (ResourceManager) typeof(ResourceManager)
-                .GetField("manager", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-            
-            instance.channel.getPacket(ESteamPacket.UPDATE_UNRELIABLE_INSTANT,
-                instance.channel.getCall("askResources"), out int size, out byte[] Packet, (byte)0, (byte)0);
+            byte[] P1 = {(byte)ESteamPacket.UPDATE_RELIABLE_INSTANT, 0, 0};
             
             while (true)
-            {
-                if (PlayerCrashEnabled)
-                    Provider.send(CrashTarget, ESteamPacket.UPDATE_UNRELIABLE_INSTANT, Packet, size, instance.channel.id);
-                
+                if (CrashTarget != CSteamID.Nil)
+                    SteamNetworking.SendP2PPacket(CrashTarget, P1, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
                 else
-                {
-                    Thread.Sleep(1000);
-                    if (!ContinuousPlayerCrash || Provider.clients.Count == 0)
-                        continue;
-
-                    PlayerCrashEnabled = true;
-                    Thread.Sleep(1000);
-                    
-                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
-                        .First(p => !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
-                }
-            }
+                    Thread.Sleep(500);
         }
 
-        public static void OnDisconnect(SteamPlayer player)
+        [Thread]
+        public static void CheckThread()
         {
-            if (player.playerID.steamID == CrashTarget)
+            while (true)
             {
-                if (!ContinuousPlayerCrash)
-                    PlayerCrashEnabled = false;
-                
-                else
-                    CrashTarget = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
-                        .First(p => p.playerID.steamID != CrashTarget && !FriendUtilities.IsFriendly(p.player)).playerID.steamID;
+                if (Provider.clients.All(p => CrashTarget != p.playerID.steamID))
+                {
+                    if (ContinuousPlayerCrash && Provider.clients.Count > 1)
+                    {
+                        CSteamID? sid = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
+                            .FirstOrDefault(p =>
+                                p.playerID.steamID != CrashTarget && !FriendUtilities.IsFriendly(p.player))
+                            ?.playerID
+                            .steamID;
+
+                        if (sid.HasValue)
+                            CrashTarget = sid.Value;
+                    }
+                    else
+                        CrashTarget = CrashTargets.Count > 0 ? CrashTargets.First(c => Provider.clients.Any(p => p.playerID.steamID == c)) : CSteamID.Nil;
+                }
+
+                Thread.Sleep(500);
             }
         }  
     }

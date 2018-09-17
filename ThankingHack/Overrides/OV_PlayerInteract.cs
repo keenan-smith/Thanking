@@ -112,6 +112,13 @@ namespace Thanking.Overrides
             highlighter.SeeThroughOn();
         }
 
+        [OnSpy]
+        public static void OnSpied()
+        {
+            Transform cPos = OptimizationVariables.MainCam.transform;
+            PhysicsUtility.raycast(new Ray(cPos.position, cPos.forward), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? 6 : 4, RayMasks.PLAYER_INTERACT, 0);
+        }
+
         [Override(typeof(PlayerInteract), "Update", BindingFlags.NonPublic | BindingFlags.Instance)]
         public void OV_Update() // i have no idea what any of this does tbh
         {
@@ -125,7 +132,7 @@ namespace Thanking.Overrides
                 {
                     int Mask = 0;
 
-                    if (InteractionOptions.InteractThroughWalls)
+                    if (InteractionOptions.InteractThroughWalls && !PlayerCoroutines.IsSpying)
                     {
                         if (!InteractionOptions.NoHitBarricades)
                             Mask |= RayMasks.BARRICADE;
@@ -147,16 +154,14 @@ namespace Thanking.Overrides
                     }
                     else
                         Mask = RayMasks.PLAYER_INTERACT;
+                    
                     lastInteract = Time.realtimeSinceStartup;
 
                     bool Run = InteractionOptions.InteractThroughWalls && !PlayerCoroutines.IsSpying;
-                    
                     float Range = Run ? 20f : 4f;
-                    int RayMask = Run ? Mask : RayMasks.PLAYER_INTERACT;
-                        
 
                     PlayerLook pLook = OptimizationVariables.MainPlayer.look;
-                    PhysicsUtility.raycast(new Ray(pLook.aim.position, pLook.aim.forward), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, RayMask, 0);
+                    PhysicsUtility.raycast(new Ray(pLook.aim.position, pLook.aim.forward), out hit, OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.THIRD ? Range + 2 : Range, Mask, 0);
                 }
 
                 if (hit.transform != focus)

@@ -25,8 +25,17 @@ namespace Thanking.Components.Basic
         {
             while (true)
             {
-                yield return new WaitForSeconds(0.05f);
-                Sphere.transform.localPosition = gameObject.GetComponent<Rigidbody>().velocity * Provider.ping * 2;
+                yield return new WaitForSeconds(0.1f);
+
+                if (Sphere)
+                {
+                    Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+                    
+                    if (rb)
+                        Sphere.transform.localPosition = rb.velocity * Provider.ping * 2;
+                    else
+                        Sphere.transform.localPosition = Vector3.zero;
+                }
             }
         }
 
@@ -34,14 +43,16 @@ namespace Thanking.Components.Basic
         {
             while (true)
             {
-                Destroy(Sphere);
+                GameObject tmp = Sphere;
                 
-                Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15.5f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
+                Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
                 Sphere.layer = LayerMasks.AGENT;
                 Sphere.transform.parent = transform;
-                Sphere.transform.localPosition = new Vector3(0, 0, 0);
+                Sphere.transform.localPosition = Vector3.zero;
                 
-                yield return new WaitForSeconds(0.25f);
+                Destroy(tmp);
+                
+                yield return new WaitForSeconds(1);
             }
         }
     }
