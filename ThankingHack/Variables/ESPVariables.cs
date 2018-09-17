@@ -38,13 +38,14 @@ namespace Thanking.Variables
         public bool Labels;
 		public bool ShowName;
 		public bool ShowDistance;
+		public bool ShowAngle;
         public bool TwoDimensional;
         public bool Glow;
         public bool InfiniteDistance;
 		public bool LineToObject;
 		public bool TextScaling;
 		public bool UseObjectCap;
-
+	
 		public LabelLocation Location;
 		public float Distance;
 		public float MinTextSizeDistance;

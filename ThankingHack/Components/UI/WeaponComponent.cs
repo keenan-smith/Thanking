@@ -20,43 +20,83 @@ namespace Thanking.Components.UI
 		public static Dictionary<ushort, float[]> AssetBackups = new Dictionary<ushort, float[]>();
 		public static FieldInfo AmmoInfo;
         public static List<TracerLine> Tracers = new List<TracerLine>();
+		public static Camera MainCamera;
+		public static MethodInfo UpdateCrosshair;
 
 		public static byte Ammo() => 
 			(byte)AmmoInfo.GetValue(OptimizationVariables.MainPlayer.equipment.useable);
 
 		public void Start()
 		{
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 0, 0, 255)));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers Hit", new Color32(255, 255, 255, 255)));
+            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers (Hit)", new Color32(255, 0, 0, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 255, 255, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoColor", "Weapons - Information", new Color32(0, 255, 0, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoBorder", "Weapons - Information (Border)", new Color32(0, 0, 0, 255)));
+			
             AmmoInfo = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
+			UpdateCrosshair = typeof(UseableGun).GetMethod("updateCrosshair", BindingFlags.NonPublic | BindingFlags.Instance);
 			StartCoroutine(UpdateWeapon());
 		}
-		
+
 		public void OnGUI()
 		{
+			if (MainCamera == null)
+				MainCamera = Camera.main;
+
 			if (WeaponOptions.NoSway)
 				if (OptimizationVariables.MainPlayer != null && OptimizationVariables.MainPlayer.animator != null)
 					OptimizationVariables.MainPlayer.animator.viewSway = Vector3.zero;
-			
+
 			if (Event.current.type != EventType.Repaint)
-				return;
-			
-			if (!WeaponOptions.ShowWeaponInfo)
 				return;
 
 			if (!DrawUtilities.ShouldRun())
 				return;
 
-			if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
-				return;
+			if (WeaponOptions.Tracers)
+			{
+				ESPComponent.GLMat.SetPass(0);
 
-			GUI.depth = 0;
-			ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
-			string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>";
+				GL.PushMatrix();
+				GL.LoadProjectionMatrix(MainCamera.projectionMatrix);
+				GL.modelview = MainCamera.worldToCameraMatrix;
+				GL.Begin(GL.LINES);
+				
+				for (int i = Tracers.Count - 1; i > -1; i--)
+				{
+					TracerLine t = Tracers[i];
+					if (DateTime.Now - t.CreationTime > TimeSpan.FromSeconds(5))
+					{
+						Tracers.Remove(t);
+						continue;
+					}
 
-			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft, new Vector2(Screen.width - 20, Screen.height / 2), text, Color.green, Color.black, 4);
+					GL.Color(t.Hit
+						? ColorUtilities.getColor("_BulletTracersHitColor")
+						: ColorUtilities.getColor("_BulletTracersColor"));
+					
+					GL.Vertex(t.StartPosition);
+					GL.Vertex(t.EndPosition);
+				}
+
+				GL.End();
+				GL.PopMatrix();
+			}
+
+			if (WeaponOptions.ShowWeaponInfo)
+			{
+				if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
+					return;	
+
+				GUI.depth = 0;
+				ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
+				string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>";
+
+				DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft,
+					new Vector2(Screen.width - 20, Screen.height / 2), text,  ColorUtilities.getColor("_WeaponInfoColor"), ColorUtilities.getColor("_WeaponInfoBorder"), 1);
+			}
 		}
-		
+
 		public static IEnumerator UpdateWeapon()
 		{
 			while (true)
@@ -115,7 +155,7 @@ namespace Thanking.Components.UI
 					PAsset.spreadAim = AssetBackups[PAsset.id][5];
 					PAsset.spreadHip = AssetBackups[PAsset.id][6];
 
-					Player.player.equipment.useable.updateState(Player.player.equipment.state);
+					UpdateCrosshair.Invoke(OptimizationVariables.MainPlayer.equipment.useable, null);
 				}
 			
 				Reload();
@@ -139,9 +179,11 @@ namespace Thanking.Components.UI
 					((ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset).magazineCalibers)
 					.Where(i => i.jar.item.amount > 0);
 
-			if (!magazineSearch.Any()) return;
+			var inventorySearches = magazineSearch.ToList();
+			if (inventorySearches.Count == 0)
+				return;
 			
-			InventorySearch search = magazineSearch
+			InventorySearch search = inventorySearches
 					.OrderByDescending(i => i.jar.item.amount)
 					.First();
 

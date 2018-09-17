@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using SDG.Unturned;
 using Thanking.Variables;
 using UnityEngine;
@@ -26,5 +27,11 @@ namespace Thanking.Utilities
         
         public static Vector3 Normalize(Vector3 vector) =>
             vector / (float)GetMagnitude(vector);
+
+        public static double GetAngleDelta(Vector3 mainPos, Vector3 forward, Vector3 target)
+        {
+            Vector3 normalized = Normalize(target - mainPos);
+            return Math.Atan2(GetMagnitude(Vector3.Cross(normalized, forward)), Vector3.Dot(normalized, forward)) * (180 / Math.PI);
+        }
     }
 }

@@ -30,7 +30,10 @@ namespace Thanking.Components.Basic
 			{
 				yield return new WaitForSeconds(0.1f);
 
-				if (!TriggerbotOptions.Enabled || !DrawUtilities.ShouldRun())
+				if (!TriggerbotOptions.Enabled || !DrawUtilities.ShouldRun() || 
+				    OptimizationVariables.MainPlayer.stance.stance == EPlayerStance.SPRINT || 
+				    OptimizationVariables.MainPlayer.stance.stance == EPlayerStance.CLIMB ||
+				    OptimizationVariables.MainPlayer.stance.stance == EPlayerStance.DRIVING)
 				{
 					TriggerbotOptions.IsFiring = false;
 					continue;

@@ -15,6 +15,7 @@ namespace Thanking.Options.AimOptions
         [Save] public static bool NoDrop = true;
         [Save] public static bool OofOnDeath = true;
 		[Save] public static bool AutoReload = true;
+		[Save] public static bool Tracers = true;
         [Save] public static bool EnableBulletDropPrediction = true;
         [Save] public static bool HighlightBulletDropPredictionTarget = true;
 	}

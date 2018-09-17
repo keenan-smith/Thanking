@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using SDG.Unturned;
 using Thanking.Attributes;
@@ -25,9 +26,16 @@ namespace Thanking.Components.Basic
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
         public static bool NightvisionBeforeSpy;
+        public static List<PlayerInputPacket> ClientsidePackets;
 
         public static FieldInfo Primary =
             typeof(PlayerEquipment).GetField("_primary", BindingFlags.NonPublic | BindingFlags.Instance);
+        
+        public static FieldInfo Sequence =
+            typeof(PlayerInput).GetField("sequence", BindingFlags.NonPublic | BindingFlags.Instance);
+        
+        public static FieldInfo CPField =
+            typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private int currentKills = 0;
 
@@ -93,6 +101,9 @@ namespace Thanking.Components.Basic
 
             HotkeyComponent.ActionDict.Add("_SelectPlayer", () =>
             {
+                Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
+                Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
+                
                 if (RaycastOptions.EnablePlayerSelection)
                 {
                     foreach (GameObject o in RaycastUtilities.Objects)
@@ -100,16 +111,7 @@ namespace Thanking.Components.Basic
                         Player player = o.GetComponent<Player>();
                         if (player != null)
                         {
-                            Vector3 screenPos3d = OptimizationVariables.MainCam
-                                .WorldToScreenPoint(AimbotCoroutines.GetAimPosition(player.transform, "Skull"));
-
-                            if (screenPos3d.z <= 0)
-                                continue;
-
-                            Vector2 screenPos = new Vector2(screenPos3d.x, screenPos3d.y);
-                            float crosshairDistance = Vector2.Distance(screenPos, Input.mousePosition);
-
-                            if (crosshairDistance < RaycastOptions.FOV)
+                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward, o.transform.position) < RaycastOptions.SelectedFOV)
                             {
                                 RaycastUtilities.TargetedPlayer = player;
                                 break;
@@ -132,12 +134,6 @@ namespace Thanking.Components.Basic
 
         public void Update()
         {
-            if (Time.realtimeSinceStartup - OV_Provider.LastPing > 30 && OV_Provider.LastPing != 0 && OV_Provider.IsConnected && (ServerCrashThread.ServerCrashEnabled || ServerCrashThread.AlwaysCrash))
-            {
-                Provider._connectionFailureInfo = ESteamConnectionFailureInfo.TIMED_OUT;
-                Provider.disconnect();
-            }
-
             if (Player.player != null && OptimizationVariables.MainPlayer == null) 
                 OptimizationVariables.MainPlayer = Player.player;
             
@@ -155,7 +151,7 @@ namespace Thanking.Components.Basic
                 if (New != currentKills)
                 {
                     currentKills = New;
-                    OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 2);
+                    OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
                 }
             }
             else
@@ -179,6 +175,9 @@ namespace Thanking.Components.Basic
 
         public void FixedUpdate()
         {
+            if (!OptimizationVariables.MainPlayer) 
+                return;
+            
             VehicleFlight();
             PlayerFlight();
         }
@@ -186,10 +185,7 @@ namespace Thanking.Components.Basic
         public static void PlayerFlight()
         {
             Player plr = OptimizationVariables.MainPlayer;
-
-            if (plr == null)
-                return;
-
+            
             if (!MiscOptions.PlayerFlight)
             {
                 ItemCloudAsset asset = plr.equipment.asset as ItemCloudAsset;
@@ -222,60 +218,60 @@ namespace Thanking.Components.Basic
 
         public static void VehicleFlight()
         {
-            if (OptimizationVariables.MainPlayer == null)
-                return;
-
             InteractableVehicle vehicle = OptimizationVariables.MainPlayer.movement.getVehicle();
 
             if (vehicle == null)
                 return;
 
             Rigidbody rb = vehicle.GetComponent<Rigidbody>();
-
+            
             if (rb == null)
                 return;
 
             if (MiscOptions.VehicleFly)
             {
+                float speedMul = MiscOptions.VehicleUseMaxSpeed ? vehicle.asset.speedMax * Time.fixedDeltaTime : MiscOptions.SpeedMultiplier / 3;
+                
                 rb.useGravity = false;
                 rb.isKinematic = true;
+                
                 Transform tr = vehicle.transform;
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeUp"))
-                    tr.position = tr.position + new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
+                    tr.position = tr.position + new Vector3(0f, speedMul * 0.65f, 0f);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeDown"))
-                    tr.position = tr.position - new Vector3(0f, 0.03f * MiscOptions.SpeedMultiplier, 0f);
+                    tr.position = tr.position - new Vector3(0f, speedMul * 0.65f, 0f);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeLeft"))
-                    rb.MovePosition(tr.position - tr.right / 5f * MiscOptions.SpeedMultiplier);
+                    rb.MovePosition(tr.position - tr.right * speedMul);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeRight"))
-                    rb.MovePosition(tr.position + tr.right / 5f * MiscOptions.SpeedMultiplier);
+                    rb.MovePosition(tr.position + tr.right * speedMul);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFMoveForward"))
-                    rb.MovePosition(tr.position + tr.forward / 5f * MiscOptions.SpeedMultiplier);
+                    rb.MovePosition(tr.position + tr.forward * speedMul);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFMoveBackward"))
-                    rb.MovePosition(tr.position - tr.forward / 6f * MiscOptions.SpeedMultiplier);
+                    rb.MovePosition(tr.position - tr.forward * speedMul);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFRotateRight"))
-                    tr.Rotate(0f, 0.6f * MiscOptions.SpeedMultiplier, 0f);
+                    tr.Rotate(0f, 1f, 0f);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFRotateLeft"))
-                    tr.Rotate(0f, -0.6f * MiscOptions.SpeedMultiplier, 0f);
+                    tr.Rotate(0f, -1f, 0f);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFRollLeft"))
-                    tr.Rotate(0f, 0f, 0.8f * MiscOptions.SpeedMultiplier);
+                    tr.Rotate(0f, 0f, 2f);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFRollRight"))
-                    tr.Rotate(0f, 0f, -0.8f * MiscOptions.SpeedMultiplier);
+                    tr.Rotate(0f, 0f, -2f);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFRotateUp"))
-                    vehicle.transform.Rotate(-0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
+                    vehicle.transform.Rotate(-2f, 0f, 0f);
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFRotateDown"))
-                    vehicle.transform.Rotate(0.8f * MiscOptions.SpeedMultiplier, 0f, 0f);
+                    vehicle.transform.Rotate(2f, 0f, 0f);
             }
             else
             {

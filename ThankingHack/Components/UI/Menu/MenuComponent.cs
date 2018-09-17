@@ -21,7 +21,7 @@ namespace Thanking.Components.UI.Menu
         public static bool IsInMenu;
         public static KeyCode MenuKey = KeyCode.F1;
 
-        public static Rect MenuRect = new Rect(29, 29, 640, 480);
+        public static Rect MenuRect = new Rect(29, 29, 640, 480); //GOD SAID 640 BY 480.
 
         public static Color32 _OutlineBorderBlack;
         public static Color32 _OutlineBorderLightGray;
@@ -32,7 +32,8 @@ namespace Thanking.Components.UI.Menu
 
         private Rect _cursor = new Rect(0, 0, 20f, 20f);
         private Texture _cursorTexture;
-
+        
+        private int _pIndex = 0;
 
         // Use this for initialization
         void Start()
@@ -66,25 +67,23 @@ namespace Thanking.Components.UI.Menu
         {
             if (IsInMenu && _LogoTexLarge != null)
             {
+                if (_cursorTexture == null)
+                    _cursorTexture = Resources.Load("UI/Cursor") as Texture;
+                
+                GUI.depth = -1;
+                MenuRect = GUI.Window(0, MenuRect, DoMenu, "Ironic");
+
+                GUI.depth = -2;
+                _cursor.x = Input.mousePosition.x;
+                _cursor.y = Screen.height - Input.mousePosition.y;
+
+                GUI.DrawTexture(_cursor, _cursorTexture);
+                Cursor.lockState = CursorLockMode.None;
+                
                 if (PlayerUI.window != null)
                     PlayerUI.window.showCursor = true;
-
-                try
-                {
-                    if (_cursorTexture == null)
-                        _cursorTexture = Resources.Load("UI/Cursor") as Texture;
-
-                    PlayerUI.window.showCursor = true;
-                    _cursor.x = Input.mousePosition.x;
-                    _cursor.y = Screen.height - Input.mousePosition.y;
-                    GUI.depth = 0;
-                    GUI.DrawTexture(_cursor, _cursorTexture);
-                }
-                catch { }
-                MenuRect = GUI.Window(0, MenuRect, DoMenu, "Ironic");
             }
         }
-
 
         #region Backend
         void DoMenu(int id)
@@ -126,25 +125,37 @@ namespace Thanking.Components.UI.Menu
         {
             GUILayout.BeginArea(new Rect(15, 25, 130, 325));
             GUILayout.BeginVertical();
-            for (int i = 0; i < MenuTabOption.tabs.Count; i++)
-            {
-                if (Prefab.MenuTab(MenuTabOption.tabs[i].name, ref MenuTabOption.tabs[i].enabled))
-                {
-                    MenuTabOption.CurrentTab = MenuTabOption.tabs[i].enabled ? MenuTabOption.tabs[i] : null;
-                }
-                GUILayout.Space(-11);
 
-                if (MenuTabOption.tabs[i] != MenuTabOption.CurrentTab)
-                    MenuTabOption.tabs[i].enabled = false;
+            for (int i = 0; i < MenuTabOption.tabs[_pIndex].Count; i++)
+            {
+                if (Prefab.MenuTab(MenuTabOption.tabs[_pIndex][i].name, ref MenuTabOption.tabs[_pIndex][i].enabled))
+                    MenuTabOption.CurrentTab = MenuTabOption.tabs[_pIndex][i].enabled ? MenuTabOption.tabs[_pIndex][i] : null;
+    
+                GUILayout.Space(-11);    
+
+                if (MenuTabOption.tabs[_pIndex][i] != MenuTabOption.CurrentTab)
+                    MenuTabOption.tabs[_pIndex][i].enabled = false;
             }
+            
+            GUILayout.Space(20);
+            
             GUILayout.EndVertical();
-            GUILayout.EndArea();
+
+            bool temp = false;
+            
+            if (Prefab.MenuTabAbsolute(new Vector2(0, 325 - 33), "prev", ref temp) && _pIndex > 0)
+                _pIndex--;
+            
+            if (Prefab.MenuTabAbsolute(new Vector2(55 + 21, 325 - 33), "next", ref temp) && _pIndex < MenuTabOption.tabs.Length - 1)
+                _pIndex++;
+            
+            GUILayout.EndArea();    
         }
 
         void DrawTabs()
         {
             GUILayout.BeginArea(new Rect(160, 25, 466, 436));
-            if (MenuTabOption.CurrentTab != null)
+            if (MenuTabOption.CurrentTab != null)      
             {
                 MenuTabOption.CurrentTab.tab();
             }

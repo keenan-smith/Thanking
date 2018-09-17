@@ -1,8 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Xml.Schema;
 using SDG.Unturned;
 using Steamworks;    
 using Thanking.Attributes;
+using Thanking.Options;
 using Thanking.Overrides;
 using Thanking.Utilities;
 using UnityEngine;
@@ -23,29 +28,25 @@ namespace Thanking.Threads
                 OV_Provider.IsConnected = false;
             };
 
+            byte[] P1 = { (byte) ESteamPacket.WORKSHOP, 0, 0 };
+            byte[] P2 = { (byte) ESteamPacket.BATTLEYE, 0, 0 };
+            
             while (true)
             {
-                if (ServerCrashEnabled || (AlwaysCrash && OV_Provider.IsConnected))
-                    Provider.send(Provider.server, ESteamPacket.BATTLEYE, new[] { (byte)ESteamPacket.BATTLEYE }, 1, 0);
+                if (OV_Provider.IsConnected && (ServerCrashEnabled || AlwaysCrash))
+                {
+                    switch (MiscOptions.SCrashMethod)
+                    {
+                        case 1:
+                            SteamNetworking.SendP2PPacket(Provider.server, P1, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                            break;
+                        case 2:
+                            SteamNetworking.SendP2PPacket(Provider.server, P2, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                            break;
+                    }
+                }
                 else
                     Thread.Sleep(1000);
-            }
-        }
-
-        [Thread]
-        public static void PingCheck()
-        {
-            while (true)
-            {
-                Thread.Sleep(15);
-                
-                if (!OV_Provider.IsConnected)
-                    continue;
-                
-                Provider.send(Provider.server, ESteamPacket.PING_REQUEST, new byte[]
-                {
-                    13
-                }, 1, 0);
             }
         }
     }

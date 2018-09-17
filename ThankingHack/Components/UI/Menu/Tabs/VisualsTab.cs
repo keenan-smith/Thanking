@@ -53,6 +53,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 	                Prefab.Toggle("Show Vehicle Fuel", ref ESPOptions.ShowVehicleFuel);
 	                Prefab.Toggle("Show Vehicle Health", ref ESPOptions.ShowVehicleHealth);
 	                Prefab.Toggle("Show Vehicle Locked", ref ESPOptions.ShowVehicleLocked);
+	                Prefab.Toggle("Filter Out Locked", ref ESPOptions.FilterVehicleLocked);
 	                
 	                GUILayout.EndVertical();
 	                GUILayout.FlexibleSpace();
@@ -166,7 +167,17 @@ namespace Thanking.Components.UI.Menu.Tabs
 
             Prefab.MenuArea(new Rect(225 + 5, 180 + 5, 466 - 225 - 5, 436 - 186), "TOGGLE", () =>
             {
-                Prefab.Toggle("ESP", ref ESPOptions.Enabled);
+	            if (Prefab.Toggle("ESP", ref ESPOptions.Enabled))
+	            {
+		            if (!ESPOptions.Enabled)
+		            {
+			            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+				            ESPOptions.VisualOptions[i].Glow = false;
+		            
+			            Loader.HookObject.GetComponent<ESPComponent>().OnGUI();		
+		            }
+	            }
+	            
 				Prefab.Toggle("Chams", ref ESPOptions.ChamsEnabled);
 
 				if (ESPOptions.ChamsEnabled)
@@ -190,10 +201,18 @@ namespace Thanking.Components.UI.Menu.Tabs
 				return;
 
 			Prefab.Toggle("Labels", ref visual.Labels);
+	        if (visual.Labels)
+	        {
+		        Prefab.Toggle("Show Name", ref visual.ShowName);
+		        Prefab.Toggle("Show Distance", ref visual.ShowDistance);
+		        Prefab.Toggle("Show Angle", ref visual.ShowAngle);
+	        }
+	        
 			Prefab.Toggle("Box ESP", ref visual.Boxes);
-			Prefab.Toggle("2D Boxes", ref visual.TwoDimensional);
-	        Prefab.Toggle("Show Name", ref visual.ShowName);
-	        Prefab.Toggle("Show Distance", ref visual.ShowDistance);
+	        
+	        if (visual.Boxes)
+				Prefab.Toggle("2D Boxes", ref visual.TwoDimensional);
+	        
 			Prefab.Toggle("Glow", ref visual.Glow);
 			Prefab.Toggle("Line To Object", ref visual.LineToObject);
 
@@ -225,7 +244,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			visual.BorderStrength = Prefab.TextField(visual.BorderStrength, "Border Strength:", 30);
 			GUILayout.Space(3);
 			GUIContent[] LabelLocations = { new GUIContent("Top Right"), new GUIContent("Top Middle"), new GUIContent("Top Left"), new GUIContent("Middle Right"), new GUIContent("Center"), new GUIContent("Middle Left"), new GUIContent("Bottom Right"), new GUIContent("Bottom Middle"), new GUIContent("Bottom Left") };
-			if (Prefab.List(200, "_LabelLocations", new GUIContent("Label Location: " + LabelLocations[DropDown.Get("_LabelLocations").ListIndex].text), LabelLocations))
+			if (Prefab.List(200, "_LabelLocations", new GUIContent("Label Location: " + LabelLocations[(int)ESPOptions.VisualOptions[target].Location].text), LabelLocations))
 				ESPOptions.VisualOptions[target].Location = (LabelLocation)DropDown.Get("_LabelLocations").ListIndex;
 		}
 	}
