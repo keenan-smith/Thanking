@@ -128,7 +128,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        {
 				        GUILayout.Space(2);
 				        GUILayout.Label("Selection FOV: " + RaycastOptions.SelectedFOV, Prefab._TextStyle);
-				        RaycastOptions.SelectedFOV = Prefab.Slider(1, 300, RaycastOptions.SelectedFOV, 200);
+				        RaycastOptions.SelectedFOV = Prefab.Slider(1, 180, RaycastOptions.SelectedFOV, 200);
 				        Prefab.Toggle("Only Shoot Selected", ref RaycastOptions.OnlyShootAtSelectedPlayer);
 			        }
 			        GUILayout.Space(2);
@@ -138,7 +138,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			        {
 				        GUILayout.Space(2);
 				        GUILayout.Label("Aim FOV: " + RaycastOptions.SilentAimFOV, Prefab._TextStyle);
-				        RaycastOptions.SilentAimFOV = Prefab.Slider(1, 300, RaycastOptions.SilentAimFOV, 200);
+				        RaycastOptions.SilentAimFOV = Prefab.Slider(1, 180, RaycastOptions.SilentAimFOV, 200);
 			        }
 			        
 			        GUILayout.Space(2);

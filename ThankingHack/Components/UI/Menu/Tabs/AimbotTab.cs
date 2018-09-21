@@ -25,7 +25,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 				}
 
                 GUILayout.Label("FOV: " + AimbotOptions.FOV, Prefab._TextStyle);
-                AimbotOptions.FOV = (int)Prefab.Slider(1, 300, AimbotOptions.FOV, 200);
+                AimbotOptions.FOV = (int)Prefab.Slider(1, 180, AimbotOptions.FOV, 200);
                 GUILayout.Label("Distance: " + AimbotOptions.Distance, Prefab._TextStyle);
                 AimbotOptions.Distance = (int)Prefab.Slider(50, 1000, AimbotOptions.Distance, 200);
                 GUIContent[] TargetMode = {
