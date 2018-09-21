@@ -32,7 +32,7 @@ namespace Thanking.Components.Basic
                     Rigidbody rb = gameObject.GetComponent<Rigidbody>();
                     
                     if (rb)
-                        Sphere.transform.localPosition = rb.velocity * Provider.ping * 2;
+                        Sphere.transform.localPosition = rb.velocity * Provider.ping;
                     else
                         Sphere.transform.localPosition = Vector3.zero;
                 }
@@ -45,14 +45,14 @@ namespace Thanking.Components.Basic
             {
                 GameObject tmp = Sphere;
                 
-                Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
+                Sphere = IcoSphere.Create("HitSphere", SphereOptions.SpherePrediction ? 15.5f : SphereOptions.SphereRadius, SphereOptions.RecursionLevel);
                 Sphere.layer = LayerMasks.AGENT;
                 Sphere.transform.parent = transform;
                 Sphere.transform.localPosition = Vector3.zero;
                 
                 Destroy(tmp);
                 
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(1f);
             }
         }
     }

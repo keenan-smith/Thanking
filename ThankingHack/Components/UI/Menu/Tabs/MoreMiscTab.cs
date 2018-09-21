@@ -28,7 +28,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 GUILayout.Label($"Server Crash Method: {MiscOptions.SCrashMethod}", Prefab._TextStyle);
                 GUILayout.Space(2);
-                MiscOptions.SCrashMethod = (int) Prefab.Slider(1, 2, MiscOptions.SCrashMethod, 150);
+                MiscOptions.SCrashMethod = (int) Prefab.Slider(1, 3, MiscOptions.SCrashMethod, 150);
 
                 GUIContent[] SpyMethods =
                 {
