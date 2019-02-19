@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thanking.Attributes
+namespace Thinking.Attributes
 {
     /// <summary>
     /// Config save field

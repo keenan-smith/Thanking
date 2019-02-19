@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public static class MenuUtilities
     {

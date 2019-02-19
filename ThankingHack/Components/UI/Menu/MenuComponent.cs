@@ -1,14 +1,14 @@
 ﻿using System.Reflection;
 using SDG.Provider;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Managers.Main;
-using Thanking.Options;
-using Thanking.Options.UIVariables;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Managers.Main;
+using Thinking.Options;
+using Thinking.Options.UIVariables;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu
+namespace Thinking.Components.UI.Menu
 {
     [SpyComponent]
     [Component]

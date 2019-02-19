@@ -1,8 +1,9 @@
-﻿using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Misc;
+﻿using System.Collections.Generic;
+using SDG.Unturned;
+using Thinking.Attributes;
+using Thinking.Misc;
 
-namespace Thanking.Options.AimOptions
+namespace Thinking.Options.AimOptions
 {
 	public enum TargetPriority
 	{
@@ -28,7 +29,7 @@ namespace Thanking.Options.AimOptions
 		[Save] public static bool SilentAimUseFOV = false;
 		[Save] public static float SilentAimFOV = 10F;
 
-        [Save] public static TargetPriority Target = TargetPriority.Players;
+        [Save] public static HashSet<TargetPriority> Targets = new HashSet<TargetPriority> {TargetPriority.Players, TargetPriority.Zombies};
 		[Save] public static EPhysicsMaterial TargetMaterial = EPhysicsMaterial.ALIEN_DYNAMIC;
 		[Save] public static ELimb TargetLimb = ELimb.SKULL;
 		[Save] public static SerializableVector TargetRagdoll = new SerializableVector(0, 10, 0);

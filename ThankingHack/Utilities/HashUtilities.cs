@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public class HashUtilities
     {

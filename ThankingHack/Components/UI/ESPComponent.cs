@@ -1,21 +1,21 @@
 ﻿using System;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Components.Basic;
-using Thanking.Coroutines;
-using Thanking.Options;
-using Thanking.Options.VisualOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Components.Basic;
+using Thinking.Coroutines;
+using Thinking.Options;
+using Thinking.Options.VisualOptions;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 using HighlightingSystem;
 using System.Collections.Generic;
 using System.Linq;
-using Thanking.Managers.Main;
+using Thinking.Managers.Main;
 using UnityEngine.PostProcessing;
-using Thanking.Options.AimOptions;
+using Thinking.Options.AimOptions;
 
-namespace Thanking.Components.UI
+namespace Thinking.Components.UI
 {
 	[SpyComponent]
 	[Component]
@@ -127,8 +127,8 @@ namespace Thanking.Components.UI
 						break;
 					case ESPTarget.Vehicles:
 						
-						b = go.transform.FindChild("Model_0").GetComponent<MeshRenderer>().bounds;
-						Transform child = go.transform.FindChild("Model_1");
+						b = go.transform.Find("Model_0").GetComponent<MeshRenderer>().bounds;
+						Transform child = go.transform.Find("Model_1");
 						
 						if (child != null)
 							b.Encapsulate(child.GetComponent<MeshRenderer>().bounds);

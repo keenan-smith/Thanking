@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Thanking.Attributes;
-using Thanking.Misc;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Misc;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Options.VisualOptions
+namespace Thinking.Options.VisualOptions
 {
 	public static class ESPOptions
 	{

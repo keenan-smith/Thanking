@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Components.UI;
-using Thanking.Options;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Components.UI;
+using Thinking.Options;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
 	public enum OverrideType
 	{

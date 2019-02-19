@@ -1,11 +1,11 @@
 ﻿using System;
 using SDG.Unturned;
-using Thanking.Options;
-using Thanking.Options.AimOptions;
-using Thanking.Options.UIVariables;
+using Thinking.Options;
+using Thinking.Options.AimOptions;
+using Thinking.Options.UIVariables;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu.Tabs
+namespace Thinking.Components.UI.Menu.Tabs
 {
     public static class WeaponsTab
     {
@@ -21,44 +21,17 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("No Drop", ref WeaponOptions.NoDrop);
 		        Prefab.Toggle("Triggerbot", ref TriggerbotOptions.Enabled);
 		        Prefab.Toggle("Auto Reload", ref WeaponOptions.AutoReload);
-		        Prefab.Toggle("Oof on Death", ref WeaponOptions.OofOnDeath);
 		        Prefab.Toggle("Show Weapon Information", ref WeaponOptions.ShowWeaponInfo);
                 Prefab.Toggle("Bullet Drop Prediction", ref WeaponOptions.EnableBulletDropPrediction);
                 Prefab.Toggle("Highlight Prediction Target", ref WeaponOptions.HighlightBulletDropPredictionTarget);
 		        Prefab.Toggle("Custom Material", ref RaycastOptions.UseTargetMaterial);
+		        
+		        Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
+		        
+		        if (!RaycastOptions.UseRandomLimb)
+			        Prefab.Toggle("Custom Limb", ref RaycastOptions.UseCustomLimb);
+		        
 		        GUILayout.Space(2);
-                Prefab.Toggle("Silent Aimbot", ref RaycastOptions.Enabled);
-		        GUILayout.Space(10);
-		        if (RaycastOptions.Enabled)
-		        {
-			        Prefab.Toggle("Sphere position prediction", ref SphereOptions.SpherePrediction);
-			        GUILayout.Space(5);
-
-			        if (!SphereOptions.SpherePrediction)
-			        {
-				        GUILayout.Label("Sphere Radius: " + Math.Round(SphereOptions.SphereRadius, 2) + "m", Prefab._TextStyle);
-				        Prefab.Slider(0, 16, ref SphereOptions.SphereRadius, 200);
-			        }
-
-			        GUILayout.Label("Recursion Level: " + SphereOptions.RecursionLevel, Prefab._TextStyle);
-			        SphereOptions.RecursionLevel = (int) Prefab.Slider(0, 4, SphereOptions.RecursionLevel, 200);
-
-			        GUIContent[] TargetPriorities =
-			        {
-				        new GUIContent("Players"),
-				        new GUIContent("Zombies"),
-				        new GUIContent("Sentries"),
-				        new GUIContent("Beds"),
-				        new GUIContent("Claim Flags"),
-				        new GUIContent("Storage"),
-				        new GUIContent("Vehicles")
-			        };
-
-			        if (Prefab.List(200, "_TargetPriority",
-				        new GUIContent("Priority: " + TargetPriorities[(int) RaycastOptions.Target].text),
-				        TargetPriorities))				        
-				        RaycastOptions.Target = (TargetPriority) DropDown.Get("_TargetPriority").ListIndex;
-			    }
 		        
 		        GUIContent[] Limbs =
 		        {
@@ -106,53 +79,24 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        GUILayout.Space(2);
 		        
 		        if (RaycastOptions.UseCustomLimb && !RaycastOptions.UseRandomLimb)
-			        if (Prefab.List(200, "_TargetLimb",
+			        if (Prefab.List(230, "_TargetLimb",
 				        new GUIContent("Limb: " + Limbs[(int)RaycastOptions.TargetLimb].text),
 				        Limbs))
 				        RaycastOptions.TargetLimb = (ELimb) DropDown.Get("_TargetLimb").ListIndex;
 
+		        
 		        GUILayout.Space(2);
 			        
 		        if (RaycastOptions.UseTargetMaterial)
-			        if (Prefab.List(200, "_TargetMaterial",
+			        if (Prefab.List(230, "_TargetMaterial",
 				        new GUIContent("Material: " + Materials[(int)RaycastOptions.TargetMaterial].text), Materials))
 				        RaycastOptions.TargetMaterial = (EPhysicsMaterial) DropDown.Get("_TargetMaterial").ListIndex;
-		        
-		        GUILayout.EndVertical();
-		        GUILayout.BeginVertical();
-
-		        if (RaycastOptions.Enabled)
-		        {
-			        Prefab.Toggle("Select Player", ref RaycastOptions.EnablePlayerSelection);
-			        if (RaycastOptions.EnablePlayerSelection)
-			        {
-				        GUILayout.Space(2);
-				        GUILayout.Label("Selection FOV: " + RaycastOptions.SelectedFOV, Prefab._TextStyle);
-				        RaycastOptions.SelectedFOV = Prefab.Slider(1, 180, RaycastOptions.SelectedFOV, 200);
-				        Prefab.Toggle("Only Shoot Selected", ref RaycastOptions.OnlyShootAtSelectedPlayer);
-			        }
-			        GUILayout.Space(2);
-			        Prefab.Toggle("Use FOV", ref RaycastOptions.SilentAimUseFOV);
-
-			        if (RaycastOptions.SilentAimUseFOV)
-			        {
-				        GUILayout.Space(2);
-				        GUILayout.Label("Aim FOV: " + RaycastOptions.SilentAimFOV, Prefab._TextStyle);
-				        RaycastOptions.SilentAimFOV = Prefab.Slider(1, 180, RaycastOptions.SilentAimFOV, 200);
-			        }
 			        
-			        GUILayout.Space(2);
-		        }
-		        
-		        Prefab.Toggle("Random Limb", ref RaycastOptions.UseRandomLimb);
-		        
-		        if (!RaycastOptions.UseRandomLimb)
-			        Prefab.Toggle("Custom Limb", ref RaycastOptions.UseCustomLimb);
-		        
-		        GUILayout.Space(2);
+		        GUILayout.EndVertical();
+		        GUILayout.BeginVertical(GUILayout.Width(230));
 		        
 		        Prefab.Toggle("Custom Ragdoll Vector", ref RaycastOptions.UseModifiedVector);
-			        
+		        
 		        GUILayout.Space(2);
 		        if (RaycastOptions.UseModifiedVector)
 		        {

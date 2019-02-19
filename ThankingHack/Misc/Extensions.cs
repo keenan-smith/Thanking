@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Thanking.Misc
+namespace Thinking.Misc
 {
 	public static class Extensions
 	{
@@ -15,6 +15,12 @@ namespace Thanking.Misc
 		
 		public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> source, int N) =>
 			source.Skip(Math.Max(0, source.Count() - N));
+
+		public static void AddRange<T>(this HashSet<T> source, IEnumerable<T> target)
+		{
+			foreach (T t in target)
+				source.Add(t);
+		}
 	}
 }
 //Discord test

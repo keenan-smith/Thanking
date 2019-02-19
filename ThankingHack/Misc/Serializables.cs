@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Thanking.Misc
+namespace Thinking.Misc
 {
 	public class SerializableVector
 	{

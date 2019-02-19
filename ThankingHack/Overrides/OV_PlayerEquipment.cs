@@ -2,13 +2,13 @@
 using System.Reflection;
 using System.Runtime.Serialization.Formatters;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Components.Basic;
-using Thanking.Options;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Components.Basic;
+using Thinking.Options;
+using Thinking.Utilities;
+using Thinking.Variables;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
     public class OV_PlayerEquipment
     {

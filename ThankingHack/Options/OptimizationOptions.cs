@@ -1,6 +1,6 @@
-﻿using Thanking.Attributes;
+﻿using Thinking.Attributes;
 
-namespace Thanking.Options
+namespace Thinking.Options
 {
     public static class OptimizationOptions
     {

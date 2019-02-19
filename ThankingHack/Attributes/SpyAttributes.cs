@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thanking.Attributes
+namespace Thinking.Attributes
 {
     /// <summary>
     /// Attribute that calls the target method before a spy is executed

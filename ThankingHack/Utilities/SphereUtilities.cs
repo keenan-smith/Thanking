@@ -1,16 +1,18 @@
-﻿using SDG.Unturned;
+﻿using System;
+using SDG.Unturned;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Thanking.Components.Basic;
-using Thanking.Coroutines;
-using Thanking.Options.AimOptions;
-using Thanking.Overrides;
-using Thanking.Utilities.Mesh_Utilities;
-using Thanking.Variables;
+using System.Linq;
+using Thinking.Components.Basic;
+using Thinking.Coroutines;
+using Thinking.Options.AimOptions;
+using Thinking.Overrides;
+using Thinking.Utilities.Mesh_Utilities;
+using Thinking.Variables;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public static class SphereUtilities
     {
@@ -31,11 +33,17 @@ namespace Thanking.Utilities
 				Point = OptimizationVariables.MainPlayer.transform.position;
 				return true;
 			}
+
+			Vector3[] verts = Component.Sphere.GetComponent<MeshCollider>().sharedMesh.vertices;
+
+			Vector3[] nVerts =
+				verts
+					.Select(v => Component.Sphere.transform.TransformPoint(v))
+					.ToArray();
 			
-			Vector3[] Vertices = Component.Sphere.GetComponent<MeshCollider>().sharedMesh.vertices;
-			for (int i = 0; i < Vertices.Length; i++)
+			for (int i = 0; i < nVerts.Length; i++)
 			{
-				Vector3 Vertex = Component.Sphere.transform.TransformPoint(Vertices[i]);
+				Vector3 Vertex = nVerts[i];
 				Vector3 Normal = VectorUtilities.Normalize(Vertex - StartPos);
 
 				double Distance = VectorUtilities.GetDistance(StartPos, Vertex);

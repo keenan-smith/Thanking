@@ -1,10 +1,10 @@
 ﻿    using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Threads;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Threads;
+using Thinking.Variables;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
     public class OV_ChatManager
     {

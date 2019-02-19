@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Thanking.Components.UI.Menu
+namespace Thinking.Components.UI.Menu
 {
     public static class Drawing
     {

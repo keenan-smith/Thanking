@@ -4,16 +4,16 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Components.Basic;
-using Thanking.Components.UI;
-using Thanking.Coroutines;
-using Thanking.Options.AimOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Components.Basic;
+using Thinking.Components.UI;
+using Thinking.Coroutines;
+using Thinking.Options.AimOptions;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
     public class OV_UseableGun
     {

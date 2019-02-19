@@ -2,19 +2,19 @@
 using System.Collections;
 using System.IO;
 using System.Net;
-using Thanking.Components.UI;
-using Thanking.Components.UI.Menu;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Components.UI;
+using Thinking.Components.UI.Menu;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Coroutines
+namespace Thinking.Coroutines
 {
 	public static class LoaderCoroutines
 	{
 		public static bool IsLoaded;
 
-		public static String AssetPath = $"{Application.dataPath}/assets";
+		public static String AssetPath = $"{Application.dataPath}/sharedassets5.assets";
 
 		/// <summary>
 		/// Loads Thanking's assets from online or offline assetbundle
@@ -22,15 +22,16 @@ namespace Thanking.Coroutines
 		/// <returns></returns>
 		public static IEnumerator LoadAssets()
 		{
-			#if DEBUG
+			//#if DEBUG
 			DebugUtilities.Log("Loading assets");
-			#endif
+			//#endif
 
 			yield return new WaitForSeconds(1);
 
-			Byte[] Loader;
+			Byte[] Loader = File.ReadAllBytes(AssetPath);
+			Console.WriteLine(AssetPath);
 
-			if (!File.Exists(AssetPath)) // Assets don't exist, download them
+			/*if (!File.Exists(AssetPath)) // Assets don't exist, download them
 			{
 				#if DEBUG
 				DebugUtilities.Log("Assets not downloaded, downloading now.");
@@ -62,7 +63,7 @@ namespace Thanking.Coroutines
 
 					Loader = loader.bytes;
 				}
-			}
+			}*/
 
 			AssetBundle bundle = AssetBundle.LoadFromMemory(Loader); // Here and below are just loading assets from the bundle
 			AssetVariables.ABundle = bundle;

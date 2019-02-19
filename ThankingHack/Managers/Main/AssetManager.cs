@@ -1,8 +1,9 @@
-﻿using Thanking.Components.Basic;
-using Thanking.Coroutines;
-using Thanking.Utilities;
+﻿using Thinking.Components.Basic;
+using Thinking.Coroutines;
+using Thinking.Utilities;
+using Thnkng;
 
-namespace Thanking.Managers.Main
+namespace Thinking.Managers.Main
 {
 	public static class AssetManager
 	{
@@ -13,7 +14,7 @@ namespace Thanking.Managers.Main
 			#endif
 			
 			// Start the LoadAssets coroutine
-			Loader.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(LoaderCoroutines.LoadAssets());
+			Ldr.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(LoaderCoroutines.LoadAssets());
 		}
 	}
 }

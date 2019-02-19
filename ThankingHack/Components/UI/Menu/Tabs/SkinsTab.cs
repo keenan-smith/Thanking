@@ -1,13 +1,13 @@
 ﻿using SDG.Unturned;
 using System.Collections.Generic;
 using System.Linq;
-using Thanking.Options;
-using Thanking.Options.UIVariables;
-using Thanking.Options.VisualOptions;
-using Thanking.Utilities;
+using Thinking.Options;
+using Thinking.Options.UIVariables;
+using Thinking.Options.VisualOptions;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu.Tabs
+namespace Thinking.Components.UI.Menu.Tabs
 {
     public static class SkinsTab
     {

@@ -2,18 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using SDG.Unturned;
-using Thanking.Options.AimOptions;
-using Thanking.Utilities;
-using Thanking.Utilities.Mesh_Utilities;
+using Thinking.Options.AimOptions;
+using Thinking.Utilities;
+using Thinking.Utilities.Mesh_Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Thanking.Components.Basic
+namespace Thinking.Components.Basic
 {
     [DisallowMultipleComponent]
     public class RaycastComponent : MonoBehaviour
     {
         public GameObject Sphere;
+       // public Vector3 PointBias;
         
         void Awake()
         {
@@ -30,11 +31,12 @@ namespace Thanking.Components.Basic
                 if (Sphere)
                 {
                     Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-                    
+
                     if (rb)
-                        Sphere.transform.localPosition = rb.velocity * Provider.ping;
-                    else
-                        Sphere.transform.localPosition = Vector3.zero;
+                    {
+                        float sizeBias = 1 - Provider.ping * rb.velocity.magnitude * 2;
+                        Sphere.transform.localScale = new Vector3(sizeBias, sizeBias, sizeBias);
+                    }
                 }
             }
         }

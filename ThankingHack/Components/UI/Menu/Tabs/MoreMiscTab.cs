@@ -1,13 +1,13 @@
 ﻿using SDG.Unturned;
 using Steamworks;
-using Thanking.Options;
-using Thanking.Options.AimOptions;
-using Thanking.Options.UIVariables;
-using Thanking.Threads;
-using Thanking.Utilities;
+using Thinking.Options;
+using Thinking.Options.AimOptions;
+using Thinking.Options.UIVariables;
+using Thinking.Threads;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu.Tabs
+namespace Thinking.Components.UI.Menu.Tabs
 {
     public static class MoreMiscTab
     {
@@ -20,6 +20,8 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 GUILayout.Label("Delay: " + ItemOptions.ItemPickupDelay + "ms", Prefab._TextStyle);
                 GUILayout.Space(2);
+                Prefab.Toggle("Oof on Death", ref WeaponOptions.OofOnDeath);
+                GUILayout.Space(5);
                 ItemOptions.ItemPickupDelay = (int) Prefab.Slider(0, 3000, ItemOptions.ItemPickupDelay, 175);
                 GUILayout.Space(5);
 

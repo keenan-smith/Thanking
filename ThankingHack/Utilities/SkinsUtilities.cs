@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SDG.Provider;
-using Thanking.Components.UI.Menu;
-using Thanking.Options;
-using Thanking.Variables;
+using Thinking.Components.UI.Menu;
+using Thinking.Options;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public static class SkinsUtilities
     {
@@ -171,7 +171,7 @@ namespace Thanking.Utilities
                 {
                     foreach (Skin skin in OptionList.Skins) // haha xd kr4ken's gonna get mad :D
                     {
-                        bool isShown = skin.Name.ToLower().Contains(SearchString.ToLower()) ? true : false;
+                        bool isShown = skin.Name.ToLower().Contains(SearchString.ToLower());
 
                         if (isShown)
                             if (Prefab.Button(skin.Name, 540 - 45))

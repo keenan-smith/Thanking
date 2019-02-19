@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
+using Thinking.Attributes;
 using UnityEngine;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
 	public static class OV_MenuPauseUI
 	{

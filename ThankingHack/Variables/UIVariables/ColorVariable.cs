@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Thanking.Misc;
+using Thinking.Misc;
 using UnityEngine;
 
-namespace Thanking.Options.UIVariables
+namespace Thinking.Options.UIVariables
 {
     public class ColorVariable
     {

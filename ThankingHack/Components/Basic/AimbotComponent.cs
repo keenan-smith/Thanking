@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Thanking.Attributes;
-using Thanking.Components.UI.Menu.Tabs;
-using Thanking.Coroutines;
-using Thanking.Options;
-using Thanking.Options.AimOptions;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Components.UI.Menu.Tabs;
+using Thinking.Coroutines;
+using Thinking.Options;
+using Thinking.Options.AimOptions;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Components.Basic
+namespace Thinking.Components.Basic
 {
 	/// <summary>
 	/// Component used to start aimbot coroutines and check hotkeys if necessary

@@ -1,8 +1,8 @@
-﻿using Thanking.Options.AimOptions;
-using Thanking.Options.UIVariables;
+﻿using Thinking.Options.AimOptions;
+using Thinking.Options.UIVariables;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu.Tabs
+namespace Thinking.Components.UI.Menu.Tabs
 {
     public static class AimbotTab
     {

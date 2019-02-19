@@ -6,13 +6,13 @@ using System.Threading;
 using System.Xml.Schema;
 using SDG.Unturned;
 using Steamworks;    
-using Thanking.Attributes;
-using Thanking.Options;
-using Thanking.Overrides;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Options;
+using Thinking.Overrides;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Threads
+namespace Thinking.Threads
 {
     public static class ServerCrashThread
     {
@@ -28,9 +28,9 @@ namespace Thanking.Threads
                 OV_Provider.IsConnected = false;
             };
 
-            byte[] P1 = { (byte) ESteamPacket.WORKSHOP, 0 };
-            byte[] P2 = { (byte) ESteamPacket.BATTLEYE, 0 };
-            byte[] P3 = { (byte) ESteamPacket.CONNECT, 0 };
+            byte[] P1 = { (byte) ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER, 0 };
+            byte[] P2 = { (byte) ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT, 0 };
+            byte[] P3 = { (byte) ESteamPacket.BATTLEYE, 0 };
             
             while (true)
             {

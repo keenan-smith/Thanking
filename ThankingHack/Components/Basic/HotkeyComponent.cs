@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
-using Thanking.Attributes;
-using Thanking.Components.UI.Menu;
-using Thanking.Components.UI.Menu.Tabs;
-using Thanking.Options;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Components.UI.Menu;
+using Thinking.Components.UI.Menu.Tabs;
+using Thinking.Options;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Components.Basic
+namespace Thinking.Components.Basic
 {
     /// <summary>
     /// Used in order to check for ref

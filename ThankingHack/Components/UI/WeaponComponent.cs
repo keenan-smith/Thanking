@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Options.AimOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Options.AimOptions;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 using System.Linq;
-using Thanking.Coroutines;
+using Thinking.Coroutines;
 
-namespace Thanking.Components.UI
+namespace Thinking.Components.UI
 {
 	[Component]
 	[SpyComponent]

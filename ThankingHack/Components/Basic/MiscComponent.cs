@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Components.UI;
-using Thanking.Options;
-using Thanking.Utilities;
-using Thanking.Coroutines;
-using Thanking.Options.AimOptions;
-using Thanking.Options.VisualOptions;
-using Thanking.Overrides;
-using Thanking.Threads;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Components.UI;
+using Thinking.Options;
+using Thinking.Utilities;
+using Thinking.Coroutines;
+using Thinking.Options.AimOptions;
+using Thinking.Options.VisualOptions;
+using Thinking.Overrides;
+using Thinking.Threads;
+using Thinking.Variables;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 
-namespace Thanking.Components.Basic
+namespace Thinking.Components.Basic
 {
     [Component]
     public class MiscComponent : MonoBehaviour

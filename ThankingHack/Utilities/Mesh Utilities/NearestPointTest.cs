@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Thanking.Utilities.Mesh_Utilities
+namespace Thinking.Utilities.Mesh_Utilities
 {
     public static class NearestPointTest
     {

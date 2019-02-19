@@ -1,11 +1,11 @@
 ﻿using SDG.Unturned;
 using System.Collections.Generic;
-using Thanking.Components.Basic;
-using Thanking.Components.UI.Menu;
-using Thanking.Options;
+using Thinking.Components.Basic;
+using Thinking.Components.UI.Menu;
+using Thinking.Options;
 using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public static class ItemUtilities
     {

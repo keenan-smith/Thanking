@@ -1,7 +1,7 @@
-﻿using Thanking.Components.UI.Menu.Tabs;
-using Thanking.Options.UIVariables;
+﻿using Thinking.Components.UI.Menu.Tabs;
+using Thinking.Options.UIVariables;
 
-namespace Thanking.Components.UI.Menu
+namespace Thinking.Components.UI.Menu
 {
     public static class MenuTabs
     {
@@ -10,6 +10,7 @@ namespace Thanking.Components.UI.Menu
             MenuTabOption.Add(new MenuTabOption("visuals", VisualsTab.Tab));
             MenuTabOption.Add(new MenuTabOption("aimbot", AimbotTab.Tab));
             MenuTabOption.Add(new MenuTabOption("weapons", WeaponsTab.Tab));
+	        MenuTabOption.Add(new MenuTabOption("silent aim", SilentAimTab.Tab));
             MenuTabOption.Add(new MenuTabOption("players", PlayersTab.Tab));
             MenuTabOption.Add(new MenuTabOption("stats", StatsTab.Tab));
             MenuTabOption.Add(new MenuTabOption("skins", SkinsTab.Tab));

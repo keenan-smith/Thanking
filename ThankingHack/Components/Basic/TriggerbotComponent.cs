@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Coroutines;
-using Thanking.Options.AimOptions;
-using Thanking.Overrides;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Coroutines;
+using Thinking.Options.AimOptions;
+using Thinking.Overrides;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Components.Basic
+namespace Thinking.Components.Basic
 {
 	[Component]
 	public class TriggerbotComponent : MonoBehaviour

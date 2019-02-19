@@ -1,7 +1,7 @@
 ﻿using System; 
 using UnityEngine;
 
-namespace Thanking.Variables
+namespace Thinking.Variables
 {
     public class TracerLine
     {

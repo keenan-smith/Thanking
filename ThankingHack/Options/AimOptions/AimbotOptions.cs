@@ -1,8 +1,8 @@
 ﻿using SDG.Unturned;
-using Thanking.Attributes;
+using Thinking.Attributes;
 using UnityEngine;
 
-namespace Thanking.Options.AimOptions
+namespace Thinking.Options.AimOptions
 {
     public enum TargetMode
     {

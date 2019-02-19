@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Options;
-using Thanking.Options.AimOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Options;
+using Thinking.Options.AimOptions;
+using Thinking.Utilities;
+using Thinking.Variables;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
     public class OvPlayerEquipment
     {

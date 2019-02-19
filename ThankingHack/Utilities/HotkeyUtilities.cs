@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Thanking.Attributes;
-using Thanking.Options;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Options;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public static class HotkeyUtilities
     {

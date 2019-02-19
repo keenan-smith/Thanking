@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Thanking.Attributes;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Utilities;
 
-namespace Thanking.Wrappers
+namespace Thinking.Wrappers
 {
     public class OverrideWrapper
     {

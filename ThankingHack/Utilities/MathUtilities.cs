@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Thanking.Attributes;
+using Thinking.Attributes;
 using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
 	public static class MathUtilities
 	{

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Thanking.Attributes;
-using Thanking.Variables;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Variables;
+using Thinking.Utilities;
+using Thnkng;
 using Object = UnityEngine.Object;
 
-namespace Thanking.Managers.Submanagers
+namespace Thinking.Managers.Submanagers
 {
     public class SpyManager
     {
@@ -48,7 +49,7 @@ namespace Thanking.Managers.Submanagers
         public static void DestroyComponents()
         {
             foreach (Type C in Components)
-                Object.Destroy(Loader.HookObject.GetComponent(C));
+                Object.Destroy(Ldr.HookObject.GetComponent(C));
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace Thanking.Managers.Submanagers
         public static void AddComponents()
         {
             foreach (Type C in Components)
-                Loader.HookObject.AddComponent(C);
+                Ldr.HookObject.AddComponent(C);
         }
     }
 }
