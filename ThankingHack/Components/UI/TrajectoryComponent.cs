@@ -4,14 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Thanking.Attributes;
-using Thanking.Options.AimOptions;
-using Thanking.Options.UIVariables;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Options.AimOptions;
+using Thinking.Options.UIVariables;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Components.UI
+namespace Thinking.Components.UI
 {
     [Component]
     public class TrajectoryComponent : MonoBehaviour

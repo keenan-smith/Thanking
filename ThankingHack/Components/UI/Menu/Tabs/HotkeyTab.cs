@@ -5,14 +5,14 @@ using JetBrains.Annotations;
 using SDG.Framework.IO.FormattedFiles.KeyValueTables;
 using SDG.Framework.UI.Devkit.InspectorUI;
 using SDG.Unturned;
-using Thanking.Components.Basic;
-using Thanking.Options;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Components.Basic;
+using Thinking.Options;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 using Action = System.Action;
 
-namespace Thanking.Components.UI.Menu.Tabs
+namespace Thinking.Components.UI.Menu.Tabs
 {
     public static class HotkeyTab
     {

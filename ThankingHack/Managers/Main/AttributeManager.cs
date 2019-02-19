@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
-using Thanking.Attributes;
-using Thanking.Managers.Submanagers;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Managers.Submanagers;
+using Thinking.Utilities;
+using Thnkng;
+using UnityEngine;
 
-namespace Thanking.Managers.Main
+namespace Thinking.Managers.Main
 {
     public static class AttributeManager
     {
@@ -26,7 +28,7 @@ namespace Thanking.Managers.Main
             {
                 // Collect and add components marked with the attribute
                 if (T.IsDefined(typeof(ComponentAttribute), false))
-                    Loader.HookObject.AddComponent(T);
+                    Ldr.HookObject.AddComponent(T);
 
                 // Collect components to be destroyed on spy
                 if (T.IsDefined(typeof(SpyComponentAttribute), false))
@@ -52,7 +54,19 @@ namespace Thanking.Managers.Main
 
                     // Collect and thread methods marked with the attribute
                     if (M.IsDefined(typeof(ThreadAttribute), false))
-                        new Thread(new ThreadStart((Action) Delegate.CreateDelegate(typeof(Action), M))).Start();
+                    {
+                        new Thread(() =>
+                        {
+                            try
+                            {
+                                M.Invoke(null, null);
+                            }
+                            catch (Exception e)
+                            {
+                                DebugUtilities.Log("START THREAD ERROR: " + e);
+                            }
+                        }).Start();
+                    }
                 }
             }
             

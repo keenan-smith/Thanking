@@ -2,14 +2,14 @@
 using HighlightingSystem;
 using SDG.Framework.Utilities;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Coroutines;
-using Thanking.Options;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Coroutines;
+using Thinking.Options;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
     public class OV_PlayerInteract
     {

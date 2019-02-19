@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
-using Thanking.Attributes;
-using Thanking.Misc;
-using Thanking.Options.VisualOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Misc;
+using Thinking.Options.VisualOptions;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Thanking.Options;
+using Thinking.Options;
 
-namespace Thanking.Coroutines
+namespace Thinking.Coroutines
 {
 	public static class ESPCoroutines
     {

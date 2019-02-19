@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net.Mail;
 using SDG.Unturned;
-using Thanking.Variables;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public static class VectorUtilities
     {

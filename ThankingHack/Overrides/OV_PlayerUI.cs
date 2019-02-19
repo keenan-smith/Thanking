@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thanking.Attributes;
+using Thinking.Attributes;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
 	public class OV_PlayerUI
 	{

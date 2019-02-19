@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
 using UnityEngine;
-using Thanking.Attributes;
-using Thanking.Utilities;
-using Thanking.Options;
-using Thanking.Variables;
-using Thanking.Coroutines;
+using Thinking.Attributes;
+using Thinking.Utilities;
+using Thinking.Options;
+using Thinking.Variables;
+using Thinking.Coroutines;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
     public static class OV_PlayerDashboardInformationUI
     {
@@ -96,7 +96,7 @@ namespace Thanking.Overrides
 			
 		    if (LevelManager.levelType == ELevelType.ARENA)
 		    {
-		        SleekImageTexture sleekImageTexture = new SleekImageTexture((Texture2D)PlayerDashboardInformationUI.icons.load("Arena_Area"));
+		        SleekImageTexture sleekImageTexture = new SleekImageTexture(PlayerDashboardInformationUI.icons.load<Texture2D>("Arena_Area"));
 		        sleekImageTexture.positionScale_X = LevelManager.arenaTargetCenter.x / (Level.size - Level.border * 2) + 0.5f - LevelManager.arenaTargetRadius / (Level.size - Level.border * 2);
 		        sleekImageTexture.positionScale_Y = 0.5f - LevelManager.arenaTargetCenter.z / (Level.size - Level.border * 2) - LevelManager.arenaTargetRadius / (Level.size - Level.border * 2);
 		        sleekImageTexture.sizeScale_X = LevelManager.arenaTargetRadius * 2f / (Level.size - Level.border * 2);
@@ -132,7 +132,7 @@ namespace Thanking.Overrides
 		        sleekImageTexture5.backgroundColor = new Color(1f, 1f, 0f, 0.5f);
 		        mapDynamicContainer.add(sleekImageTexture5);
 
-		        SleekImageTexture sleekImageTexture6 = new SleekImageTexture((Texture2D)PlayerDashboardInformationUI.icons.load("Arena_Area"));
+		        SleekImageTexture sleekImageTexture6 = new SleekImageTexture(PlayerDashboardInformationUI.icons.load<Texture2D>("Arena_Area"));
 		        sleekImageTexture6.positionScale_X = LevelManager.arenaCurrentCenter.x / (Level.size - Level.border * 2) + 0.5f - LevelManager.arenaCurrentRadius / (Level.size - Level.border * 2);
 		        sleekImageTexture6.positionScale_Y = 0.5f - LevelManager.arenaCurrentCenter.z / (Level.size - Level.border * 2) - LevelManager.arenaCurrentRadius / (Level.size - Level.border * 2);
 		        sleekImageTexture6.sizeScale_X = LevelManager.arenaCurrentRadius * 2f / (Level.size - Level.border * 2);
@@ -194,7 +194,7 @@ namespace Thanking.Overrides
 		        if (!quests.isMarkerPlaced) 
 		            continue;
                     
-		        SleekImageTexture sleekImageTexture11 = new SleekImageTexture((Texture2D)PlayerDashboardInformationUI.icons.load("Marker"));
+		        SleekImageTexture sleekImageTexture11 = new SleekImageTexture(PlayerDashboardInformationUI.icons.load<Texture2D>("Marker"));
 		        sleekImageTexture11.positionScale_X = quests.markerPosition.x / (Level.size - Level.border * 2) + 0.5f;
 		        sleekImageTexture11.positionScale_Y = 0.5f - quests.markerPosition.z / (Level.size - Level.border * 2);
 		        sleekImageTexture11.positionOffset_X = -10;
@@ -220,7 +220,7 @@ namespace Thanking.Overrides
 		    sleekImageTexture13.sizeOffset_Y = 20;
 		    sleekImageTexture13.isAngled = true;
 		    sleekImageTexture13.angle = OptimizationVariables.MainPlayer.transform.rotation.eulerAngles.y;
-		    sleekImageTexture13.texture = (Texture2D)PlayerDashboardInformationUI.icons.load("Player");
+		    sleekImageTexture13.texture = PlayerDashboardInformationUI.icons.load<Texture2D>("Player");
 		    sleekImageTexture13.backgroundTint = ESleekTint.FOREGROUND;
 
 			sleekImageTexture13.addLabel(

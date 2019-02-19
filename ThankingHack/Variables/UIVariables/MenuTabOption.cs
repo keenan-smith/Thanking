@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Thanking.Options.UIVariables
+namespace Thinking.Options.UIVariables
 {
     public class MenuTabOption
     {

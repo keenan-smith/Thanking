@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
-using Thanking.Misc;
+using Thinking.Misc;
 using UnityEngine;
 
-namespace Thanking.Variables
+namespace Thinking.Variables
 {
 	public enum ESPTarget
 	{

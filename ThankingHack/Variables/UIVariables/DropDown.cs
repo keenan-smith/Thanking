@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-namespace Thanking.Options.UIVariables
+namespace Thinking.Options.UIVariables
 {
     public class DropDown
     {
@@ -8,10 +9,13 @@ namespace Thanking.Options.UIVariables
 
         public bool IsEnabled;
         public int ListIndex;
+        public Vector2 ScrollView;
+        
         public DropDown()
         {
             IsEnabled = false;
             ListIndex = 0;
+            ScrollView = Vector2.zero;
         }
 
         public static DropDown Get(string identifier)

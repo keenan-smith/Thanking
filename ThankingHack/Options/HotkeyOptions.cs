@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Thanking.Attributes;
-using Thanking.Variables;
+using Thinking.Attributes;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Options
+namespace Thinking.Options
 {
     public static class HotkeyOptions
     {

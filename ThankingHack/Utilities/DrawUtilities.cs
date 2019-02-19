@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
-using Thanking.Components.Basic;
-using Thanking.Coroutines;
-using Thanking.Options.VisualOptions;
-using Thanking.Variables;
+using Thinking.Components.Basic;
+using Thinking.Coroutines;
+using Thinking.Options.VisualOptions;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
 	public static class DrawUtilities
 	{

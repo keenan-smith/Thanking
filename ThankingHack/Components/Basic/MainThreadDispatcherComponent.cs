@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Thanking.Attributes;
+using Thinking.Attributes;
 using UnityEngine;
 
-namespace Thanking.Components.Basic
+namespace Thinking.Components.Basic
 {
     /// <summary>
     /// Main thread dispatcher component; invokes a method either once or repeatedly in the main thread.

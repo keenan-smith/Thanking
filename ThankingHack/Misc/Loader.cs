@@ -1,38 +1,38 @@
 ﻿using System;
 using System.Threading;
-using Thanking.Managers.Main;
-using Thanking.Utilities;
+using Thinking.Managers.Main;
+using Thinking.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Thanking
+namespace Thnkng
 {
-    public static class Loader
+    public static class Ldr
     {
         public static GameObject HookObject;
         
         public static void Hook()
         {
-            #if DEBUG
+           // #if DEBUG
             DebugUtilities.Init();
-			DebugUtilities.Log("Initializing Thanking...");
-            #endif        
+			DebugUtilities.Log("Initializing Thinking...");
+           // #endif        
     
 			HookObject = new GameObject();
 			Object.DontDestroyOnLoad(HookObject);
             try
             {
-                ConfigManager.Init();
                 AttributeManager.Init();
                 AssetManager.Init();
+                ConfigManager.Init();
             }
             catch (Exception e)
             {
                 DebugUtilities.LogException(e);
             }
-            #if DEBUG
+            //#if DEBUG
 			DebugUtilities.Log("Thanking initialized!");
-            #endif
+           // #endif
 		}
 
         public static void HookThread()

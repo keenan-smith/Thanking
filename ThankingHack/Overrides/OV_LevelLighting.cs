@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Thanking.Attributes;
-using Thanking.Coroutines;
-using Thanking.Options;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Coroutines;
+using Thinking.Options;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
 	public static class OV_LevelLighting
 	{

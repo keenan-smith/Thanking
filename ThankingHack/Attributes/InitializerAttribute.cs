@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thanking.Attributes
+namespace Thinking.Attributes
 {
 	/// <summary>
 	/// Attribute on a method, invoked on startup

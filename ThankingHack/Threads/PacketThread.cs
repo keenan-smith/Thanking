@@ -6,12 +6,12 @@ using SDG.Provider.Services.Community;
 using SDG.SteamworksProvider.Services.Community;
 using SDG.Unturned;
 using Steamworks;
-using Thanking.Attributes;
-using Thanking.Components.Basic;
-using Thanking.Options;
-using Thanking.Overrides;
+using Thinking.Attributes;
+using Thinking.Components.Basic;
+using Thinking.Options;
+using Thinking.Overrides;
 
-namespace Thanking.Threads
+namespace Thinking.Threads
 {
     public class PacketThread
     {

@@ -2,12 +2,12 @@
 using Steamworks;
 using System.Diagnostics;
 using System.Reflection;
-using Thanking.Attributes;
-using Thanking.Threads;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Threads;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Overrides
+namespace Thinking.Overrides
 {
 	public static class OV_Provider
 	{

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Thanking.Attributes;
-using Thanking.Utilities;
+using Thinking.Attributes;
+using Thinking.Utilities;
 using UnityEngine;
 using System.Collections;
 using System.ComponentModel;
@@ -14,7 +14,7 @@ using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
 
-namespace Thanking.Managers.Main
+namespace Thinking.Managers.Main
 {
     public class ConfigManager
     {
@@ -27,9 +27,9 @@ namespace Thanking.Managers.Main
 	    // Load the config
 		public static void Init()
 		{
-			#if DEBUG
+			//#if DEBUG
 			DebugUtilities.Log("Getting Thanking configuration...");
-			#endif
+			//#endif
 			
 			LoadConfig(GetConfig());
 		}
@@ -140,9 +140,9 @@ namespace Thanking.Managers.Main
 					}
 					catch
 					{
-						#if DEBUG
+						//#if DEBUG
 						DebugUtilities.Log("Error loading config value: " + Name);
-						#endif
+						//#endif
 						Config[Name] = DefaultInfo;
 					}
 				}

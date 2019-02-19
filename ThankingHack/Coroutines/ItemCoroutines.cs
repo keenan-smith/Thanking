@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using SDG.Unturned;
-using Thanking.Components.Basic;
-using Thanking.Options;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Components.Basic;
+using Thinking.Options;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Coroutines
+namespace Thinking.Coroutines
 {
     public static class ItemCoroutines
     {

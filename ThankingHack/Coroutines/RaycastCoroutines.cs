@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
-using Thanking.Components.Basic;
-using Thanking.Options.AimOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Components.Basic;
+using Thinking.Misc;
+using Thinking.Options.AimOptions;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Thanking.Coroutines
+namespace Thinking.Coroutines
 {
     public class RaycastCoroutines
     {
@@ -21,7 +22,7 @@ namespace Thanking.Coroutines
             {
                 if (!DrawUtilities.ShouldRun())
                 {
-                    RaycastUtilities.Objects = new GameObject[0];
+                    RaycastUtilities.Objects.Clear();
                     yield return new WaitForSeconds(1);
                     continue;
                 }
@@ -35,59 +36,65 @@ namespace Thanking.Coroutines
                     GameObject[] gameObjects =
                         Physics.OverlapSphere(OptimizationVariables.MainPlayer.transform.position, Range).Select(c => c.gameObject).ToArray();
 
-                    
-                    switch (RaycastOptions.Target)
+                    RaycastUtilities.Objects.Clear();
+
+                    foreach (TargetPriority target in RaycastOptions.Targets)
                     {
-                        case TargetPriority.Players:
+                        switch (target)
                         {
-                            CachedPlayers.Clear();
-                            foreach (GameObject g in gameObjects)
+                            case TargetPriority.Players:
                             {
-                                Player p = DamageTool.getPlayer(g.transform);
-                                if (p == null || CachedPlayers.Contains(p) || p == OptimizationVariables.MainPlayer || p.life.isDead)
-                                    continue;
+                                CachedPlayers.Clear();
+                                foreach (GameObject g in gameObjects)
+                                {
+                                    Player p = DamageTool.getPlayer(g.transform);
+                                    if (p == null || CachedPlayers.Contains(p) ||
+                                        p == OptimizationVariables.MainPlayer || p.life.isDead)
+                                        continue;
 
-                                CachedPlayers.Add(p);
+                                    CachedPlayers.Add(p);
+                                }
+
+                                RaycastUtilities.Objects.AddRange(CachedPlayers.Select(c => c.gameObject));
+                                break;
                             }
-
-                            RaycastUtilities.Objects = CachedPlayers.Select(c => c.gameObject).ToArray();
-                            break;
-                        }
-                        case TargetPriority.Zombies:
-                        {
-                            RaycastUtilities.Objects =
-                                gameObjects.Where(g => g.GetComponent<Zombie>() != null).ToArray();
-                            break;
-                        }
-                        case TargetPriority.Sentries:
-                        {
-                            RaycastUtilities.Objects =
-                                gameObjects.Where(g => g.GetComponent<InteractableSentry>() != null).ToArray();
-                            break;
-                        }
-                        case TargetPriority.Beds:
-                        {
-                            RaycastUtilities.Objects =
-                                gameObjects.Where(g => g.GetComponent<InteractableBed>() != null).ToArray();
-                            break;
-                        }
-                        case TargetPriority.ClaimFlags:
-                        {
-                            RaycastUtilities.Objects =
-                                gameObjects.Where(g => g.GetComponent<InteractableClaim>() != null).ToArray();
-                            break;
-                        }
-                        case TargetPriority.Vehicles:
-                        {
-                            RaycastUtilities.Objects =
-                                gameObjects.Where(g => g.GetComponent<InteractableVehicle>() != null).ToArray();
-                            break;
-                        }
-                        case TargetPriority.Storage:
-                        {
-                            RaycastUtilities.Objects =
-                                gameObjects.Where(g => g.GetComponent<InteractableStorage>() != null).ToArray();
-                            break;
+                            case TargetPriority.Zombies:
+                            {
+                                RaycastUtilities.Objects.AddRange(
+                                    gameObjects.Where(g => g.GetComponent<Zombie>() != null)
+                                        .ToArray());
+                                break;
+                            }
+                            case TargetPriority.Sentries:
+                            {
+                                RaycastUtilities.Objects.AddRange(gameObjects.Where(g =>
+                                    g.GetComponent<InteractableSentry>() != null));
+                                break;
+                            }
+                            case TargetPriority.Beds:
+                            {
+                                RaycastUtilities.Objects.AddRange(gameObjects.Where(g =>
+                                    g.GetComponent<InteractableBed>() != null));
+                                break;
+                            }
+                            case TargetPriority.ClaimFlags:
+                            {
+                                RaycastUtilities.Objects.AddRange(gameObjects.Where(g =>
+                                    g.GetComponent<InteractableClaim>() != null));
+                                break;
+                            }
+                            case TargetPriority.Vehicles:
+                            {
+                                RaycastUtilities.Objects.AddRange(gameObjects.Where(g =>
+                                    g.GetComponent<InteractableVehicle>() != null));
+                                break;
+                            }
+                            case TargetPriority.Storage:
+                            {
+                                RaycastUtilities.Objects.AddRange(gameObjects.Where(g =>
+                                    g.GetComponent<InteractableStorage>() != null));
+                                break;
+                            }
                         }
                     }
                 }

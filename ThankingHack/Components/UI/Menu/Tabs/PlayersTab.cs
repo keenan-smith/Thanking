@@ -3,13 +3,13 @@ using System.Linq;
 using System.Reflection.Emit;
 using SDG.Unturned;
 using Steamworks;
-using Thanking.Options;
-using Thanking.Threads;
-using Thanking.Utilities;
-using Thanking.Variables;
+using Thinking.Options;
+using Thinking.Threads;
+using Thinking.Utilities;
+using Thinking.Variables;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu.Tabs
+namespace Thinking.Components.UI.Menu.Tabs
 {
     public static class PlayersTab
     {

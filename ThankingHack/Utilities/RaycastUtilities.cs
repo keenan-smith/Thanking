@@ -2,21 +2,21 @@
 using System.Linq;
 using SDG.Framework.Utilities;
 using SDG.Unturned;
-using Thanking.Options.AimOptions;
-using Thanking.Utilities.Mesh_Utilities;
+using Thinking.Options.AimOptions;
+using Thinking.Utilities.Mesh_Utilities;
 using UnityEngine;
-using Thanking.Options;
+using Thinking.Options;
 using System.Collections.Generic;
-using Thanking.Components.Basic;
-using Thanking.Variables;
-using Thanking.Coroutines;
+using Thinking.Components.Basic;
+using Thinking.Variables;
+using Thinking.Coroutines;
 using UnityEngine.PostProcessing;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
     public static class RaycastUtilities
     {
-        public static GameObject[] Objects = new GameObject[0];
+        public static HashSet<GameObject> Objects = new HashSet<GameObject>();
         public static List<GameObject> AttachedObjects = new List<GameObject>();
         public static Player TargetedPlayer;
 
@@ -128,7 +128,7 @@ namespace Thanking.Utilities
             };
         }
         
-	    public static bool GetTargetObject(GameObject[] Objects, out GameObject Object, out Vector3 Point, float Range)
+	    public static bool GetTargetObject(HashSet<GameObject> Objects, out GameObject Object, out Vector3 Point, float Range)
         {
             double Distance = Range + 1;
             double FOV = 180;
@@ -139,10 +139,8 @@ namespace Thanking.Utilities
             Vector3 AimPos = OptimizationVariables.MainPlayer.look.aim.position;
             Vector3 AimForward = OptimizationVariables.MainPlayer.look.aim.forward;
             
-            for (int i = 0; i < Objects.Length; i++)
+            foreach (GameObject go in Objects)
             {
-                GameObject go = Objects[i];
-
                 if (go == null)
                     continue;
 
@@ -182,7 +180,7 @@ namespace Thanking.Utilities
                 }
                 
                 else if (NewDistance > Distance)
-                        continue;
+                    continue;
 
                 if (!SphereUtilities.GetRaycast(go, AimPos, out Vector3 _Point))
                     continue;

@@ -1,11 +1,11 @@
 ﻿using SDG.Provider;
 using SDG.Unturned;
 using System.Collections.Generic;
-using Thanking.Attributes;
-using Thanking.Misc;
+using Thinking.Attributes;
+using Thinking.Misc;
 using UnityEngine;
 
-namespace Thanking.Options
+namespace Thinking.Options
 {
     public class Skin
     {

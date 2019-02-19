@@ -1,11 +1,11 @@
 ﻿using System.Globalization;
 using System.Linq;
-using Thanking.Misc;
-using Thanking.Options.UIVariables;
-using Thanking.Options.VisualOptions;
+using Thinking.Misc;
+using Thinking.Options.UIVariables;
+using Thinking.Options.VisualOptions;
 using UnityEngine;
 
-namespace Thanking.Utilities
+namespace Thinking.Utilities
 {
 	public static class ColorUtilities
 	{

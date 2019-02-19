@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Thanking.Misc;
-using Thanking.Options.UIVariables;
-using Thanking.Utilities;
+using Thinking.Misc;
+using Thinking.Options.UIVariables;
+using Thinking.Utilities;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu
+namespace Thinking.Components.UI.Menu
 {
     public static class Prefab
     {
@@ -22,6 +22,8 @@ namespace Thanking.Components.UI.Menu
         public static Color32 _ToggleBoxBG;
 
         static int popupListHash = "PopupList".GetHashCode();
+	    private static bool _blockInput = false; 
+	    
         public static Regex digitsOnly = new Regex(@"[^\d]");
 
         static Prefab()
@@ -373,7 +375,7 @@ namespace Thanking.Components.UI.Menu
 							{
 
 								try { code(); }
-								catch (Exception e) { Debug.LogException(e); }
+								catch (Exception e) { DebugUtilities.Log($"SCROLLVIEW EXCEPTION: {e}"); }
 							}
 							GUILayout.EndVertical();
 							inner = GUILayoutUtility.GetLastRect();
@@ -402,7 +404,7 @@ namespace Thanking.Components.UI.Menu
             parameters.Add(GUILayout.Width(width));
             Rect position = GUILayoutUtility.GetRect(width, size.y, parameters.ToArray());
             DropDown dd = DropDown.Get(identifier);
-            return List(position, ref dd.IsEnabled, ref dd.ListIndex, buttonContent, listContent, "button", "box", _listStyle);
+            return List(position, ref dd.IsEnabled, ref dd.ListIndex, ref dd.ScrollView, buttonContent, listContent, "button", "box", _listStyle);
         }
 
         public static bool List(string identifier, GUIContent buttonContent, GUIContent[] listContent, params GUILayoutOption[] options)
@@ -413,77 +415,65 @@ namespace Thanking.Components.UI.Menu
             parameters.Add(GUILayout.Width(size.x + 5));
             Rect position = GUILayoutUtility.GetRect(size.x + 5, size.y, parameters.ToArray());
             DropDown dd = DropDown.Get(identifier);
-            return List(position, ref dd.IsEnabled, ref dd.ListIndex, buttonContent, listContent, "button", "box", _listStyle);
+            return List(position, ref dd.IsEnabled, ref dd.ListIndex, ref dd.ScrollView, buttonContent, listContent, "button", "box", _listStyle);
         }
 
-        public static bool List(Rect position, ref bool showList, ref int listEntry, GUIContent buttonContent, GUIContent[] listContent)
+        public static bool List(Rect position, ref bool showList, ref int listEntry, ref Vector2 scrollPos,GUIContent buttonContent, GUIContent[] listContent)
         {
-            return List(position, ref showList, ref listEntry, buttonContent, listContent, "button", "box", _listStyle);
+            return List(position, ref showList, ref listEntry, ref scrollPos, buttonContent, listContent, "button", "box", _listStyle);
         }
 
-        public static bool List(Rect position, ref bool showList, ref int listEntry, GUIContent buttonContent, GUIContent[] listContent,
+        public static bool List(Rect position, ref bool showList, ref int listEntry, ref Vector2 scrollPos, GUIContent buttonContent, GUIContent[] listContent,
                                  GUIStyle buttonStyle, GUIStyle boxStyle, GUIStyle listStyle)
         {
-            int controlID = GUIUtility.GetControlID(popupListHash, FocusType.Passive);
-            bool done = false;
-            switch (Event.current.GetTypeForControl(controlID))
-            {
-                case EventType.mouseDown:
-                    if (position.Contains(Event.current.mousePosition))
-                    {
-                        GUIUtility.hotControl = controlID;
-                        showList = true;
-                    }
-                    break;
-                case EventType.mouseUp:
-                    if (showList)
-                    {
-                        done = true;
-                    }
-                    break;
-            }
-
             Drawing.DrawRect(position, MenuComponent._OutlineBorderBlack);
             Drawing.DrawRect(MenuUtilities.Inline(position), MenuComponent._OutlineBorderDarkGray);
+	        
             int lastFont = _TextStyle.fontSize;
             Color lastColor = _TextStyle.normal.textColor;
+	        
             _TextStyle.fontSize = 15;
-            _TextStyle.normal.textColor = _TextStyle.onNormal.textColor;
-            _TextStyle.alignment = TextAnchor.MiddleLeft;
-            GUI.Label(new Rect(position.x + 4, position.y, position.width, position.height), buttonContent, _TextStyle);
-            if (showList)
-            {
-                float width = 0;
-                for (int i = 0; i < listContent.Length; i++)
-                {
-                    float temp = listStyle.CalcSize(listContent[i]).x;
-                    if (temp > width) width = temp;
-                }
-                if (width < position.width) width = position.width;
-                Rect listRect = new Rect(position.x, position.y - listStyle.CalcHeight(listContent[0], 1.0f) * listContent.Length + position.height, width, listStyle.CalcHeight(listContent[0], 1.0f) * listContent.Length);
-                Drawing.DrawRect(listRect, MenuComponent._OutlineBorderBlack);
-                listEntry = GUI.SelectionGrid(MenuUtilities.Inline(listRect), listEntry, listContent, 1, listStyle);
-            }
-            if (done)
-            {
-                showList = false;
-            }
+		    _TextStyle.normal.textColor = _TextStyle.onNormal.textColor;
+		    _TextStyle.alignment = TextAnchor.MiddleLeft;
+		    
+	        GUI.Label(new Rect(position.x + position.height + 4, position.y, position.width - position.height * 2, position.height), buttonContent, _TextStyle);
 
-            _TextStyle.alignment = TextAnchor.UpperLeft;
-            _TextStyle.fontSize = lastFont;
-            _TextStyle.normal.textColor = lastColor;
-            return done;
+	        bool modified = false;
+
+	        if (Prefab.AbsButton(new Rect(position.x, position.y, position.height, position.height), "<="))
+	        {
+		        modified = true;
+		        listEntry = Math.Max(0, listEntry - 1);
+	        }
+
+	        if (Prefab.AbsButton(new Rect(position.x + position.width - position.height, position.y, position.height, position.height), "=>"))
+	        {
+		        modified = true;
+		        listEntry = Math.Min(listContent.Length - 1, listEntry + 1);
+	        }
+	        
+	        _TextStyle.alignment = TextAnchor.UpperLeft;
+	        _TextStyle.fontSize = lastFont;
+	        _TextStyle.normal.textColor = lastColor;
+
+	        return modified;
         }
 
-        public static bool Button(string text, float width, float height = 25, params GUILayoutOption[] options)
-        {
+	    public static bool AbsButton(Rect area, string text, params GUILayoutOption[] options)
+	    {
+		    Drawing.DrawRect(area, MenuComponent._OutlineBorderBlack);
+		    return GUI.Button(MenuUtilities.Inline(area), text, _ButtonStyle);
+	    }
+	    
+	    public static bool Button(string text, float width, float height = 25, params GUILayoutOption[] options)
+	    {
             List<GUILayoutOption> parameters = options.ToList();
             parameters.Add(GUILayout.Height(height));
             parameters.Add(GUILayout.Width(width));
             Rect area = GUILayoutUtility.GetRect(width, height, parameters.ToArray());
-            Drawing.DrawRect(area, MenuComponent._OutlineBorderBlack);
-            return GUI.Button(MenuUtilities.Inline(area), text, _ButtonStyle);
-        }
+
+		    return AbsButton(area, text, options);
+	    }
 
         public static bool ColorButton(float width, ColorVariable color, float height = 25, params GUILayoutOption[] options)
         {
@@ -520,7 +510,7 @@ namespace Thanking.Components.UI.Menu
         }
 
         public static int TextField(int text, string label, int width, int min = 0, int max = 255)
-        {
+        { 
             GUILayout.BeginHorizontal();
             {
                 GUILayout.Label(label, _TextStyle);

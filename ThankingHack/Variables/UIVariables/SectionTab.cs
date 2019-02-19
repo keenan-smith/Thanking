@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thanking.Options.UIVariables
+namespace Thinking.Options.UIVariables
 {
     public class SectionTab
     {

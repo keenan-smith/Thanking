@@ -1,12 +1,13 @@
-﻿using Thanking.Components.Basic;
-using Thanking.Options;
-using Thanking.Options.UIVariables;
-using Thanking.Options.VisualOptions;
-using Thanking.Utilities;
-using Thanking.Variables;
+﻿using Thinking.Components.Basic;
+using Thinking.Options;
+using Thinking.Options.UIVariables;
+using Thinking.Options.VisualOptions;
+using Thinking.Utilities;
+using Thinking.Variables;
+using Thnkng;
 using UnityEngine;
 
-namespace Thanking.Components.UI.Menu.Tabs
+namespace Thinking.Components.UI.Menu.Tabs
 {
     public static class VisualsTab
     {
@@ -14,6 +15,11 @@ namespace Thanking.Components.UI.Menu.Tabs
         {
             Prefab.MenuArea(new Rect(0, 0, 225, 436), "ESP", () =>
             {
+	           //Prefab.SectionTabButton("Global Override", () =>
+	           //{
+		       //    
+	           //});
+	            
                 Prefab.SectionTabButton("Players", () =>
                 {					
 					GUILayout.BeginHorizontal();
@@ -174,7 +180,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 			            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
 				            ESPOptions.VisualOptions[i].Glow = false;
 		            
-			            Loader.HookObject.GetComponent<ESPComponent>().OnGUI();		
+			            Ldr.HookObject.GetComponent<ESPComponent>().OnGUI();		
 		            }
 	            }
 	            
@@ -242,10 +248,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 		        visual.ObjectCap = Prefab.TextField(visual.ObjectCap, "Object cap:", 30);
 	        
 			visual.BorderStrength = Prefab.TextField(visual.BorderStrength, "Border Strength:", 30);
-			GUILayout.Space(3);
-			GUIContent[] LabelLocations = { new GUIContent("Top Right"), new GUIContent("Top Middle"), new GUIContent("Top Left"), new GUIContent("Middle Right"), new GUIContent("Center"), new GUIContent("Middle Left"), new GUIContent("Bottom Right"), new GUIContent("Bottom Middle"), new GUIContent("Bottom Left") };
-			if (Prefab.List(200, "_LabelLocations", new GUIContent("Label Location: " + LabelLocations[(int)ESPOptions.VisualOptions[target].Location].text), LabelLocations))
-				ESPOptions.VisualOptions[target].Location = (LabelLocation)DropDown.Get("_LabelLocations").ListIndex;
 		}
 	}
 }

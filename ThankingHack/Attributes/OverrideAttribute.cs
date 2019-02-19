@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Thanking.Attributes
+namespace Thinking.Attributes
 {
     /// <summary>
     /// Used to detour a specific function

@@ -1,6 +1,6 @@
-﻿using Thanking.Attributes;
+﻿using Thinking.Attributes;
 
-namespace Thanking.Options.VisualOptions
+namespace Thinking.Options.VisualOptions
 {
     public static class MirrorCameraOptions
     {
