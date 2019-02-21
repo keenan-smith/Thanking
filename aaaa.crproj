@@ -1,0 +1,7 @@
+<project outputDir="C:\Users\DefCon42\Documents\Thanking\Confused" baseDir="C:\Users\DefCon42\Documents\Thanking" xmlns="http://confuser.codeplex.com">
+  <module path="Binaries\Commercial\UnityEngine.Analytics.dll">
+    <rule pattern="true" inherit="false" />
+  </module>
+  <probePath>C:\Users\DefCon42\Documents\Thanking\ThankingHack\Libraries</probePath>
+  <probePath>D:\SteamLibrary\steamapps\common\Unturned\Unturned_Data\Managed</probePath>
+</project>

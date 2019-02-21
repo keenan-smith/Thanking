@@ -15,44 +15,98 @@ namespace Thinking.Overrides
 {
     public class OV_PlayerInput
     {
-	    public static bool Run;
+	    public static int RealSequence = -1;
+	    public static int FakeSequence = -1;
 	    
-	    public FieldInfo ClientsidePacketsField =
+	    public static bool Run;
+	    public static bool First = true;
+	    
+	    public static FieldInfo SequenceField = 
+		    typeof(PlayerInput).GetField("sequence", BindingFlags.NonPublic | BindingFlags.Instance);
+	    
+	    public static FieldInfo ClientsidePacketsField =
 		    typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
 
-	    public List<PlayerInputPacket> ClientsidePackets {
-		    get {
-			    if (!DrawUtilities.ShouldRun() || !Run)
-				    return null;
-			    
-			   return (List<PlayerInputPacket>)ClientsidePacketsField.GetValue(OptimizationVariables.MainPlayer.input);
-		    }
-	    }
+	    public static int GetSequence(PlayerInput instance) =>
+		    (int)SequenceField.GetValue(instance);
+	    
+	    public static void SetSequence(PlayerInput instance, int value) =>
+		    SequenceField.SetValue(instance, value);
+	    
+	    public static List<PlayerInputPacket> CSPackets(PlayerInput instance) =>
+			(List<PlayerInputPacket>)ClientsidePacketsField.GetValue(instance);
 	    
 	    public PlayerInputPacket LastPacket;
-	   // [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
-	    public void OV_FixedUpdate() 
+	    [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
+	    public static void OV_FixedUpdate(PlayerInput instance) 	
 	    {
-		    if (LastPacket != null && MiscOptions.PunchAura)
+		    if (instance.player != OptimizationVariables.MainPlayer)
 		    {
-			    EPlayerStance stance = OptimizationVariables.MainPlayer.stance.stance;
-
-			    if (stance != EPlayerStance.SWIM &&
-			        stance != EPlayerStance.CLIMB &&
-			        stance != EPlayerStance.DRIVING &&
-			        stance != EPlayerStance.PRONE &&
-			        stance != EPlayerStance.SITTING) {
-
-				    for (int i = 0; i < 5; i++) {
-					    OptimizationVariables.MainPlayer.input.keys[1] =
-						    !OptimizationVariables.MainPlayer.input.keys[1];
-					    
-					    OverrideUtilities.CallOriginal();
-				    }
-			    }
+			    OverrideUtilities.CallOriginal(instance);
+			    return;
 		    }
-		    OverrideUtilities.CallOriginal();
-		    LastPacket = ClientsidePackets?.Last();
+		    
+		    if (MiscOptions.PunchAura)
+		    {
+			    if (First)
+			    {
+				    RealSequence = GetSequence(instance) + 1;
+				    FakeSequence = RealSequence;
+				    
+				    First = false;
+			    }
+
+			    SetSequence(instance, FakeSequence);
+
+			    OverrideUtilities.CallOriginal(instance);
+
+			    if (GetSequence(instance) != FakeSequence) // Sequence was incremented.
+				    RealSequence++;
+	
+			    if (RealSequence - FakeSequence > 25)
+			    {
+				    First = true;
+				    SetSequence(instance, RealSequence + 3);
+				    
+				    instance.channel.openWrite();
+				    instance.channel.write((byte)25); // 25 packets
+				    
+				    Ray         ray         = new Ray(instance.player.look.aim.position, instance.player.look.aim.forward);
+				    RaycastInfo raycastInfo = DamageTool.raycast(ray, 1.75f, RayMasks.DAMAGE_CLIENT);
+				    
+				    for (int i = 0; i < 25; i++)
+				    {
+					    PlayerInputPacket lastPacket = CSPackets(instance).Last();
+
+					    lastPacket.sequence = FakeSequence + i + 2;
+
+					    if (i % 7 == 0)
+					    {
+						    lastPacket.clientsideInputs = new List<RaycastInfo>();
+						    
+						    lastPacket.clientsideInputs.Add(raycastInfo);
+						    lastPacket.keys |= 1 << 1;
+					    }
+					    
+					    else if (i % 7 == 1)
+						    lastPacket.keys = (ushort) (lastPacket.keys & ~(1 << 1));
+					    
+					    instance.channel.write((byte)0); // walking player input packet
+					    lastPacket.write(instance.channel);
+
+					    if (i % 7 == 0)
+							lastPacket.clientsideInputs.Remove(raycastInfo);
+				    }
+				    
+				    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
+			    }
+			}
+
+		    else
+		    {
+			    First = true;
+			    OverrideUtilities.CallOriginal(instance);
+		    }
 	    }
     }
 }

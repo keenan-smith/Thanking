@@ -16,12 +16,12 @@ namespace Thinking.Overrides
         public static uint CurrSim;
         
         [Override(typeof(PlayerEquipment), "punch", BindingFlags.NonPublic | BindingFlags.Instance)]
-        public void OV_punch(EPlayerPunch p)
+        public static void OV_punch(PlayerEquipment instance, EPlayerPunch p)
         {
             if (MiscOptions.PunchSilentAim)
                 OV_DamageTool.OVType = OverrideType.PlayerHit;
             
-            OverrideUtilities.CallOriginal(OptimizationVariables.MainPlayer.equipment, p);
+            OverrideUtilities.CallOriginal(instance, p);
             
             OV_DamageTool.OVType = OverrideType.None;
         }
