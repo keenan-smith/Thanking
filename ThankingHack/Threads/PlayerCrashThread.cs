@@ -37,7 +37,7 @@ namespace Thinking.Threads
                 byte b = (byte)sc.getCall("askInput");
                 byte[] P2 =
                 {
-                    (byte) ESteamPacket.UPDATE_UNRELIABLE_CHUNK_BUFFER, b, 255
+                    (byte) ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT, b, 255
                 };
 
                 uint LP2 = (uint)P2.Length;
