@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
  using System.Collections.Generic;
  using System.Linq;
 using System.Reflection;
@@ -38,7 +38,7 @@ namespace Thinking.Threads
                 byte[] P2 =
                 {
                     (byte) ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT, b, 255
-                };
+                };    
 
                 uint LP2 = (uint)P2.Length;
                 int ch = sc.id;
