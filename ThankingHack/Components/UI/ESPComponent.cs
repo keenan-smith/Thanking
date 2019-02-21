@@ -34,6 +34,7 @@ namespace Thinking.Components.UI
 			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
 			{
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
+				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Text", $"Text - {(ESPTarget)i}", Color.white, false));
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Glow", $"ESP - {(ESPTarget)i} (Glow)", Color.yellow, false));
 			}
@@ -416,7 +417,7 @@ namespace Thinking.Components.UI
                 }
 
                 if (visual.Labels)
-	                DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, c, ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
+	                DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, ColorUtilities.getColor($"_{obj.Target}_Text"), ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
 
 				if (visual.LineToObject)
 					ESPVariables.DrawBuffer2.Enqueue(new ESPBox2
