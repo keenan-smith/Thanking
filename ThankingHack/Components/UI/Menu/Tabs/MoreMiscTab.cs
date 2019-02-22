@@ -1,4 +1,5 @@
-﻿using SDG.Unturned;
+﻿using System;
+using SDG.Unturned;
 using Steamworks;
 using Thinking.Options;
 using Thinking.Options.AimOptions;
@@ -15,6 +16,9 @@ namespace Thinking.Components.UI.Menu.Tabs
         {
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MORE MISC", () =>
             {
+                GUILayout.BeginHorizontal();
+                GUILayout.BeginVertical(GUILayout.Width(230));
+                
                 GUILayout.Space(2);
                 Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
                 GUILayout.Space(5);
@@ -67,6 +71,31 @@ namespace Thinking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 if (Prefab.Button("Clear Auto Crasher", 200))
                     PlayerCrashThread.CrashTargets.Clear();
+                
+                GUILayout.EndVertical();
+                GUILayout.BeginVertical(); 
+                
+                GUILayout.Label("Time Acceleration: " + MiscOptions.TimeAcceleration + "x", Prefab._TextStyle);
+                GUILayout.Space(2);
+
+                MiscOptions.TimeAcceleration = (int) Prefab.Slider(1, 4, MiscOptions.TimeAcceleration, 200);
+                
+                int n =  MiscOptions.TimeAcceleration;
+                int v = n;
+
+                v--;
+                v |= v >> 1;
+                v |= v >> 2;
+                v |= v >> 4;
+                v |= v >> 8;
+                v |= v >> 16;
+                v++; // next power of 2
+                
+                int x = v >> 1; // previous power of 2
+                MiscOptions.TimeAcceleration = (v - n) > (n - x) ? x : v;
+                
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
             });
         }
     }

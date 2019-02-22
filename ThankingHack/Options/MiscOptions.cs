@@ -59,5 +59,7 @@ namespace Thinking.Options
 		[Save] public static string AntiSpyPath = "";
 		
 		[Save] public static bool AlertOnSpy = false;
+
+		[Save] public static int TimeAcceleration = 2;
 	}
 }
