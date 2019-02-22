@@ -96,16 +96,6 @@ namespace Thinking.Overrides
 			    return;
 
 		    Player player = OptimizationVariables.MainPlayer;
-
-		    if (SequenceDiff <= 0)
-		    {
-			    Rate = 4;
-			    SequenceDiff = 0;
-			    Step = -1;
-			    Run = false;
-
-			    return;
-		    }
 		    
 		    if (Step == 0 && !Run)
 		    {
@@ -184,6 +174,19 @@ namespace Thinking.Overrides
 			    }
 
 			    P = true;
+		    }
+
+		    if (Run || Step == 2)
+		    {
+			    if (SequenceDiff <= 0)
+			    {
+				    Rate = 4;
+				    SequenceDiff = 0;
+				    Step = -1;
+				    Run = false;
+
+				    return;
+			    }
 		    }
 
 		    if (Count % Rate == 0u)
