@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Thanking</RootNamespace>
     <AssemblyName>UnityEngine.Analytics</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <SignAssembly>false</SignAssembly>

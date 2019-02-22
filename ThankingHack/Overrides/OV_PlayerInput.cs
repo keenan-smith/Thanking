@@ -338,6 +338,12 @@ namespace Thinking.Overrides
 	    [Override(typeof(PlayerInput), "Start", BindingFlags.NonPublic | BindingFlags.Instance)]
 	    public static void OV_Start(PlayerInput instance)
 	    {
+		    if (instance.player != Player.player)
+		    {
+			    OverrideUtilities.CallOriginal(instance);
+			    return;
+		    } 
+			    
 		    OptimizationVariables.MainPlayer = Player.player;
 		    
 		    Rate = 4;
