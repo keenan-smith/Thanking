@@ -175,20 +175,7 @@ namespace Thinking.Overrides
 
 			    P = true;
 		    }
-
-		    if (Run || Step == 2)
-		    {
-			    if (SequenceDiff <= 0)
-			    {
-				    Rate = 4;
-				    SequenceDiff = 0;
-				    Step = -1;
-				    Run = false;
-
-				    return;
-			    }
-		    }
-
+		    
 		    if (Count % Rate == 0u)
 		    {
 			    if (Rate == 1)
@@ -196,6 +183,15 @@ namespace Thinking.Overrides
 			    
 			    else if (Rate == 2 && Count % 4 == 0)
 				    SequenceDiff--;
+			    
+			    if (SequenceDiff < 0)
+			    {
+				    Rate = 4;
+				    SequenceDiff = 0;
+				    Step = -1;
+				    
+				    Run = false;
+			    }
 
 			    SetTick(instance, Time.realtimeSinceStartup);
 
@@ -343,7 +339,17 @@ namespace Thinking.Overrides
 	    public static void OV_Start(PlayerInput instance)
 	    {
 		    OptimizationVariables.MainPlayer = Player.player;
+		    
 		    Rate = 4;
+		    Count = 0;
+		    Buffer = 0;
+		    
+		    Packets.Clear();
+		    
+		    SequenceDiff = 0;
+		    ClientSequence = 0;
+
+		    Step = -1;
 		    
 		    OverrideUtilities.CallOriginal(instance);
 	    }
