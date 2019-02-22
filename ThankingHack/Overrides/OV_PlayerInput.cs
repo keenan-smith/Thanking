@@ -33,7 +33,6 @@ namespace Thinking.Overrides
 	    public static float LastReal;
 
 	    public static bool Run;
-	    public static bool P;
 	    
 	    public static FieldInfo SimField = 
 		    typeof(PlayerInput).GetField("_simulation", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -66,17 +65,12 @@ namespace Thinking.Overrides
 	    
 	    private static Vector3 lastSentPositon = Vector3.zero;
 
-	    //[Override(typeof(PlayerMovement), "tellRecov", BindingFlags.Public | BindingFlags.Instance)]
-	    //public static void OV_tellRecov(PlayerMovement instance, CSteamID steamID, Vector3 newPosition, int newRecov)
-	    //{
-		//    if (P)
-		//    {
-		//	    player.input.recov = newRecov;
-		//	    return;
-		//    }
-//
-		//    OverrideUtilities.CallOriginal(instance, steamID, newPosition, newRecov);
-	    //}
+	    [Override(typeof(PlayerMovement), "tellRecov", BindingFlags.Public | BindingFlags.Instance)]
+	    public static void OV_tellRecov(PlayerMovement instance, CSteamID steamID, Vector3 newPosition, int newRecov)
+	    {
+		    if (instance.player.input.recov < newRecov)
+			    OverrideUtilities.CallOriginal(instance, steamID, newPosition, newRecov);
+	    }
 
 	    [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_sendRaycast(PlayerInput instance, RaycastInfo info)
@@ -173,8 +167,6 @@ namespace Thinking.Overrides
 					    Rate = 1;
 					    break;
 			    }
-
-			    P = true;
 		    }
 			    
 		    if (!Run && SequenceDiff <= 0)
@@ -315,9 +307,9 @@ namespace Thinking.Overrides
 					    	LastPacket is WalkingPlayerInputPacket lPacket)
 					    {
 						    if (packet.analog == lPacket.analog &&
-						        //Mathf.Abs(packet.pitch - lPacket.pitch) < 0.01f &&
-						        //Mathf.Abs(packet.yaw - lPacket.yaw) < 0.01f &&
-						        VectorUtilities.GetDistance(packet.position, lPacket.position) < 0.01f &&
+						        Mathf.Abs(packet.pitch - lPacket.pitch) < 0.01f &&
+						        Mathf.Abs(packet.yaw - lPacket.yaw) < 0.01f &&
+						        VectorUtilities.GetDistance(packet.position, lPacket.position) < 0.001f &&
 						        packet.keys == 0 && 
 						        packet.sequence != lPacket.sequence &&
 						        Time.realtimeSinceStartup - LastReal < 8)
