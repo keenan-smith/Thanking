@@ -295,7 +295,7 @@ namespace Thinking.Overrides
 
 		    player.equipment.tock(Clock++);
 
-		    if (Buffer > 3 && Packets.Count > 0)
+		    if (Buffer > 4 && Packets.Count > 0)
 		    {
 			    Buffer = 0;
 			    
@@ -307,7 +307,7 @@ namespace Thinking.Overrides
 				    playerInputPacket3.write(instance.channel);
 			    }
 
-			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
+			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
 			    Packets.Clear();
 		    }
 
