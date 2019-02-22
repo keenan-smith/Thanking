@@ -97,6 +97,16 @@ namespace Thinking.Overrides
 
 		    Player player = OptimizationVariables.MainPlayer;
 
+		    if (SequenceDiff <= 0)
+		    {
+			    Rate = 4;
+			    SequenceDiff = 0;
+			    Step = -1;
+			    Run = false;
+
+			    return;
+		    }
+		    
 		    if (Step == 0 && !Run)
 		    {
 			    Run = true;
@@ -157,14 +167,6 @@ namespace Thinking.Overrides
 */
 			    
 			    Run = false;
-			    if (SequenceDiff <= 0)
-			    {
-				    Rate = (int) PlayerInput.SAMPLES;
-				    SequenceDiff = 0;
-				    Step = -1;
-
-				    return;
-			    }
 
 			    switch (MiscOptions.TimeAcceleration)
 			    {
