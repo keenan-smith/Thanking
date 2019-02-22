@@ -174,6 +174,15 @@ namespace Thinking.Overrides
 			    }
 
 			    P = true;
+			    
+			    if (SequenceDiff <= 0)
+			    {
+				    Rate = 4;
+				    SequenceDiff = 0;
+				    Step = -1;
+				    
+				    Run = false;
+			    }
 		    }
 		    
 		    if (Count % Rate == 0u)
@@ -183,15 +192,6 @@ namespace Thinking.Overrides
 			    
 			    else if (Rate == 2 && Count % 4 == 0)
 				    SequenceDiff--;
-			    
-			    if (SequenceDiff < 0)
-			    {
-				    Rate = 4;
-				    SequenceDiff = 0;
-				    Step = -1;
-				    
-				    Run = false;
-			    }
 
 			    SetTick(instance, Time.realtimeSinceStartup);
 
