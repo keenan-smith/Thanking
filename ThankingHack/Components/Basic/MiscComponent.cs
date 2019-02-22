@@ -152,8 +152,8 @@ namespace Thinking.Components.Basic
             if (Input.GetKeyDown(KeyCode.RightControl))
                 OV_PlayerInput.Step = 2;
             
-           //else if (OV_PlayerInput.Step == 2 && Input.GetKeyUp(KeyCode.Keypad9))
-           //    OV_PlayerInput.Step = -1;
+          //  else if (OV_PlayerInput.Step == 2 && Input.GetKeyUp(KeyCode.RightControl))
+          //     OV_PlayerInput.Step = -1;
             
             if (Input.GetKeyDown(KeyCode.Keypad7))
                 OV_PlayerInput.Step = 0;
