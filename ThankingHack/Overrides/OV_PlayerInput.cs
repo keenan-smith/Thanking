@@ -14,6 +14,7 @@ namespace Thinking.Overrides
     public class OV_PlayerInput
     {
 	    public static int Step = -1;
+	    public static PlayerInputPacket LastPacket;
 
 	    public static byte Analog;
 	    public static float Yaw, Pitch;
@@ -174,15 +175,15 @@ namespace Thinking.Overrides
 			    }
 
 			    P = true;
+		    }
 			    
-			    if (SequenceDiff <= 0)
-			    {
-				    Rate = 4;
-				    SequenceDiff = 0;
-				    Step = -1;
+		    if (!Run && SequenceDiff <= 0)
+		    {
+			    Rate = 4;
+			    SequenceDiff = 0;
+			    Step = -1;
 				    
-				    Run = false;
-			    }
+			    Run = false;
 		    }
 		    
 		    if (Count % Rate == 0u)
@@ -296,20 +297,52 @@ namespace Thinking.Overrides
 
 		    player.equipment.tock(Clock++);
 
-		    if (Buffer > 4 && Packets.Count > 0)
+		    if (Buffer > 1 && Packets.Count > 0)
 		    {
 			    Buffer = 0;
 			    
 			    instance.channel.openWrite();
 			    instance.channel.write((byte) Packets.Count);
+
+			    bool cng = false;
+			    
 			    foreach (PlayerInputPacket playerInputPacket3 in Packets)
 			    {
+				    if (LastPacket != null)
+				    {
+					    if (playerInputPacket3.clientsideInputs == null &&
+					        playerInputPacket3 is WalkingPlayerInputPacket packet &&
+					    	LastPacket is WalkingPlayerInputPacket lPacket)
+					    {
+						    if (packet.analog == lPacket.analog &&
+						        //Mathf.Abs(packet.pitch - lPacket.pitch) < 0.01f &&
+						        //Mathf.Abs(packet.yaw - lPacket.yaw) < 0.01f &&
+						        VectorUtilities.GetDistance(packet.position, lPacket.position) < 0.01f &&
+						        packet.keys == 0 && 
+						        packet.sequence != lPacket.sequence &&
+						        Time.realtimeSinceStartup - LastReal < 8)
+						    {
+							    packet.sequence = lPacket.sequence;
+							    SequenceDiff++;
+
+							    cng = true;
+						    }
+					    }
+				    }
+				    
 				    instance.channel.write((byte) (playerInputPacket3 is DrivingPlayerInputPacket ? 1 : 0));
 				    playerInputPacket3.write(instance.channel);
-			    }
 
+				    LastPacket = playerInputPacket3;
+			    }
+			    
+			    if (!cng)
+				    LastReal = Time.realtimeSinceStartup;
+			    
 			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
 			    Packets.Clear();
+
+			    ClientSequence = LastPacket?.sequence ?? ClientSequence;
 		    }
 
 		    Count++;
@@ -351,6 +384,7 @@ namespace Thinking.Overrides
 		    Buffer = 0;
 		    
 		    Packets.Clear();
+		    LastPacket = null;
 		    
 		    SequenceDiff = 0;
 		    ClientSequence = 0;
