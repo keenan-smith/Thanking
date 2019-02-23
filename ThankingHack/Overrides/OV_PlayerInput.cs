@@ -311,17 +311,12 @@ namespace Thinking.Overrides
 
 		    if (Buffer > 3 && Packets.Count > 0)
 		    {
-			    instance.channel.openWrite();
-			    instance.channel.write((byte) Packets.Count);
-
-			    bool cng = false;
-			    
-			    foreach (PlayerInputPacket playerInputPacket3 in Packets)
+			    foreach (PlayerInputPacket inp in Packets.ToList())
 			    {
 				    if (LastPacket != null)
 				    {
-					    if (playerInputPacket3.clientsideInputs.Count == 0 &&
-					        playerInputPacket3 is WalkingPlayerInputPacket packet &&
+					    if (inp.clientsideInputs.Count == 0 &&
+					        inp is WalkingPlayerInputPacket packet &&
 					    	LastPacket is WalkingPlayerInputPacket lPacket)
 					    {
 						    if (packet.analog == lPacket.analog &&
@@ -333,21 +328,25 @@ namespace Thinking.Overrides
 						        Time.realtimeSinceStartup - LastReal < 8)
 						    {
 							    SequenceDiff++;
-							    cng = true;
-
+							    Packets.Remove(inp);
+							    
 							    continue;
 						    }
 					    }
 				    }
 				    
-				    instance.channel.write((byte) (playerInputPacket3 is DrivingPlayerInputPacket ? 1 : 0));
-				    playerInputPacket3.write(instance.channel);
-
-				    LastPacket = playerInputPacket3;
+				    LastReal = Time.realtimeSinceStartup;
+				    LastPacket = inp;
 			    }
 			    
-			    if (!cng)
-				    LastReal = Time.realtimeSinceStartup;
+			    instance.channel.openWrite();
+			    instance.channel.write((byte) Packets.Count);
+
+			    foreach (PlayerInputPacket inp in Packets)
+			    {
+				    instance.channel.write((byte) (inp is DrivingPlayerInputPacket ? 1 : 0));
+				    inp.write(instance.channel);
+			    }
 			    
 			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
 			    ClientSequence = LastPacket?.sequence ?? ClientSequence;
