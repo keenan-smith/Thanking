@@ -29,7 +29,7 @@ namespace Thinking.Components.UI
         public static Camera MainCamera;
 
 		[Initializer]
-		public static void OnInit()
+		public static void Initialize()
 		{
 			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
 			{

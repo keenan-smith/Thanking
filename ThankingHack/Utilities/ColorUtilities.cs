@@ -17,8 +17,7 @@ namespace Thinking.Utilities
 
 		public static ColorVariable getColor(string identifier)
 		{
-			ColorVariable toret;
-			if (ColorOptions.ColorDict.TryGetValue(identifier, out toret))
+			if (ColorOptions.ColorDict.TryGetValue(identifier, out var toret))
 				return toret;
 
 			return ColorOptions.errorColor;
@@ -26,16 +25,14 @@ namespace Thinking.Utilities
 
 		public static string getHex(string identifier)
 		{
-			ColorVariable toret;
-			if (ColorOptions.ColorDict.TryGetValue(identifier, out toret))
+			if (ColorOptions.ColorDict.TryGetValue(identifier, out var toret))
 				return ColorToHex(toret);
 			return ColorToHex(ColorOptions.errorColor);
 		}
 
 		public static void setColor(string identifier, Color32 color)
 		{
-			ColorVariable co;
-			if (ColorOptions.ColorDict.TryGetValue(identifier, out co))
+			if (ColorOptions.ColorDict.TryGetValue(identifier, out var co))
 				co.color = color.ToSerializableColor();
 		}
 

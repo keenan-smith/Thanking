@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Thinking.Options.UIVariables;
 using Thinking.Options.VisualOptions;
@@ -16,9 +16,6 @@ namespace Thinking.Components.UI.Menu.Tabs
 
         public static void Tab()
         {
-            ColorOptions.errorColor = new ColorVariable("errorColor", "#ERROR.NOTFOUND", Color.magenta);
-            ColorOptions.preview = new ColorVariable("preview", "No Color Selected", Color.white);
-
             if (ColorOptions.selectedOption == null)
                 ColorOptions.previewselected = ColorOptions.preview;
                 
@@ -28,11 +25,6 @@ namespace Thinking.Components.UI.Menu.Tabs
                 GUILayout.Space(10);
                 
                 var keylist = ColorOptions.ColorDict.ToList();
-                if (ColorOptions.ColorDict.Count != ColorOptions.DefaultColorDict.Count)
-                    foreach (var identifier in ColorOptions.DefaultColorDict)
-                        if (!ColorOptions.ColorDict.ContainsKey(identifier.Key))
-                            ColorOptions.ColorDict.Add(identifier.Key, identifier.Value);
-                
                 keylist.Sort((pair1, pair2) => String.Compare(pair1.Value.name, pair2.Value.name, StringComparison.Ordinal));
 
                 for (int i = 0; i < keylist.Count; i++)

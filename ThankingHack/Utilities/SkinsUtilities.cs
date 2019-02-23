@@ -103,6 +103,10 @@ namespace Thinking.Utilities
             Dictionary<ushort, int> skins = new Dictionary<ushort, int>();
             foreach (WeaponSave save in SkinOptions.SkinConfig.WeaponSkins)
                 skins[save.WeaponID] = save.SkinID;
+            
+            if (OptimizationVariables.MainPlayer == null)
+                return;
+            
             OptimizationVariables.MainPlayer.channel.owner.itemSkins = skins;
 
             if (SkinOptions.SkinConfig.ShirtID != 0)

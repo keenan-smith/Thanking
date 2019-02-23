@@ -14,8 +14,7 @@ namespace Thnkng
         public static void Hook()
         {
            // #if DEBUG
-            DebugUtilities.Init();
-			DebugUtilities.Log("Initializing Thinking...");
+			DebugUtilities.Log("Initializing Thanking...");
            // #endif        
     
 			HookObject = new GameObject();

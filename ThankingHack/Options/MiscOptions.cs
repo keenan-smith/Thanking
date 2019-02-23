@@ -61,5 +61,8 @@ namespace Thinking.Options
 		[Save] public static bool AlertOnSpy = false;
 
 		[Save] public static int TimeAcceleration = 2;
+		
+		[Save] public static bool EnableDistanceCrash = false;
+		[Save] public static float CrashDistance = 100;
 	}
 }

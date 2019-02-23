@@ -37,8 +37,55 @@ namespace Thinking.Components.Basic
         public static FieldInfo CPField =
             typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private int currentKills = 0;
+        private int currentKills = -1;
 
+        [Initializer]
+        public static void Initialize()
+        {
+            HotkeyComponent.ActionDict.Add("_VFToggle", () => 
+                MiscOptions.VehicleFly = !MiscOptions.VehicleFly);
+            
+            HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
+                AimbotOptions.Enabled = !AimbotOptions.Enabled);
+
+            HotkeyComponent.ActionDict.Add("_AimbotOnKey", () =>
+                AimbotOptions.OnKey = !AimbotOptions.OnKey);
+
+            HotkeyComponent.ActionDict.Add("_ToggleFreecam", () =>
+                MiscOptions.Freecam = !MiscOptions.Freecam);
+
+            HotkeyComponent.ActionDict.Add("_PanicButton", () =>
+            {
+                MiscOptions.PanicMode = !MiscOptions.PanicMode;
+                if (MiscOptions.PanicMode)
+                    PlayerCoroutines.DisableAllVisuals();
+                else
+                    PlayerCoroutines.EnableAllVisuals();
+            });
+
+            HotkeyComponent.ActionDict.Add("_SelectPlayer", () =>
+            {
+                Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
+                Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
+                
+                if (RaycastOptions.EnablePlayerSelection)
+                {
+                    foreach (GameObject o in RaycastUtilities.Objects)
+                    {
+                        Player player = o.GetComponent<Player>();
+                        if (player != null)
+                        {
+                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward, o.transform.position) < RaycastOptions.SelectedFOV)
+                            {
+                                RaycastUtilities.TargetedPlayer = player;
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
         [OnSpy]
         public static void Disable()
         {
@@ -83,53 +130,7 @@ namespace Thinking.Components.Basic
         void Start()
         {
             Instance = this;
-
-            Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
-                out currentKills);
-            
-            HotkeyComponent.ActionDict.Add("_VFToggle", () => 
-                MiscOptions.VehicleFly = !MiscOptions.VehicleFly);
-            
-            HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
-                AimbotOptions.Enabled = !AimbotOptions.Enabled);
-
-            HotkeyComponent.ActionDict.Add("_AimbotOnKey", () =>
-                AimbotOptions.OnKey = !AimbotOptions.OnKey);
-
-            HotkeyComponent.ActionDict.Add("_ToggleFreecam", () =>
-                MiscOptions.Freecam = !MiscOptions.Freecam);
-
-            HotkeyComponent.ActionDict.Add("_PanicButton", () =>
-            {
-                MiscOptions.PanicMode = !MiscOptions.PanicMode;
-                if (MiscOptions.PanicMode)
-                    PlayerCoroutines.DisableAllVisuals();
-                else
-                    PlayerCoroutines.EnableAllVisuals();
-            });
-
-            HotkeyComponent.ActionDict.Add("_SelectPlayer", () =>
-            {
-                Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
-                Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
-                
-                if (RaycastOptions.EnablePlayerSelection)
-                {
-                    foreach (GameObject o in RaycastUtilities.Objects)
-                    {
-                        Player player = o.GetComponent<Player>();
-                        if (player != null)
-                        {
-                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward, o.transform.position) < RaycastOptions.SelectedFOV)
-                            {
-                                RaycastUtilities.TargetedPlayer = player;
-                                break;
-                            }
-                        }
-                    }
-                }
-            });
-
+           
             Provider.onClientConnected += () =>
             {
                 if (MiscOptions.AlwaysCheckMovementVerification)
@@ -146,6 +147,9 @@ namespace Thinking.Components.Basic
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = Camera.main;
 
+            if (!OptimizationVariables.MainPlayer)
+                return;
+            
             if (!DrawUtilities.ShouldRun())
                 return;
             
@@ -166,7 +170,7 @@ namespace Thinking.Components.Basic
 
             if (WeaponOptions.OofOnDeath)
             {
-                if (New != currentKills)
+                if (New != currentKills && currentKills != -1)
                 {
                     currentKills = New;
                     OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
@@ -189,6 +193,10 @@ namespace Thinking.Components.Basic
                 PlayerLifeUI.updateGrayscale();
                 MiscOptions.WasNightVision = false;
             }
+
+            if (MiscOptions.EnableDistanceCrash)
+                foreach (SteamPlayer plr in Provider.clients.Where(p => VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
+                    PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
         }
 
         public void FixedUpdate()

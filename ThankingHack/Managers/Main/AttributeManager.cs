@@ -15,9 +15,9 @@ namespace Thinking.Managers.Main
         
         public static void Init()
         {
-	        #if DEBUG
+	       // #if DEBUG
 			DebugUtilities.Log("Initializing attribute manager...");
-            #endif
+            //#endif
 
             // Declare lists to be populated later
             List<Type> Components = new List<Type>();
@@ -75,9 +75,9 @@ namespace Thinking.Managers.Main
             SpyManager.PostSpy = Post;
             SpyManager.PreSpy = Pre;
             
-            #if DEBUG
+            //#if DEBUG
             DebugUtilities.Log("Attribute manager initialized.");
-            #endif
+            //#endif
         }
     }
 }

@@ -12,9 +12,9 @@ namespace Thinking.Coroutines
     {
         public static IEnumerator PickupItems()
         {
-            #if DEBUG
+           // #if DEBUG
             DebugUtilities.Log("Starting Item Coroutine");
-            #endif
+          //  #endif
             
             while (true)
             {
