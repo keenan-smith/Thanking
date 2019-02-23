@@ -234,14 +234,19 @@ namespace Thinking.Overrides
 
 			    playerInputPacket.sequence = ClientSequence;
 			    playerInputPacket.recov = instance.recov;
-			    playerInputPacket.clientsideInputs = TargetedInputs.ToList(); //copy list
-			    
-			    TargetedInputs.Clear();
 			    
 			    if (MiscOptions.PunchAura)
 			    {
 				    if (Count % 6 == 0)
+				    {
+					    if (MiscOptions.PunchSilentAim)
+						    OV_DamageTool.OVType = OverrideType.PlayerHit;
+					    
+					    TargetedInputs.Add(DamageTool.raycast(new Ray(player.look.aim.position, player.look.aim.forward), 6f, RayMasks.DAMAGE_SERVER));
 					    instance.keys[1] = true;
+					    
+					    OV_DamageTool.OVType = OverrideType.None;
+				    }
 
 				    else
 					    instance.keys[1] = false;
@@ -254,6 +259,8 @@ namespace Thinking.Overrides
 					    num2 |= (ushort) (1 << b);
 
 			    playerInputPacket.keys = num2;
+			    playerInputPacket.clientsideInputs = TargetedInputs.ToList(); //copy list
+			    TargetedInputs.Clear();
 
 			    if (playerInputPacket is DrivingPlayerInputPacket drivingPlayerInputPacket)
 			    {
@@ -298,10 +305,8 @@ namespace Thinking.Overrides
 
 		    player.equipment.tock(Clock++);
 
-		    if (Buffer > 1 && Packets.Count > 0)
+		    if (Buffer > 3 && Packets.Count > 0)
 		    {
-			    Buffer = 0;
-			    
 			    instance.channel.openWrite();
 			    instance.channel.write((byte) Packets.Count);
 
