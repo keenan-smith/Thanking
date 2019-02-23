@@ -224,10 +224,10 @@ namespace Thinking.Overrides
 				    }
 
 				    SequenceDiff++;
+				    return;
 			    }
 
-			    else
-				    ClientSequence++;
+				ClientSequence++;
 
 			    PlayerInputPacket playerInputPacket;
 
