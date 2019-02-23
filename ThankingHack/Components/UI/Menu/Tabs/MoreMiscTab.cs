@@ -16,6 +16,9 @@ namespace Thinking.Components.UI.Menu.Tabs
         {
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MORE MISC", () =>
             {
+                GUILayout.BeginHorizontal();
+                GUILayout.BeginVertical(GUILayout.Width(230));
+                
                 GUILayout.Space(2);
                 Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
                 GUILayout.Space(5);

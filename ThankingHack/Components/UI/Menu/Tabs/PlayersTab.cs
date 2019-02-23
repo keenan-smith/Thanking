@@ -16,7 +16,7 @@ namespace Thinking.Components.UI.Menu.Tabs
 	    public static Vector2 PlayersScroll;
         public static Player SelectedPlayer;
         public static string SearchString = "";
-        
+
         public static SteamPlayer GetSteamPlayer(Player player)
         {
             foreach (var user in Provider.clients)
@@ -26,7 +26,7 @@ namespace Thinking.Components.UI.Menu.Tabs
             }
 
             return null;
-}
+        }
 
         public static void Tab()
         {
@@ -41,7 +41,7 @@ namespace Thinking.Components.UI.Menu.Tabs
                 {
 					Player player = Provider.clients[i].player;
                     
-                    if (player == OptimizationVariables.MainPlayer || player == null || (SearchString == "" || !player.ToString().Contains(SearchString)))
+                    if (player == OptimizationVariables.MainPlayer || player == null || (SearchString != "" && !player.ToString().Contains(SearchString)))
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);
