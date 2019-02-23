@@ -28,7 +28,6 @@ namespace Thinking.Components.UI
 
         public static Camera MainCamera;
 
-<<<<<<< HEAD
 		[Initializer]
 		public static void Initialize()
 		{
@@ -48,25 +47,6 @@ namespace Thinking.Components.UI
 		}
 		
 		public void Start()
-=======
-        [Initializer]
-        public static void OnInit()
-        {
-            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
-            {
-                ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
-                ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
-                ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Glow", $"ESP - {(ESPTarget)i} (Glow)", Color.yellow, false));
-            }
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green, false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue, false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255), false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red, false));
-        }
-
-        public void Start()
->>>>>>> radar-things
         {
             CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());

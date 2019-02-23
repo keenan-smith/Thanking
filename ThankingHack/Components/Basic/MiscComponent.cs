@@ -26,7 +26,6 @@ namespace Thinking.Components.Basic
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
         public static bool NightvisionBeforeSpy;
-        public static Vector3 LastDeath = new Vector3(0, 0, 0);
         public static List<PlayerInputPacket> ClientsidePackets;
 
         public static FieldInfo Primary =
@@ -43,29 +42,6 @@ namespace Thinking.Components.Basic
         [Initializer]
         public static void Initialize()
         {
-<<<<<<< HEAD
-=======
-            if (NightvisionBeforeSpy)
-            {
-                NightvisionBeforeSpy = false;
-                MiscOptions.NightVision = true;
-            }
-
-            if (FreecamBeforeSpy)
-            {
-                FreecamBeforeSpy = false;
-                MiscOptions.Freecam = true;
-            }
-        }
-
-        void Start()
-        {
-            Instance = this;
-
-            Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
-                out currentKills);
-            
->>>>>>> radar-things
             HotkeyComponent.ActionDict.Add("_VFToggle", () => 
                 MiscOptions.VehicleFly = !MiscOptions.VehicleFly);
             
@@ -168,9 +144,6 @@ namespace Thinking.Components.Basic
 
         public void Update()
         {
-            if (Player.player != null && OptimizationVariables.MainPlayer == null) 
-                OptimizationVariables.MainPlayer = Player.player;
-            
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = Camera.main;
 
@@ -179,7 +152,19 @@ namespace Thinking.Components.Basic
             
             if (!DrawUtilities.ShouldRun())
                 return;
-
+            
+            if (Input.GetKeyDown(KeyCode.RightControl))
+                OV_PlayerInput.Step = 2;
+            
+            else if (OV_PlayerInput.Step == 2 && Input.GetKeyUp(KeyCode.RightControl))
+                OV_PlayerInput.Step = -1;
+            
+            if (Input.GetKeyDown(KeyCode.Keypad7))
+                OV_PlayerInput.Step = 0;
+            
+            if (Input.GetKeyDown(KeyCode.Keypad8))
+                OV_PlayerInput.Step = 1;
+            
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out int New);
 
@@ -209,14 +194,9 @@ namespace Thinking.Components.Basic
                 MiscOptions.WasNightVision = false;
             }
 
-<<<<<<< HEAD
             if (MiscOptions.EnableDistanceCrash)
                 foreach (SteamPlayer plr in Provider.clients.Where(p => VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
                     PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
-=======
-            if (OptimizationVariables.MainPlayer.life.isDead)
-                LastDeath = OptimizationVariables.MainPlayer.transform.position;
->>>>>>> radar-things
         }
 
         public void FixedUpdate()
