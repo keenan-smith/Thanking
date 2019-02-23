@@ -96,6 +96,8 @@ namespace Thinking.Coroutines
 			ESPCoroutines.UnlitChams = AssetVariables.Shaders["chamsUnlit"];
 
 			IsLoaded = true;
+			
+			DebugUtilities.Log("Assets loaded!");
 		}
 	}
 }

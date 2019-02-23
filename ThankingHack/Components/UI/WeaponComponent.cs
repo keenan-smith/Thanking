@@ -18,23 +18,27 @@ namespace Thinking.Components.UI
 	public class WeaponComponent : MonoBehaviour
 	{
 		public static Dictionary<ushort, float[]> AssetBackups = new Dictionary<ushort, float[]>();
-		public static FieldInfo AmmoInfo;
         public static List<TracerLine> Tracers = new List<TracerLine>();
 		public static Camera MainCamera;
-		public static MethodInfo UpdateCrosshair;
+		
+		public static FieldInfo AmmoInfo = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
+		
+		public static MethodInfo UpdateCrosshair  = typeof(UseableGun).GetMethod("updateCrosshair", BindingFlags.NonPublic | BindingFlags.Instance);
 
 		public static byte Ammo() => 
 			(byte)AmmoInfo.GetValue(OptimizationVariables.MainPlayer.equipment.useable);
 
-		public void Start()
+		[Initializer]
+		public static void Initialize()
 		{
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers (Hit)", new Color32(255, 0, 0, 255)));
+			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers (Hit)", new Color32(255, 0, 0, 255)));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 255, 255, 255)));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoColor", "Weapons - Information", new Color32(0, 255, 0, 255)));
 			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoBorder", "Weapons - Information (Border)", new Color32(0, 0, 0, 255)));
-			
-            AmmoInfo = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
-			UpdateCrosshair = typeof(UseableGun).GetMethod("updateCrosshair", BindingFlags.NonPublic | BindingFlags.Instance);
+		}
+		
+		public void Start()
+		{	
 			StartCoroutine(UpdateWeapon());
 		}
 

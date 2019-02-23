@@ -29,6 +29,7 @@ namespace Thinking.Overrides
 	    public static int SequenceDiff;
 
 	    public static List<PlayerInputPacket> Packets = new List<PlayerInputPacket>();
+	    public static List<RaycastInfo> TargetedInputs = new List<RaycastInfo>();
 
 	    public static float LastReal;
 
@@ -65,23 +66,16 @@ namespace Thinking.Overrides
 	    
 	    private static Vector3 lastSentPositon = Vector3.zero;
 
-	    [Override(typeof(PlayerMovement), "tellRecov", BindingFlags.Public | BindingFlags.Instance)]
+	    //[Override(typeof(PlayerMovement), "tellRecov", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_tellRecov(PlayerMovement instance, CSteamID steamID, Vector3 newPosition, int newRecov)
 	    {
-		    if (instance.player.input.recov < newRecov)
-			    OverrideUtilities.CallOriginal(instance, steamID, newPosition, newRecov);
+			OverrideUtilities.CallOriginal(instance, steamID, newPosition, newRecov);
 	    }
 
 	    [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_sendRaycast(PlayerInput instance, RaycastInfo info)
 	    {
-		    PlayerInputPacket last =
-			    Packets.Last();
-		    
-		    if (last.clientsideInputs == null)
-			    last.clientsideInputs = new List<RaycastInfo>();
-		    
-		    last.clientsideInputs.Add(info);
+		    TargetedInputs.Add(info);
 	    }
 	    
 	    [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
@@ -237,15 +231,28 @@ namespace Thinking.Overrides
 				    Packets.Add(new WalkingPlayerInputPacket());
 
 			    PlayerInputPacket playerInputPacket = Packets.Last();
+			    
 			    playerInputPacket.sequence = ClientSequence;
 			    playerInputPacket.recov = instance.recov;
+			    playerInputPacket.clientsideInputs = TargetedInputs.ToList(); //copy list
 			    
+			    TargetedInputs.Clear();
+			    
+			    if (MiscOptions.PunchAura)
+			    {
+				    if (Count % 6 == 0)
+					    instance.keys[1] = true;
+
+				    else
+					    instance.keys[1] = false;
+			    }
+			    	
 			    ushort num2 = 0;
 			    
 			    for (byte b = 0; b < instance.keys.Length; b++)
 				    if (instance.keys[b])
 					    num2 |= (ushort) (1 << b);
-			    	
+
 			    playerInputPacket.keys = num2;
 
 			    if (playerInputPacket is DrivingPlayerInputPacket drivingPlayerInputPacket)

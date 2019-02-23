@@ -94,6 +94,15 @@ namespace Thinking.Components.UI.Menu.Tabs
                 int x = v >> 1; // previous power of 2
                 MiscOptions.TimeAcceleration = (v - n) > (n - x) ? x : v;
                 
+                GUILayout.Space(5);
+                Prefab.Toggle("Player Distance Crashing", ref MiscOptions.PunchAura);
+                GUILayout.Space(5);
+                
+                GUILayout.Label("Crash Distance: " + MiscOptions.CrashDistance + "m", Prefab._TextStyle);
+                GUILayout.Space(2);
+                
+                MiscOptions.CrashDistance = (float) Math.Round(Prefab.Slider(1, 4, MiscOptions.CrashDistance, 200), 2);
+                
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });

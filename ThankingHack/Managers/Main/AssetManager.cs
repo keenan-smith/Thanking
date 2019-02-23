@@ -9,9 +9,9 @@ namespace Thinking.Managers.Main
 	{
 		public static void Init()
 		{
-			#if DEBUG
+			//#if DEBUG
 			DebugUtilities.Log("Starting asset manager...");
-			#endif
+			//#endif
 			
 			// Start the LoadAssets coroutine
 			Ldr.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(LoaderCoroutines.LoadAssets());

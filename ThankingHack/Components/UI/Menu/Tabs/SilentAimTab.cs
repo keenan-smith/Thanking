@@ -75,8 +75,6 @@ namespace Thinking.Components.UI.Menu.Tabs
 				        GUILayout.Label("Aim FOV: " + RaycastOptions.SilentAimFOV, Prefab._TextStyle);
 				        RaycastOptions.SilentAimFOV = Prefab.Slider(1, 180, RaycastOptions.SilentAimFOV, 200);
 			        }
-			        
-			        GUILayout.Space(2);
 		        }
 			});
 		}
