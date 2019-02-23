@@ -10,6 +10,7 @@ using Thinking.Variables;
 using UnityEngine;
 using System.Linq;
 using Thinking.Coroutines;
+using Thinking.Components.Basic;
 
 namespace Thinking.Components.UI
 {
@@ -82,7 +83,6 @@ namespace Thinking.Components.UI
 				GL.End();
 				GL.PopMatrix();
 			}
-
 			if (WeaponOptions.ShowWeaponInfo)
 			{
 				if (!(OptimizationVariables.MainPlayer.equipment.asset is ItemGunAsset))
@@ -90,7 +90,7 @@ namespace Thinking.Components.UI
 
 				GUI.depth = 0;
 				ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
-				string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>";
+				string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>\nPosition: {Player.player.transform.position}\nSize: {Level.size}\n RadarSize: {RadarComponent.GameToRadarPosition(Player.player.transform.position)}\n viewangles: {OptimizationVariables.MainPlayer.look.aim.forward}";
 
 				DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft,
 					new Vector2(Screen.width - 20, Screen.height / 2), text,  ColorUtilities.getColor("_WeaponInfoColor"), ColorUtilities.getColor("_WeaponInfoBorder"), 1);
