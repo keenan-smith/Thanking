@@ -66,16 +66,21 @@ namespace Thinking.Overrides
 	    
 	    private static Vector3 lastSentPositon = Vector3.zero;
 
-	    //[Override(typeof(PlayerMovement), "tellRecov", BindingFlags.Public | BindingFlags.Instance)]
-	    public static void OV_tellRecov(PlayerMovement instance, CSteamID steamID, Vector3 newPosition, int newRecov)
-	    {
-			OverrideUtilities.CallOriginal(instance, steamID, newPosition, newRecov);
-	    }
-
 	    [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_sendRaycast(PlayerInput instance, RaycastInfo info)
 	    {
-		    TargetedInputs.Add(info);
+		    Packets.Last().clientsideInputs.Add(info);
+	    }
+
+	    [Override(typeof(PlayerInput), "askAck", BindingFlags.Public | BindingFlags.Instance)]
+	    public static void OV_askAck(PlayerInput instance, CSteamID steamId, int ack)
+	    {
+		    if (steamId != Provider.server)
+			    return;
+		    
+		    for (int i = Packets.Count - 1; i <= 0; i--)
+			    if (Packets[i].sequence <= ack)
+				    Packets.RemoveAt(i);
 	    }
 	    
 	    [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
@@ -234,6 +239,7 @@ namespace Thinking.Overrides
 
 			    playerInputPacket.sequence = ClientSequence;
 			    playerInputPacket.recov = instance.recov;
+			    playerInputPacket.clientsideInputs = new List<RaycastInfo>();
 			    
 			    if (MiscOptions.PunchAura)
 			    {
@@ -242,7 +248,7 @@ namespace Thinking.Overrides
 					    if (MiscOptions.PunchSilentAim)
 						    OV_DamageTool.OVType = OverrideType.PlayerHit;
 					    
-					    TargetedInputs.Add(DamageTool.raycast(new Ray(player.look.aim.position, player.look.aim.forward), 6f, RayMasks.DAMAGE_SERVER));
+					    playerInputPacket.clientsideInputs.Add(DamageTool.raycast(new Ray(player.look.aim.position, player.look.aim.forward), 6f, RayMasks.DAMAGE_SERVER));
 					    instance.keys[1] = true;
 					    
 					    OV_DamageTool.OVType = OverrideType.None;
@@ -259,9 +265,7 @@ namespace Thinking.Overrides
 					    num2 |= (ushort) (1 << b);
 
 			    playerInputPacket.keys = num2;
-			    playerInputPacket.clientsideInputs = TargetedInputs.ToList(); //copy list
-			    TargetedInputs.Clear();
-
+			    
 			    if (playerInputPacket is DrivingPlayerInputPacket drivingPlayerInputPacket)
 			    {
 				    InteractableVehicle vehicle = player.movement.getVehicle();
@@ -345,9 +349,7 @@ namespace Thinking.Overrides
 			    if (!cng)
 				    LastReal = Time.realtimeSinceStartup;
 			    
-			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
-			    Packets.Clear();
-
+			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
 			    ClientSequence = LastPacket?.sequence ?? ClientSequence;
 		    }
 
