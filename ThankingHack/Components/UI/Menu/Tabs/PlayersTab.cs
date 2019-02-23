@@ -17,6 +17,17 @@ namespace Thinking.Components.UI.Menu.Tabs
         public static Player SelectedPlayer;
         public static string SearchString;
         
+        public static SteamPlayer GetSteamPlayer(Player player)
+        {
+            foreach (var user in Provider.clients)
+            {
+                if (user.player == player)
+                    return user;
+            }
+
+            return null;
+}
+
         public static void Tab()
         {
             GUILayout.BeginHorizontal();
@@ -97,6 +108,9 @@ namespace Thinking.Components.UI.Menu.Tabs
                 if (MiscOptions.NoMovementVerification)
                     if (Prefab.Button("Teleport to player", 150))
                         OptimizationVariables.MainPlayer.transform.position = SelectedPlayer.transform.position;
+
+                if (Prefab.Button("Namesteal", 150))
+                    GetSteamPlayer(OptimizationVariables.MainPlayer).playerID.characterName = GetSteamPlayer(SelectedPlayer).playerID.characterName;
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();

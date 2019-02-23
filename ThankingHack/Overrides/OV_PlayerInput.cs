@@ -1,18 +1,21 @@
-﻿﻿﻿using System.Collections.Generic;
- using System.Linq;
- using System.Reflection;
- using SDG.Unturned;
- using Steamworks;
- using Thinking.Attributes;
- using Thinking.Options;
- using Thinking.Utilities;
- using Thinking.Variables;
- using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using SDG.Unturned;
+using Steamworks;
+using Thinking.Attributes;
+using Thinking.Components.UI;
+using Thinking.Options;
+using Thinking.Utilities;
+using Thinking.Variables;
+using UnityEngine;
 
 namespace Thinking.Overrides
 {
     public class OV_PlayerInput
     {
+<<<<<<< HEAD
 	    public static int Step = -1;
 	    public static PlayerInputPacket LastPacket;
 
@@ -33,39 +36,14 @@ namespace Thinking.Overrides
 
 	    public static float LastReal;
 
+=======
+>>>>>>> radar-things
 	    public static bool Run;
 	    
-	    public static FieldInfo SimField = 
-		    typeof(PlayerInput).GetField("_simulation", BindingFlags.NonPublic | BindingFlags.Instance);
-	    
-	    public static FieldInfo ClockField = 
-		    typeof(PlayerInput).GetField("_clock", BindingFlags.NonPublic | BindingFlags.Instance);
-	    
-	    public static FieldInfo TickField = 
-		    typeof(PlayerInput).GetField("_tick", BindingFlags.NonPublic | BindingFlags.Instance);
-	    
-	    public static float GetTick(PlayerInput instance) =>
-		    (float)TickField.GetValue(instance);
-	    
-	    public static void SetTick(PlayerInput instance, float value) =>
-		    TickField.SetValue(instance, value); 
+	    public FieldInfo ClientsidePacketsField =
+		    typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
 
-	    
-	    public static uint GetSim(PlayerInput instance) =>
-		    (uint)SimField.GetValue(instance);
-	    
-	    public static void SetSim(PlayerInput instance, uint value) =>
-		    SimField.SetValue(instance, value); 
-	    
-	    
-	    public static uint GetClock(PlayerInput instance) =>
-		    (uint)ClockField.GetValue(instance);
-	    
-	    public static void SetClock(PlayerInput instance, uint value) =>
-		    ClockField.SetValue(instance, value); 
-	    
-	    private static Vector3 lastSentPositon = Vector3.zero;
-
+<<<<<<< HEAD
 	    //[Override(typeof(PlayerMovement), "tellRecov", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_tellRecov(PlayerMovement instance, CSteamID steamID, Vector3 newPosition, int newRecov)
 	    {
@@ -76,92 +54,40 @@ namespace Thinking.Overrides
 	    public static void OV_sendRaycast(PlayerInput instance, RaycastInfo info)
 	    {
 		    TargetedInputs.Add(info);
+=======
+	    public List<PlayerInputPacket> ClientsidePackets {
+		    get {
+			    if (!DrawUtilities.ShouldRun() || !Run)
+				    return null;
+			    
+			   return (List<PlayerInputPacket>)ClientsidePacketsField.GetValue(OptimizationVariables.MainPlayer.input);
+		    }
+>>>>>>> radar-things
 	    }
 	    
-	    [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
-	    public static void OV_FixedUpdate(PlayerInput instance)
+	    public PlayerInputPacket LastPacket;
+	   // [Override(typeof(PlayerInput), "FixedUpdate", BindingFlags.NonPublic | BindingFlags.Instance)]
+	    public void OV_FixedUpdate() 
 	    {
-		    if (instance.player != OptimizationVariables.MainPlayer)
-			    return;
-
-		    Player player = OptimizationVariables.MainPlayer;
-		    
-		    if (Step == 0 && !Run)
+		    if (LastPacket != null && MiscOptions.PunchAura)
 		    {
-			    Run = true;
-			    /*
-			    if (RealSequence - FakeSequence > 25)
-			    {
-				    First = true;
-				    SetSequence(instance, RealSequence + 3);
-				    
-				    instance.channel.openWrite();
-				    instance.channel.write((byte)25); // 25 packets
-				    
-				    Ray         ray         = new Ray(player.look.aim.position, player.look.aim.forward);
-				    RaycastInfo raycastInfo = DamageTool.raycast(ray, 6f, RayMasks.DAMAGE_CLIENT);
-				    
-				    for (int i = 0; i < 25; i++)
-				    {
-					    PlayerInputPacket lastPacket = CSPackets(instance).Last();
+			    EPlayerStance stance = OptimizationVariables.MainPlayer.stance.stance;
 
-					    lastPacket.sequence = FakeSequence + i + 2;
+			    if (stance != EPlayerStance.SWIM &&
+			        stance != EPlayerStance.CLIMB &&
+			        stance != EPlayerStance.DRIVING &&
+			        stance != EPlayerStance.PRONE &&
+			        stance != EPlayerStance.SITTING) {
 
-					    if (i % 7 == 0)
-					    {
-						    lastPacket.clientsideInputs = new List<RaycastInfo> {raycastInfo};
-						    lastPacket.keys |= 1 << 1;
-					    }
+				    for (int i = 0; i < 5; i++) {
+					    OptimizationVariables.MainPlayer.input.keys[1] =
+						    !OptimizationVariables.MainPlayer.input.keys[1];
 					    
-					    else if (i % 7 == 1)
-						    lastPacket.keys = (ushort) (lastPacket.keys & ~(1 << 1));
-					    
-					    instance.channel.write((byte)0); // walking player input packet
-					    lastPacket.write(instance.channel);
-
-					    if (i % 7 == 0)
-							lastPacket.clientsideInputs.Remove(raycastInfo);
+					    OverrideUtilities.CallOriginal();
 				    }
-			    
-				    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
-			    }
-				    */
-		    }
-
-		    else if (Step == 1)
-			    Run = false;
-
-		    else if (Step == 2)
-		    {
-			    /*
-			    Buffer++;
-			    if (Buffer > 3)
-				    Buffer = 0;
-
-			    if (MiscOptions.TimeAcceleration == 1 && Buffer % 4 != 0)
-				    return;
-
-			    if (MiscOptions.TimeAcceleration == 2 && Buffer % 2 != 0)
-				    return;
-*/
-			    
-			    Run = false;
-
-			    switch (MiscOptions.TimeAcceleration)
-			    {
-				    case 1:
-					    Rate = 4;
-					    break;
-
-				    case 2:
-					    Rate = 2;
-					    break;
-
-				    case 4:
-					    Rate = 1;
-					    break;
 			    }
 		    }
+<<<<<<< HEAD
 			    
 		    if (!Run && SequenceDiff <= 0)
 		    {
@@ -391,6 +317,10 @@ namespace Thinking.Overrides
 		    Step = -1;
 		    
 		    OverrideUtilities.CallOriginal(instance);
+=======
+		    OverrideUtilities.CallOriginal();
+		    LastPacket = ClientsidePackets?.Last();
+>>>>>>> radar-things
 	    }
     }
 }
