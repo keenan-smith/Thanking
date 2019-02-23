@@ -16,6 +16,17 @@ namespace Thinking.Components.UI.Menu.Tabs
 	    public static Vector2 PlayersScroll;
         public static Player SelectedPlayer = null;
         
+        public static SteamPlayer GetSteamPlayer(Player player)
+        {
+            foreach (var user in Provider.clients)
+            {
+                if (user.player == player)
+                    return user;
+            }
+
+            return null;
+}
+
         public static void Tab()
         {
             Prefab.ScrollView(new Rect(0, 0, 466, 250), "Players", ref PlayersScroll, () =>
@@ -91,6 +102,9 @@ namespace Thinking.Components.UI.Menu.Tabs
                 if (MiscOptions.NoMovementVerification)
                     if (Prefab.Button("Teleport to player", 150))
                         OptimizationVariables.MainPlayer.transform.position = SelectedPlayer.transform.position;
+
+                if (Prefab.Button("Namesteal", 150))
+                    GetSteamPlayer(OptimizationVariables.MainPlayer).playerID.characterName = GetSteamPlayer(SelectedPlayer).playerID.characterName;
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();

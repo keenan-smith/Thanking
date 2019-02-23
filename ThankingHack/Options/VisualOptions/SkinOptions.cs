@@ -52,6 +52,7 @@ namespace Thinking.Options
         public static SkinOptionList SkinClothesVest = new SkinOptionList(ESkinType.VESTS);
         public static SkinOptionList SkinClothesHats = new SkinOptionList(ESkinType.HATS);
         public static SkinOptionList SkinClothesMask = new SkinOptionList(ESkinType.MASKS);
+
         public static SkinOptionList SkinClothesGlasses = new SkinOptionList(ESkinType.GLASSES);
     }
 
