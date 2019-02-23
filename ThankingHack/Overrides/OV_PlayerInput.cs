@@ -332,10 +332,10 @@ namespace Thinking.Overrides
 						        packet.sequence != lPacket.sequence &&
 						        Time.realtimeSinceStartup - LastReal < 8)
 						    {
-							    packet.sequence = lPacket.sequence;
 							    SequenceDiff++;
-
 							    cng = true;
+
+							    continue;
 						    }
 					    }
 				    }
