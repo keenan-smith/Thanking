@@ -15,7 +15,7 @@ namespace Thinking.Components.UI.Menu.Tabs
     {
 	    public static Vector2 PlayersScroll;
         public static Player SelectedPlayer;
-        public static string SearchString;
+        public static string SearchString = "";
         
         public static SteamPlayer GetSteamPlayer(Player player)
         {
@@ -32,7 +32,7 @@ namespace Thinking.Components.UI.Menu.Tabs
         {
             GUILayout.BeginHorizontal();
             GUILayout.Space(5);
-            SearchString = Prefab.TextField(SearchString, "Search:", 466);
+            SearchString = Prefab.TextField(SearchString, "Search: ", 466);
             GUILayout.EndHorizontal();
             
             Prefab.ScrollView(new Rect(0, 25 + 5, 466, 250 - (25 + 10)), "Players", ref PlayersScroll, () =>
@@ -41,7 +41,7 @@ namespace Thinking.Components.UI.Menu.Tabs
                 {
 					Player player = Provider.clients[i].player;
                     
-                    if (player == OptimizationVariables.MainPlayer || player == null || !player.ToString().Contains(SearchString))
+                    if (player == OptimizationVariables.MainPlayer || player == null || (SearchString == "" || !player.ToString().Contains(SearchString)))
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);

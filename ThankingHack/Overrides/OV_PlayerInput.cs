@@ -224,14 +224,14 @@ namespace Thinking.Overrides
 			    else
 				    ClientSequence++;
 
+			    PlayerInputPacket playerInputPacket;
+
 			    if (player.stance.stance == EPlayerStance.DRIVING)
-				    Packets.Add(new DrivingPlayerInputPacket());
+				    playerInputPacket = new DrivingPlayerInputPacket();
 
 			    else
-				    Packets.Add(new WalkingPlayerInputPacket());
+			    	playerInputPacket = new WalkingPlayerInputPacket();
 
-			    PlayerInputPacket playerInputPacket = Packets.Last();
-			    
 			    playerInputPacket.sequence = ClientSequence;
 			    playerInputPacket.recov = instance.recov;
 			    playerInputPacket.clientsideInputs = TargetedInputs.ToList(); //copy list
@@ -286,6 +286,8 @@ namespace Thinking.Overrides
 				    walkingPlayerInputPacket.yaw = Yaw;
 				    walkingPlayerInputPacket.pitch = Pitch;
 			    }
+			    
+			    Packets.Add(playerInputPacket);
 
 			    player.equipment.simulate(instance.simulation, player.equipment.primary, player.equipment.secondary, player.stance.sprint);
 			    player.animator.simulate(instance.simulation, player.animator.leanLeft, player.animator.leanRight);
