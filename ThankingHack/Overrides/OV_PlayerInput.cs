@@ -309,7 +309,7 @@ namespace Thinking.Overrides
 			    {
 				    if (LastPacket != null)
 				    {
-					    if (playerInputPacket3.clientsideInputs == null &&
+					    if (playerInputPacket3.clientsideInputs.Count == 0 &&
 					        playerInputPacket3 is WalkingPlayerInputPacket packet &&
 					    	LastPacket is WalkingPlayerInputPacket lPacket)
 					    {
