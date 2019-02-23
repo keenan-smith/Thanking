@@ -11,10 +11,8 @@ namespace Thinking.Utilities
 	{
 		public static void addColor(ColorVariable ColorVariable)
 		{
-            if (!ColorOptions.ColorDict.ContainsKey(ColorVariable.identity))
-            {
-                ColorOptions.ColorDict.Add(ColorVariable.identity, ColorVariable);
-            }
+            if (!ColorOptions.DefaultColorDict.ContainsKey(ColorVariable.identity))
+	            ColorOptions.DefaultColorDict.Add(ColorVariable.identity, ColorVariable);
 		}
 
 		public static ColorVariable getColor(string identifier)
@@ -22,6 +20,7 @@ namespace Thinking.Utilities
 			ColorVariable toret;
 			if (ColorOptions.ColorDict.TryGetValue(identifier, out toret))
 				return toret;
+
 			return ColorOptions.errorColor;
 		}
 
@@ -37,9 +36,7 @@ namespace Thinking.Utilities
 		{
 			ColorVariable co;
 			if (ColorOptions.ColorDict.TryGetValue(identifier, out co))
-			{
 				co.color = color.ToSerializableColor();
-			}
 		}
 
 		public static string ColorToHex(Color32 color)
@@ -50,7 +47,7 @@ namespace Thinking.Utilities
 
 		public static ColorVariable[] getArray()
 		{
-			return ColorOptions.ColorDict.Values.ToList().ToArray();
+			return ColorOptions.ColorDict.Values.ToArray();
 		}
 
 		public static Color32 HexToColor(string hex)

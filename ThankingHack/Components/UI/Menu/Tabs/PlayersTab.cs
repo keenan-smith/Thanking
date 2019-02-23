@@ -14,17 +14,23 @@ namespace Thinking.Components.UI.Menu.Tabs
     public static class PlayersTab
     {
 	    public static Vector2 PlayersScroll;
-        public static Player SelectedPlayer = null;
+        public static Player SelectedPlayer;
+        public static string SearchString;
         
         public static void Tab()
         {
-            Prefab.ScrollView(new Rect(0, 0, 466, 250), "Players", ref PlayersScroll, () =>
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(5);
+            SearchString = Prefab.TextField(SearchString, "Search:", 466);
+            GUILayout.EndHorizontal();
+            
+            Prefab.ScrollView(new Rect(0, 25 + 5, 466, 250 - (25 + 10)), "Players", ref PlayersScroll, () =>
             {
                 for (int i = 0; i < Provider.clients.Count; i++)
                 {
 					Player player = Provider.clients[i].player;
                     
-                    if (player == OptimizationVariables.MainPlayer || player == null)
+                    if (player == OptimizationVariables.MainPlayer || player == null || !player.ToString().Contains(SearchString))
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);
