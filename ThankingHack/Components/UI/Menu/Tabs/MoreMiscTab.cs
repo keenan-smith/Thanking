@@ -1,4 +1,5 @@
-﻿using SDG.Unturned;
+﻿using System;
+using SDG.Unturned;
 using Steamworks;
 using Thinking.Options;
 using Thinking.Options.AimOptions;
@@ -67,7 +68,6 @@ namespace Thinking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 if (Prefab.Button("Clear Auto Crasher", 200))
                     PlayerCrashThread.CrashTargets.Clear();
-<<<<<<< HEAD
                 
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical(); 
@@ -102,8 +102,6 @@ namespace Thinking.Components.UI.Menu.Tabs
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
-=======
->>>>>>> radar-things
             });
         }
     }
