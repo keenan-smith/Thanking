@@ -59,10 +59,13 @@ namespace Thinking.Options
 		[Save] public static string AntiSpyPath = "";
 		
 		[Save] public static bool AlertOnSpy = false;
+<<<<<<< HEAD
 
 		[Save] public static int TimeAcceleration = 2;
 		
 		[Save] public static bool EnableDistanceCrash = false;
 		[Save] public static float CrashDistance = 100;
+=======
+>>>>>>> radar-things
 	}
 }

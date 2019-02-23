@@ -1,5 +1,4 @@
-﻿using System;
-using SDG.Unturned;
+﻿using SDG.Unturned;
 using Steamworks;
 using Thinking.Options;
 using Thinking.Options.AimOptions;
@@ -16,9 +15,6 @@ namespace Thinking.Components.UI.Menu.Tabs
         {
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MORE MISC", () =>
             {
-                GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(230));
-                
                 GUILayout.Space(2);
                 Prefab.Toggle("Auto Item Pickup", ref ItemOptions.AutoItemPickup);
                 GUILayout.Space(5);
@@ -71,6 +67,7 @@ namespace Thinking.Components.UI.Menu.Tabs
                 GUILayout.Space(5);
                 if (Prefab.Button("Clear Auto Crasher", 200))
                     PlayerCrashThread.CrashTargets.Clear();
+<<<<<<< HEAD
                 
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical(); 
@@ -105,6 +102,8 @@ namespace Thinking.Components.UI.Menu.Tabs
                 
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
+=======
+>>>>>>> radar-things
             });
         }
     }

@@ -31,6 +31,7 @@ namespace Thinking.Options.VisualOptions
             InfiniteDistance = false,
             LineToObject = false,
             TextScaling = true,
+            InlineText = false,
             UseObjectCap = true,
 
             Distance = 250,

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Thanking</RootNamespace>
     <AssemblyName>UnityEngine.Analytics</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <SignAssembly>false</SignAssembly>
@@ -247,6 +247,7 @@
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />
     <Compile Include="Components\Basic\MiscComponent.cs" />
+    <Compile Include="Components\Basic\RadarComponent.cs" />
     <Compile Include="Components\Basic\SpectatorComponent.cs" />
     <Compile Include="Components\Basic\TriggerbotComponent.cs" />
     <Compile Include="Components\Basic\RaycastComponent.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Options\OptimizationOptions.cs" />
     <Compile Include="Options\VisualOptions\ColorOptions.cs" />
     <Compile Include="Options\VisualOptions\MirrorCameraOptions.cs" />
+    <Compile Include="Options\VisualOptions\RadarOptions.cs" />
     <Compile Include="Options\VisualOptions\SkinOptions.cs" />
     <Compile Include="Overrides\OV_ChatManager.cs" />
     <Compile Include="Overrides\OV_Cursor.cs" />
