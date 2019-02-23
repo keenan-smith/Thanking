@@ -78,7 +78,7 @@ namespace Thinking.Overrides
 		    if (steamId != Provider.server)
 			    return;
 		    
-		    for (int i = Packets.Count - 1; i <= 0; i--)
+		    for (int i = Packets.Count - 1; i >= 0; i--)
 			    if (Packets[i].sequence <= ack)
 				    Packets.RemoveAt(i);
 	    }
