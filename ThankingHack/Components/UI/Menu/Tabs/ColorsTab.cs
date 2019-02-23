@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Thinking.Options.UIVariables;
 using Thinking.Options.VisualOptions;
 using Thinking.Utilities;
@@ -25,9 +26,14 @@ namespace Thinking.Components.UI.Menu.Tabs
             Prefab.ScrollView(new Rect(0, 0, 250, 436), "Colors", ref ColorScroll, () =>
             {
                 GUILayout.Space(10);
+                
                 var keylist = ColorOptions.ColorDict.ToList();
-
-                keylist.Sort((pair1, pair2) => pair1.Value.name.CompareTo(pair2.Value.name));
+                if (ColorOptions.ColorDict.Count != ColorOptions.DefaultColorDict.Count)
+                    foreach (var identifier in ColorOptions.DefaultColorDict)
+                        if (!ColorOptions.ColorDict.ContainsKey(identifier.Key))
+                            ColorOptions.ColorDict.Add(identifier.Key, identifier.Value);
+                
+                keylist.Sort((pair1, pair2) => String.Compare(pair1.Value.name, pair2.Value.name, StringComparison.Ordinal));
 
                 for (int i = 0; i < keylist.Count; i++)
                 {

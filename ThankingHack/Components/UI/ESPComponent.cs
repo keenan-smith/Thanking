@@ -34,7 +34,7 @@ namespace Thinking.Components.UI
 			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
 			{
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
-				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Text", $"Text - {(ESPTarget)i}", Color.white, false));
+				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Text", $"ESP - {(ESPTarget)i} (Text)", Color.white, false));
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
 				ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Glow", $"ESP - {(ESPTarget)i} (Glow)", Color.yellow, false));
 			}
