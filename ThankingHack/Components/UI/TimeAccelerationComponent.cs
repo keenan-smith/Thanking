@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace Thanking.Components.UI
 {
-	[Component]
 	[SpyComponent]
+	[Component]
 	public class TimeAccelerationComponent : MonoBehaviour
 	{
 		public void OnGUI()

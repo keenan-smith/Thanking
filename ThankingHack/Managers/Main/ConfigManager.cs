@@ -9,6 +9,7 @@ using Thanking.Attributes;
 using Thanking.Options;
 using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
+using Thanking.Variables;
 using Thanking.Variables.UIVariables;
 using UnityEngine;
 
@@ -157,12 +158,20 @@ namespace Thanking.Managers.Main
 			    if (!ColorOptions.ColorDict.ContainsKey(identifier.Key))              
 				    ColorOptions.ColorDict.Add(identifier.Key, new ColorVariable(identifier.Value));        
 		    
+		    foreach (var newIdentifier in ColorOptions.ColorDict.ToList())
+			    if (!ColorOptions.DefaultColorDict.ContainsKey(newIdentifier.Key))
+				    ColorOptions.ColorDict.Remove(newIdentifier.Key);
+		    
 		    DebugUtilities.Log("Setting defualt hotkeys...");
 		    
 		    foreach (var kvp in HotkeyOptions.DefaultHotkeyDict)
 		    foreach (var kvp2 in kvp.Value)
 			    if (!HotkeyOptions.UnorganizedHotkeys.ContainsKey(kvp2.Key))
 				    HotkeyOptions.UnorganizedHotkeys.Add(kvp2.Key, kvp2.Value);
+		    
+		    foreach (var str in HotkeyOptions.UnorganizedHotkeys.ToList())
+			    if (HotkeyOptions.DefaultHotkeyDict.All(kvp => !kvp.Value.ContainsKey(str.Key)))
+				    HotkeyOptions.UnorganizedHotkeys.Remove(str.Key); 
 		    
 	        DebugUtilities.Log("Saving config...");
 	        

@@ -357,7 +357,7 @@ namespace Thanking.Components.Basic
 
             Vector3 NewPos = LastPos + new Vector3(0, -1337, 0);
             OptimizationVariables.MainPlayer.transform.position = NewPos;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
 
             if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, NewPos) > 100)
                 MiscOptions.NoMovementVerification = false;
