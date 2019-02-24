@@ -31,10 +31,10 @@ namespace Thinking.Components.Basic
 
         public static FieldInfo Primary =
             typeof(PlayerEquipment).GetField("_primary", BindingFlags.NonPublic | BindingFlags.Instance);
-        
+
         public static FieldInfo Sequence =
             typeof(PlayerInput).GetField("sequence", BindingFlags.NonPublic | BindingFlags.Instance);
-        
+
         public static FieldInfo CPField =
             typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -78,10 +78,10 @@ namespace Thinking.Components.Basic
 
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out currentKills);
-            
-            HotkeyComponent.ActionDict.Add("_VFToggle", () => 
+
+            HotkeyComponent.ActionDict.Add("_VFToggle", () =>
                 MiscOptions.VehicleFly = !MiscOptions.VehicleFly);
-            
+
             HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
                 AimbotOptions.Enabled = !AimbotOptions.Enabled);
 
@@ -104,7 +104,7 @@ namespace Thinking.Components.Basic
             {
                 Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
                 Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
-                
+
                 if (RaycastOptions.EnablePlayerSelection)
                 {
                     foreach (GameObject o in RaycastUtilities.Objects)
@@ -135,9 +135,9 @@ namespace Thinking.Components.Basic
 
         public void Update()
         {
-            if (Player.player != null && OptimizationVariables.MainPlayer == null) 
+            if (Player.player != null && OptimizationVariables.MainPlayer == null)
                 OptimizationVariables.MainPlayer = Player.player;
-            
+
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = Camera.main;
 
@@ -175,13 +175,49 @@ namespace Thinking.Components.Basic
 
             if (OptimizationVariables.MainPlayer.life.isDead)
                 LastDeath = OptimizationVariables.MainPlayer.transform.position;
+
+            if (MiscOptions.CrashWords != "" && MiscOptions.CrashIDs != "" && MiscOptions.CrashByName && PlayerCrashThread.CrashTarget != null)
+            {
+                List<string> CrashWords = MiscOptions.CrashWords.Split(',').Reverse().ToList();
+                List<string> CrashIDs = MiscOptions.CrashIDs.Split(',').Reverse().ToList();
+                foreach (string Word in CrashWords)
+                {
+                    foreach (SteamPlayer player in Provider.clients)
+                    {
+                        if (!FriendUtilities.IsFriendly(player.player))
+                        {
+                            if (player.playerID.characterName.ToLower().Contains(Word.ToLower()))
+                            {
+                                PlayerCrashThread.CrashTarget = player.playerID.steamID;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                foreach (string ID in CrashIDs)
+                {
+                    foreach (SteamPlayer player in Provider.clients)
+                    {
+                        if (!FriendUtilities.IsFriendly(player.player))
+                        {
+                            if (player.playerID.steamID.ToString() == ID)
+                            {
+                                PlayerCrashThread.CrashTarget = player.playerID.steamID;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         public void FixedUpdate()
         {
-            if (!OptimizationVariables.MainPlayer) 
+            if (!OptimizationVariables.MainPlayer)
                 return;
-            
+
             VehicleFlight();
             PlayerFlight();
         }
@@ -189,7 +225,7 @@ namespace Thinking.Components.Basic
         public static void PlayerFlight()
         {
             Player plr = OptimizationVariables.MainPlayer;
-            
+
             if (!MiscOptions.PlayerFlight)
             {
                 ItemCloudAsset asset = plr.equipment.asset as ItemCloudAsset;
@@ -228,17 +264,17 @@ namespace Thinking.Components.Basic
                 return;
 
             Rigidbody rb = vehicle.GetComponent<Rigidbody>();
-            
+
             if (rb == null)
                 return;
 
             if (MiscOptions.VehicleFly)
             {
                 float speedMul = MiscOptions.VehicleUseMaxSpeed ? vehicle.asset.speedMax * Time.fixedDeltaTime : MiscOptions.SpeedMultiplier / 3;
-                
+
                 rb.useGravity = false;
                 rb.isKinematic = true;
-                
+
                 Transform tr = vehicle.transform;
 
                 if (HotkeyUtilities.IsHotkeyHeld("_VFStrafeUp"))
