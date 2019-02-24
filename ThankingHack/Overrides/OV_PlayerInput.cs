@@ -69,7 +69,10 @@ namespace Thinking.Overrides
 	    [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_sendRaycast(PlayerInput instance, RaycastInfo info)
 	    {
-		    Packets.Last().clientsideInputs.Add(info);
+		    if (Packets.Count > 0)
+		    	Packets.Last().clientsideInputs.Add(info);
+		    else
+			    TargetedInputs.Add(info);
 	    }
 
 	    [Override(typeof(PlayerInput), "askAck", BindingFlags.Public | BindingFlags.Instance)]
@@ -216,15 +219,13 @@ namespace Thinking.Overrides
 			    if (Run)
 			    {
 				    if (Time.realtimeSinceStartup - LastReal > 8)
-				    {
 					    LastReal = Time.realtimeSinceStartup;
-
-					    SequenceDiff--;
-					    ClientSequence++;
+				    
+				    else
+				    {
+					    SequenceDiff++;
+					    return;
 				    }
-
-				    SequenceDiff++;
-				    return;
 			    }
 
 				ClientSequence++;
@@ -239,7 +240,9 @@ namespace Thinking.Overrides
 
 			    playerInputPacket.sequence = ClientSequence;
 			    playerInputPacket.recov = instance.recov;
-			    playerInputPacket.clientsideInputs = new List<RaycastInfo>();
+			    playerInputPacket.clientsideInputs = TargetedInputs.ToList();
+			    
+			    TargetedInputs.Clear();
 			    
 			    if (MiscOptions.PunchAura)
 			    {
