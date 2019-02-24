@@ -289,7 +289,7 @@ namespace Thinking.Overrides
 			    //while (Packets.Count < 5 && WaitingPackets.Count > 0)
 				//    Packets.Add(WaitingPackets.Dequeue());
 			    
-			    foreach (PlayerInputPacket inp in Packets.ToList())
+			    /*foreach (PlayerInputPacket inp in Packets.ToList())
 			    {
 				    if (LastPacket != null)
 				    {
@@ -316,7 +316,7 @@ namespace Thinking.Overrides
 				    
 				    LastReal = Time.realtimeSinceStartup;
 				    LastPacket = inp;
-			    }
+			    }*/
 			    
 			    if (Packets.Count > 0)
 			    {
