@@ -109,9 +109,6 @@ namespace Thinking.Components.UI.Menu.Tabs
                     if (Prefab.Button("Teleport to player", 150))
                         OptimizationVariables.MainPlayer.transform.position = SelectedPlayer.transform.position;
 
-                if (Prefab.Button("Namesteal", 150))
-                    GetSteamPlayer(OptimizationVariables.MainPlayer).playerID.characterName = GetSteamPlayer(SelectedPlayer).playerID.characterName;
-                
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });

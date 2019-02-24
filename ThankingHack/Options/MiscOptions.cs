@@ -63,5 +63,9 @@ namespace Thinking.Options
 		
 		[Save] public static bool EnableDistanceCrash = false;
 		[Save] public static float CrashDistance = 100;
+
+		[Save] public static bool CrashByName = false;
+        [Save] public static string CrashWords = "";
+        [Save] public static string CrashIDs = "";
 	}
 }

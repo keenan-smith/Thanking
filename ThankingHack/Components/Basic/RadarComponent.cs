@@ -105,6 +105,14 @@ namespace Thinking.Components.Basic
                 }
             }
             #endregion
+            #region lastdeath
+            if (MiscComponent.LastDeath != new Vector3(0, 0, 0))
+            {
+                Vector2 radarpos = GameToRadarPosition(MiscComponent.LastDeath);
+                DrawRadarDot(new Vector2(radarcenter.x + radarpos.x, radarcenter.y - radarpos.y), Color.black, 4);
+                DrawRadarDot(new Vector2(radarcenter.x + radarpos.x, radarcenter.y - radarpos.y), Color.grey, 3);
+            }
+            #endregion
             GUI.DragWindow();
         }
 
