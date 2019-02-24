@@ -208,38 +208,38 @@ namespace Thinking.Components.Basic
             {
                 if (MiscOptions.CrashWords != "")
                 {
-                    List<string> CrashWords = MiscOptions.CrashWords.Split(',').Reverse().ToList();
-                    foreach (string Word in CrashWords)
+                    List<string> crashWords = MiscOptions.CrashWords.Split(',').Reverse().ToList();
+                    foreach (string word in crashWords)
                     {
                         foreach (SteamPlayer player in Provider.clients)
                         {
-                            if (!FriendUtilities.IsFriendly(player.player))
-                            {
-                                if (player.playerID.characterName.ToLower().Contains(Word.ToLower()))
-                                {
-                                    PlayerCrashThread.CrashTarget = player.playerID.steamID;
-                                    break;
-                                }
-                            }
+                            if (FriendUtilities.IsFriendly(player.player))
+                                continue;
+
+                            if (!player.playerID.characterName.ToLower().Contains(word.ToLower())) 
+                                continue;
+                            
+                            PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
+                            break;
                         }
                     }
                 }
 
                 if (MiscOptions.CrashIDs != "")
                 {
-                    List<string> CrashIDs = MiscOptions.CrashIDs.Split(',').Reverse().ToList();
-                    foreach (string ID in CrashIDs)
+                    List<string> crashIDs = MiscOptions.CrashIDs.Split(',').Reverse().ToList();
+                    foreach (string id in crashIDs)
                     {
                         foreach (SteamPlayer player in Provider.clients)
                         {
-                            if (!FriendUtilities.IsFriendly(player.player))
-                            {
-                                if (player.playerID.steamID.ToString() == ID)
-                                {
-                                    PlayerCrashThread.CrashTarget = player.playerID.steamID;
-                                    break;
-                                }
-                            }
+                            if (FriendUtilities.IsFriendly(player.player)) 
+                                continue;
+
+                            if (player.playerID.steamID.ToString() != id) 
+                                continue;
+                            
+                            PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
+                            break;
                         }
                     }
                 }
