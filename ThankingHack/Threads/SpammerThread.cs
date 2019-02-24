@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Options;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Options;
 
-namespace Thinking.Threads
+namespace Thanking.Threads
 {
     public static class SpammerThread
     {

@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
+using Thanking.Attributes;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
 	public class OV_PlayerUI
 	{
 		[Override(typeof(PlayerUI), "updateCrosshair", BindingFlags.Public | BindingFlags.Static)]
-		public static void updateCrosshair(float spread)
+		public static void OV_updateCrosshair(float spread)
 		{
 			if (!Provider.modeConfigData.Gameplay.Crosshair) return;
 			

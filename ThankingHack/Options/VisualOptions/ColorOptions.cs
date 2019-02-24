@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Thinking.Attributes;
-using Thinking.Options.UIVariables;
+using Thanking.Attributes;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Options.VisualOptions
+namespace Thanking.Options.VisualOptions
 {
 	public static class ColorOptions
 	{

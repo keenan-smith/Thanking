@@ -1,7 +1,7 @@
 ﻿using SDG.Unturned;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public class InfoTab
     {

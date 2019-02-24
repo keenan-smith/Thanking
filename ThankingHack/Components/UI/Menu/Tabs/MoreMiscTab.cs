@@ -1,14 +1,13 @@
 ﻿using System;
 using SDG.Unturned;
-using Steamworks;
-using Thinking.Options;
-using Thinking.Options.AimOptions;
-using Thinking.Options.UIVariables;
-using Thinking.Threads;
-using Thinking.Utilities;
+using Thanking.Options;
+using Thanking.Options.AimOptions;
+using Thanking.Threads;
+using Thanking.Utilities;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class MoreMiscTab
     {

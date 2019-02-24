@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection.Emit;
 using SDG.Unturned;
 using Steamworks;
-using Thinking.Options;
-using Thinking.Threads;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Options;
+using Thanking.Threads;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class PlayersTab
     {

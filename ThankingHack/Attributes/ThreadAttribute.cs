@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thinking.Attributes
+namespace Thanking.Attributes
 {
 	/// <summary>
 	/// Attribute on a target method used to create a different thread

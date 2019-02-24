@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Thinking.Variables
+namespace Thanking.Variables
 {
 	public static class AssetVariables
 	{

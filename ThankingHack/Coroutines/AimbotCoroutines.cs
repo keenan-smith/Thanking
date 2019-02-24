@@ -1,16 +1,15 @@
-﻿﻿using System.Collections;
-using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.UI;
-using Thinking.Options.AimOptions;
-using Thinking.Utilities;
-using UnityEngine;
-using System;
+﻿using System.Collections;
 using System.Reflection;
-using Thinking.Options;
-using Thinking.Variables;
+using SDG.Unturned;
+using Thanking.Attributes;
+using Thanking.Components.UI;
+using Thanking.Misc.Enums;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
+using UnityEngine;
 
-namespace Thinking.Coroutines
+namespace Thanking.Coroutines
 {
     public static class AimbotCoroutines
     {

@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.IO;
-using HighlightingSystem;
 using SDG.Unturned;
-using Thinking.Utilities;
-using Thinking.Components.UI;
-using Thinking.Managers.Submanagers;
-using Thinking.Options;
-using Thinking.Variables;
+using Thanking.Components.UI;
+using Thanking.Managers.Submanagers;
+using Thanking.Options;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Coroutines
+namespace Thanking.Coroutines
 {
 	public static class PlayerCoroutines
 	{

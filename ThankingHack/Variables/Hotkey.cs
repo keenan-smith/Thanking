@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Thinking.Variables
+namespace Thanking.Variables
 {
     public class Hotkey
     {

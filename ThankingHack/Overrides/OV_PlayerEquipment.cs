@@ -1,14 +1,12 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.Serialization.Formatters;
+﻿using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.Basic;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Utilities;
+using Thanking.Variables;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public class OV_PlayerEquipment
     {

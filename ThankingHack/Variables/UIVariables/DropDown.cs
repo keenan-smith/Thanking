@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Thinking.Options.UIVariables
+namespace Thanking.Variables.UIVariables
 {
     public class DropDown
     {

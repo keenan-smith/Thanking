@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
-using Steamworks;
-using Thinking.Attributes;
+using Thanking.Attributes;
 
-namespace Thinking.Options
+namespace Thanking.Options
 {
 	public static class MiscOptions
 	{
