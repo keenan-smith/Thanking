@@ -209,7 +209,7 @@ namespace Thinking.Overrides
 			    playerInputPacket.recov = instance.recov;
 			    playerInputPacket.clientsideInputs = new List<RaycastInfo>();
 			    
-			    if (MiscOptions.PunchAura && !player.equipment.isEquipped)
+			    if (MiscOptions.PunchAura && !player.equipment.isSelected)
 			    {
 				    if (Count % 6 == 0)
 				    {
