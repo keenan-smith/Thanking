@@ -204,41 +204,46 @@ namespace Thinking.Components.Basic
             if (OptimizationVariables.MainPlayer.life.isDead)
                 LastDeath = OptimizationVariables.MainPlayer.transform.position;
 
-            if (MiscOptions.CrashWords != "" && MiscOptions.CrashIDs != "" && MiscOptions.CrashByName && PlayerCrashThread.CrashTarget != null)
+            if (MiscOptions.CrashByName)
             {
-                List<string> CrashWords = MiscOptions.CrashWords.Split(',').Reverse().ToList();
-                List<string> CrashIDs = MiscOptions.CrashIDs.Split(',').Reverse().ToList();
-                foreach (string Word in CrashWords)
+                if (MiscOptions.CrashWords != "")
                 {
-                    foreach (SteamPlayer player in Provider.clients)
+                    List<string> CrashWords = MiscOptions.CrashWords.Split(',').Reverse().ToList();
+                    foreach (string Word in CrashWords)
                     {
-                        if (!FriendUtilities.IsFriendly(player.player))
+                        foreach (SteamPlayer player in Provider.clients)
                         {
-                            if (player.playerID.characterName.ToLower().Contains(Word.ToLower()))
+                            if (!FriendUtilities.IsFriendly(player.player))
                             {
-                                PlayerCrashThread.CrashTarget = player.playerID.steamID;
-                                break;
+                                if (player.playerID.characterName.ToLower().Contains(Word.ToLower()))
+                                {
+                                    PlayerCrashThread.CrashTarget = player.playerID.steamID;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
 
-                foreach (string ID in CrashIDs)
+                if (MiscOptions.CrashIDs != "")
                 {
-                    foreach (SteamPlayer player in Provider.clients)
+                    List<string> CrashIDs = MiscOptions.CrashIDs.Split(',').Reverse().ToList();
+                    foreach (string ID in CrashIDs)
                     {
-                        if (!FriendUtilities.IsFriendly(player.player))
+                        foreach (SteamPlayer player in Provider.clients)
                         {
-                            if (player.playerID.steamID.ToString() == ID)
+                            if (!FriendUtilities.IsFriendly(player.player))
                             {
-                                PlayerCrashThread.CrashTarget = player.playerID.steamID;
-                                break;
+                                if (player.playerID.steamID.ToString() == ID)
+                                {
+                                    PlayerCrashThread.CrashTarget = player.playerID.steamID;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
             }
-
         }
 
         public void FixedUpdate()
