@@ -59,5 +59,9 @@ namespace Thinking.Options
 		[Save] public static string AntiSpyPath = "";
 		
 		[Save] public static bool AlertOnSpy = false;
+
+		[Save] public static bool CrashByName = false;
+        [Save] public static string CrashWords = "";
+        [Save] public static string CrashIDs = "";
 	}
 }
