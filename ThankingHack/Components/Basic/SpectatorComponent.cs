@@ -1,13 +1,11 @@
-﻿using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Coroutines;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Variables;
+﻿using Thanking.Attributes;
+using Thanking.Coroutines;
+using Thanking.Options;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     [Component]
     public class SpectatorComponent : MonoBehaviour

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Thanking.Misc.Serializables;
 using UnityEngine;
 
-namespace Thinking.Misc
+namespace Thanking.Misc
 {
 	public static class Extensions
 	{

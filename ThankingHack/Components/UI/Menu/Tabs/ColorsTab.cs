@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
-using Thinking.Options.UIVariables;
-using Thinking.Options.VisualOptions;
-using Thinking.Utilities;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class ColorsTab
     {

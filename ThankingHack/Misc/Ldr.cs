@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
-using Thinking.Managers.Main;
-using Thinking.Utilities;
+using Thanking.Managers.Main;
+using Thanking.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

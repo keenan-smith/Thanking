@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Thinking.Attributes;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Utilities;
 
-namespace Thinking.Wrappers
+namespace Thanking.Wrappers
 {
     public class OverrideWrapper
     {
@@ -76,9 +76,9 @@ namespace Thinking.Wrappers
             {
                 result = Original.Invoke(instance ?? Instance, args);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                DebugUtilities.LogException(e);
             }
 
             Override();

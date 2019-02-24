@@ -2,10 +2,9 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
-using Thinking.Attributes;
-using UnityEngine;
+using Thanking.Attributes;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public class DebugUtilities
     {

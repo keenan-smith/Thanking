@@ -5,19 +5,14 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Thinking.Attributes;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Options;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
-using System.Collections;
-using System.ComponentModel;
-using System.Security.Permissions;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json.Schema;
-using Thinking.Components.UI.Menu;
-using Thinking.Options.UIVariables;
-using Thinking.Options.VisualOptions;
 
-namespace Thinking.Managers.Main
+namespace Thanking.Managers.Main
 {
     public class ConfigManager
     {
@@ -161,6 +156,13 @@ namespace Thinking.Managers.Main
 		    foreach (var identifier in ColorOptions.DefaultColorDict)
 			    if (!ColorOptions.ColorDict.ContainsKey(identifier.Key))              
 				    ColorOptions.ColorDict.Add(identifier.Key, new ColorVariable(identifier.Value));        
+		    
+		    DebugUtilities.Log("Setting defualt hotkeys...");
+		    
+		    foreach (var kvp in HotkeyOptions.DefaultHotkeyDict)
+		    foreach (var kvp2 in kvp.Value)
+			    if (!HotkeyOptions.UnorganizedHotkeys.ContainsKey(kvp2.Key))
+				    HotkeyOptions.UnorganizedHotkeys.Add(kvp2.Key, kvp2.Value);
 		    
 	        DebugUtilities.Log("Saving config...");
 	        

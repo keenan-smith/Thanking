@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
+using Thanking.Attributes;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public static class OV_PlayerPauseUI
     {

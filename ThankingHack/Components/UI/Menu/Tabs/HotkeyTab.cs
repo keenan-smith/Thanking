@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using SDG.Framework.IO.FormattedFiles.KeyValueTables;
-using SDG.Framework.UI.Devkit.InspectorUI;
-using SDG.Unturned;
-using Thinking.Components.Basic;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Components.Basic;
+using Thanking.Options;
+using Thanking.Variables;
 using UnityEngine;
-using Action = System.Action;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class HotkeyTab
     {
@@ -24,7 +17,7 @@ namespace Thinking.Components.UI.Menu.Tabs
         {
             Prefab.ScrollView(new Rect(0, 0, 466, 400), "Hotkeys", ref HotkeyScroll, () =>
             {
-                foreach (KeyValuePair<string, Dictionary<string, Hotkey>> HotkeyGroup in HotkeyOptions.HotkeyDict)
+                foreach (KeyValuePair<string, Dictionary<string, Hotkey>> HotkeyGroup in HotkeyOptions.DefaultHotkeyDict)
                 {
                     if (IsFirst)
                     {

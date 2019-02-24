@@ -1,9 +1,10 @@
-﻿using Thinking.Components.Basic;
-using Thinking.Coroutines;
-using Thinking.Utilities;
+﻿using Thanking.Components.Basic;
+using Thanking.Coroutines;
+using Thanking.Misc;
+using Thanking.Utilities;
 using Thnkng;
 
-namespace Thinking.Managers.Main
+namespace Thanking.Managers.Main
 {
 	public static class AssetManager
 	{

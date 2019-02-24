@@ -1,11 +1,9 @@
-﻿using System;
-using SDG.Unturned;
-using Thinking.Options;
-using Thinking.Options.AimOptions;
-using Thinking.Options.UIVariables;
+﻿using SDG.Unturned;
+using Thanking.Options.AimOptions;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class WeaponsTab
     {

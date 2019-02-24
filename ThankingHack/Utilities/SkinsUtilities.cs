@@ -1,15 +1,14 @@
-﻿using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using SDG.Provider;
-using Thinking.Components.UI.Menu;
-using Thinking.Options;
-using Thinking.Variables;
+using SDG.Unturned;
+using Thanking.Components.UI.Menu;
+using Thanking.Misc.Classes.Skins;
+using Thanking.Misc.Enums;
+using Thanking.Options.VisualOptions;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public static class SkinsUtilities
     {
@@ -20,9 +19,9 @@ namespace Thinking.Utilities
         public static Vector2 ScrollPos;
         private static string SearchString = "";
 
-        public static void Apply(Skin skin, ESkinType skinType)
+        public static void Apply(Skin skin, SkinType skinType)
         {
-            if (skinType == ESkinType.WEAPONS)
+            if (skinType == SkinType.Weapons)
             {
                 Dictionary<ushort, int> skins = OptimizationVariables.MainPlayer.channel.owner.itemSkins;
                 if (skins == null) return;
@@ -46,47 +45,47 @@ namespace Thinking.Utilities
                 ApplyClothing(skin, skinType);
         }
 
-        private static void ApplyClothing(Skin skin, ESkinType type)
+        private static void ApplyClothing(Skin skin, SkinType type)
         {
             switch (type)
             {
-                case ESkinType.SHIRTS:
+                case SkinType.Shirts:
                     CharacterClothes.visualShirt = skin.ID;
                     FirstClothes.visualShirt = skin.ID;
                     ThirdClothes.visualShirt = skin.ID;
                     SkinOptions.SkinConfig.ShirtID = skin.ID;
                     break;
-                case ESkinType.PANTS:
+                case SkinType.Pants:
                     CharacterClothes.visualPants = skin.ID;
                     FirstClothes.visualPants = skin.ID;
                     ThirdClothes.visualPants = skin.ID;
                     SkinOptions.SkinConfig.PantsID = skin.ID;
                     break;
-                case ESkinType.BACKPACKS:
+                case SkinType.Backpacks:
                     CharacterClothes.visualBackpack = skin.ID;
                     FirstClothes.visualBackpack = skin.ID;
                     ThirdClothes.visualBackpack = skin.ID;
                     SkinOptions.SkinConfig.BackpackID = skin.ID;
                     break;
-                case ESkinType.VESTS:
+                case SkinType.Vests:
                     CharacterClothes.visualVest = skin.ID;
                     FirstClothes.visualVest = skin.ID;
                     ThirdClothes.visualVest = skin.ID;
                     SkinOptions.SkinConfig.VestID = skin.ID;
                     break;
-                case ESkinType.HATS:
+                case SkinType.Hats:
                     CharacterClothes.visualHat = skin.ID;
                     FirstClothes.visualHat = skin.ID;
                     ThirdClothes.visualHat = skin.ID;
                     SkinOptions.SkinConfig.HatID = skin.ID;
                     break;
-                case ESkinType.MASKS:
+                case SkinType.Masks:
                     CharacterClothes.visualMask = skin.ID;
                     FirstClothes.visualMask = skin.ID;
                     ThirdClothes.visualMask = skin.ID;
                     SkinOptions.SkinConfig.MaskID = skin.ID;
                     break;
-                case ESkinType.GLASSES:
+                case SkinType.Glasses:
                     CharacterClothes.visualGlasses = skin.ID;
                     FirstClothes.visualGlasses = skin.ID;
                     ThirdClothes.visualGlasses = skin.ID;

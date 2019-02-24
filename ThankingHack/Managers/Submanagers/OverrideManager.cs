@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Thinking.Attributes;
-using Thinking.Variables;
-using Thinking.Wrappers;
-using Thinking.Utilities;
-using UnityEngine;
+using Thanking.Attributes;
+using Thanking.Wrappers;
 
-namespace Thinking.Managers.Submanagers
+namespace Thanking.Managers.Submanagers
 {
     public static class OverrideManager
     {

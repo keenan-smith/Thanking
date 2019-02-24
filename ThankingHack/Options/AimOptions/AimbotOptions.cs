@@ -1,15 +1,9 @@
 ﻿using SDG.Unturned;
-using Thinking.Attributes;
-using UnityEngine;
+using Thanking.Attributes;
+using Thanking.Misc.Enums;
 
-namespace Thinking.Options.AimOptions
+namespace Thanking.Options.AimOptions
 {
-    public enum TargetMode
-    {
-        Distance,
-        FOV
-    }
-
     public static class AimbotOptions
     {
         [Save] public static bool Enabled = true;

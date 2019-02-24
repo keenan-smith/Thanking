@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Thinking.Attributes;
-using Thinking.Coroutines;
-using Thinking.Managers.Main;
-using Thinking.Misc;
-using Thinking.Options.UIVariables;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Coroutines;
+using Thanking.Misc;
+using Thanking.Misc.Serializables;
+using Thanking.Utilities;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu
+namespace Thanking.Components.UI.Menu
 {
     public static class Prefab
     {
@@ -25,8 +25,6 @@ namespace Thinking.Components.UI.Menu
         public static Color32 _ToggleBoxBG;
 
         static int popupListHash = "PopupList".GetHashCode();
-	    private static bool _blockInput = false; 
-	    
         public static Regex digitsOnly = new Regex(@"[^\d]");
 
 	    [Initializer]
@@ -537,7 +535,7 @@ namespace Thinking.Components.UI.Menu
                     if (value >= min && value <= max)
                         text = value;
                 }
-                catch { }
+                catch(Exception e) { DebugUtilities.LogException(e); }
                 GUILayout.FlexibleSpace();
                 _TextStyle.fontSize = lastFontSize;
             }
