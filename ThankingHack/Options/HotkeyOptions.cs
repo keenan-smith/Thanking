@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using Thinking.Attributes;
-using Thinking.Variables;
-using UnityEngine;
+using Thanking.Attributes;
+using Thanking.Variables;
 
-namespace Thinking.Options
+namespace Thanking.Options
 {
     public static class HotkeyOptions
     {
-        [Save] public static Dictionary<string, Dictionary<string, Hotkey>> HotkeyDict =
-            new Dictionary<string, Dictionary<string, Hotkey>>();
+        public static Dictionary<string, Dictionary<string, Hotkey>> DefaultHotkeyDict = new Dictionary<string, Dictionary<string, Hotkey>>();
 
         [Save] public static Dictionary<string, Hotkey> UnorganizedHotkeys = new Dictionary<string, Hotkey>();
     }

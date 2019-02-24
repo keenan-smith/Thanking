@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.UI;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Coroutines;
-using Thinking.Options.AimOptions;
-using Thinking.Options.VisualOptions;
-using Thinking.Overrides;
-using Thinking.Threads;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Components.UI;
+using Thanking.Coroutines;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Options.AimOptions;
+using Thanking.Overrides;
+using Thanking.Threads;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
-using UnityEngine.Windows.Speech;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     [Component]
     public class MiscComponent : MonoBehaviour
@@ -85,6 +83,18 @@ namespace Thinking.Components.Basic
                     }
                 }
             });
+            
+            HotkeyComponent.ActionDict.Add("_ToggleTimeAcceleration", () =>
+            {
+                if (OV_PlayerInput.Step != 2)
+                    OV_PlayerInput.Step = 2;
+                
+                else
+                    OV_PlayerInput.Step = -1;   
+            });
+            
+            HotkeyComponent.ActionDict.Add("_StartTimeCharge", () => OV_PlayerInput.Step = 0);
+            HotkeyComponent.ActionDict.Add("_StopTimeCharge", () => OV_PlayerInput.Step = 1);
         }
         
         [OnSpy]
@@ -121,11 +131,10 @@ namespace Thinking.Components.Basic
 
         void OnGUI()
         {
-            if (Event.current.type != EventType.Repaint)
+            if (Event.current.type != EventType.Repaint || !DrawUtilities.ShouldRun())
                 return;
             
-            GUI.Label(new Rect(40, 20, 40, 20), OV_PlayerInput.SequenceDiff.ToString());
-            GUI.Label(new Rect(40, 40, 40, 20), OV_PlayerInput.ClientSequence.ToString());
+            DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomLeft, Vector2.zero, $"TA Charge: {OV_PlayerInput.SequenceDiff} ticks", Color.black, Color.blue, 1);
         }
         
         void Start()
@@ -153,18 +162,6 @@ namespace Thinking.Components.Basic
             
             if (!DrawUtilities.ShouldRun())
                 return;
-            
-            if (Input.GetKeyDown(KeyCode.RightControl))
-                OV_PlayerInput.Step = 2;
-            
-            else if (OV_PlayerInput.Step == 2 && Input.GetKeyUp(KeyCode.RightControl))
-                OV_PlayerInput.Step = -1;
-            
-            if (Input.GetKeyDown(KeyCode.Keypad7))
-                OV_PlayerInput.Step = 0;
-            
-            if (Input.GetKeyDown(KeyCode.Keypad8))
-                OV_PlayerInput.Step = 1;
             
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out int New);
@@ -199,7 +196,8 @@ namespace Thinking.Components.Basic
 
             if (MiscOptions.EnableDistanceCrash)
                 foreach (SteamPlayer plr in Provider.clients.Where(p => VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
-                    PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
+                    if (!PlayerCrashThread.CrashTargets.Contains(plr.playerID.steamID))
+                        PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
             
             if (OptimizationVariables.MainPlayer.life.isDead)
                 LastDeath = OptimizationVariables.MainPlayer.transform.position;

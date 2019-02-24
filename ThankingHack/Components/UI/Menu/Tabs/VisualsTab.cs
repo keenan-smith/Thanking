@@ -1,13 +1,15 @@
-﻿using Thinking.Components.Basic;
-using Thinking.Options;
-using Thinking.Options.UIVariables;
-using Thinking.Options.VisualOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+﻿using Thanking.Components.Basic;
+using Thanking.Misc;
+using Thanking.Misc.Classes.ESP;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 using Thnkng;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class VisualsTab
     {

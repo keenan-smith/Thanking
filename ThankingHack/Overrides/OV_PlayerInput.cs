@@ -1,16 +1,16 @@
-﻿﻿﻿using System.Collections.Generic;
- using System.Linq;
- using System.Reflection;
- using SDG.Unturned;
- using Steamworks;
- using Thinking.Attributes;
-  using Thinking.Misc;
-  using Thinking.Options;
- using Thinking.Utilities;
- using Thinking.Variables;
- using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using SDG.Unturned;
+using Steamworks;
+using Thanking.Attributes;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Utilities;
+using Thanking.Variables;
+using UnityEngine;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public class OV_PlayerInput
     {
@@ -96,8 +96,13 @@ namespace Thinking.Overrides
 			    return;
 
 		    Player player = OptimizationVariables.MainPlayer;
-		    
-		    if (Step == 0 && !Run)
+
+		    if (Step == -1)
+		    {
+			    Rate = 4;
+			    Run = false;
+		    }
+		    else if (Step == 0 && !Run)
 			    Run = true;
 
 		    else if (Step == 1)

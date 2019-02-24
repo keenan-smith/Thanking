@@ -1,17 +1,16 @@
-﻿using HighlightingSystem;
-using SDG.Unturned;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Thinking.Attributes;
-using Thinking.Options.AimOptions;
-using Thinking.Options.UIVariables;
-using Thinking.Utilities;
-using Thinking.Variables;
+using HighlightingSystem;
+using SDG.Unturned;
+using Thanking.Attributes;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI
+namespace Thanking.Components.UI
 {
     [Component]
     public class TrajectoryComponent : MonoBehaviour

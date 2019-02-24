@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using Thinking.Attributes;
-using Thinking.Variables;
-using Thinking.Utilities;
+using Thanking.Misc;
 using Thnkng;
 using Object = UnityEngine.Object;
 
-namespace Thinking.Managers.Submanagers
+namespace Thanking.Managers.Submanagers
 {
     public class SpyManager
     {

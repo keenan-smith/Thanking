@@ -1,6 +1,6 @@
-﻿using Thinking.Attributes;
+﻿using Thanking.Attributes;
 
-namespace Thinking.Options.VisualOptions
+namespace Thanking.Options.VisualOptions
 {
     public static class RadarOptions
     {

@@ -3,16 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Misc;
-using Thinking.Options.VisualOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Misc;
+using Thanking.Misc.Classes.ESP;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Thinking.Options;
 
-namespace Thinking.Coroutines
+namespace Thanking.Coroutines
 {
 	public static class ESPCoroutines
     {

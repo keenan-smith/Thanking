@@ -1,7 +1,6 @@
-﻿using Thinking.Attributes;
-using UnityEngine;
+﻿using Thanking.Attributes;
 
-namespace Thinking.Options.AimOptions
+namespace Thanking.Options.AimOptions
 {
 	public static class SphereOptions
 	{

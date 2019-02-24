@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Options;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Options;
+using Thanking.Utilities;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public static class OV_PlayerLifeUI
     {

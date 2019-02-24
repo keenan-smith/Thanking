@@ -1,17 +1,12 @@
 ﻿using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Thinking.Attributes;
-using Thinking.Components.Basic;
-using Thinking.Components.UI.Menu;
-using Thinking.Options.VisualOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Components.UI.Menu;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     [Component]
     public class RadarComponent : MonoBehaviour

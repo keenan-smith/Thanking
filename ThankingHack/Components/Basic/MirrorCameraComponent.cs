@@ -1,13 +1,10 @@
-﻿using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.UI.Menu;
-using Thinking.Coroutines;
-using Thinking.Options;
-using Thinking.Options.VisualOptions;
-using Thinking.Variables;
+﻿using Thanking.Attributes;
+using Thanking.Components.UI.Menu;
+using Thanking.Options.VisualOptions;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     /// <summary>
     /// Component used to manage the mirror camera

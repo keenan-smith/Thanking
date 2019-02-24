@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.Basic;
-using Thinking.Components.UI;
-using Thinking.Coroutines;
-using Thinking.Options.AimOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Coroutines;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public class OV_UseableGun
     {
