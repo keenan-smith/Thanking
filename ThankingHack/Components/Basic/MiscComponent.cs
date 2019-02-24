@@ -170,10 +170,12 @@ namespace Thinking.Components.Basic
 
             if (WeaponOptions.OofOnDeath)
             {
-                if (New != currentKills && currentKills != -1)
+                if (New != currentKills)
                 {
+                    if (currentKills != -1)
+                        OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
+                    
                     currentKills = New;
-                    OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
                 }
             }
             else

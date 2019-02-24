@@ -4,7 +4,8 @@
  using SDG.Unturned;
  using Steamworks;
  using Thinking.Attributes;
- using Thinking.Options;
+  using Thinking.Misc;
+  using Thinking.Options;
  using Thinking.Utilities;
  using Thinking.Variables;
  using UnityEngine;
@@ -21,6 +22,8 @@ namespace Thinking.Overrides
 	    
 	    public static int Count;
 	    public static int Buffer;
+	    public static int Choked;
+	    
 	    public static uint Clock = 1;
 
 	    public static int Rate;
@@ -29,7 +32,7 @@ namespace Thinking.Overrides
 	    public static int SequenceDiff;
 
 	    public static List<PlayerInputPacket> Packets = new List<PlayerInputPacket>();
-	    public static List<RaycastInfo> TargetedInputs = new List<RaycastInfo>();
+	    public static Queue<PlayerInputPacket> WaitingPackets = new Queue<PlayerInputPacket>();
 
 	    public static float LastReal;
 
@@ -72,10 +75,10 @@ namespace Thinking.Overrides
 		    if (Packets.Count > 0)
 		    	Packets.Last().clientsideInputs.Add(info);
 		    else
-			    TargetedInputs.Add(info);
+			    DebugUtilities.Log("fuck");
 	    }
 
-	    [Override(typeof(PlayerInput), "askAck", BindingFlags.Public | BindingFlags.Instance)]
+	    //[Override(typeof(PlayerInput), "askAck", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_askAck(PlayerInput instance, CSteamID steamId, int ack)
 	    {
 		    if (steamId != Provider.server)
@@ -95,46 +98,7 @@ namespace Thinking.Overrides
 		    Player player = OptimizationVariables.MainPlayer;
 		    
 		    if (Step == 0 && !Run)
-		    {
 			    Run = true;
-			    /*
-			    if (RealSequence - FakeSequence > 25)
-			    {
-				    First = true;
-				    SetSequence(instance, RealSequence + 3);
-				    
-				    instance.channel.openWrite();
-				    instance.channel.write((byte)25); // 25 packets
-				    
-				    Ray         ray         = new Ray(player.look.aim.position, player.look.aim.forward);
-				    RaycastInfo raycastInfo = DamageTool.raycast(ray, 6f, RayMasks.DAMAGE_CLIENT);
-				    
-				    for (int i = 0; i < 25; i++)
-				    {
-					    PlayerInputPacket lastPacket = CSPackets(instance).Last();
-
-					    lastPacket.sequence = FakeSequence + i + 2;
-
-					    if (i % 7 == 0)
-					    {
-						    lastPacket.clientsideInputs = new List<RaycastInfo> {raycastInfo};
-						    lastPacket.keys |= 1 << 1;
-					    }
-					    
-					    else if (i % 7 == 1)
-						    lastPacket.keys = (ushort) (lastPacket.keys & ~(1 << 1));
-					    
-					    instance.channel.write((byte)0); // walking player input packet
-					    lastPacket.write(instance.channel);
-
-					    if (i % 7 == 0)
-							lastPacket.clientsideInputs.Remove(raycastInfo);
-				    }
-			    
-				    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
-			    }
-				    */
-		    }
 
 		    else if (Step == 1)
 			    Run = false;
@@ -179,15 +143,30 @@ namespace Thinking.Overrides
 				    
 			    Run = false;
 		    }
+
+		    Count++;
 		    
 		    if (Count % Rate == 0u)
 		    {
+			   
 			    if (Rate == 1)
 				    SequenceDiff--;
 			    
 			    else if (Rate == 2 && Count % 4 == 0)
 				    SequenceDiff--;
 
+			    if (Run)
+			    {
+				    if (Time.realtimeSinceStartup - LastReal > 8)
+					    LastReal = Time.realtimeSinceStartup;
+				    
+				    else
+				    {
+					    SequenceDiff++;
+					    return;
+				    }
+			    }
+			    
 			    SetTick(instance, Time.realtimeSinceStartup);
 
 			    instance.keys[0] = player.movement.jump;
@@ -216,18 +195,6 @@ namespace Thinking.Overrides
 			    
 			    player.movement.simulate(instance.simulation, 0, player.movement.horizontal - 1, player.movement.vertical - 1, player.look.look_x, player.look.look_y, player.movement.jump, player.stance.sprint, Vector3.zero, PlayerInput.RATE);
 
-			    if (Run)
-			    {
-				    if (Time.realtimeSinceStartup - LastReal > 8)
-					    LastReal = Time.realtimeSinceStartup;
-				    
-				    else
-				    {
-					    SequenceDiff++;
-					    return;
-				    }
-			    }
-
 				ClientSequence++;
 
 			    PlayerInputPacket playerInputPacket;
@@ -240,11 +207,9 @@ namespace Thinking.Overrides
 
 			    playerInputPacket.sequence = ClientSequence;
 			    playerInputPacket.recov = instance.recov;
-			    playerInputPacket.clientsideInputs = TargetedInputs.ToList();
+			    playerInputPacket.clientsideInputs = new List<RaycastInfo>();
 			    
-			    TargetedInputs.Clear();
-			    
-			    if (MiscOptions.PunchAura)
+			    if (MiscOptions.PunchAura && !player.equipment.isEquipped)
 			    {
 				    if (Count % 6 == 0)
 				    {
@@ -307,26 +272,37 @@ namespace Thinking.Overrides
 			    player.animator.simulate(instance.simulation, player.animator.leanLeft, player.animator.leanRight);
 			    
 			    SetSim(instance, GetSim(instance) + 1);
-			    Buffer += Rate;
 		    }
-
+		    
 		    player.equipment.tock(Clock++);
 
-		    if (Buffer > 3 && Packets.Count > 0)
+		    if (Count % Rate == Rate - 1 && Packets.Count > 0)
 		    {
+			    //while (Packets.Count > 5)
+			    //{
+				//    PlayerInputPacket last = Packets.Last();
+				//    
+				//    Packets.Remove(last);
+				//    WaitingPackets.Enqueue(last);
+			    //}
+//
+			    //while (Packets.Count < 5 && WaitingPackets.Count > 0)
+				//    Packets.Add(WaitingPackets.Dequeue());
+			    
 			    foreach (PlayerInputPacket inp in Packets.ToList())
 			    {
 				    if (LastPacket != null)
 				    {
 					    if (inp.clientsideInputs.Count == 0 &&
+					        LastPacket.clientsideInputs.Count == 0 &&
 					        inp is WalkingPlayerInputPacket packet &&
-					    	LastPacket is WalkingPlayerInputPacket lPacket)
+					        LastPacket is WalkingPlayerInputPacket lPacket)
 					    {
 						    if (packet.analog == lPacket.analog &&
 						        Mathf.Abs(packet.pitch - lPacket.pitch) < 0.01f &&
 						        Mathf.Abs(packet.yaw - lPacket.yaw) < 0.01f &&
 						        VectorUtilities.GetDistance(packet.position, lPacket.position) < 0.001f &&
-						        packet.keys == 0 && 
+						        packet.keys == lPacket.keys &&
 						        packet.sequence != lPacket.sequence &&
 						        Time.realtimeSinceStartup - LastReal < 8)
 						    {
@@ -342,22 +318,23 @@ namespace Thinking.Overrides
 				    LastPacket = inp;
 			    }
 			    
-			    instance.channel.openWrite();
-			    instance.channel.write((byte) Packets.Count);
-
-			    foreach (PlayerInputPacket inp in Packets.Take(25))
+			    if (Packets.Count > 0)
 			    {
-				    instance.channel.write((byte) (inp is DrivingPlayerInputPacket ? 1 : 0));
-				    inp.write(instance.channel);
-				    
-				    LastPacket = inp; //fixup
-			    }
-			    
-			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
-			    ClientSequence = LastPacket?.sequence ?? ClientSequence;
-		    }
+				    instance.channel.openWrite();
+				    instance.channel.write((byte) Packets.Count);
 
-		    Count++;
+				    foreach (PlayerInputPacket inp in Packets)
+				    {
+					    instance.channel.write((byte) (inp is DrivingPlayerInputPacket ? 1 : 0));
+					    inp.write(instance.channel);
+				    }
+			    
+				    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
+				    
+				    Packets.Clear();
+				    ClientSequence = LastPacket?.sequence ?? ClientSequence;
+			    }
+		    }
 
 		    /*
 		    SBuffer++;
