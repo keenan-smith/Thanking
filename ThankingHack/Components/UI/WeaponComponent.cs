@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Options.AimOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Components.Basic;
+using Thanking.Coroutines;
+using Thanking.Misc.Enums;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
-using System.Linq;
-using Thinking.Coroutines;
-using Thinking.Components.Basic;
 
-namespace Thinking.Components.UI
+namespace Thanking.Components.UI
 {
 	[Component]
 	[SpyComponent]
@@ -32,10 +34,10 @@ namespace Thinking.Components.UI
 		[Initializer]
 		public static void Initialize()
 		{
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers (Hit)", new Color32(255, 0, 0, 255)));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 255, 255, 255)));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoColor", "Weapons - Information", new Color32(0, 255, 0, 255)));
-			ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_WeaponInfoBorder", "Weapons - Information (Border)", new Color32(0, 0, 0, 255)));
+			ColorUtilities.addColor(new ColorVariable("_BulletTracersHitColor", "Weapons - Bullet Tracers (Hit)", new Color32(255, 0, 0, 255)));
+			ColorUtilities.addColor(new ColorVariable("_BulletTracersColor", "Weapons - Bullet Tracers", new Color32(255, 255, 255, 255)));
+			ColorUtilities.addColor(new ColorVariable("_WeaponInfoColor", "Weapons - Information", new Color32(0, 255, 0, 255)));
+			ColorUtilities.addColor(new ColorVariable("_WeaponInfoBorder", "Weapons - Information (Border)", new Color32(0, 0, 0, 255)));
 		}
 		
 		public void Start()

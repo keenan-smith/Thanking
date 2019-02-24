@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
-using Thinking.Attributes;
-using Thinking.Components.UI.Menu;
-using Thinking.Coroutines;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Components.UI.Menu;
+using Thanking.Coroutines;
+using Thanking.Utilities;
 using UnityEngine;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public static class OV_Cursor
     {

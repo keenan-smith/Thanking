@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using SDG.Provider.Services.Community;
 using SDG.SteamworksProvider.Services.Community;
 using SDG.Unturned;
 using Steamworks;
-using Thinking.Attributes;
-using Thinking.Components.Basic;
-using Thinking.Options;
-using Thinking.Overrides;
+using Thanking.Components.Basic;
+using Thanking.Options;
+using Thanking.Overrides;
 
-namespace Thinking.Threads
+namespace Thanking.Threads
 {
     public class PacketThread
     {

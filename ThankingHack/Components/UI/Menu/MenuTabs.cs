@@ -1,7 +1,7 @@
-﻿using Thinking.Components.UI.Menu.Tabs;
-using Thinking.Options.UIVariables;
+﻿using Thanking.Components.UI.Menu.Tabs;
+using Thanking.Variables.UIVariables;
 
-namespace Thinking.Components.UI.Menu
+namespace Thanking.Components.UI.Menu
 {
     public static class MenuTabs
     {

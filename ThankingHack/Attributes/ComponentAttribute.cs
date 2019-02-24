@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thinking.Attributes
+namespace Thanking.Attributes
 {
     /// <summary>
     /// Attribute that attaches the target component to the loader hook object on startup

@@ -1,14 +1,12 @@
-﻿using SDG.Unturned;
-using System;
-using System.Reflection;
-using Thinking.Components.Basic;
-using Thinking.Options;
-using Thinking.Threads;
-using Thinking.Utilities;
-using Thinking.Variables;
+﻿using System;
+using SDG.Unturned;
+using Thanking.Components.Basic;
+using Thanking.Options;
+using Thanking.Threads;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class MiscTab
     {

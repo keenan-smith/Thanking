@@ -1,7 +1,7 @@
-﻿using Thinking.Attributes;
+﻿using Thanking.Attributes;
 using UnityEngine;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
 	/// <summary>
 	/// Handles the storage of coroutines so that they can be stopped/started later on

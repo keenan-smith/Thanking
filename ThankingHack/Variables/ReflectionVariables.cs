@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Thinking.Variables
+namespace Thanking.Variables
 {
 	public static class ReflectionVariables
 	{
