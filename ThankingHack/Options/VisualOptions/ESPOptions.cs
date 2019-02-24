@@ -31,8 +31,8 @@ namespace Thinking.Options.VisualOptions
             InfiniteDistance = false,
             LineToObject = false,
             TextScaling = true,
-            InlineText = false,
             UseObjectCap = true,
+	        CustomTextColor = false,
 
             Distance = 250,
             Location = LabelLocation.BottomMiddle,

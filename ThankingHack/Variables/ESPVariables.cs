@@ -45,7 +45,7 @@ namespace Thinking.Variables
 		public bool LineToObject;
 		public bool TextScaling;
 		public bool UseObjectCap;
-        public bool InlineText;
+		public bool CustomTextColor;
 	
 		public LabelLocation Location;
 		public float Distance;

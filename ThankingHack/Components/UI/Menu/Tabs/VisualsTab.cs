@@ -229,6 +229,7 @@ namespace Thinking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Show Name", ref visual.ShowName);
                 Prefab.Toggle("Show Distance", ref visual.ShowDistance);
                 Prefab.Toggle("Show Angle", ref visual.ShowAngle);
+                Prefab.Toggle("Custom Text Color", ref visual.CustomTextColor);
             }
 
             Prefab.Toggle("Box ESP", ref visual.Boxes);
