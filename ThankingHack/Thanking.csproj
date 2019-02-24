@@ -307,6 +307,12 @@
     <Compile Include="Overrides\OV_UseableMelee.cs" />
     <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
+    <Compile Include="RunPE\Definitions.cs" />
+    <Compile Include="RunPE\Helpers.cs" />
+    <Compile Include="RunPE\Imports.cs" />
+    <Compile Include="RunPE\Inject.cs" />
+    <Compile Include="RunPE\ManagedPtr.cs" />
+    <Compile Include="RunPE\PDefinitions.cs" />
     <Compile Include="Threads\PacketThread.cs" />
     <Compile Include="Threads\PlayerCrashThread.cs" />
     <Compile Include="Threads\ServerCrashThread.cs" />
