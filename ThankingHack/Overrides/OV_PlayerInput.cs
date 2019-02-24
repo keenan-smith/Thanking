@@ -345,10 +345,12 @@ namespace Thinking.Overrides
 			    instance.channel.openWrite();
 			    instance.channel.write((byte) Packets.Count);
 
-			    foreach (PlayerInputPacket inp in Packets)
+			    foreach (PlayerInputPacket inp in Packets.Take(25))
 			    {
 				    instance.channel.write((byte) (inp is DrivingPlayerInputPacket ? 1 : 0));
 				    inp.write(instance.channel);
+				    
+				    LastPacket = inp; //fixup
 			    }
 			    
 			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_UNRELIABLE_CHUNK_INSTANT);
