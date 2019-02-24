@@ -102,10 +102,6 @@ namespace Thinking.Components.UI.Menu.Tabs
                 
                 MiscOptions.CrashDistance = (float) Math.Round(Prefab.Slider(0, 500, MiscOptions.CrashDistance, 200), 2);
                 
-
-                GUILayout.EndVertical();
-                GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(230));
                 GUILayout.Space(2);
                 Prefab.Toggle("Crash By String/ID", ref MiscOptions.CrashByName);
                 if (MiscOptions.CrashByName)
@@ -118,6 +114,7 @@ namespace Thinking.Components.UI.Menu.Tabs
                 }
 
                 GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
             });
         }
     }

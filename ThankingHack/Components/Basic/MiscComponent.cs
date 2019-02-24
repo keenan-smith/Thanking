@@ -22,6 +22,7 @@ namespace Thinking.Components.Basic
     [Component]
     public class MiscComponent : MonoBehaviour
     {
+        public static Vector3 LastDeath;
         public static MiscComponent Instance;
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
@@ -199,6 +200,7 @@ namespace Thinking.Components.Basic
             if (MiscOptions.EnableDistanceCrash)
                 foreach (SteamPlayer plr in Provider.clients.Where(p => VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
                     PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
+            
             if (OptimizationVariables.MainPlayer.life.isDead)
                 LastDeath = OptimizationVariables.MainPlayer.transform.position;
 
