@@ -621,7 +621,7 @@ namespace Thinking.Components.UI
                 }
 
                 if (visual.Labels)
-                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, c, ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
+                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text,  ColorUtilities.getColor($"_{obj.Target}_Text"), ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
 
                 if (visual.LineToObject)
                     ESPVariables.DrawBuffer2.Enqueue(new ESPBox2
