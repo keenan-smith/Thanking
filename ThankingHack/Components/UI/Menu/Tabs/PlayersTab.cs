@@ -41,7 +41,7 @@ namespace Thinking.Components.UI.Menu.Tabs
                 {
 					Player player = Provider.clients[i].player;
                     
-                    if (player == OptimizationVariables.MainPlayer || player == null || (SearchString != "" && !player.name.Contains(SearchString)))
+                    if (player == OptimizationVariables.MainPlayer || player == null || (SearchString != "" && player.name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) == -1))
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);
