@@ -146,13 +146,13 @@ namespace Thanking.Utilities
 		public static string ColorToHex(Color32 color) =>
 			color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + color.a.ToString("X2");
 
-		public static void DrawLabel(Font Font, LabelLocation Location, Vector2 W2SVector, string Content, Color BorderColor, Color InnerColor, int BorderWidth, string outerContent = null)
+		public static void DrawLabel(Font Font, LabelLocation Location, Vector2 W2SVector, string Content, Color BorderColor, Color InnerColor, int BorderWidth, string outerContent = null, int fontSize = 12)
 		{
 			GUIContent gcontent = new GUIContent(Content);
 			GUIStyle LabelStyle = new GUIStyle
 			{
 				font = Font,
-				fontSize = 12
+				fontSize = fontSize
 			};
 			
 			Vector2 dim = LabelStyle.CalcSize(gcontent);

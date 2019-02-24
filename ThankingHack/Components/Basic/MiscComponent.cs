@@ -128,14 +128,6 @@ namespace Thanking.Components.Basic
                 MiscOptions.Freecam = true;
             }
         }
-
-        void OnGUI()
-        {
-            if (Event.current.type != EventType.Repaint || !DrawUtilities.ShouldRun())
-                return;
-            
-            DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomLeft, Vector2.zero, $"TA Charge: {OV_PlayerInput.SequenceDiff} ticks", Color.black, Color.blue, 1);
-        }
         
         void Start()
         {
