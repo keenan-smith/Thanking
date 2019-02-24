@@ -42,13 +42,13 @@ namespace Thanking.Utilities
             AddHotkey("Player Flight", "Fly Forward", "_FlyForward", KeyCode.W);
             AddHotkey("Player Flight", "Fly Backward", "_FlyBackward", KeyCode.S);
             
-            AddHotkey("Time Acceleration", "Start TA Charge", "_StartTimeCharge", KeyCode.F2);
-            AddHotkey("Time Acceleration", "Stop TA Charge", "_StopTimeCharge", KeyCode.F3);
-            AddHotkey("Time Acceleration", "Use Time Acceleration", "_ToggleTimeAcceleration", KeyCode.F4);
+            AddHotkey("Time Acceleration", "Start TA Charge", "_ToggleTimeCharge", KeyCode.F2);
+            AddHotkey("Time Acceleration", "Stop TA Charge", "_ToggleTimeAcceleration", KeyCode.F3);
             
             AddHotkey("Misc", "Toggle All Visuals", "_PanicButton", KeyCode.Keypad0);
             AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.Keypad2);
             AddHotkey("Misc", "Select Player", "_SelectPlayer", KeyCode.LeftAlt);
+            AddHotkey("Misc", "Instant Disconnect", "_InstantDisconnect", KeyCode.F5);
         }
         
         public static void AddHotkey(string Group, string Name, string Identifier, params KeyCode[] DefaultKeys)

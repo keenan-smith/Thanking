@@ -92,9 +92,11 @@ namespace Thanking.Components.Basic
                 else
                     OV_PlayerInput.Step = -1;   
             });
+
+            HotkeyComponent.ActionDict.Add("_ToggleTimeCharge",
+                () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 0 ? 0 : 1));
             
-            HotkeyComponent.ActionDict.Add("_StartTimeCharge", () => OV_PlayerInput.Step = 0);
-            HotkeyComponent.ActionDict.Add("_StopTimeCharge", () => OV_PlayerInput.Step = 1);
+            HotkeyComponent.ActionDict.Add("_InstantDisconnect", () => Provider.disconnect());
         }
         
         [OnSpy]
