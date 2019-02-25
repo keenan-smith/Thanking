@@ -42,8 +42,9 @@ namespace Thanking.Utilities
             AddHotkey("Player Flight", "Fly Forward", "_FlyForward", KeyCode.W);
             AddHotkey("Player Flight", "Fly Backward", "_FlyBackward", KeyCode.S);
             
-            AddHotkey("Time Acceleration", "Start TA Charge", "_ToggleTimeCharge", KeyCode.F2);
-            AddHotkey("Time Acceleration", "Stop TA Charge", "_ToggleTimeAcceleration", KeyCode.F3);
+            AddHotkey("Time Acceleration", "Toggle TA Charge", "_ToggleTimeCharge", KeyCode.F2);
+            AddHotkey("Time Acceleration", "Toggle Blink", "_ToggleBlink", KeyCode.F3);
+            AddHotkey("Time Acceleration", "Toggle Time Acceleration", "_ToggleTimeAcceleration", KeyCode.F4);
             
             AddHotkey("Misc", "Toggle All Visuals", "_PanicButton", KeyCode.Keypad0);
             AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.Keypad2);
