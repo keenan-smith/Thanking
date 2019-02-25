@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Coroutines;
+using Thanking.Attributes;
+using Thanking.Coroutines;
 using UnityEngine;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     /// <summary>
     /// Component used to track items and start the pickup coroutine

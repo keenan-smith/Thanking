@@ -1,17 +1,16 @@
-﻿using HighlightingSystem;
-using SDG.Unturned;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Thinking.Attributes;
-using Thinking.Options.AimOptions;
-using Thinking.Options.UIVariables;
-using Thinking.Utilities;
-using Thinking.Variables;
+using HighlightingSystem;
+using SDG.Unturned;
+using Thanking.Attributes;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI
+namespace Thanking.Components.UI
 {
     [Component]
     public class TrajectoryComponent : MonoBehaviour
@@ -22,10 +21,10 @@ namespace Thinking.Components.UI
         private static bool spying;
 
         [Initializer]
-        public static void Init()
+        public static void Initialize()
         {
-            ColorUtilities.addColor(new ColorVariable("_TrajectoryPredictionInRange", "B.D. Predict (In Range)", Color.cyan, true));
-            ColorUtilities.addColor(new ColorVariable("_TrajectoryPredictionOutOfRange", "B.D. Predict (Out of Range)", Color.red, true));
+            ColorUtilities.addColor(new ColorVariable("_TrajectoryPredictionInRange", "B.D. Predict (In Range)", Color.cyan));
+            ColorUtilities.addColor(new ColorVariable("_TrajectoryPredictionOutOfRange", "B.D. Predict (Out of Range)", Color.red));
         }
 
         public void OnGUI()
@@ -67,10 +66,13 @@ namespace Thinking.Components.UI
                 {
                     var newHighlight = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
 
-                    if (!newHighlight.highlighted)
+                    if (!newHighlight.enabled)
                     {
-                        newHighlight.OccluderOn();
-                        newHighlight.SeeThroughOn();
+                        //newHighlight.OccluderOn();
+                        //newHighlight.SeeThroughOn();
+                        newHighlight.occluder = true;
+                        newHighlight.overlay = true;
+                        
                         newHighlight.ConstantOnImmediate(outOfRange ? outOfRangeColor : inRangeColor);
                     }
 
@@ -111,8 +113,11 @@ namespace Thinking.Components.UI
             if (h == null)
                 return;
 
-            h.OccluderOff();
-            h.SeeThroughOff();
+            h.occluder = false;
+            h.overlay = false;
+            
+            //h.OccluderOff();
+            //h.SeeThroughOff();
             h.ConstantOffImmediate();
         }
 

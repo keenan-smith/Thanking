@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
-using Thinking.Managers.Main;
-using Thinking.Utilities;
+using Thanking.Managers.Main;
+using Thanking.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -14,8 +14,7 @@ namespace Thnkng
         public static void Hook()
         {
            // #if DEBUG
-            DebugUtilities.Init();
-			DebugUtilities.Log("Initializing Thinking...");
+			DebugUtilities.Log("Initializing Thanking...");
            // #endif        
     
 			HookObject = new GameObject();

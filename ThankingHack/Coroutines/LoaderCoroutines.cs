@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using System.Net;
-using Thinking.Components.UI;
-using Thinking.Components.UI.Menu;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Components.UI;
+using Thanking.Components.UI.Menu;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Coroutines
+namespace Thanking.Coroutines
 {
 	public static class LoaderCoroutines
 	{
@@ -96,6 +95,8 @@ namespace Thinking.Coroutines
 			ESPCoroutines.UnlitChams = AssetVariables.Shaders["chamsUnlit"];
 
 			IsLoaded = true;
+			
+			DebugUtilities.Log("Assets loaded!");
 		}
 	}
 }

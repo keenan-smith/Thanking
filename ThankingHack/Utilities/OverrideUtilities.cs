@@ -2,12 +2,12 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Thinking.Attributes;
-using Thinking.Managers.Submanagers;
-using Thinking.Wrappers;
+using Thanking.Attributes;
+using Thanking.Managers.Submanagers;
+using Thanking.Wrappers;
 using Debug = UnityEngine.Debug;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public static class OverrideUtilities
     {

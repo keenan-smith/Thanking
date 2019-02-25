@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
+using Thanking.Attributes;
+using Thanking.Coroutines;
+using Thanking.Options;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
-using Thinking.Attributes;
-using Thinking.Utilities;
-using Thinking.Options;
-using Thinking.Variables;
-using Thinking.Coroutines;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public static class OV_PlayerDashboardInformationUI
     {
@@ -82,6 +82,18 @@ namespace Thinking.Overrides
 
             OverrideUtilities.CallOriginal();
         }
+
+	    [Override(typeof(PlayerDashboardInventoryUI), "updateNearbyDrops",
+		    BindingFlags.NonPublic | BindingFlags.Static)]
+	    public static void OV_updateNearbyDrops()
+	    {
+		    if (MiscOptions.NearbyItemRaycast)
+			    OV_Physics.ForceReturnFalse = true;
+		    
+		    OverrideUtilities.CallOriginal();
+		    
+		    OV_Physics.ForceReturnFalse = false;
+	    }
         
 		[Override(typeof(PlayerDashboardInformationUI), "refreshDynamicMap", BindingFlags.Public | BindingFlags.Static)]
         public static void OV_refreshDynamicMap()

@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using SDG.Unturned;
-using Thinking.Options;
-using Thinking.Options.AimOptions;
-using Thinking.Options.VisualOptions;
-using Thinking.Variables;
+﻿using SDG.Unturned;
+using Thanking.Options;
+using Thanking.Options.VisualOptions;
+using Thanking.Variables;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public static class FriendUtilities
     {

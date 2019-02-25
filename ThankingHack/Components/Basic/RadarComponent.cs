@@ -1,17 +1,12 @@
 ﻿using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Thinking.Attributes;
-using Thinking.Components.Basic;
-using Thinking.Components.UI.Menu;
-using Thinking.Options.VisualOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Components.UI.Menu;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     [Component]
     public class RadarComponent : MonoBehaviour
@@ -34,9 +29,9 @@ namespace Thinking.Components.Basic
 
         void OnGUI()
         {
-            if (RadarOptions.Enabled && Provider.isConnected)
+            if (RadarOptions.Enabled && Provider.isConnected && !Provider.isLoading)
             {
-                vew = new Rect(Screen.width - RadarOptions.RadarSize - 20, 10, RadarOptions.RadarSize + 10, RadarOptions.RadarSize + 10); //Viewport of the mirror camera
+                vew = new Rect(Screen.width - RadarOptions.RadarSize - 20, 10, RadarOptions.RadarSize + 10, RadarOptions.RadarSize + 10); //Viewport of the radar
                 GUI.color = new Color(1f, 1f, 1f, 0f);
                 vew = GUILayout.Window(345, vew, RadarMenu, "Radar");
                 GUI.color = Color.white;

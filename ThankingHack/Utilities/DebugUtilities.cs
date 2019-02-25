@@ -1,18 +1,34 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
-using UnityEngine;
+using System.Threading;
+using Thanking.Attributes;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public class DebugUtilities
     {
+        public static ConcurrentQueue<string> Data = new ConcurrentQueue<string>();
+
+        [Thread]
+        public static void DebugThread()
+        {
+            File.WriteAllText("th.log", "");
+            Data.Enqueue($"Thanking Debug Init Start: {DateTime.Now}\r\n\r\n");
+
+            while (true)
+            {
+                Thread.Sleep(500);
+                while (Data.Count > 0)
+                    if (Data.TryDequeue(out string str))
+                        File.AppendAllText("th.log", str);
+            }
+        }
+        
         public static void Log(object Output) =>
-            File.AppendAllText("th.log", $"{Output}\r\n");
+            Data.Enqueue($"{Output}\r\n");
         
         public static void LogException(Exception Exception) =>
-            File.AppendAllText("th.log", $"\r\nBEGIN EXCEPTION\r\n{Exception}\r\nEND EXCEPTION\r\n");
-
-        public static void Init() =>
-            File.AppendAllText("th.log", $"Thanking Debug Init Start: {DateTime.Now}\r\n\r\n");
+            Data.Enqueue($"\r\nBEGIN EXCEPTION\r\n{Exception}\r\nEND EXCEPTION\r\n");
     }
 }

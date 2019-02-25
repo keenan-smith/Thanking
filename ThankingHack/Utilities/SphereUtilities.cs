@@ -1,18 +1,10 @@
-﻿using System;
+﻿using System.Linq;
 using SDG.Unturned;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Thinking.Components.Basic;
-using Thinking.Coroutines;
-using Thinking.Options.AimOptions;
-using Thinking.Overrides;
-using Thinking.Utilities.Mesh_Utilities;
-using Thinking.Variables;
+using Thanking.Components.Basic;
+using Thanking.Variables;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public static class SphereUtilities
     {

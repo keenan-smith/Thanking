@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
-using Thinking.Attributes;
-using Thinking.Managers.Submanagers;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Managers.Submanagers;
+using Thanking.Misc;
+using Thanking.Utilities;
 using Thnkng;
-using UnityEngine;
 
-namespace Thinking.Managers.Main
+namespace Thanking.Managers.Main
 {
     public static class AttributeManager
     {
         
         public static void Init()
         {
-	        #if DEBUG
+	       // #if DEBUG
 			DebugUtilities.Log("Initializing attribute manager...");
-            #endif
+            //#endif
 
             // Declare lists to be populated later
             List<Type> Components = new List<Type>();
@@ -75,9 +75,9 @@ namespace Thinking.Managers.Main
             SpyManager.PostSpy = Post;
             SpyManager.PreSpy = Pre;
             
-            #if DEBUG
+            //#if DEBUG
             DebugUtilities.Log("Attribute manager initialized.");
-            #endif
+            //#endif
         }
     }
 }

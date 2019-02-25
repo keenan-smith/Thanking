@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Thinking.Attributes;
-using Thinking.Misc;
-using Thinking.Variables;
+using System.Linq;
+using Thanking.Attributes;
+using Thanking.Misc;
+using Thanking.Misc.Classes.ESP;
+using Thanking.Misc.Enums;
+using Thanking.Misc.Serializables;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Options.VisualOptions
+namespace Thanking.Options.VisualOptions
 {
 	public static class ESPOptions
 	{
@@ -25,14 +28,14 @@ namespace Thinking.Options.VisualOptions
             Boxes = true,
             ShowName = true,
             ShowDistance = true,
-	        ShowAngle = true,
-            TwoDimensional = false,
+	        ShowAngle = false,
+            TwoDimensional = true,
             Glow = false,
             InfiniteDistance = false,
             LineToObject = false,
             TextScaling = true,
-            InlineText = false,
             UseObjectCap = true,
+	        CustomTextColor = false,
 
             Distance = 250,
             Location = LabelLocation.BottomMiddle,

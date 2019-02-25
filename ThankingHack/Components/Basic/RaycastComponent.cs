@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using SDG.Unturned;
-using Thinking.Options.AimOptions;
-using Thinking.Utilities;
-using Thinking.Utilities.Mesh_Utilities;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities.Mesh_Utilities;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     [DisallowMultipleComponent]
     public class RaycastComponent : MonoBehaviour

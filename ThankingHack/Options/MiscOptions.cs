@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
-using Steamworks;
-using Thinking.Attributes;
+using Thanking.Attributes;
 
-namespace Thinking.Options
+namespace Thanking.Options
 {
 	public static class MiscOptions
 	{
@@ -59,9 +58,18 @@ namespace Thinking.Options
 		[Save] public static string AntiSpyPath = "";
 		
 		[Save] public static bool AlertOnSpy = false;
+		[Save] public static int TimeAcceleration = 2;
+		
+		[Save] public static bool EnableDistanceCrash = false;
+		[Save] public static float CrashDistance = 100;
 
 		[Save] public static bool CrashByName = false;
-        [Save] public static string CrashWords = "";
-        [Save] public static string CrashIDs = "";
+        [Save] public static List<string> CrashWords = new List<string>();
+        [Save] public static List<string> CrashIDs = new List<string>();
+
+		[Save] public static bool NearbyItemRaycast = false;
+		
+		[Save] public static bool IncreaseNearbyItemDistance = false;
+		[Save] public static float NearbyItemDistance = 15f;
 	}
 }

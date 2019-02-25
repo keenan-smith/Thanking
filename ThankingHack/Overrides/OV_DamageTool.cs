@@ -1,22 +1,13 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.UI;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Utilities;
 using UnityEngine;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
-	public enum OverrideType
-	{
-		None,
-		Extended,
-		PlayerHit,
-		SilentAim,
-		SilentAimMelee
-	}
 	public static class OV_DamageTool
 	{
 		public static OverrideType OVType = OverrideType.None;
