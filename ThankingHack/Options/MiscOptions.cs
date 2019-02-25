@@ -66,5 +66,10 @@ namespace Thanking.Options
 		[Save] public static bool CrashByName = false;
         [Save] public static string CrashWords = "";
         [Save] public static string CrashIDs = "";
+
+		[Save] public static bool NearbyItemRaycast = false;
+		
+		[Save] public static bool IncreaseNearbyItemDistance = false;
+		[Save] public static float NearbyItemDistance = 15f;
 	}
 }

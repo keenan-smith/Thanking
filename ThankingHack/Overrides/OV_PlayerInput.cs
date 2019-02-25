@@ -213,15 +213,18 @@ namespace Thanking.Overrides
 			    playerInputPacket.sequence = ClientSequence;
 			    playerInputPacket.recov = instance.recov;
 			    playerInputPacket.clientsideInputs = new List<RaycastInfo>();
+
+			    RaycastInfo raycast = DamageTool.raycast(new Ray(player.look.aim.position, player.look.aim.forward), 6f,
+				    RayMasks.DAMAGE_SERVER);
 			    
-			    if (MiscOptions.PunchAura && !player.equipment.isSelected)
+			    if (MiscOptions.PunchAura && !player.equipment.isSelected && OV_UseableGun.IsRaycastInvalid(raycast))
 			    {
 				    if (Count % 6 == 0)
 				    {
 					    if (MiscOptions.PunchSilentAim)
 						    OV_DamageTool.OVType = OverrideType.PlayerHit;
 					    
-					    playerInputPacket.clientsideInputs.Add(DamageTool.raycast(new Ray(player.look.aim.position, player.look.aim.forward), 6f, RayMasks.DAMAGE_SERVER));
+					    playerInputPacket.clientsideInputs.Add(raycast);
 					    instance.keys[1] = true;
 					    
 					    OV_DamageTool.OVType = OverrideType.None;

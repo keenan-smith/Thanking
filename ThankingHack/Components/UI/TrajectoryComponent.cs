@@ -66,10 +66,10 @@ namespace Thanking.Components.UI
                 {
                     var newHighlight = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
 
-                    if (!newHighlight.highlighted)
+                    if (!newHighlight.enabled)
                     {
-                        newHighlight.OccluderOn();
-                        newHighlight.SeeThroughOn();
+                        //newHighlight.OccluderOn();
+                        //newHighlight.SeeThroughOn();
                         newHighlight.ConstantOnImmediate(outOfRange ? outOfRangeColor : inRangeColor);
                     }
 
@@ -109,9 +109,9 @@ namespace Thanking.Components.UI
         {
             if (h == null)
                 return;
-
-            h.OccluderOff();
-            h.SeeThroughOff();
+//
+            //h.OccluderOff();
+            //h.SeeThroughOff();
             h.ConstantOffImmediate();
         }
 

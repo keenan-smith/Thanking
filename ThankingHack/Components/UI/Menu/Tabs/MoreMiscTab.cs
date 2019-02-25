@@ -111,7 +111,19 @@ namespace Thanking.Components.UI.Menu.Tabs
                     MiscOptions.CrashWords = Prefab.TextField(MiscOptions.CrashWords, "Names: ", 150);
                     MiscOptions.CrashIDs = Prefab.TextField(MiscOptions.CrashIDs, "IDs: ", 150);
                 }
-
+                
+                GUILayout.Space(5);
+                Prefab.Toggle("Pickup Through Walls", ref MiscOptions.NearbyItemRaycast);
+                
+                GUILayout.Space(5);
+                Prefab.Toggle("Extended Pickup Range", ref MiscOptions.IncreaseNearbyItemDistance);
+                
+                if (MiscOptions.IncreaseNearbyItemDistance)    
+                {
+                    GUILayout.Space(2);
+                    MiscOptions.NearbyItemDistance = (float) Math.Round(Prefab.Slider(0, 20, MiscOptions.NearbyItemDistance, 200), 2);
+                }
+               
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });
