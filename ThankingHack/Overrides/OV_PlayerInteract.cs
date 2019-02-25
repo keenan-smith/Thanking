@@ -109,7 +109,6 @@ namespace Thanking.Overrides
             if (highlighter == null)
                 highlighter = target.gameObject.AddComponent<Highlighter>();
             highlighter.ConstantOn(color);
-            highlighter.SeeThroughOn();
         }
 
         [OnSpy]

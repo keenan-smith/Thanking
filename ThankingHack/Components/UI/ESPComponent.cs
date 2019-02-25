@@ -609,8 +609,6 @@ namespace Thanking.Components.UI
                 if (visual.Glow)
                 {
                     Highlighter highlighter = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
-                    highlighter.OccluderOn();
-                    highlighter.SeeThroughOn();
                     highlighter.ConstantOnImmediate(ColorUtilities.getColor($"_{obj.Target}_Glow"));
                     Highlighters.Add(highlighter);
                 }

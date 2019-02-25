@@ -78,6 +78,7 @@ namespace Thanking.Wrappers
             }
             catch (Exception e)
             {
+                DebugUtilities.Log("ERROR IN OVERRIDDEN METHOD: " + Original.Name);
                 DebugUtilities.LogException(e);
             }
 
