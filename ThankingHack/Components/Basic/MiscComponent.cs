@@ -186,7 +186,7 @@ namespace Thanking.Components.Basic
             }
 
             if (MiscOptions.EnableDistanceCrash)
-                foreach (SteamPlayer plr in Provider.clients.Where(p => VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
+                foreach (SteamPlayer plr in Provider.clients.Where(p => p.player != OptimizationVariables.MainPlayer && VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
                     if (!PlayerCrashThread.CrashTargets.Contains(plr.playerID.steamID))
                         PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
             
