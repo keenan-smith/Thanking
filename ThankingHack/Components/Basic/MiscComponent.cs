@@ -85,16 +85,13 @@ namespace Thanking.Components.Basic
             });
             
             HotkeyComponent.ActionDict.Add("_ToggleTimeAcceleration", () =>
-            {
-                if (OV_PlayerInput.Step != 2)
-                    OV_PlayerInput.Step = 2;
-                
-                else
-                    OV_PlayerInput.Step = -1;   
-            });
+                                                                      {
+                                                                          OV_PlayerInput.Step =
+                                                                              OV_PlayerInput.Step != 2 ? 2 : -1;
+                                                                      });
 
             HotkeyComponent.ActionDict.Add("_ToggleTimeCharge",
-                () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 0 ? 0 : 1));
+                () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 1 ? 1 : -1));
             
             HotkeyComponent.ActionDict.Add("_InstantDisconnect", () => Provider.disconnect());
         }

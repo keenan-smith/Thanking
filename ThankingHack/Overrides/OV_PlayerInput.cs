@@ -102,11 +102,9 @@ namespace Thanking.Overrides
 			    Rate = 4;
 			    Run = false;
 		    }
-		    else if (Step == 0 && !Run)
+		   
+		    else if (Step == 1 && !Run)
 			    Run = true;
-
-		    else if (Step == 1)
-			    Run = false;
 
 		    else if (Step == 2)
 		    {
