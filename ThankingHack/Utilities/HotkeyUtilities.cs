@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Thinking.Attributes;
-using Thinking.Options;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Options;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public static class HotkeyUtilities
     {
@@ -42,17 +42,22 @@ namespace Thinking.Utilities
             AddHotkey("Player Flight", "Fly Forward", "_FlyForward", KeyCode.W);
             AddHotkey("Player Flight", "Fly Backward", "_FlyBackward", KeyCode.S);
             
+            AddHotkey("Time Acceleration", "Start/Stop TA Charging", "_ToggleTimeCharge", KeyCode.F2);
+            AddHotkey("Time Acceleration", "Start/Stop Time Acceleration", "_ToggleTimeAcceleration", KeyCode.F3);
+            AddHotkey("Time Acceleration", "Start/Stop Blink", "_ToggleTimeAcceleration", KeyCode.F4);
+            
             AddHotkey("Misc", "Toggle All Visuals", "_PanicButton", KeyCode.Keypad0);
             AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.Keypad2);
             AddHotkey("Misc", "Select Player", "_SelectPlayer", KeyCode.LeftAlt);
+            AddHotkey("Misc", "Instant Disconnect", "_InstantDisconnect", KeyCode.F5);
         }
         
         public static void AddHotkey(string Group, string Name, string Identifier, params KeyCode[] DefaultKeys)
         {
-            if (!HotkeyOptions.HotkeyDict.ContainsKey(Group))
-                HotkeyOptions.HotkeyDict.Add(Group, new Dictionary<string, Hotkey>());
+            if (!HotkeyOptions.DefaultHotkeyDict.ContainsKey(Group))
+                HotkeyOptions.DefaultHotkeyDict.Add(Group, new Dictionary<string, Hotkey>());
 
-            Dictionary<string, Hotkey> GroupHotkeys = HotkeyOptions.HotkeyDict[Group];
+            Dictionary<string, Hotkey> GroupHotkeys = HotkeyOptions.DefaultHotkeyDict[Group];
             
             if (GroupHotkeys.ContainsKey(Identifier)) 
                 return;

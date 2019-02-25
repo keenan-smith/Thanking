@@ -1,11 +1,9 @@
-﻿using System;
-using SDG.Unturned;
-using Thinking.Options;
-using Thinking.Options.AimOptions;
-using Thinking.Options.UIVariables;
+﻿using SDG.Unturned;
+using Thanking.Options.AimOptions;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class WeaponsTab
     {
@@ -101,11 +99,11 @@ namespace Thinking.Components.UI.Menu.Tabs
 		        if (RaycastOptions.UseModifiedVector)
 		        {
 			        GUILayout.Label("Ragdoll Vector: X: " + RaycastOptions.TargetRagdoll.x, Prefab._TextStyle);
-			        RaycastOptions.TargetRagdoll.x = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.x, 200);
+			        RaycastOptions.TargetRagdoll.x = (int) Prefab.Slider(-100, 100, RaycastOptions.TargetRagdoll.x, 200);
 			        GUILayout.Label("Ragdoll Vector: Y: " + RaycastOptions.TargetRagdoll.y, Prefab._TextStyle);
-			        RaycastOptions.TargetRagdoll.y = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.y, 200);
+			        RaycastOptions.TargetRagdoll.y = (int) Prefab.Slider(-100, 100, RaycastOptions.TargetRagdoll.y, 200);
 			        GUILayout.Label("Ragdoll Vector: Z: " + RaycastOptions.TargetRagdoll.z, Prefab._TextStyle);
-			        RaycastOptions.TargetRagdoll.z = (int) Prefab.Slider(-25, 25, RaycastOptions.TargetRagdoll.z, 200);
+			        RaycastOptions.TargetRagdoll.z = (int) Prefab.Slider(-100, 100, RaycastOptions.TargetRagdoll.z, 200);
 		        }
 		        GUILayout.Space(2);
 		        Prefab.Toggle("Tracers", ref WeaponOptions.Tracers);

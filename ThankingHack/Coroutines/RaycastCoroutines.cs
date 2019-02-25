@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
-using Thinking.Components.Basic;
-using Thinking.Misc;
-using Thinking.Options.AimOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Misc;
+using Thanking.Misc.Enums;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace Thinking.Coroutines
+namespace Thanking.Coroutines
 {
     public class RaycastCoroutines
     {

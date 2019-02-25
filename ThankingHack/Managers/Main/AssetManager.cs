@@ -1,17 +1,18 @@
-﻿using Thinking.Components.Basic;
-using Thinking.Coroutines;
-using Thinking.Utilities;
+﻿using Thanking.Components.Basic;
+using Thanking.Coroutines;
+using Thanking.Misc;
+using Thanking.Utilities;
 using Thnkng;
 
-namespace Thinking.Managers.Main
+namespace Thanking.Managers.Main
 {
 	public static class AssetManager
 	{
 		public static void Init()
 		{
-			#if DEBUG
+			//#if DEBUG
 			DebugUtilities.Log("Starting asset manager...");
-			#endif
+			//#endif
 			
 			// Start the LoadAssets coroutine
 			Ldr.HookObject.GetComponent<CoroutineComponent>().StartCoroutine(LoaderCoroutines.LoadAssets());

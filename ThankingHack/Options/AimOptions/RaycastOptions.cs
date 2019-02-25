@@ -1,21 +1,12 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Misc;
+using Thanking.Attributes;
+using Thanking.Misc;
+using Thanking.Misc.Enums;
+using Thanking.Misc.Serializables;
 
-namespace Thinking.Options.AimOptions
+namespace Thanking.Options.AimOptions
 {
-	public enum TargetPriority
-	{
-		Players,
-		Zombies,
-		Sentries,
-		Beds,
-		ClaimFlags,
-		Storage,
-		Vehicles
-	}
-
 	public static class RaycastOptions
 	{
 		[Save] public static bool Enabled = true;

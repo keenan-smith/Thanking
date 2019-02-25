@@ -1,14 +1,12 @@
 ﻿using System.Reflection;
-using SDG.Provider;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Managers.Main;
-using Thinking.Options;
-using Thinking.Options.UIVariables;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Managers.Main;
+using Thanking.Utilities;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu
+namespace Thanking.Components.UI.Menu
 {
     [SpyComponent]
     [Component]
@@ -35,18 +33,21 @@ namespace Thinking.Components.UI.Menu
         
         private int _pIndex = 0;
 
-        // Use this for initialization
-        void Start()
+        [Initializer]
+        public static void Initialize()
         {
-
             ColorUtilities.addColor(new ColorVariable("_OutlineBorderBlack", "Menu - Black Outline", new Color32(3, 3, 3, 255)));
             ColorUtilities.addColor(new ColorVariable("_OutlineBorderLightGray", "Menu - Light Gray Outline", new Color32(75, 75, 75, 255)));
             ColorUtilities.addColor(new ColorVariable("_OutlineBorderDarkGray", "Menu - Dark Gray Outline", new Color32(55, 55, 55, 255)));
             ColorUtilities.addColor(new ColorVariable("_FillLightBlack", "Menu - Light Black Filler", new Color32(30, 30, 30, 255)));
             ColorUtilities.addColor(new ColorVariable("_Accent1", "Menu - Accent 1", new Color32(244, 155, 66, 255)));
             ColorUtilities.addColor(new ColorVariable("_Accent2", "Menu - Accent 2", new Color32(160, 107, 54, 255)));
-
-            UpdateColors();
+        }
+        
+        // Use this for initialization
+        void Start()
+        {
+            //UpdateColors();
 
             MenuTabs.AddTabs();
         }
@@ -65,6 +66,8 @@ namespace Thinking.Components.UI.Menu
 
         void OnGUI()
         {
+            Prefab.CheckStyles();
+            
             if (IsInMenu && _LogoTexLarge != null)
             {
                 if (_cursorTexture == null)

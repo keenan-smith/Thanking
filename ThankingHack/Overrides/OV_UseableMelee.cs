@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Options;
-using Thinking.Options.AimOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
-    public class OvPlayerEquipment
+    public class OV_UseableMelee
     {
         [Override(typeof(UseableMelee), "fire", BindingFlags.NonPublic | BindingFlags.Instance)]
         public static void OV_fire()

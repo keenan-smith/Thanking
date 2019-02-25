@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using Thinking.Options.UIVariables;
-using Thinking.Options.VisualOptions;
-using Thinking.Utilities;
+using System;
+using System.Linq;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class ColorsTab
     {
@@ -15,9 +16,6 @@ namespace Thinking.Components.UI.Menu.Tabs
 
         public static void Tab()
         {
-            ColorOptions.errorColor = new ColorVariable("errorColor", "#ERROR.NOTFOUND", Color.magenta);
-            ColorOptions.preview = new ColorVariable("preview", "No Color Selected", Color.white);
-
             if (ColorOptions.selectedOption == null)
                 ColorOptions.previewselected = ColorOptions.preview;
                 
@@ -25,9 +23,9 @@ namespace Thinking.Components.UI.Menu.Tabs
             Prefab.ScrollView(new Rect(0, 0, 250, 436), "Colors", ref ColorScroll, () =>
             {
                 GUILayout.Space(10);
+                
                 var keylist = ColorOptions.ColorDict.ToList();
-
-                keylist.Sort((pair1, pair2) => pair1.Value.name.CompareTo(pair2.Value.name));
+                keylist.Sort((pair1, pair2) => String.Compare(pair1.Value.name, pair2.Value.name, StringComparison.Ordinal));
 
                 for (int i = 0; i < keylist.Count; i++)
                 {

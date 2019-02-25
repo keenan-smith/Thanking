@@ -1,10 +1,9 @@
 using System;
-using SDG.Unturned;
-using Thinking.Options.AimOptions;
-using Thinking.Options.UIVariables;
+using Thanking.Misc.Enums;
+using Thanking.Options.AimOptions;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
 	public class SilentAimTab
 	{
@@ -75,8 +74,6 @@ namespace Thinking.Components.UI.Menu.Tabs
 				        GUILayout.Label("Aim FOV: " + RaycastOptions.SilentAimFOV, Prefab._TextStyle);
 				        RaycastOptions.SilentAimFOV = Prefab.Slider(1, 180, RaycastOptions.SilentAimFOV, 200);
 			        }
-			        
-			        GUILayout.Space(2);
 		        }
 			});
 		}

@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
 using Steamworks;
-using Thinking.Attributes;
-using Thinking.Coroutines;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Coroutines;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
 	public class OV_Player : MonoBehaviour
 	{

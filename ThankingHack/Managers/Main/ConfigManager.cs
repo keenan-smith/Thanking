@@ -5,16 +5,15 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Thinking.Attributes;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Options;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
-using System.Collections;
-using System.ComponentModel;
-using System.Security.Permissions;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json.Schema;
 
-namespace Thinking.Managers.Main
+namespace Thanking.Managers.Main
 {
     public class ConfigManager
     {
@@ -32,6 +31,8 @@ namespace Thinking.Managers.Main
 			//#endif
 			
 			LoadConfig(GetConfig());
+			
+			DebugUtilities.Log("Got Thanking configuration.");
 		}
 
 	    // Collect all variables marked to be saved
@@ -85,9 +86,9 @@ namespace Thinking.Managers.Main
 			}
 			catch //If there's a deserialization error, reset config
 			{
-				#if DEBUG
+				//#if DEBUG
 				DebugUtilities.Log("Error parsing config, resetting.");
-				#endif
+				//#endif
 				ConfigDict = CollectConfig();
 				SaveConfig(ConfigDict);
 			}
@@ -107,46 +108,73 @@ namespace Thinking.Managers.Main
 	    /// </summary>
 	    /// <param name="Config">Dictionary of variable names and values</param>
 	    public static void LoadConfig(Dictionary<string, object> Config)
-        {
-			foreach (Type AssemblyType in Assembly.GetExecutingAssembly().GetTypes()) // Loop through all types in the assembly
-			{
-				foreach (FieldInfo FInfo in AssemblyType.GetFields().Where(f => Attribute.IsDefined(f, typeof(SaveAttribute)))) // Loop through all fields with the save attribute defined
-				{
-					// Get field name and type in our format
-					string Name = $"{AssemblyType.Name}_{FInfo.Name}";
-					Type FIType = FInfo.FieldType;
+	    {
+		    foreach (Type AssemblyType in Assembly.GetExecutingAssembly().GetTypes()
+		    ) // Loop through all types in the assembly
+		    {
+			    foreach (FieldInfo FInfo in AssemblyType.GetFields()
+				    .Where(f => Attribute.IsDefined(f, typeof(SaveAttribute)))
+			    ) // Loop through all fields with the save attribute defined
+			    {
+				    // Get field name and type in our format
+				    string Name = $"{AssemblyType.Name}_{FInfo.Name}";
+				    Type FIType = FInfo.FieldType;
 
-					object DefaultInfo = FInfo.GetValue(null); // Get the default value for the fieldinfo
+				    object DefaultInfo = FInfo.GetValue(null); // Get the default value for the fieldinfo
 
-					
-					if (!Config.ContainsKey(Name)) // If the field does not exist in the configuration dictionary
-						Config.Add(Name, DefaultInfo);
-					
-					try //Try to parse intermediate JSON because the object itself isnt actually deserialized or something
-					{
-						// If field is an array, set the field variable to a JArray
-						if (Config[Name].GetType() == typeof(JArray))
-							Config[Name] = ((JArray) Config[Name]).ToObject(FInfo.FieldType);
 
-						// If field is an object, set the field variable to JObject
-						if (Config[Name].GetType() == typeof(JObject))
-							Config[Name] = ((JObject) Config[Name]).ToObject(FInfo.FieldType);
+				    if (!Config.ContainsKey(Name)) // If the field does not exist in the configuration dictionary
+					    Config.Add(Name, DefaultInfo);
 
-						// Assign field values
-						FInfo.SetValue(null,
-							FInfo.FieldType.IsEnum
-								? Enum.ToObject(FInfo.FieldType, Config[Name])
-								: Convert.ChangeType(Config[Name], FInfo.FieldType));
-					}
-					catch
-					{
-						//#if DEBUG
-						DebugUtilities.Log("Error loading config value: " + Name);
-						//#endif
-						Config[Name] = DefaultInfo;
-					}
-				}
-			}
+				    try //Try to parse intermediate JSON because the object itself isnt actually deserialized or something
+				    {
+					    // If field is an array, set the field variable to a JArray
+					    if (Config[Name].GetType() == typeof(JArray))
+						    Config[Name] = ((JArray) Config[Name]).ToObject(FInfo.FieldType);
+
+					    // If field is an object, set the field variable to JObject
+					    if (Config[Name].GetType() == typeof(JObject))
+						    Config[Name] = ((JObject) Config[Name]).ToObject(FInfo.FieldType);
+
+					    // Assign field values
+					    FInfo.SetValue(null,
+						    FInfo.FieldType.IsEnum
+							    ? Enum.ToObject(FInfo.FieldType, Config[Name])
+							    : Convert.ChangeType(Config[Name], FInfo.FieldType));
+				    }
+				    catch
+				    {
+					    //#if DEBUG
+					    DebugUtilities.Log("Error loading config value: " + Name);
+					    //#endif
+					    Config[Name] = DefaultInfo;
+				    }
+			    }
+		    }
+
+		    DebugUtilities.Log("Setting default colors...");
+
+		    foreach (var identifier in ColorOptions.DefaultColorDict)
+			    if (!ColorOptions.ColorDict.ContainsKey(identifier.Key))              
+				    ColorOptions.ColorDict.Add(identifier.Key, new ColorVariable(identifier.Value));        
+		    
+		    foreach (var newIdentifier in ColorOptions.ColorDict.ToList())
+			    if (!ColorOptions.DefaultColorDict.ContainsKey(newIdentifier.Key))
+				    ColorOptions.ColorDict.Remove(newIdentifier.Key);
+		    
+		    DebugUtilities.Log("Setting defualt hotkeys...");
+		    
+		    foreach (var kvp in HotkeyOptions.DefaultHotkeyDict)
+		    foreach (var kvp2 in kvp.Value)
+			    if (!HotkeyOptions.UnorganizedHotkeys.ContainsKey(kvp2.Key))
+				    HotkeyOptions.UnorganizedHotkeys.Add(kvp2.Key, kvp2.Value);
+		    
+		    foreach (var str in HotkeyOptions.UnorganizedHotkeys.ToList())
+			    if (HotkeyOptions.DefaultHotkeyDict.All(kvp => !kvp.Value.ContainsKey(str.Key)))
+				    HotkeyOptions.UnorganizedHotkeys.Remove(str.Key); 
+		    
+	        DebugUtilities.Log("Saving config...");
+	        
 	        SaveConfig(Config);
         }
     }

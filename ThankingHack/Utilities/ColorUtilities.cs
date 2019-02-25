@@ -1,45 +1,39 @@
 ﻿using System.Globalization;
 using System.Linq;
-using Thinking.Misc;
-using Thinking.Options.UIVariables;
-using Thinking.Options.VisualOptions;
+using Thanking.Misc;
+using Thanking.Options.VisualOptions;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
 	public static class ColorUtilities
 	{
 		public static void addColor(ColorVariable ColorVariable)
 		{
-            if (!ColorOptions.ColorDict.ContainsKey(ColorVariable.identity))
-            {
-                ColorOptions.ColorDict.Add(ColorVariable.identity, ColorVariable);
-            }
+            if (!ColorOptions.DefaultColorDict.ContainsKey(ColorVariable.identity))
+	            ColorOptions.DefaultColorDict.Add(ColorVariable.identity, ColorVariable);
 		}
 
 		public static ColorVariable getColor(string identifier)
 		{
-			ColorVariable toret;
-			if (ColorOptions.ColorDict.TryGetValue(identifier, out toret))
+			if (ColorOptions.ColorDict.TryGetValue(identifier, out var toret))
 				return toret;
+
 			return ColorOptions.errorColor;
 		}
 
 		public static string getHex(string identifier)
 		{
-			ColorVariable toret;
-			if (ColorOptions.ColorDict.TryGetValue(identifier, out toret))
+			if (ColorOptions.ColorDict.TryGetValue(identifier, out var toret))
 				return ColorToHex(toret);
 			return ColorToHex(ColorOptions.errorColor);
 		}
 
 		public static void setColor(string identifier, Color32 color)
 		{
-			ColorVariable co;
-			if (ColorOptions.ColorDict.TryGetValue(identifier, out co))
-			{
+			if (ColorOptions.ColorDict.TryGetValue(identifier, out var co))
 				co.color = color.ToSerializableColor();
-			}
 		}
 
 		public static string ColorToHex(Color32 color)
@@ -50,7 +44,7 @@ namespace Thinking.Utilities
 
 		public static ColorVariable[] getArray()
 		{
-			return ColorOptions.ColorDict.Values.ToList().ToArray();
+			return ColorOptions.ColorDict.Values.ToArray();
 		}
 
 		public static Color32 HexToColor(string hex)

@@ -1,21 +1,22 @@
 ﻿using System;
-using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.Basic;
-using Thinking.Coroutines;
-using Thinking.Options;
-using Thinking.Options.VisualOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
-using UnityEngine;
-using HighlightingSystem;
 using System.Collections.Generic;
 using System.Linq;
-using Thinking.Managers.Main;
-using UnityEngine.PostProcessing;
-using Thinking.Options.AimOptions;
+using HighlightingSystem;
+using SDG.Unturned;
+using Thanking.Attributes;
+using Thanking.Components.Basic;
+using Thanking.Coroutines;
+using Thanking.Misc.Classes.ESP;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Options.AimOptions;
+using Thanking.Options.VisualOptions;
+using Thanking.Utilities;
+using Thanking.Variables;
+using Thanking.Variables.UIVariables;
+using UnityEngine;
 
-namespace Thinking.Components.UI
+namespace Thanking.Components.UI
 {
     [SpyComponent]
     [Component]
@@ -28,23 +29,25 @@ namespace Thinking.Components.UI
 
         public static Camera MainCamera;
 
-        [Initializer]
-        public static void OnInit()
-        {
-            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
-            {
-                ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
-                ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
-                ColorUtilities.addColor(new Options.UIVariables.ColorVariable($"_{(ESPTarget)i}_Glow", $"ESP - {(ESPTarget)i} (Glow)", Color.yellow, false));
-            }
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green, false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue, false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255), false));
-            ColorUtilities.addColor(new Options.UIVariables.ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red, false));
-        }
+		[Initializer]
+		public static void Initialize()
+		{
+			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+			{
+				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
+				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}_Text", $"ESP - {(ESPTarget)i} (Text)", Color.white, false));
+				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
+				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}_Glow", $"ESP - {(ESPTarget)i} (Glow)", Color.yellow, false));
+			}
 
-        public void Start()
+			ColorUtilities.addColor(new ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
+			ColorUtilities.addColor(new ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green, false));
+			ColorUtilities.addColor(new ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue, false));
+			ColorUtilities.addColor(new ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255), false));
+			ColorUtilities.addColor(new ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red, false));
+		}
+		
+		public void Start()
         {
             CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
@@ -481,10 +484,10 @@ namespace Thinking.Components.UI
                             if (ESPOptions.FilterVehicleLocked && vehicle.isLocked)
                                 continue;
 
-                            vehicle.getDisplayFuel(out ushort Fuel, out ushort MaxFuel);
+                            vehicle.getDisplayFuel(out ushort displayFuel, out ushort MaxFuel);
 
                             float health = Mathf.Round(100 * (vehicle.health / (float)vehicle.asset.health));
-                            float fuel = Mathf.Round(100 * (Fuel / (float)MaxFuel));
+                            float fuel = Mathf.Round(100 * (displayFuel / (float)MaxFuel));
 
                             if (visual.ShowName)
                             {
@@ -606,8 +609,12 @@ namespace Thinking.Components.UI
                 if (visual.Glow)
                 {
                     Highlighter highlighter = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
-                    highlighter.OccluderOn();
-                    highlighter.SeeThroughOn();
+                    //highlighter.OccluderOn();
+                    //highlighter.SeeThroughOn();
+                    
+                    highlighter.occluder = true;
+                    highlighter.overlay = true;
+                    
                     highlighter.ConstantOnImmediate(ColorUtilities.getColor($"_{obj.Target}_Glow"));
                     Highlighters.Add(highlighter);
                 }
@@ -619,7 +626,7 @@ namespace Thinking.Components.UI
                 }
 
                 if (visual.Labels)
-                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, c, ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
+                    DrawUtilities.DrawLabel(ESPFont, ll, LabelVector, text, visual.CustomTextColor ? ColorUtilities.getColor($"_{obj.Target}_Text") : c, ColorUtilities.getColor($"_{obj.Target}_Outline"), visual.BorderStrength, outerText);
 
                 if (visual.LineToObject)
                     ESPVariables.DrawBuffer2.Enqueue(new ESPBox2
@@ -694,6 +701,9 @@ namespace Thinking.Components.UI
         {
             foreach (Highlighter highlighter in Highlighters) // pls dont go apeshit kr4ken its only called once every spy and it's not like update() where its called every milisecond
             {
+                highlighter.occluder = false;
+                highlighter.overlay = false;
+                
                 highlighter.ConstantOffImmediate();
             }
             Highlighters.Clear();

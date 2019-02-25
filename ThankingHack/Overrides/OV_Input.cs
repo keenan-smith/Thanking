@@ -1,15 +1,12 @@
 ﻿using System.Reflection;
-using Newtonsoft.Json.Bson;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Coroutines;
-using Thinking.Options;
-using Thinking.Options.AimOptions;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Options;
+using Thanking.Options.AimOptions;
+using Thanking.Utilities;
 using UnityEngine;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
 	public static class OV_Input
 	{

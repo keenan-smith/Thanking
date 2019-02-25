@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public static class MenuUtilities
     {
@@ -27,8 +27,8 @@ namespace Thinking.Utilities
 
         public static Rect Inline(Rect rect, int border = 1)
         {
-            Rect _rect = new Rect(rect.x + border, rect.y + border, rect.width - border * 2, rect.height - border * 2);
-            return _rect;
+            Rect inlined = new Rect(rect.x + border, rect.y + border, rect.width - border * 2, rect.height - border * 2);
+            return inlined;
         }
 
         public static Rect AbsRect(Vector2 pos1, Vector2 pos2) { return AbsRect(pos1.x, pos1.y, pos2.x, pos2.y); }

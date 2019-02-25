@@ -1,8 +1,7 @@
 ﻿using SDG.Unturned;
-using Thinking.Attributes;
 using UnityEngine;
 
-namespace Thinking.Variables
+namespace Thanking.Variables
 {
     public static class OptimizationVariables
     {

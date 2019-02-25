@@ -1,32 +1,30 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Components.UI;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Coroutines;
-using Thinking.Options.AimOptions;
-using Thinking.Options.VisualOptions;
-using Thinking.Overrides;
-using Thinking.Threads;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Components.UI;
+using Thanking.Coroutines;
+using Thanking.Misc.Enums;
+using Thanking.Options;
+using Thanking.Options.AimOptions;
+using Thanking.Overrides;
+using Thanking.Threads;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
-using UnityEngine.Windows.Speech;
 
-namespace Thinking.Components.Basic
+namespace Thanking.Components.Basic
 {
     [Component]
     public class MiscComponent : MonoBehaviour
     {
+        public static Vector3 LastDeath;
         public static MiscComponent Instance;
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
         public static bool NightvisionBeforeSpy;
-        public static Vector3 LastDeath = new Vector3(0, 0, 0);
         public static List<PlayerInputPacket> ClientsidePackets;
 
         public static FieldInfo Primary =
@@ -38,48 +36,12 @@ namespace Thinking.Components.Basic
         public static FieldInfo CPField =
             typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private int currentKills = 0;
+        private int currentKills = -1;
 
-        [OnSpy]
-        public static void Disable()
+        [Initializer]
+        public static void Initialize()
         {
-            if (MiscOptions.WasNightVision)
-            {
-                NightvisionBeforeSpy = true;
-                MiscOptions.NightVision = false;
-            }
-
-            if (MiscOptions.Freecam)
-            {
-                FreecamBeforeSpy = true;
-                MiscOptions.Freecam = false;
-            }
-        }
-
-        [OffSpy]
-        public static void Enable()
-        {
-            if (NightvisionBeforeSpy)
-            {
-                NightvisionBeforeSpy = false;
-                MiscOptions.NightVision = true;
-            }
-
-            if (FreecamBeforeSpy)
-            {
-                FreecamBeforeSpy = false;
-                MiscOptions.Freecam = true;
-            }
-        }
-
-        void Start()
-        {
-            Instance = this;
-
-            Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
-                out currentKills);
-
-            HotkeyComponent.ActionDict.Add("_VFToggle", () =>
+            HotkeyComponent.ActionDict.Add("_VFToggle", () => 
                 MiscOptions.VehicleFly = !MiscOptions.VehicleFly);
 
             HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
@@ -121,7 +83,55 @@ namespace Thinking.Components.Basic
                     }
                 }
             });
+            
+            HotkeyComponent.ActionDict.Add("_ToggleTimeAcceleration", () =>
+                                                                      {
+                                                                          OV_PlayerInput.Step =
+                                                                              OV_PlayerInput.Step != 2 ? 2 : -1;
+                                                                      });
 
+            HotkeyComponent.ActionDict.Add("_ToggleTimeCharge",
+                () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 1 ? 1 : -1));
+            
+            HotkeyComponent.ActionDict.Add("_InstantDisconnect", () => Provider.disconnect());
+        }
+        
+        [OnSpy]
+        public static void Disable()
+        {
+            if (MiscOptions.WasNightVision)
+            {
+                NightvisionBeforeSpy = true;
+                MiscOptions.NightVision = false;
+            }
+
+            if (MiscOptions.Freecam)
+            {
+                FreecamBeforeSpy = true;
+                MiscOptions.Freecam = false;
+            }
+        }
+
+        [OffSpy]
+        public static void Enable()
+        {
+            if (NightvisionBeforeSpy)
+            {
+                NightvisionBeforeSpy = false;
+                MiscOptions.NightVision = true;
+            }
+
+            if (FreecamBeforeSpy)
+            {
+                FreecamBeforeSpy = false;
+                MiscOptions.Freecam = true;
+            }
+        }
+        
+        void Start()
+        {
+            Instance = this;
+           
             Provider.onClientConnected += () =>
             {
                 if (MiscOptions.AlwaysCheckMovementVerification)
@@ -135,15 +145,15 @@ namespace Thinking.Components.Basic
 
         public void Update()
         {
-            if (Player.player != null && OptimizationVariables.MainPlayer == null)
-                OptimizationVariables.MainPlayer = Player.player;
-
             if (Camera.main != null && OptimizationVariables.MainCam == null)
                 OptimizationVariables.MainCam = Camera.main;
 
+            if (!OptimizationVariables.MainPlayer)
+                return;
+            
             if (!DrawUtilities.ShouldRun())
                 return;
-
+            
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out int New);
 
@@ -151,8 +161,10 @@ namespace Thinking.Components.Basic
             {
                 if (New != currentKills)
                 {
+                    if (currentKills != -1)
+                        OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
+                    
                     currentKills = New;
-                    OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
                 }
             }
             else
@@ -173,45 +185,48 @@ namespace Thinking.Components.Basic
                 MiscOptions.WasNightVision = false;
             }
 
+            if (MiscOptions.EnableDistanceCrash)
+                foreach (SteamPlayer plr in Provider.clients.Where(p => p.player != OptimizationVariables.MainPlayer && VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
+                    if (!PlayerCrashThread.CrashTargets.Contains(plr.playerID.steamID))
+                        PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
+            
             if (OptimizationVariables.MainPlayer.life.isDead)
                 LastDeath = OptimizationVariables.MainPlayer.transform.position;
 
             if (MiscOptions.CrashByName)
             {
-                if (MiscOptions.CrashWords != "")
+                if (MiscOptions.CrashWords.ToArray().Length > 0)
                 {
-                    List<string> CrashWords = MiscOptions.CrashWords.Split(',').Reverse().ToList();
-                    foreach (string Word in CrashWords)
+                    foreach (string word in MiscOptions.CrashWords)
                     {
                         foreach (SteamPlayer player in Provider.clients)
                         {
-                            if (!FriendUtilities.IsFriendly(player.player))
-                            {
-                                if (player.playerID.characterName.ToLower().Contains(Word.ToLower()))
-                                {
-                                    PlayerCrashThread.CrashTarget = player.playerID.steamID;
-                                    break;
-                                }
-                            }
+                            if (FriendUtilities.IsFriendly(player.player))
+                                continue;
+
+                            if (!player.playerID.characterName.ToLower().Contains(word.ToLower())) 
+                                continue;
+                            
+                            PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
+                            break;
                         }
                     }
                 }
 
-                if (MiscOptions.CrashIDs != "")
+                if (MiscOptions.CrashIDs.ToArray().Length > 0)
                 {
-                    List<string> CrashIDs = MiscOptions.CrashIDs.Split(',').Reverse().ToList();
-                    foreach (string ID in CrashIDs)
+                    foreach (string id in MiscOptions.CrashIDs)
                     {
                         foreach (SteamPlayer player in Provider.clients)
                         {
-                            if (!FriendUtilities.IsFriendly(player.player))
-                            {
-                                if (player.playerID.steamID.ToString() == ID)
-                                {
-                                    PlayerCrashThread.CrashTarget = player.playerID.steamID;
-                                    break;
-                                }
-                            }
+                            if (FriendUtilities.IsFriendly(player.player)) 
+                                continue;
+
+                            if (player.playerID.steamID.ToString() != id) 
+                                continue;
+                            
+                            PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
+                            break;
                         }
                     }
                 }
@@ -337,7 +352,7 @@ namespace Thinking.Components.Basic
 
             Vector3 NewPos = LastPos + new Vector3(0, -1337, 0);
             OptimizationVariables.MainPlayer.transform.position = NewPos;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
 
             if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, NewPos) > 100)
                 MiscOptions.NoMovementVerification = false;

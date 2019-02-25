@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection.Emit;
 using SDG.Unturned;
 using Steamworks;
-using Thinking.Options;
-using Thinking.Threads;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Options;
+using Thanking.Threads;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu.Tabs
+namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class PlayersTab
     {
 	    public static Vector2 PlayersScroll;
-        public static Player SelectedPlayer = null;
-        
+        public static Player SelectedPlayer;
+        public static string SearchString = "";
+
         public static SteamPlayer GetSteamPlayer(Player player)
         {
             foreach (var user in Provider.clients)
@@ -25,17 +25,22 @@ namespace Thinking.Components.UI.Menu.Tabs
             }
 
             return null;
-}
+        }
 
         public static void Tab()
         {
-            Prefab.ScrollView(new Rect(0, 0, 466, 250), "Players", ref PlayersScroll, () =>
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(5);
+            SearchString = Prefab.TextField(SearchString, "Search: ", 466);
+            GUILayout.EndHorizontal();
+            
+            Prefab.ScrollView(new Rect(0, 25 + 5, 466, 250 - (25 + 10)), "Players", ref PlayersScroll, () =>
             {
                 for (int i = 0; i < Provider.clients.Count; i++)
                 {
 					Player player = Provider.clients[i].player;
                     
-                    if (player == OptimizationVariables.MainPlayer || player == null)
+                    if (player == OptimizationVariables.MainPlayer || player == null || (SearchString != "" && player.name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) == -1))
                         continue;
 
                     bool Friend = FriendUtilities.IsFriendly(player);

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SDG.Unturned;
-using Thinking.Components.Basic;
-using Thinking.Coroutines;
-using Thinking.Options.VisualOptions;
-using Thinking.Variables;
+﻿using SDG.Unturned;
+using Thanking.Misc.Classes.ESP;
+using Thanking.Misc.Enums;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
 	public static class DrawUtilities
 	{
@@ -150,13 +146,13 @@ namespace Thinking.Utilities
 		public static string ColorToHex(Color32 color) =>
 			color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2") + color.a.ToString("X2");
 
-		public static void DrawLabel(Font Font, LabelLocation Location, Vector2 W2SVector, string Content, Color BorderColor, Color InnerColor, int BorderWidth, string outerContent = null)
+		public static void DrawLabel(Font Font, LabelLocation Location, Vector2 W2SVector, string Content, Color BorderColor, Color InnerColor, int BorderWidth, string outerContent = null, int fontSize = 12)
 		{
 			GUIContent gcontent = new GUIContent(Content);
 			GUIStyle LabelStyle = new GUIStyle
 			{
 				font = Font,
-				fontSize = 12
+				fontSize = fontSize
 			};
 			
 			Vector2 dim = LabelStyle.CalcSize(gcontent);
@@ -350,7 +346,7 @@ namespace Thinking.Utilities
 			Mat.SetPass(0);
 			GL.Begin(GL.LINES);
 			GL.Color(Col);
-			float degRad = Mathf.PI / 180;
+			//float degRad = Mathf.PI / 180;
 			for(float theta = 0.0f; theta < (2*Mathf.PI); theta += 0.01f)
 			{
 				Vector2 ci = (new Vector3(Mathf.Cos(theta) * Radius + Center.x, Mathf.Sin(theta) * Radius + Center.y));

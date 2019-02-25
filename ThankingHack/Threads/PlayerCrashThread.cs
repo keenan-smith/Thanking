@@ -1,18 +1,13 @@
-﻿﻿using System;
- using System.Collections.Generic;
- using System.Linq;
-using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using SDG.Unturned;
-using Steamworks;    
-using Thinking.Attributes;
- using Thinking.Options;
- using Thinking.Overrides;
- using Thinking.Utilities;
- using Thinking.Variables;
- using UnityEngine;
+using Steamworks;
+using Thanking.Attributes;
+using Thanking.Utilities;
+using Thanking.Variables;
 
-namespace Thinking.Threads
+namespace Thanking.Threads
 {
     public static class PlayerCrashThread
     {
@@ -56,11 +51,13 @@ namespace Thinking.Threads
         {
             while (true)
             {
-                if (Provider.clients.All(p => CrashTarget != p.playerID.steamID))
-                {    
-                    if (ContinuousPlayerCrash && Provider.clients.Count > 1)
+                List<SteamPlayer> clients = Provider.clients.ToList();
+                
+                if (clients.All(p => CrashTarget != p.playerID.steamID))
+                {
+                    if (ContinuousPlayerCrash && clients.Count > 1)
                     {
-                        CSteamID? sid = Provider.clients.OrderBy(p => p.isAdmin ? 0 : 1)
+                        CSteamID? sid = clients.OrderBy(p => p.isAdmin ? 0 : 1)
                             .FirstOrDefault(p =>
                                 p.playerID.steamID != CrashTarget && !FriendUtilities.IsFriendly(p.player))
                             ?.playerID
@@ -70,7 +67,8 @@ namespace Thinking.Threads
                             CrashTarget = sid.Value;
                     }
                     else
-                        CrashTarget = CrashTargets.Count > 0 ? CrashTargets.First(c => Provider.clients.Any(p => p.playerID.steamID == c)) : CSteamID.Nil;
+                        CrashTarget =
+                            CrashTargets.FirstOrDefault(c => clients.Any(p => p.playerID.steamID == c));
                 }
 
                 Thread.Sleep(500);

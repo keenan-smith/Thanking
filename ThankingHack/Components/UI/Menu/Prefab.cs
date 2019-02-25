@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Thinking.Misc;
-using Thinking.Options.UIVariables;
-using Thinking.Utilities;
+using Thanking.Attributes;
+using Thanking.Coroutines;
+using Thanking.Misc;
+using Thanking.Misc.Serializables;
+using Thanking.Utilities;
+using Thanking.Variables.UIVariables;
 using UnityEngine;
 
-namespace Thinking.Components.UI.Menu
+namespace Thanking.Components.UI.Menu
 {
     public static class Prefab
     {
@@ -22,59 +25,65 @@ namespace Thinking.Components.UI.Menu
         public static Color32 _ToggleBoxBG;
 
         static int popupListHash = "PopupList".GetHashCode();
-	    private static bool _blockInput = false; 
-	    
         public static Regex digitsOnly = new Regex(@"[^\d]");
 
-        static Prefab()
-        {
-            _MenuTabStyle = new GUIStyle();
-            _MenuTabStyle.font = MenuComponent._TabFont;
-            _MenuTabStyle.fontSize = 29;
+	    [Initializer]
+	    public static void Initialize()
+	    {
+		    ColorUtilities.addColor(new ColorVariable("_MenuTabOff", "Menu Tab - Off", new Color32(160, 160, 160, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_MenuTabOn", "Menu Tab - On", new Color32(255, 255, 255, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_MenuTabHover", "Menu Tab - Hover", new Color32(210, 210, 210, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_TextStyleOff", "Menu Labels - Off", new Color32(160, 160, 160, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_TextStyleOn", "Menu Labels - On", new Color32(255, 255, 255, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_TextStyleHover", "Menu Labels - Hover", new Color32(210, 210, 210, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_HeaderStyle", "Menu Area - Header", new Color32(210, 210, 210, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_ToggleBoxBG", "Menu Toggle - Background", new Color32(71, 70, 71, 255)));
+		    ColorUtilities.addColor(new ColorVariable("_ButtonBG", "Menu Button - Background", new Color32(130, 130, 130, 255)));
+	    }
 
-            _HeaderStyle = new GUIStyle();
-            _HeaderStyle.font = MenuComponent._TabFont;
-            _HeaderStyle.fontSize = 15;
-            _HeaderStyle.alignment = TextAnchor.MiddleCenter;
+	    public static void CheckStyles()
+	    {
+		    if (_MenuTabStyle != null || !LoaderCoroutines.IsLoaded)
+			    return;
+		    
+		    _MenuTabStyle = new GUIStyle();
+		    _MenuTabStyle.font = MenuComponent._TabFont;
+		    _MenuTabStyle.fontSize = 29;
 
-            _TextStyle = new GUIStyle();
-            _TextStyle.font = MenuComponent._TextFont;
-            _TextStyle.fontSize = 17;
+		    _HeaderStyle = new GUIStyle();
+		    _HeaderStyle.font = MenuComponent._TabFont;
+		    _HeaderStyle.fontSize = 15;
+		    _HeaderStyle.alignment = TextAnchor.MiddleCenter;
 
-            _sliderStyle = new GUIStyle();
-            _sliderThumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb);
-            _sliderThumbStyle.fixedWidth = 7;
+		    _TextStyle = new GUIStyle();
+		    _TextStyle.font = MenuComponent._TextFont;
+		    _TextStyle.fontSize = 17;
 
-            _sliderVThumbStyle = new GUIStyle(GUI.skin.verticalSliderThumb);
-            _sliderVThumbStyle.fixedHeight = 7;
+		    _sliderStyle = new GUIStyle();
+		    _sliderThumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb);
+		    _sliderThumbStyle.fixedWidth = 7;
 
-            _listStyle = new GUIStyle();
-            _listStyle.padding.left = _listStyle.padding.right = _listStyle.padding.top = _listStyle.padding.bottom = 4;
-            _listStyle.alignment = TextAnchor.MiddleLeft;
-            _listStyle.font = MenuComponent._TextFont;
-            _listStyle.fontSize = 15;
+		    _sliderVThumbStyle = new GUIStyle(GUI.skin.verticalSliderThumb);
+		    _sliderVThumbStyle.fixedHeight = 7;
 
-            _ButtonStyle = new GUIStyle();
-            _ButtonStyle.alignment = TextAnchor.MiddleLeft;
-            _ButtonStyle.font = MenuComponent._TextFont;
-            _ButtonStyle.fontSize = 15;
-            _ButtonStyle.padding.left = _ButtonStyle.padding.right = _ButtonStyle.padding.top = _ButtonStyle.padding.bottom = 4;
+		    _listStyle = new GUIStyle();
+		    _listStyle.padding.left = _listStyle.padding.right = _listStyle.padding.top = _listStyle.padding.bottom = 4;
+		    _listStyle.alignment = TextAnchor.MiddleLeft;
+		    _listStyle.font = MenuComponent._TextFont;
+		    _listStyle.fontSize = 15;
 
-            MenuUtilities.FixGUIStyleColor(_sliderStyle);
-            MenuUtilities.FixGUIStyleColor(_MenuTabStyle);
-            MenuUtilities.FixGUIStyleColor(_TextStyle);
-            ColorUtilities.addColor(new ColorVariable("_MenuTabOff", "Menu Tab - Off", new Color32(160, 160, 160, 255)));
-            ColorUtilities.addColor(new ColorVariable("_MenuTabOn", "Menu Tab - On", new Color32(255, 255, 255, 255)));
-            ColorUtilities.addColor(new ColorVariable("_MenuTabHover", "Menu Tab - Hover", new Color32(210, 210, 210, 255)));
-            ColorUtilities.addColor(new ColorVariable("_TextStyleOff", "Menu Labels - Off", new Color32(160, 160, 160, 255)));
-            ColorUtilities.addColor(new ColorVariable("_TextStyleOn", "Menu Labels - On", new Color32(255, 255, 255, 255)));
-            ColorUtilities.addColor(new ColorVariable("_TextStyleHover", "Menu Labels - Hover", new Color32(210, 210, 210, 255)));
-            ColorUtilities.addColor(new ColorVariable("_HeaderStyle", "Menu Area - Header", new Color32(210, 210, 210, 255)));
-            ColorUtilities.addColor(new ColorVariable("_ToggleBoxBG", "Menu Toggle - Background", new Color32(71, 70, 71, 255)));
-            ColorUtilities.addColor(new ColorVariable("_ButtonBG", "Menu Button - Background", new Color32(130, 130, 130, 255)));
+		    _ButtonStyle = new GUIStyle();
+		    _ButtonStyle.alignment = TextAnchor.MiddleLeft;
+		    _ButtonStyle.font = MenuComponent._TextFont;
+		    _ButtonStyle.fontSize = 15;
+		    _ButtonStyle.padding.left = _ButtonStyle.padding.right = _ButtonStyle.padding.top = _ButtonStyle.padding.bottom = 4;
 
-            UpdateColors();
-        }
+		    MenuUtilities.FixGUIStyleColor(_sliderStyle);
+		    MenuUtilities.FixGUIStyleColor(_MenuTabStyle);
+		    MenuUtilities.FixGUIStyleColor(_TextStyle);
+
+		    MenuComponent.SetGUIColors();
+	    }
 
         public static void UpdateColors()
         {
@@ -526,7 +535,7 @@ namespace Thinking.Components.UI.Menu
                     if (value >= min && value <= max)
                         text = value;
                 }
-                catch { }
+                catch(Exception e) { DebugUtilities.LogException(e); }
                 GUILayout.FlexibleSpace();
                 _TextStyle.fontSize = lastFontSize;
             }

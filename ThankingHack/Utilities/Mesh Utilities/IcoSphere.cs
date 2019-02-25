@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Thinking.Utilities.Mesh_Utilities
+namespace Thanking.Utilities.Mesh_Utilities
 {
     public static class IcoSphere
     {

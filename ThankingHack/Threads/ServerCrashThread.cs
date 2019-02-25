@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Xml.Schema;
+﻿using System.Threading;
 using SDG.Unturned;
-using Steamworks;    
-using Thinking.Attributes;
-using Thinking.Options;
-using Thinking.Overrides;
-using Thinking.Utilities;
-using UnityEngine;
+using Steamworks;
+using Thanking.Attributes;
+using Thanking.Options;
+using Thanking.Overrides;
 
-namespace Thinking.Threads
+namespace Thanking.Threads
 {
     public static class ServerCrashThread
     {

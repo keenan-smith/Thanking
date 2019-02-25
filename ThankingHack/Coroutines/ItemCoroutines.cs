@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using SDG.Unturned;
-using Thinking.Components.Basic;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Options;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Coroutines
+namespace Thanking.Coroutines
 {
     public static class ItemCoroutines
     {
         public static IEnumerator PickupItems()
         {
-            #if DEBUG
+           // #if DEBUG
             DebugUtilities.Log("Starting Item Coroutine");
-            #endif
+          //  #endif
             
             while (true)
             {

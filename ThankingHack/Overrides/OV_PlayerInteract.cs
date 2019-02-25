@@ -2,14 +2,14 @@
 using HighlightingSystem;
 using SDG.Framework.Utilities;
 using SDG.Unturned;
-using Thinking.Attributes;
-using Thinking.Coroutines;
-using Thinking.Options;
-using Thinking.Utilities;
-using Thinking.Variables;
+using Thanking.Attributes;
+using Thanking.Coroutines;
+using Thanking.Options;
+using Thanking.Utilities;
+using Thanking.Variables;
 using UnityEngine;
 
-namespace Thinking.Overrides
+namespace Thanking.Overrides
 {
     public class OV_PlayerInteract
     {
@@ -109,7 +109,6 @@ namespace Thinking.Overrides
             if (highlighter == null)
                 highlighter = target.gameObject.AddComponent<Highlighter>();
             highlighter.ConstantOn(color);
-            highlighter.SeeThroughOn();
         }
 
         [OnSpy]

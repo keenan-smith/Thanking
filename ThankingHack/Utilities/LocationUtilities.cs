@@ -2,7 +2,7 @@
 using SDG.Unturned;
 using UnityEngine;
 
-namespace Thinking.Utilities
+namespace Thanking.Utilities
 {
     public static class LocationUtilities
     {

@@ -1,7 +1,8 @@
-﻿using Thinking.Attributes;
-using Thinking.Misc;
+﻿using Thanking.Attributes;
+using Thanking.Misc;
+using Thanking.Misc.Serializables;
 
-namespace Thinking.Options.AimOptions
+namespace Thanking.Options.AimOptions
 {
 	public static class WeaponOptions
 	{
