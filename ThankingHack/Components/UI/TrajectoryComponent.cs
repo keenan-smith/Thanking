@@ -70,6 +70,9 @@ namespace Thanking.Components.UI
                     {
                         //newHighlight.OccluderOn();
                         //newHighlight.SeeThroughOn();
+                        newHighlight.occluder = true;
+                        newHighlight.color.a = 0.1f;
+                        
                         newHighlight.ConstantOnImmediate(outOfRange ? outOfRangeColor : inRangeColor);
                     }
 
@@ -109,7 +112,10 @@ namespace Thanking.Components.UI
         {
             if (h == null)
                 return;
-//
+
+            h.occluder = false;
+            h.color.a = 1f;
+            
             //h.OccluderOff();
             //h.SeeThroughOff();
             h.ConstantOffImmediate();

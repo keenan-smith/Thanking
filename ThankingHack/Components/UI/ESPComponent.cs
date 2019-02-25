@@ -609,6 +609,12 @@ namespace Thanking.Components.UI
                 if (visual.Glow)
                 {
                     Highlighter highlighter = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
+                    //highlighter.OccluderOn();
+                    //highlighter.SeeThroughOn();
+                    
+                    highlighter.occluder = true;
+                    highlighter.color.a = 0.1f;
+                    
                     highlighter.ConstantOnImmediate(ColorUtilities.getColor($"_{obj.Target}_Glow"));
                     Highlighters.Add(highlighter);
                 }
@@ -695,6 +701,9 @@ namespace Thanking.Components.UI
         {
             foreach (Highlighter highlighter in Highlighters) // pls dont go apeshit kr4ken its only called once every spy and it's not like update() where its called every milisecond
             {
+                highlighter.occluder = false;
+                highlighter.color.a = 0.1f;
+                
                 highlighter.ConstantOffImmediate();
             }
             Highlighters.Clear();
