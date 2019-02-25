@@ -613,7 +613,7 @@ namespace Thanking.Components.UI
                     //highlighter.SeeThroughOn();
                     
                     highlighter.occluder = true;
-                    highlighter.color.a = 0.1f;
+                    highlighter.overlay = true;
                     
                     highlighter.ConstantOnImmediate(ColorUtilities.getColor($"_{obj.Target}_Glow"));
                     Highlighters.Add(highlighter);
@@ -702,7 +702,7 @@ namespace Thanking.Components.UI
             foreach (Highlighter highlighter in Highlighters) // pls dont go apeshit kr4ken its only called once every spy and it's not like update() where its called every milisecond
             {
                 highlighter.occluder = false;
-                highlighter.color.a = 0.1f;
+                highlighter.overlay = false;
                 
                 highlighter.ConstantOffImmediate();
             }
