@@ -11,6 +11,10 @@ namespace Thanking.Components.UI.Menu.Tabs
 {
     public static class MoreMiscTab
     {
+        static Vector2 Scroll;
+        static Vector2 Scroll1;
+        static string text;
+        static string text1;
         public static void Tab()
         {
             Prefab.MenuArea(new Rect(0, 0, 466, 436), "MORE MISC", () =>
@@ -71,8 +75,56 @@ namespace Thanking.Components.UI.Menu.Tabs
                     PlayerCrashThread.CrashTargets.Clear();
                 
                 GUILayout.EndVertical();
-                GUILayout.BeginVertical(); 
-                
+                GUILayout.BeginVertical();
+
+                Prefab.Toggle("Crash By List", ref MiscOptions.CrashByName);
+                Prefab.SectionTabButton("Crash Lists", () =>
+                {
+                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginVertical(GUILayout.Width(300));
+                    Prefab.ScrollView(new Rect(10, 20, 298, 300), "Crash Prefixes", ref Scroll, () =>
+                    {
+                        foreach (string Word in MiscOptions.CrashWords)
+                        {
+                            if (Prefab.Button(Word, 255))
+                            {
+                                MiscOptions.CrashWords.Remove(Word);
+                            }
+                        }
+                    });
+
+                    GUILayout.Space(310);
+                    text = Prefab.TextField(text, "Import Prefix/Name: ", 100);
+                    if (Prefab.Button("Add", 100))
+                    {
+                        MiscOptions.CrashWords.AddRange(text.Split(',').Reverse().ToList());
+                        text = "";
+                    }
+
+                    GUILayout.EndVertical();
+                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginVertical(GUILayout.Width(300));
+                    Prefab.ScrollView(new Rect(312, 20, 300, 300), "Crash Steam IDs", ref Scroll1, () =>
+                    {
+                        foreach (string Word in MiscOptions.CrashIDs)
+                        {
+                            if (Prefab.Button(Word, 255))
+                            {
+                                MiscOptions.CrashIDs.Remove(Word);
+                            }
+                        }
+                    });
+
+                    GUILayout.Space(310);
+                    text1 = Prefab.TextField(text1, "Import Steam ID: ", 100);
+                    if (Prefab.Button("Add", 100))
+                    {
+                        MiscOptions.CrashIDs.AddRange(text1.Split(',').Reverse().ToList());
+                        text1 = "";
+                    }
+                    GUILayout.EndVertical();
+                });
+
                 GUILayout.Label("Time Acceleration: " + MiscOptions.TimeAcceleration + "x", Prefab._TextStyle);
                 GUILayout.Space(2);
 
@@ -105,11 +157,8 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Crash By String/ID", ref MiscOptions.CrashByName);
                 if (MiscOptions.CrashByName)
                 {
-                    GUILayout.Space(5);
-                    GUILayout.Label("Automatically Crash Players \nWith Something in their name. \nSeperated by commas. \nEx. Moderator,Admin", Prefab._TextStyle);
-                    GUILayout.Label("", Prefab._TextStyle);
-                    MiscOptions.CrashWords = Prefab.TextField(MiscOptions.CrashWords, "Names: ", 150);
-                    MiscOptions.CrashIDs = Prefab.TextField(MiscOptions.CrashIDs, "IDs: ", 150);
+                    GUILayout.Space(2);
+                    MiscOptions.NearbyItemDistance = (float)Math.Round(Prefab.Slider(0, 20, MiscOptions.NearbyItemDistance, 200), 2);
                 }
                 
                 GUILayout.Space(5);
