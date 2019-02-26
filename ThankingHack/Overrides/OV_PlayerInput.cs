@@ -278,10 +278,10 @@ namespace Thanking.Overrides
 			    player.animator.simulate(instance.simulation, player.animator.leanLeft, player.animator.leanRight);
 			    
 			    SetSim(instance, GetSim(instance) + 1);
+			    
+			    player.equipment.tock(Clock++);
 		    }
 		    
-		    player.equipment.tock(Clock++);
-
 		    if (Count % Rate == Rate - 1 && Packets.Count > 0)
 		    {
 			    //while (Packets.Count > 5)
