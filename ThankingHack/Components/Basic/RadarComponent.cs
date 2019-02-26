@@ -29,7 +29,7 @@ namespace Thanking.Components.Basic
 
         void OnGUI()
         {
-            if (RadarOptions.Enabled && Provider.isConnected)
+            if (RadarOptions.Enabled && Provider.isConnected && !Provider.isLoading)
             {
                 vew = new Rect(Screen.width - RadarOptions.RadarSize - 20, 10, RadarOptions.RadarSize + 10, RadarOptions.RadarSize + 10); //Viewport of the radar
                 GUI.color = new Color(1f, 1f, 1f, 0f);

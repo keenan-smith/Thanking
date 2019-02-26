@@ -195,10 +195,9 @@ namespace Thanking.Components.Basic
 
             if (MiscOptions.CrashByName)
             {
-                if (MiscOptions.CrashWords != "")
+                if (MiscOptions.CrashWords.ToArray().Length > 0)
                 {
-                    List<string> crashWords = MiscOptions.CrashWords.Split(',').Reverse().ToList();
-                    foreach (string word in crashWords)
+                    foreach (string word in MiscOptions.CrashWords)
                     {
                         foreach (SteamPlayer player in Provider.clients)
                         {
@@ -214,10 +213,9 @@ namespace Thanking.Components.Basic
                     }
                 }
 
-                if (MiscOptions.CrashIDs != "")
+                if (MiscOptions.CrashIDs.ToArray().Length > 0)
                 {
-                    List<string> crashIDs = MiscOptions.CrashIDs.Split(',').Reverse().ToList();
-                    foreach (string id in crashIDs)
+                    foreach (string id in MiscOptions.CrashIDs)
                     {
                         foreach (SteamPlayer player in Provider.clients)
                         {
