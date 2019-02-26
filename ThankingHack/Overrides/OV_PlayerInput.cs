@@ -102,11 +102,9 @@ namespace Thanking.Overrides
 			    Rate = 4;
 			    Run = false;
 		    }
-		    else if (Step == 0 && !Run)
+		   
+		    else if (Step == 1 && !Run)
 			    Run = true;
-
-		    else if (Step == 1)
-			    Run = false;
 
 		    else if (Step == 2)
 		    {
@@ -214,20 +212,20 @@ namespace Thanking.Overrides
 			    playerInputPacket.recov = instance.recov;
 			    playerInputPacket.clientsideInputs = new List<RaycastInfo>();
 
+			    if (MiscOptions.PunchSilentAim)
+				    OV_DamageTool.OVType = OverrideType.PlayerHit;
+
 			    RaycastInfo raycast = DamageTool.raycast(new Ray(player.look.aim.position, player.look.aim.forward), 6f,
 				    RayMasks.DAMAGE_SERVER);
+					    
+			    OV_DamageTool.OVType = OverrideType.None;
 			    
-			    if (MiscOptions.PunchAura && !player.equipment.isSelected && OV_UseableGun.IsRaycastInvalid(raycast))
+			    if (MiscOptions.PunchAura && !player.equipment.isSelected && !(raycast.player == null && raycast.vehicle == null && raycast.zombie == null && raycast.animal == null))
 			    {
 				    if (Count % 6 == 0)
 				    {
-					    if (MiscOptions.PunchSilentAim)
-						    OV_DamageTool.OVType = OverrideType.PlayerHit;
-					    
 					    playerInputPacket.clientsideInputs.Add(raycast);
 					    instance.keys[1] = true;
-					    
-					    OV_DamageTool.OVType = OverrideType.None;
 				    }
 
 				    else

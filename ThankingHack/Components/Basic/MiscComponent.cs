@@ -85,16 +85,13 @@ namespace Thanking.Components.Basic
             });
             
             HotkeyComponent.ActionDict.Add("_ToggleTimeAcceleration", () =>
-            {
-                if (OV_PlayerInput.Step != 2)
-                    OV_PlayerInput.Step = 2;
-                
-                else
-                    OV_PlayerInput.Step = -1;   
-            });
+                                                                      {
+                                                                          OV_PlayerInput.Step =
+                                                                              OV_PlayerInput.Step != 2 ? 2 : -1;
+                                                                      });
 
             HotkeyComponent.ActionDict.Add("_ToggleTimeCharge",
-                () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 0 ? 0 : 1));
+                () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 1 ? 1 : -1));
             
             HotkeyComponent.ActionDict.Add("_InstantDisconnect", () => Provider.disconnect());
         }
@@ -189,7 +186,7 @@ namespace Thanking.Components.Basic
             }
 
             if (MiscOptions.EnableDistanceCrash)
-                foreach (SteamPlayer plr in Provider.clients.Where(p => VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
+                foreach (SteamPlayer plr in Provider.clients.Where(p => p.player != OptimizationVariables.MainPlayer && VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
                     if (!PlayerCrashThread.CrashTargets.Contains(plr.playerID.steamID))
                         PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
             
