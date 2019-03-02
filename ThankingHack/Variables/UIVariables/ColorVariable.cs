@@ -28,7 +28,7 @@ namespace Thanking.Variables.UIVariables
             this.identity = identity;
             this.name = name;
             this.color = color;
-            origColor = color;
+            this.origColor = color;
             this.disableAlpha = disableAlpha;
         }
 

@@ -17,18 +17,24 @@ namespace Thanking.Utilities
 
         public static RaycastInfo GenerateOriginalRaycast(Ray ray, float range, int mask)
         {
-            PhysicsUtility.raycast(ray, out RaycastHit hit, range, mask);
+            PhysicsUtility.raycast(ray, out RaycastHit hit, range, mask, QueryTriggerInteraction.UseGlobal);
             RaycastInfo raycastInfo = new RaycastInfo(hit) { direction = ray.direction };
 
             if (hit.transform == null) return raycastInfo;
 
-            if (hit.transform.CompareTag("Enemy"))
+            if (raycastInfo.transform.CompareTag("Barricade"))
+                raycastInfo.transform = DamageTool.getBarricadeRootTransform(raycastInfo.transform);
+
+            else if (raycastInfo.transform.CompareTag("Structure"))
+                raycastInfo.transform = DamageTool.getStructureRootTransform(raycastInfo.transform);
+
+            if (raycastInfo.transform.CompareTag("Enemy"))
                 raycastInfo.player = DamageTool.getPlayer(raycastInfo.transform);
 
-            if (hit.transform.CompareTag("Zombie"))
+            if (raycastInfo.transform.CompareTag("Zombie"))
                 raycastInfo.zombie = DamageTool.getZombie(raycastInfo.transform);
 
-            if (hit.transform.CompareTag("Animal"))
+            if (raycastInfo.transform.CompareTag("Animal"))
                 raycastInfo.animal = DamageTool.getAnimal(raycastInfo.transform);
 
             raycastInfo.limb = DamageTool.getLimb(raycastInfo.transform);
@@ -42,17 +48,13 @@ namespace Thanking.Utilities
                 raycastInfo.limb = Limbs[MathUtilities.Random.Next(0, Limbs.Length)];
             }
 
-            if (hit.transform.CompareTag("Vehicle"))
+            if (raycastInfo.transform.CompareTag("Vehicle"))
                 raycastInfo.vehicle = DamageTool.getVehicle(raycastInfo.transform);
 
-            if (RaycastOptions.UseTargetMaterial && RaycastOptions.TargetMaterial != EPhysicsMaterial.NONE)
-                raycastInfo.material = RaycastOptions.TargetMaterial;
-
-            else if (raycastInfo.zombie != null && raycastInfo.zombie.isRadioactive)
+            if (raycastInfo.zombie != null && raycastInfo.zombie.isRadioactive)
                 raycastInfo.material = EPhysicsMaterial.ALIEN_DYNAMIC;
-
             else
-                raycastInfo.material = DamageTool.getMaterial(hit.point, hit.transform, hit.collider);
+                raycastInfo.material = DamageTool.getMaterial(hit.point, raycastInfo.transform, raycastInfo.collider);
 
             return raycastInfo;
         }

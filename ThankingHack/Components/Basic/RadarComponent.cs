@@ -33,7 +33,7 @@ namespace Thanking.Components.Basic
             {
                 vew = new Rect(Screen.width - RadarOptions.RadarSize - 20, 10, RadarOptions.RadarSize + 10, RadarOptions.RadarSize + 10); //Viewport of the radar
                 GUI.color = new Color(1f, 1f, 1f, 0f);
-                //vew = GUILayout.Window(345, vew, RadarMenu, "Radar");
+                vew = GUILayout.Window(345, vew, RadarMenu, "Radar");
                 GUI.color = Color.white;
             }
         }
@@ -53,7 +53,6 @@ namespace Thanking.Components.Basic
             {
                 radarcenter.x -= localpos.x;
                 radarcenter.y += localpos.y;
-
             }
 
             Drawing.DrawRect(new Rect(realradarcenter.x, 5, 1, vew.height - 10), Color.gray);
