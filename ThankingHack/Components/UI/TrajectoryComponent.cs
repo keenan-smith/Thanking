@@ -125,8 +125,9 @@ namespace Thanking.Components.UI
         {
             hit = default;
 
-            var pos = OptimizationVariables.MainPlayer.look.aim.position;
-            var vec = OptimizationVariables.MainPlayer.look.aim.forward;
+            Transform transform = OptimizationVariables.MainPlayer.look.perspective == EPlayerPerspective.FIRST ? OptimizationVariables.MainPlayer.look.aim : OptimizationVariables.MainCam.transform;
+            var pos = transform.position;
+            var vec = transform.forward;
 
             var asset = gun.equippedGunAsset;
             float drop = asset.ballisticDrop;
