@@ -97,7 +97,7 @@ namespace Thanking.Components.UI
             GL.PushMatrix();
             GL.LoadProjectionMatrix(OptimizationVariables.MainCam.projectionMatrix);
             GL.modelview = OptimizationVariables.MainCam.worldToCameraMatrix;
-            GL.Begin(GL.LINES);
+            GL.Begin(GL.LINE_STRIP);
 
             GL.Color(outOfRange ? outOfRangeColor : inRangeColor);
 

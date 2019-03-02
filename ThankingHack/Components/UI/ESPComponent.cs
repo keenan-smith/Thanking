@@ -32,13 +32,48 @@ namespace Thanking.Components.UI
 		[Initializer]
 		public static void Initialize()
 		{
-			for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
-			{
-				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}", $"ESP - {(ESPTarget)i}", Color.red, false));
-				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}_Text", $"ESP - {(ESPTarget)i} (Text)", Color.white, false));
-				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}_Outline", $"ESP - {(ESPTarget)i} (Outline)", Color.black, false));
-				ColorUtilities.addColor(new ColorVariable($"_{(ESPTarget)i}_Glow", $"ESP - {(ESPTarget)i} (Glow)", Color.yellow, false));
-			}
+            for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
+            {
+                ESPTarget Target = (ESPTarget)i;
+
+                Color32 DefaultColor = Color.red;
+                Color32 DefaultTextColor = Color.white;
+
+                #region Default ESP Colors
+                switch (Target)
+                {
+                    case ESPTarget.Items:
+                        DefaultColor = new Color32(0, 255, 0, 255);
+                        break;
+                    case ESPTarget.Storage:
+                        DefaultColor = new Color32(0, 255, 255, 255);
+                        break;
+                    case ESPTarget.Vehicles:
+                        DefaultColor = new Color32(255, 255, 0, 255);
+                        break;
+                    case ESPTarget.Generators:
+                        DefaultColor = new Color32(255, 245, 180, 255);
+                        break;
+                    case ESPTarget.Beds:
+                        DefaultColor = new Color32(255, 170, 255, 255);
+                        break;
+                    case ESPTarget.ClaimFlags:
+                        DefaultColor = new Color32(255, 255, 255, 255);
+                        break;
+                    case ESPTarget.Sentries:
+                        DefaultColor = new Color32(220, 10, 10, 255);
+                        break;
+                    case ESPTarget.Zombies:
+                        DefaultColor = new Color32(115, 255, 110, 255);
+                        break;
+                }
+                #endregion
+
+                ColorUtilities.addColor(new ColorVariable($"_{Target}", $"ESP - {Target}", DefaultColor, false));
+                ColorUtilities.addColor(new ColorVariable($"_{Target}_Text", $"ESP - {Target} (Text)", DefaultTextColor, false));
+                ColorUtilities.addColor(new ColorVariable($"_{Target}_Outline", $"ESP - {Target} (Outline)", Color.black, false));
+                ColorUtilities.addColor(new ColorVariable($"_{Target}_Glow", $"ESP - {Target} (Glow)", Color.yellow, false));
+            }
 
 			ColorUtilities.addColor(new ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
 			ColorUtilities.addColor(new ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green, false));
