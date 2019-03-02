@@ -13,6 +13,7 @@ namespace Thanking.Options
 		
 		[Save] public static bool NoSnow = false;
 		[Save] public static bool NoRain = false;
+        [Save] public static bool NoFlinch = false;
 
 		[Save] public static bool CustomSalvageTime = false;
 		[Save] public static float SalvageTime = 1f;
@@ -48,7 +49,7 @@ namespace Thanking.Options
 		[Save] public static bool PlayerFlight = false;
 		[Save] public static float FlightSpeedMultiplier = 1;
 		
-		[Save] public static bool Freecam = false;
+		public static bool Freecam = false;
 		
 		[Save] public static HashSet<ulong> Friends = new HashSet<ulong>();
 		

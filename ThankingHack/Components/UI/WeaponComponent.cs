@@ -96,7 +96,7 @@ namespace Thanking.Components.UI
 
 				GUI.depth = 0;
 				ItemGunAsset PAsset = (ItemGunAsset) OptimizationVariables.MainPlayer.equipment.asset;
-				string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>\nPosition: {Player.player.transform.position}\nSize: {Level.size}\n RadarSize: {RadarComponent.GameToRadarPosition(Player.player.transform.position)}\n viewangles: {OptimizationVariables.MainPlayer.look.aim.forward}";
+				string text = $"<size=15>{PAsset.itemName}\nRange: {PAsset.range}</size>";
 
 				DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.MiddleLeft,
 					new Vector2(Screen.width - 20, Screen.height / 2), text,  ColorUtilities.getColor("_WeaponInfoColor"), ColorUtilities.getColor("_WeaponInfoBorder"), 1);
