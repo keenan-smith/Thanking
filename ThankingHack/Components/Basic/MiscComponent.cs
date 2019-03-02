@@ -41,7 +41,7 @@ namespace Thanking.Components.Basic
         [Initializer]
         public static void Initialize()
         {
-            HotkeyComponent.ActionDict.Add("_VFToggle", () => 
+            HotkeyComponent.ActionDict.Add("_VFToggle", () =>
                 MiscOptions.VehicleFly = !MiscOptions.VehicleFly);
 
             HotkeyComponent.ActionDict.Add("_ToggleAimbot", () =>
@@ -83,7 +83,7 @@ namespace Thanking.Components.Basic
                     }
                 }
             });
-            
+
             HotkeyComponent.ActionDict.Add("_ToggleTimeAcceleration", () =>
                                                                       {
                                                                           OV_PlayerInput.Step =
@@ -92,10 +92,10 @@ namespace Thanking.Components.Basic
 
             HotkeyComponent.ActionDict.Add("_ToggleTimeCharge",
                 () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 1 ? 1 : -1));
-            
+
             HotkeyComponent.ActionDict.Add("_InstantDisconnect", () => Provider.disconnect());
         }
-        
+
         [OnSpy]
         public static void Disable()
         {
@@ -127,11 +127,11 @@ namespace Thanking.Components.Basic
                 MiscOptions.Freecam = true;
             }
         }
-        
+
         void Start()
         {
             Instance = this;
-           
+
             Provider.onClientConnected += () =>
             {
                 if (MiscOptions.AlwaysCheckMovementVerification)
@@ -150,10 +150,10 @@ namespace Thanking.Components.Basic
 
             if (!OptimizationVariables.MainPlayer)
                 return;
-            
+
             if (!DrawUtilities.ShouldRun())
                 return;
-            
+
             Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
                 out int New);
 
@@ -163,7 +163,7 @@ namespace Thanking.Components.Basic
                 {
                     if (currentKills != -1)
                         OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
-                    
+
                     currentKills = New;
                 }
             }
@@ -189,7 +189,7 @@ namespace Thanking.Components.Basic
                 foreach (SteamPlayer plr in Provider.clients.Where(p => p.player != OptimizationVariables.MainPlayer && VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
                     if (!PlayerCrashThread.CrashTargets.Contains(plr.playerID.steamID))
                         PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
-            
+
             if (OptimizationVariables.MainPlayer.life.isDead)
                 LastDeath = OptimizationVariables.MainPlayer.transform.position;
 
@@ -204,9 +204,9 @@ namespace Thanking.Components.Basic
                             if (FriendUtilities.IsFriendly(player.player))
                                 continue;
 
-                            if (!player.playerID.characterName.ToLower().Contains(word.ToLower())) 
+                            if (!player.playerID.characterName.ToLower().Contains(word.ToLower()))
                                 continue;
-                            
+
                             PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
                             break;
                         }
@@ -219,17 +219,23 @@ namespace Thanking.Components.Basic
                     {
                         foreach (SteamPlayer player in Provider.clients)
                         {
-                            if (FriendUtilities.IsFriendly(player.player)) 
+                            if (FriendUtilities.IsFriendly(player.player))
                                 continue;
 
-                            if (player.playerID.steamID.ToString() != id) 
+                            if (player.playerID.steamID.ToString() != id)
                                 continue;
-                            
+
                             PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
                             break;
                         }
                     }
                 }
+            }
+
+            if (MiscOptions.NoFlinch)
+            {
+                PlayerLifeUI.painImage.backgroundColor = new Color(0, 0, 0, 0);
+                typeof(PlayerUI).GetField("stunColor", BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, new Color(0, 0, 0, 0));
             }
         }
 
@@ -349,13 +355,14 @@ namespace Thanking.Components.Basic
                 yield break;
 
             LastMovementCheck = Time.realtimeSinceStartup;
-
-            Vector3 NewPos = LastPos + new Vector3(0, -1337, 0);
-            OptimizationVariables.MainPlayer.transform.position = NewPos;
+            OptimizationVariables.MainPlayer.transform.position = new Vector3(0, -1337, 0);
             yield return new WaitForSeconds(3);
 
-            if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, NewPos) > 100)
+            DebugUtilities.Log(VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, LastPos));
+            if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, LastPos) < 10)
+            {
                 MiscOptions.NoMovementVerification = false;
+            }
             else
             {
                 MiscOptions.NoMovementVerification = true;
