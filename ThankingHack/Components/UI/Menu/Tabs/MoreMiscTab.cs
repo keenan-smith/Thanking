@@ -154,14 +154,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 
                 MiscOptions.CrashDistance = (float) Math.Round(Prefab.Slider(0, 500, MiscOptions.CrashDistance, 200), 2);
                 
-                GUILayout.Space(2);
-                Prefab.Toggle("Crash By String/ID", ref MiscOptions.CrashByName);
-                if (MiscOptions.CrashByName)
-                {
-                    GUILayout.Space(2);
-                    MiscOptions.NearbyItemDistance = (float)Math.Round(Prefab.Slider(0, 20, MiscOptions.NearbyItemDistance, 200), 2);
-                }
-                
                 GUILayout.Space(5);
                 Prefab.Toggle("Pickup Through Walls", ref MiscOptions.NearbyItemRaycast);
                 

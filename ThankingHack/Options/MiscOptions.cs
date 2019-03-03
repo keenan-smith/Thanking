@@ -14,6 +14,7 @@ namespace Thanking.Options
 		[Save] public static bool NoSnow = false;
 		[Save] public static bool NoRain = false;
         [Save] public static bool NoFlinch = false;
+        [Save] public static bool NoGrayscale = false;
 
 		[Save] public static bool CustomSalvageTime = false;
 		[Save] public static float SalvageTime = 1f;
