@@ -231,12 +231,6 @@ namespace Thanking.Components.Basic
                     }
                 }
             }
-
-            if (MiscOptions.NoFlinch)
-            {
-                PlayerLifeUI.painImage.backgroundColor = new Color(0, 0, 0, 0);
-                typeof(PlayerUI).GetField("stunColor", BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, new Color(0, 0, 0, 0));
-            }
         }
 
         public void FixedUpdate()
@@ -358,7 +352,7 @@ namespace Thanking.Components.Basic
             OptimizationVariables.MainPlayer.transform.position = new Vector3(0, -1337, 0);
             yield return new WaitForSeconds(3);
 
-            DebugUtilities.Log(VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, LastPos));
+            //DebugUtilities.Log(VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, LastPos));
             if (VectorUtilities.GetDistance(OptimizationVariables.MainPlayer.transform.position, LastPos) < 10)
             {
                 MiscOptions.NoMovementVerification = false;

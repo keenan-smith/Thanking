@@ -211,6 +211,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("No Rain", ref MiscOptions.NoRain);
                 Prefab.Toggle("No Snow", ref MiscOptions.NoSnow);
                 Prefab.Toggle("No Flinch", ref MiscOptions.NoFlinch);
+                Prefab.Toggle("No Grayscale", ref MiscOptions.NoGrayscale);
                 Prefab.Toggle("Night Vision", ref MiscOptions.NightVision);
                 Prefab.Toggle("Compass", ref MiscOptions.Compass);
                 Prefab.Toggle("GPS", ref MiscOptions.GPS);
