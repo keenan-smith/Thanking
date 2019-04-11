@@ -1,4 +1,5 @@
 ﻿using SDG.Unturned;
+using Thanking.Components.UI.Menu;
 using Thanking.Misc.Classes.ESP;
 using Thanking.Misc.Enums;
 using Thanking.Variables;
@@ -355,5 +356,16 @@ namespace Thanking.Utilities
 			GL.End();
 			GL.PopMatrix();
 		}
+
+        public static void DrawMenuRect(float x, float y, float width, float height, Color fillcolor)
+        {
+            Color bordercolor = Color.black;
+
+            Drawing.DrawRect(new Rect(x, y, width, 5), bordercolor); // top line
+            Drawing.DrawRect(new Rect(x, y, 5, height), bordercolor);
+            Drawing.DrawRect(new Rect(x, y + (height - 5), width, 5), bordercolor);
+            Drawing.DrawRect(new Rect(x + (width - 5), 0, 5, height), bordercolor);
+            Drawing.DrawRect(new Rect(5, 5, width - 10, height - 10), fillcolor); //bg
+        }
 	}
 }

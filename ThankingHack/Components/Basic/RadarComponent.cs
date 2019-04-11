@@ -11,6 +11,7 @@ namespace Thanking.Components.Basic
     [Component]
     public class RadarComponent : MonoBehaviour
     {
+        public static Rect veww;
         public static Rect vew = new Rect(Screen.width - RadarOptions.RadarSize - 20, 10, RadarOptions.RadarSize + 10, RadarOptions.RadarSize + 10); //Viewport of the mirror camera
         public static Vector2 radarcenter;
 
@@ -31,23 +32,25 @@ namespace Thanking.Components.Basic
         {
             if (RadarOptions.Enabled && Provider.isConnected && !Provider.isLoading)
             {
-                vew = new Rect(Screen.width - RadarOptions.RadarSize - 20, 10, RadarOptions.RadarSize + 10, RadarOptions.RadarSize + 10); //Viewport of the radar
+                vew.width = vew.height = RadarOptions.RadarSize + 10;
+
                 GUI.color = new Color(1f, 1f, 1f, 0f);
-                vew = GUILayout.Window(345, vew, RadarMenu, "Radar");
+                veww = GUILayout.Window(345, vew, RadarMenu, "Radar");
+                vew.x = veww.x;
+                vew.y = veww.y;
                 GUI.color = Color.white;
             }
         }
 
         void RadarMenu(int windowID)
         {
-            GUILayout.FlexibleSpace();
-            Drawing.DrawRect(new Rect(0, 0, vew.width, 5), Color.black);
-            Drawing.DrawRect(new Rect(0, 0, 5, vew.height), Color.black);
-            Drawing.DrawRect(new Rect(0, 0 + (vew.height - 5), vew.width, 5), Color.black);
-            Drawing.DrawRect(new Rect(0 + (vew.width - 5), 0, 5, vew.height), Color.black);
-            Drawing.DrawRect(new Rect(5, 5, vew.width - 10, vew.height - 10), new Color32(64, 64, 64, 255)); //bg
-            Vector2 realradarcenter = new Vector2((vew.width - 5) / 2, (vew.height - 5) / 2);
-            radarcenter = new Vector2((vew.width - 5) / 2, (vew.height - 5) / 2);
+            Drawing.DrawRect(new Rect(0, 0, vew.width, 20), new Color32(44, 44, 44, 255));
+            Drawing.DrawRect(new Rect(0, 20, vew.width, 5), new Color32(34, 34, 34, 255));
+            Drawing.DrawRect(new Rect(0, 25, vew.width, vew.height + 25), new Color32(64, 64, 64, 255)); //bg
+            GUILayout.Space(-19);
+            GUILayout.Label("Radar");
+            Vector2 realradarcenter = new Vector2((vew.width) / 2, (vew.height + 25) / 2);
+            radarcenter = new Vector2((vew.width) / 2, (vew.height + 25) / 2);
             Vector2 localpos = GameToRadarPosition(Player.player.transform.position);
             if (RadarOptions.TrackPlayer)
             {
@@ -55,8 +58,8 @@ namespace Thanking.Components.Basic
                 radarcenter.y += localpos.y;
             }
 
-            Drawing.DrawRect(new Rect(realradarcenter.x, 5, 1, vew.height - 10), Color.gray);
-            Drawing.DrawRect(new Rect(5, realradarcenter.y, vew.width - 10, 1), Color.gray);
+            Drawing.DrawRect(new Rect(realradarcenter.x, 25, 1, vew.height), Color.gray);
+            Drawing.DrawRect(new Rect(0, realradarcenter.y, vew.width, 1), Color.gray);
             #region localplayer
             DrawRadarDot(new Vector2(radarcenter.x + localpos.x, radarcenter.y - localpos.y), Color.black, 4);
             DrawRadarDot(new Vector2(radarcenter.x + localpos.x, radarcenter.y - localpos.y), Color.white, 3);

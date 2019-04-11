@@ -76,25 +76,20 @@ namespace Thanking.Components.Basic
                 subCam.depth = 99;
                 DontDestroyOnLoad(cam_obj);
             }
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            GUILayout.Label("Mirror Camera");
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
 
             float x, y, w, h;
-            x = (viewport.x + 5) / Screen.width;
-            y = (viewport.y + 5) / Screen.height;
-            w = (viewport.width - 10) / Screen.width;
-            h = (viewport.height - 10) / Screen.height;
+            x = (viewport.x) / Screen.width;
+            y = (viewport.y + 25) / Screen.height;
+            w = (viewport.width) / Screen.width;
+            h = (viewport.height) / Screen.height;
             y = 1 - y;
             y -= h;
             subCam.rect = new Rect(x, y, w, h);
 
-            Drawing.DrawRect(new Rect(0, 0, viewport.width, 5), Color.black);
-            Drawing.DrawRect(new Rect(0, 0, 5, viewport.height), Color.black);
-            Drawing.DrawRect(new Rect(0, 0 + (viewport.height - 5), viewport.width, 5), Color.black);
-            Drawing.DrawRect(new Rect(0 + (viewport.width - 5), 0, 5, viewport.height), Color.black);
+            Drawing.DrawRect(new Rect(0, 0, viewport.width, 20), new Color32(44, 44, 44, 255));
+            Drawing.DrawRect(new Rect(0, 20, viewport.width, 5), new Color32(34, 34, 34, 255));
+            GUILayout.Space(-19);
+            GUILayout.Label("Mirror Camera");
 
             GUI.DragWindow();
         }
