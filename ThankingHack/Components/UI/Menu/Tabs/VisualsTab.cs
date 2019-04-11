@@ -184,6 +184,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                     }
                 });
 
+                Prefab.Toggle("Show Vanish Players", ref ESPOptions.ShowVanishPlayers);
                 Prefab.Toggle("Mirror Camera", ref MirrorCameraOptions.Enabled);
                 GUILayout.Space(5);
                 if (Prefab.Button("Fix Camera", 100))
