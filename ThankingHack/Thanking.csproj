@@ -288,6 +288,7 @@
     <Compile Include="Components\Basic\AimbotComponent.cs" />
     <Compile Include="Components\Basic\HotkeyComponent.cs" />
     <Compile Include="Components\Basic\MainThreadDispatcherComponent.cs" />
+    <Compile Include="Components\Basic\PlayerCamComponent.cs" />
     <Compile Include="Components\Basic\MirrorCameraComponent.cs" />
     <Compile Include="Components\Basic\CoroutineComponent.cs" />
     <Compile Include="Components\Basic\ItemsComponent.cs" />

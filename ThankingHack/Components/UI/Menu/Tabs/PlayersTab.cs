@@ -79,8 +79,14 @@ namespace Thanking.Components.UI.Menu.Tabs
                         FriendUtilities.AddFriend(SelectedPlayer);
                 }
 
-                if (Prefab.Button("Crash Player", 150))
-                    PlayerCrashThread.CrashTarget = steamId;
+                if (PlayerCrashThread.CrashTarget != steamId)
+                {
+                    if (Prefab.Button("Crash Player", 150))
+                        PlayerCrashThread.CrashTarget = steamId;
+                }
+                else
+                    if (Prefab.Button("Stop Crashing", 150))
+                        PlayerCrashThread.CrashTarget = CSteamID.Nil;
                 
                 if (!PlayerCrashThread.CrashTargets.Contains(steamId))
                 {
@@ -93,17 +99,25 @@ namespace Thanking.Components.UI.Menu.Tabs
                         PlayerCrashThread.CrashTargets.Remove(steamId);
                 }
 
-                if (PlayerCrashThread.CrashTarget == steamId)
-                    if (Prefab.Button("Stop Crashing", 150))
-                        PlayerCrashThread.CrashTarget = CSteamID.Nil;
-
-                if (Prefab.Button("Spectate", 150))
-                    MiscOptions.SpectatedPlayer = SelectedPlayer;
-
-                if (MiscOptions.SpectatedPlayer != null && MiscOptions.SpectatedPlayer == SelectedPlayer)
+                if (MiscOptions.SpectatedPlayer != SelectedPlayer)
+                {
+                    if (Prefab.Button("Spectate", 150))
+                        MiscOptions.SpectatedPlayer = SelectedPlayer;
+                }
+                else if (MiscOptions.SpectatedPlayer != null && MiscOptions.SpectatedPlayer == SelectedPlayer)
                     if (Prefab.Button("End Spectating", 150))
                         MiscOptions.SpectatedPlayer = null;
-                
+
+                if (MiscOptions.CamPlayer != SelectedPlayer)
+                {
+                    if (Prefab.Button("Player Cam", 150))
+                        MiscOptions.CamPlayer = SelectedPlayer;
+                }
+                else if (MiscOptions.CamPlayer != null && MiscOptions.CamPlayer == SelectedPlayer)
+                    if (Prefab.Button("Remove Cam", 150))
+                        MiscOptions.CamPlayer = null;
+
+
                 if (MiscOptions.NoMovementVerification)
                     if (Prefab.Button("Teleport to player", 150))
                         OptimizationVariables.MainPlayer.transform.position = SelectedPlayer.transform.position;
