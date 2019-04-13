@@ -391,6 +391,7 @@
     <Compile Include="Utilities\HWIDUtilities.cs" />
     <Compile Include="Utilities\ItemUtilities.cs" />
     <Compile Include="Utilities\LocationUtilities.cs" />
+    <Compile Include="Utilities\NotificationUtilities.cs" />
     <Compile Include="Utilities\SkinsUtilities.cs" />
     <Compile Include="Variables\Hotkey.cs" />
     <Compile Include="Variables\OptimizationVariables.cs" />

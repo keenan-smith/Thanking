@@ -190,23 +190,8 @@ namespace Thanking.Coroutines
 				}
 			}
 
-			if (MiscOptions.AlertOnSpy)
-				OptimizationVariables.MainPlayer.StartCoroutine(ScreenShotMessageCoroutine());
-		}
-		
-		public static IEnumerator ScreenShotMessageCoroutine()
-		{
-			var started = Time.realtimeSinceStartup;
-			while (true)
-			{
-				yield return new WaitForEndOfFrame();
-
-				if (!IsSpying)
-					PlayerUI.hint(null, EPlayerMessage.INTERACT, "BOO, YOU JUST GOT SCREENSHOTTED", Color.red);
-
-				if (Time.realtimeSinceStartup - started > 3)
-					yield break;
-			}
+            if (MiscOptions.AlertOnSpy)
+                NotificationUtilities.DisplayNotification(EPlayerMessage.INTERACT, "Warning! Your game client was spied.", Color.red, 3);
 		}
 
 		public static void DisableAllVisuals()

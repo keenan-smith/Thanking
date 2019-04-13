@@ -1,4 +1,5 @@
 ﻿using SDG.Unturned;
+using Thanking.Variables;
 using UnityEngine;
 
 namespace Thanking.Components.UI.Menu.Tabs
@@ -20,7 +21,11 @@ namespace Thanking.Components.UI.Menu.Tabs
 					GUILayout.Label("Current Server SteamID: ", Prefab._TextStyle);
 					GUILayout.Space(2);
 					GUILayout.TextField($"{Provider.server}", Prefab._TextStyle);
-					GUILayout.Space(8);
+                    GUILayout.Space(2);
+                    GUILayout.TextField($"Pitch: {OptimizationVariables.MainPlayer.look.pitch}", Prefab._TextStyle);
+                    GUILayout.Space(2);
+                    GUILayout.TextField($"Yaw: {OptimizationVariables.MainPlayer.look.yaw}", Prefab._TextStyle);
+                    GUILayout.Space(8);
 				}
 
 				GUILayout.Label("Contributors: zoomy500, ic3w0lf, DefCon42, Kr4ken, Coopyy :],", Prefab._TextStyle);

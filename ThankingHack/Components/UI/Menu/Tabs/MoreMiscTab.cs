@@ -78,6 +78,25 @@ namespace Thanking.Components.UI.Menu.Tabs
                 if (Prefab.Button("Clear Auto Crasher", 200))
                     PlayerCrashThread.CrashTargets.Clear();
 
+                GUILayout.Space(5);
+                Prefab.Toggle("Spinbot", ref MiscOptions.Spinbot);
+
+                if (MiscOptions.Spinbot)
+                {
+                    GUILayout.Space(2);
+                    Prefab.Toggle("Static Pitch", ref MiscOptions.StaticSpinbotPitch);
+                    GUILayout.Space(2);
+                    GUILayout.Label($"Spinbot Pitch {(!MiscOptions.StaticSpinbotPitch ? "Incr." : "")}: " + MiscOptions.SpinbotPitch, Prefab._TextStyle);
+                    GUILayout.Space(2);
+                    MiscOptions.SpinbotPitch = Prefab.Slider(0, 180, MiscOptions.SpinbotPitch, 200);
+                    GUILayout.Space(2);
+                    Prefab.Toggle("Static Yaw", ref MiscOptions.StaticSpinbotYaw);
+                    GUILayout.Space(2);
+                    GUILayout.Label($"Spinbot Yaw {(!MiscOptions.StaticSpinbotYaw ? "Incr." : "")}: " + MiscOptions.SpinbotYaw, Prefab._TextStyle);
+                    GUILayout.Space(2);
+                    MiscOptions.SpinbotYaw = Prefab.Slider(0, 360, MiscOptions.SpinbotYaw, 200);
+                }
+
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical();
 
