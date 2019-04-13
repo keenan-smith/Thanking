@@ -282,85 +282,42 @@ namespace Thanking.Overrides
 			  
 			player.equipment.tock(Clock++);
 
-		    if (Count % Rate == Rate - 1 && Packets.Count > 0)
-		    {
-			    //while (Packets.Count > 5)
-			    //{
-				//    PlayerInputPacket last = Packets.Last();
-				//    
-				//    Packets.Remove(last);
-				//    WaitingPackets.Enqueue(last);
-			    //}
-//
-			    //while (Packets.Count < 5 && WaitingPackets.Count > 0)
-				//    Packets.Add(WaitingPackets.Dequeue());
-			    
-			    /*foreach (PlayerInputPacket inp in Packets.ToList())
-			    {
-				    if (LastPacket != null)
-				    {
-					    if (inp.clientsideInputs.Count == 0 &&
-					        LastPacket.clientsideInputs.Count == 0 &&
-					        inp is WalkingPlayerInputPacket packet &&
-					        LastPacket is WalkingPlayerInputPacket lPacket)
-					    {
-						    if (packet.analog == lPacket.analog &&
-						        Mathf.Abs(packet.pitch - lPacket.pitch) < 0.01f &&
-						        Mathf.Abs(packet.yaw - lPacket.yaw) < 0.01f &&
-						        VectorUtilities.GetDistance(packet.position, lPacket.position) < 0.001f &&
-						        packet.keys == lPacket.keys &&
-						        packet.sequence != lPacket.sequence &&
-						        Time.realtimeSinceStartup - LastReal < 8)
-						    {
-							    SequenceDiff++;
-							    Packets.Remove(inp);
-							    
-							    continue;
-						    }
-					    }
-				    }
-				    
-				    LastReal = Time.realtimeSinceStartup;
-				    LastPacket = inp;
-			    }*/
-			    
-			    if (Packets.Count > 0)
-			    {
-				    instance.channel.openWrite();
-				    instance.channel.write((byte) Packets.Count);
+			if (Count % 4 == 0 && Packets.Count > 0)
+			{
+				instance.channel.openWrite();
+				instance.channel.write((byte) Packets.Count);
 
-				    foreach (PlayerInputPacket inp in Packets)
-				    {
-					    instance.channel.write((byte) (inp is DrivingPlayerInputPacket ? 1 : 0));
-					    inp.write(instance.channel);
-				    }
-			    
-				    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
-				    
-				    Packets.Clear();
-				    ClientSequence = LastPacket?.sequence ?? ClientSequence;
-			    }
-		    }
+				foreach (PlayerInputPacket inp in Packets)
+				{
+					instance.channel.write((byte) (inp is DrivingPlayerInputPacket ? 1 : 0));
+					inp.write(instance.channel);
+				}
 
-		    /*
-		    SBuffer++;
-		    if (SBuffer > 3)
-			    SBuffer = 0;
-		    
-		    if (Step == 2 && SBuffer % 4 == 0 && FakePakets.Count > 0)
-		    {
-			    instance.channel.openWrite();
-			    instance.channel.write((byte) FakePakets.Count); // one packet
-			    
-			    foreach (var packet in FakePakets)
-			    {
-				    instance.channel.write((byte) 0); // walking player input packet
-				    packet.write(instance.channel);
-			    }
+				instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
+
+				Packets.Clear();
+				ClientSequence = LastPacket?.sequence ?? ClientSequence;
+			}
+
+			/*
+			SBuffer++;
+			if (SBuffer > 3)
+				SBuffer = 0;
+			
+			if (Step == 2 && SBuffer % 4 == 0 && FakePakets.Count > 0)
+			{
+				instance.channel.openWrite();
+				instance.channel.write((byte) FakePakets.Count); // one packet
+				
+				foreach (var packet in FakePakets)
+				{
+					instance.channel.write((byte) 0); // walking player input packet
+					packet.write(instance.channel);
+				}
 			   
-			    instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
-			    FakePakets.Clear();
-		    }*/
+				instance.channel.closeWrite("askInput", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_CHUNK_INSTANT);
+				FakePakets.Clear();
+			}*/
 	    }
 
 	    [Override(typeof(PlayerInput), "Start", BindingFlags.NonPublic | BindingFlags.Instance)]
