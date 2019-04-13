@@ -84,5 +84,11 @@ namespace Thanking.Options
 
         [Save] public static bool MessageOnKill;
         [Save] public static string KillMessage;
+
+        [Save] public static bool Spinbot;
+        [Save] public static bool StaticSpinbotYaw;
+        [Save] public static float SpinbotYaw;
+        [Save] public static bool StaticSpinbotPitch;
+        [Save] public static float SpinbotPitch;
     }
 }

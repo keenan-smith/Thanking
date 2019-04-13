@@ -37,8 +37,17 @@ namespace Thanking.Overrides
 	    public static float LastReal;
 
 	    public static bool Run;
-	    
-	    public static FieldInfo SimField = 
+
+        public static FieldInfo inputXField =
+            typeof(PlayerMovement).GetField("input_x", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        public static FieldInfo inputYField =
+            typeof(PlayerMovement).GetField("input_y", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        public static int GetInputX(PlayerMovement movement) => (int)inputXField.GetValue(movement);
+        public static int GetInputY(PlayerMovement movement) => (int)inputYField.GetValue(movement);
+
+        public static FieldInfo SimField = 
 		    typeof(PlayerInput).GetField("_simulation", BindingFlags.NonPublic | BindingFlags.Instance);
 	    
 	    public static FieldInfo ClockField = 
@@ -69,7 +78,28 @@ namespace Thanking.Overrides
 	    
 	    private static Vector3 lastSentPositon = Vector3.zero;
 
-	    [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
+        private static readonly EPlayerStance[] spinStances = new EPlayerStance[]{ EPlayerStance.SPRINT, EPlayerStance.STAND, EPlayerStance.CROUCH, EPlayerStance.PRONE };
+        private static float spinbotYaw;
+        private static float spinbotPitch;
+
+        private static float NextSpinbotYaw(float increment)
+        {
+            spinbotYaw += increment;
+            if (spinbotYaw >= 360F)
+                spinbotYaw -= 360F;
+            return spinbotYaw;
+        }
+
+        private static float NextSpinbotPitch(float increment)
+        {
+            spinbotPitch += increment;
+            if (spinbotPitch > 180F)
+                spinbotPitch -= 180F;
+
+            return spinbotPitch;
+        }
+
+        [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
 	    public static void OV_sendRaycast(PlayerInput instance, RaycastInfo info)
 	    {
 		    if (Packets.Count > 0)
@@ -267,9 +297,25 @@ namespace Thanking.Overrides
 				    WalkingPlayerInputPacket walkingPlayerInputPacket = playerInputPacket as WalkingPlayerInputPacket;
 				    
 				    walkingPlayerInputPacket.analog = Analog;
-				    walkingPlayerInputPacket.position = instance.transform.localPosition;
-				    walkingPlayerInputPacket.yaw = Yaw;
-				    walkingPlayerInputPacket.pitch = Pitch;
+
+                    walkingPlayerInputPacket.position = instance.transform.localPosition;
+
+
+                    if (MiscOptions.Spinbot && spinStances.Contains(OptimizationVariables.MainPlayer.stance.stance))
+                    {
+                        // Ghetto movement fix
+                        if ((GetInputX(OptimizationVariables.MainPlayer.movement) == 0 && GetInputY(OptimizationVariables.MainPlayer.movement) == 0))
+                            walkingPlayerInputPacket.yaw = MiscOptions.StaticSpinbotYaw ? MiscOptions.SpinbotYaw : NextSpinbotYaw(MiscOptions.SpinbotYaw);
+                        else
+                            walkingPlayerInputPacket.yaw = Yaw;
+
+                        walkingPlayerInputPacket.pitch = MiscOptions.StaticSpinbotPitch ? MiscOptions.SpinbotPitch : NextSpinbotPitch(MiscOptions.SpinbotPitch);
+                    }
+                    else
+                    {
+                        walkingPlayerInputPacket.yaw = Yaw;
+                        walkingPlayerInputPacket.pitch = Pitch;
+                    }
 			    }
 			    
 			    Packets.Add(playerInputPacket);
