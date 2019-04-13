@@ -81,6 +81,7 @@ namespace Thanking.Overrides
         private static readonly EPlayerStance[] spinStances = new EPlayerStance[]{ EPlayerStance.SPRINT, EPlayerStance.STAND, EPlayerStance.CROUCH, EPlayerStance.PRONE };
         private static float spinbotYaw;
         private static float spinbotPitch;
+        private static bool walkSpin;
 
         private static float NextSpinbotYaw(float increment)
         {
@@ -97,6 +98,14 @@ namespace Thanking.Overrides
                 spinbotPitch -= 180F;
 
             return spinbotPitch;
+        }
+
+        private static float ReverseAngle180(float angle)
+        {
+            angle += 180;
+            if (angle >= 360)
+                angle -= 360;
+            return angle;
         }
 
         [Override(typeof(PlayerInput), "sendRaycast", BindingFlags.Public | BindingFlags.Instance)]
@@ -300,14 +309,34 @@ namespace Thanking.Overrides
 
                     walkingPlayerInputPacket.position = instance.transform.localPosition;
 
+                    var inputX = GetInputX(OptimizationVariables.MainPlayer.movement);
+                    var inputY = GetInputY(OptimizationVariables.MainPlayer.movement);
 
                     if (MiscOptions.Spinbot && spinStances.Contains(OptimizationVariables.MainPlayer.stance.stance))
                     {
                         // Ghetto movement fix
-                        if ((GetInputX(OptimizationVariables.MainPlayer.movement) == 0 && GetInputY(OptimizationVariables.MainPlayer.movement) == 0))
+                        if (inputX == 0 && inputY == 0)
                             walkingPlayerInputPacket.yaw = MiscOptions.StaticSpinbotYaw ? MiscOptions.SpinbotYaw : NextSpinbotYaw(MiscOptions.SpinbotYaw);
                         else
-                            walkingPlayerInputPacket.yaw = Yaw;
+                        {
+                            // use walkSpin bool to phase between actual angle and inverted angle to spin while walking
+                            // and have fixed movement; only way we can do it with the d-pad like controls.
+                            if (!walkSpin)
+                            {
+                                // Flip x/y input to account for reversed yaw (where intended movement direction will be reversed)
+                                inputY *= -1;
+                                inputX *= -1;
+                                // Reverse yaw to spin while moving
+                                walkingPlayerInputPacket.yaw = ReverseAngle180(Yaw);
+                                walkingPlayerInputPacket.analog = (byte)(((byte)(inputX + 1)) << 4 | (byte)(inputY + 1));
+                                walkSpin = true;
+                            }
+                            else
+                            {
+                                walkingPlayerInputPacket.yaw = Yaw;
+                                walkSpin = false;
+                            }
+                        }
 
                         walkingPlayerInputPacket.pitch = MiscOptions.StaticSpinbotPitch ? MiscOptions.SpinbotPitch : NextSpinbotPitch(MiscOptions.SpinbotPitch);
                     }
