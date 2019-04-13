@@ -50,6 +50,7 @@ namespace Thanking.Utilities
             AddHotkey("Misc", "Toggle Freecam", "_ToggleFreecam", KeyCode.Keypad2);
             AddHotkey("Misc", "Select Player", "_SelectPlayer", KeyCode.LeftAlt);
             AddHotkey("Misc", "Instant Disconnect", "_InstantDisconnect", KeyCode.F5);
+            AddHotkey("Misc", "Zoom", "_Zoom", KeyCode.F);
         }
         
         public static void AddHotkey(string Group, string Name, string Identifier, params KeyCode[] DefaultKeys)

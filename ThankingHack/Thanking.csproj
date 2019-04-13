@@ -376,6 +376,7 @@
     <Compile Include="Overrides\OV_PlayerInput.cs" />
     <Compile Include="Overrides\OV_PlayerLifeUI.cs" />
     <Compile Include="Overrides\OV_PlayerLook.cs" />
+    <Compile Include="Overrides\OV_PlayerVoice.cs" />
     <Compile Include="Overrides\OV_UseableMelee.cs" />
     <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
