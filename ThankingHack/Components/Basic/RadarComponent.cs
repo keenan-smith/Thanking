@@ -1,4 +1,5 @@
 ﻿using SDG.Unturned;
+using System;
 using Thanking.Attributes;
 using Thanking.Components.UI.Menu;
 using Thanking.Options.VisualOptions;
@@ -52,7 +53,7 @@ namespace Thanking.Components.Basic
             Vector2 realradarcenter = new Vector2((vew.width) / 2, (vew.height + 25) / 2);
             radarcenter = new Vector2((vew.width) / 2, (vew.height + 25) / 2);
             Vector2 localpos = GameToRadarPosition(Player.player.transform.position);
-            if (RadarOptions.TrackPlayer)
+            if (RadarOptions.type == 2 || RadarOptions.type == 3)
             {
                 radarcenter.x -= localpos.x;
                 radarcenter.y += localpos.y;
@@ -60,9 +61,45 @@ namespace Thanking.Components.Basic
 
             Drawing.DrawRect(new Rect(realradarcenter.x, 25, 1, vew.height), Color.gray);
             Drawing.DrawRect(new Rect(0, realradarcenter.y, vew.width, 1), Color.gray);
+
             #region localplayer
-            DrawRadarDot(new Vector2(radarcenter.x + localpos.x, radarcenter.y - localpos.y), Color.black, 4);
-            DrawRadarDot(new Vector2(radarcenter.x + localpos.x, radarcenter.y - localpos.y), Color.white, 3);
+            Vector2 top = new Vector2(realradarcenter.x, realradarcenter.y - 10);
+            Vector2 left = new Vector2(realradarcenter.x + 5, realradarcenter.y + 5);
+            Vector2 right = new Vector2(realradarcenter.x - 5, realradarcenter.y + 5);
+
+            if (RadarOptions.type == 2)
+            {
+                top = RotatePoint(top, realradarcenter, Math.Round(MainCamera.instance.transform.eulerAngles.y, 2));
+                left = RotatePoint(left, realradarcenter, Math.Round(MainCamera.instance.transform.eulerAngles.y, 2));
+                right = RotatePoint(right, realradarcenter, Math.Round(MainCamera.instance.transform.eulerAngles.y, 2));
+                DrawLine(top, left, Color.white, 1);
+                DrawLine(left, right, Color.white, 1);
+                DrawLine(right, top, Color.white, 1);
+            }
+
+            if (RadarOptions.type == 3)
+            {
+                DrawLine(top, left, Color.white, 1);
+                DrawLine(left, right, Color.white, 1);
+                DrawLine(right, top, Color.white, 1);
+            }
+
+            if (RadarOptions.type == 1)
+            {
+
+                Vector2 pos = new Vector2(radarcenter.x + localpos.x, radarcenter.y - localpos.y);
+                Vector2 t = new Vector2(pos.x, pos.y - 10);
+                Vector2 l = new Vector2(pos.x + 5, pos.y + 5);
+                Vector2 r = new Vector2(pos.x - 5, pos.y + 5);
+                t = RotatePoint(t, pos, Math.Round(MainCamera.instance.transform.eulerAngles.y, 2));
+                l = RotatePoint(l, pos, Math.Round(MainCamera.instance.transform.eulerAngles.y, 2));
+                r = RotatePoint(r, pos, Math.Round(MainCamera.instance.transform.eulerAngles.y, 2));
+                DrawLine(t, l, Color.white, 1);
+                DrawLine(l, r, Color.white, 1);
+                DrawLine(r, t, Color.white, 1);
+            }
+
+
 
             #endregion
             #region Vehicles
@@ -118,12 +155,46 @@ namespace Thanking.Components.Basic
             Drawing.DrawRect(new Rect(pos.x - size, pos.y - size, size * 2, size * 2), color);
         }
 
-        public static Vector2 GameToRadarPosition(Vector3 pos)
+        public Vector2 GameToRadarPosition(Vector3 pos)
         {
             Vector2 endpos;
             endpos.x = pos.x / (Level.size / (RadarOptions.RadarZoom * RadarOptions.RadarSize));
             endpos.y = pos.z / (Level.size / (RadarOptions.RadarZoom * RadarOptions.RadarSize));
+
+            if (RadarOptions.type == 3)
+            {
+                Vector2 newpoints = RotatePoint(endpos, new Vector2((vew.width) / 2, (vew.height + 25) / 2), Math.Round(MainCamera.instance.transform.eulerAngles.y, 2));
+                return newpoints;
+            }
+
             return endpos;
+        }
+
+        static Texture2D lineTex;
+        public static void DrawLine(Vector2 pointA, Vector2 pointB, Color color, float width)
+        {
+            var matrix = GUI.matrix;
+            if (!lineTex)
+            {
+                lineTex = new Texture2D(1, 1);
+                lineTex.SetPixel(0, 0, Color.white);
+                lineTex.Apply();
+            }
+            var savedColor = GUI.color;
+            GUI.color = color;
+            var angle = Vector2.Angle(pointB - pointA, Vector2.right);
+            if (pointA.y > pointB.y) { angle = -angle; }
+            GUIUtility.RotateAroundPivot(angle, pointA);
+            GUI.DrawTexture(new Rect(pointA.x, pointA.y, (pointB - pointA).magnitude, width), lineTex);
+            GUI.matrix = matrix;
+            GUI.color = savedColor;
+        }
+        public static Vector2 RotatePoint(Vector2 pointToRotate, Vector2 centerPoint, double angleInDegrees)
+        {
+            double angleInRadians = angleInDegrees * (Math.PI / 180);
+            double cosTheta = Math.Cos(angleInRadians);
+            double sinTheta = Math.Sin(angleInRadians);
+            return new Vector2((int)(cosTheta * (pointToRotate.x - centerPoint.x) - sinTheta * (pointToRotate.y - centerPoint.y) + centerPoint.x), (int)(sinTheta * (pointToRotate.x - centerPoint.x) + cosTheta * (pointToRotate.y - centerPoint.y) + centerPoint.y));
         }
     }
 }

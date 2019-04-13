@@ -6,6 +6,7 @@ using Thanking.Options;
 using Thanking.Options.VisualOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
+using Thanking.Variables.UIVariables;
 using Thnkng;
 using UnityEngine;
 
@@ -168,7 +169,26 @@ namespace Thanking.Components.UI.Menu.Tabs
                     Prefab.Toggle("2D Radar", ref RadarOptions.Enabled);
                     if (RadarOptions.Enabled)
                     {
-                        Prefab.Toggle("Track Player", ref RadarOptions.TrackPlayer);
+                        GUIContent[] RadarTypes =
+                        {
+                            new GUIContent("Global"),
+                            new GUIContent("Static Local"),
+                            new GUIContent("Dynamic Local")
+                        };
+                        GUILayout.Space(5);
+                        string type = "";
+                        if (RadarOptions.type == 1)
+                            type = "Global";
+                        if (RadarOptions.type == 2)
+                            type = "Static Local";
+                        if (RadarOptions.type == 3)
+                            type = "Dynamic Local";
+
+                        GUILayout.Label("Radar Type: " + type, Prefab._TextStyle);
+                        
+                        RadarOptions.type = (int)Prefab.Slider(1, 3, RadarOptions.type, 200);
+
+
                         Prefab.Toggle("Show Players", ref RadarOptions.ShowPlayers);
                         Prefab.Toggle("Show Vehicles", ref RadarOptions.ShowVehicles);
                         if (RadarOptions.ShowVehicles)
