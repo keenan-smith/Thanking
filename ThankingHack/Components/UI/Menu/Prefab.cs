@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -449,13 +449,13 @@ namespace Thanking.Components.UI.Menu
 
 	        bool modified = false;
 
-	        if (Prefab.AbsButton(new Rect(position.x, position.y, position.height, position.height), "<="))
+	        if (Prefab.AbsButton(new Rect(position.x, position.y, position.height, position.height), "◄"))
 	        {
 		        modified = true;
 		        listEntry = Math.Max(0, listEntry - 1);
 	        }
 
-	        if (Prefab.AbsButton(new Rect(position.x + position.width - position.height, position.y, position.height, position.height), "=>"))
+	        if (Prefab.AbsButton(new Rect(position.x + position.width - position.height, position.y, position.height, position.height), "►"))
 	        {
 		        modified = true;
 		        listEntry = Math.Min(listContent.Length - 1, listEntry + 1);
