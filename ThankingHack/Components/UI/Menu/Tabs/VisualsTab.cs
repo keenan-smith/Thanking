@@ -169,12 +169,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                     Prefab.Toggle("2D Radar", ref RadarOptions.Enabled);
                     if (RadarOptions.Enabled)
                     {
-                        GUIContent[] RadarTypes =
-                        {
-                            new GUIContent("Global"),
-                            new GUIContent("Static Local"),
-                            new GUIContent("Dynamic Local")
-                        };
                         GUILayout.Space(5);
                         string type = "";
                         if (RadarOptions.type == 1)
@@ -190,6 +184,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 
 
                         Prefab.Toggle("Show Players", ref RadarOptions.ShowPlayers);
+                        if (RadarOptions.ShowPlayers)
+                            Prefab.Toggle("Detailed Plyers", ref RadarOptions.DetialedPlayers);
                         Prefab.Toggle("Show Vehicles", ref RadarOptions.ShowVehicles);
                         if (RadarOptions.ShowVehicles)
                             Prefab.Toggle("Show Only Unlocked", ref RadarOptions.ShowVehiclesUnlocked);
