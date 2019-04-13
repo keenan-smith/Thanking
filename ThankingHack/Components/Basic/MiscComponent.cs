@@ -25,6 +25,8 @@ namespace Thanking.Components.Basic
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
         public static bool NightvisionBeforeSpy;
+        private static bool zoomedBeforeSpy;
+        private static bool isZoomed;
         public static List<PlayerInputPacket> ClientsidePackets;
 
         public static FieldInfo Primary =
@@ -35,6 +37,24 @@ namespace Thanking.Components.Basic
 
         public static FieldInfo CPField =
             typeof(PlayerInput).GetField("clientsidePackets", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static FieldInfo FOVField =
+            typeof(PlayerLook).GetField("fov", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static FieldInfo IsZoomedField =
+            typeof(PlayerLook).GetField("isZoomed", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static float PlayerLookFov
+        {
+            get => (float)FOVField.GetValue(OptimizationVariables.MainPlayer.look);
+            set => FOVField.SetValue(OptimizationVariables.MainPlayer.look, value);
+        }
+
+        private static bool PlayerLookZoom
+        {
+            get => (bool)IsZoomedField.GetValue(OptimizationVariables.MainPlayer.look);
+            set => IsZoomedField.SetValue(OptimizationVariables.MainPlayer.look, value);
+        }
 
         private int currentKills = -1;
 
@@ -85,10 +105,10 @@ namespace Thanking.Components.Basic
             });
 
             HotkeyComponent.ActionDict.Add("_ToggleTimeAcceleration", () =>
-                                                                      {
-                                                                          OV_PlayerInput.Step =
-                                                                              OV_PlayerInput.Step != 2 ? 2 : -1;
-                                                                      });
+            {
+                OV_PlayerInput.Step =
+                    OV_PlayerInput.Step != 2 ? 2 : -1;
+            });
 
             HotkeyComponent.ActionDict.Add("_ToggleTimeCharge",
                 () => OV_PlayerInput.Step = (OV_PlayerInput.Step != 1 ? 1 : -1));
@@ -110,6 +130,17 @@ namespace Thanking.Components.Basic
                 FreecamBeforeSpy = true;
                 MiscOptions.Freecam = false;
             }
+
+            zoomedBeforeSpy = isZoomed;
+
+            if (isZoomed)
+            {
+                PlayerLookFov = 0F;
+                PlayerLookZoom = false;
+                InstantZoom(0F);
+            }
+
+            isZoomed = false;
         }
 
         [OffSpy]
@@ -125,6 +156,15 @@ namespace Thanking.Components.Basic
             {
                 FreecamBeforeSpy = false;
                 MiscOptions.Freecam = true;
+            }
+
+            isZoomed = zoomedBeforeSpy;
+
+            if (isZoomed)
+            {
+                PlayerLookFov = MiscOptions.ZoomFOV;
+                PlayerLookZoom = true;
+                InstantZoom(MiscOptions.ZoomFOV);
             }
         }
 
@@ -153,22 +193,6 @@ namespace Thanking.Components.Basic
 
             if (!DrawUtilities.ShouldRun())
                 return;
-
-            Provider.provider.statisticsService.userStatisticsService.getStatistic("Kills_Players",
-                out int New);
-
-            if (WeaponOptions.OofOnDeath)
-            {
-                if (New != currentKills)
-                {
-                    if (currentKills != -1)
-                        OptimizationVariables.MainPlayer.GetComponentInChildren<AudioSource>().PlayOneShot(AssetVariables.Audio["oof"], 3);
-
-                    currentKills = New;
-                }
-            }
-            else
-                currentKills = New;
 
             if (MiscOptions.NightVision)
             {
@@ -231,6 +255,35 @@ namespace Thanking.Components.Basic
                     }
                 }
             }
+
+            if (MiscOptions.ZoomOnHotkey && !isZoomed && HotkeyUtilities.IsHotkeyHeld("_Zoom") && !PlayerLookZoom)
+            {
+                isZoomed = true;
+                PlayerLookFov = MiscOptions.ZoomFOV;
+                PlayerLookZoom = true;
+
+                if (MiscOptions.InstantZoom)
+                    InstantZoom(MiscOptions.ZoomFOV);
+            }
+            else if (isZoomed && !HotkeyUtilities.IsHotkeyHeld("_Zoom"))
+            {
+                isZoomed = false;
+                PlayerLookFov = 0F;
+                PlayerLookZoom = false;
+
+                if (MiscOptions.InstantZoom)
+                    InstantZoom(0F);
+            }
+        }
+
+        private static void InstantZoom(float fov)
+        {
+            if (fov <= 1F)
+                MainCamera.instance.fieldOfView = OptionsSettings.view + (OptimizationVariables.MainPlayer.stance.stance != EPlayerStance.SPRINT ? 0F : 10F);
+            else
+                MainCamera.instance.fieldOfView = fov;
+
+            OptimizationVariables.MainPlayer.look.highlightCamera.fieldOfView = MainCamera.instance.fieldOfView;
         }
 
         public void FixedUpdate()
