@@ -46,7 +46,8 @@ namespace Thanking.Options
 		public static bool NoMovementVerification = false;
 		[Save] public static bool AlwaysCheckMovementVerification = false;
 
-		public static Player SpectatedPlayer;
+		public static Player SpectatedPlayer = null;
+		public static Player CamPlayer = null;
 		[Save] public static bool PlayerFlight = false;
 		[Save] public static float FlightSpeedMultiplier = 1;
 		
