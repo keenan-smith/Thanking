@@ -19,5 +19,6 @@ namespace Thanking.Options.AimOptions
 		[Save] public static bool Tracers = true;
         [Save] public static bool EnableBulletDropPrediction = true;
         [Save] public static bool HighlightBulletDropPredictionTarget = true;
-	}
+        [Save] public static bool FastSemiAuto;
+    }
 }

@@ -64,7 +64,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 				}
 				
 				Prefab.Toggle("Punch Silent Aim", ref MiscOptions.PunchSilentAim);
-                Prefab.Toggle("Fire Semi-Auto Like Auto", ref MiscOptions.FastSemiAuto);
 
                 GUILayout.EndVertical();
 				GUILayout.BeginVertical();
