@@ -44,8 +44,27 @@ namespace Thanking.Overrides
         public static FieldInfo inputYField =
             typeof(PlayerMovement).GetField("input_y", BindingFlags.NonPublic | BindingFlags.Instance);
 
+        public static FieldInfo isShootingField =
+            typeof(UseableGun).GetField("isShooting", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        public static FieldInfo lastPrimaryField =
+           typeof(PlayerEquipment).GetField("lastPrimary", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        public static void SetIsShooting(UseableGun gun, bool value) => isShootingField.SetValue(gun, value);
+        public static bool GetLastPrimary(PlayerEquipment equipment) => (bool)lastPrimaryField.GetValue(equipment);
         public static int GetInputX(PlayerMovement movement) => (int)inputXField.GetValue(movement);
         public static int GetInputY(PlayerMovement movement) => (int)inputYField.GetValue(movement);
+
+        private static readonly FieldInfo isReloadingField = typeof(UseableGun).GetField("isReloading", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo isHammeringField = typeof(UseableGun).GetField("isHammering", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo isUnjammingField = typeof(UseableGun).GetField("isUnjamming", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo isAttachingField = typeof(UseableGun).GetField("isAttaching", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo firemodeField = typeof(UseableGun).GetField("firemode", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo ammoField = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static bool GetFieldBool(UseableGun gun, FieldInfo field) => (bool)field.GetValue(gun);
+        private static EFiremode GetFiremode(UseableGun gun) => (EFiremode)firemodeField.GetValue(gun);
+        private static byte GetAmmo(UseableGun gun) => (byte)ammoField.GetValue(gun);
 
         public static FieldInfo SimField = 
 		    typeof(PlayerInput).GetField("_simulation", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -82,6 +101,7 @@ namespace Thanking.Overrides
         private static float spinbotYaw;
         private static float spinbotPitch;
         private static bool walkSpin;
+        private static bool clicking;
 
         private static float NextSpinbotYaw(float increment)
         {
@@ -213,7 +233,31 @@ namespace Thanking.Overrides
 
 			    instance.keys[0] = player.movement.jump;
 			    instance.keys[1] = player.equipment.primary;
-			    instance.keys[2] = player.equipment.secondary;
+
+                // Phase between false and true every other tick to simulate rapid tapping of the mouse
+                // (gunfire is simulated server-side from inputs)
+                if (MiscOptions.FastSemiAuto && 
+                    player.equipment.useable is UseableGun gun &&
+                    (GetFiremode(gun) == EFiremode.SEMI || GetFiremode(gun) == EFiremode.BURST) &&
+                    player.equipment.primary)
+                {
+                    if (!clicking)
+                    {
+                        instance.keys[1] = true;
+                        clicking = true;
+                    }
+                    else
+                    {
+                        instance.keys[1] = false;
+                        clicking = false;
+                    }
+                }
+                else
+                {
+                    clicking = false;
+                }
+
+                instance.keys[2] = player.equipment.secondary;
 			    instance.keys[3] = player.stance.crouch;
 			    instance.keys[4] = player.stance.prone;
 			    instance.keys[5] = player.stance.sprint;
@@ -349,7 +393,7 @@ namespace Thanking.Overrides
 			    
 			    Packets.Add(playerInputPacket);
 
-			    player.equipment.simulate(instance.simulation, player.equipment.primary, player.equipment.secondary, player.stance.sprint);
+			    player.equipment.simulate(instance.simulation, instance.keys[1], player.equipment.secondary, player.stance.sprint);
 			    player.animator.simulate(instance.simulation, player.animator.leanLeft, player.animator.leanRight);
 			    
 			    SetSim(instance, GetSim(instance) + 1);
