@@ -13,7 +13,8 @@ namespace Thanking.Components.UI.Menu.Tabs
 	        {
 		        GUILayout.BeginHorizontal();
 		        GUILayout.BeginVertical(GUILayout.Width(230));
-		        Prefab.Toggle("No Recoil", ref WeaponOptions.NoRecoil);
+                Prefab.Toggle("Automatic Semi-Automatic Weapons", ref WeaponOptions.FastSemiAuto);
+                Prefab.Toggle("No Recoil", ref WeaponOptions.NoRecoil);
 		        Prefab.Toggle("No Spread", ref WeaponOptions.NoSpread);
 		        Prefab.Toggle("No Sway", ref WeaponOptions.NoSway);
                 Prefab.Toggle("No Drop", ref WeaponOptions.NoDrop);

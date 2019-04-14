@@ -6,6 +6,7 @@ using Steamworks;
 using Thanking.Attributes;
 using Thanking.Misc.Enums;
 using Thanking.Options;
+using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
 using UnityEngine;
@@ -55,16 +56,8 @@ namespace Thanking.Overrides
         public static int GetInputX(PlayerMovement movement) => (int)inputXField.GetValue(movement);
         public static int GetInputY(PlayerMovement movement) => (int)inputYField.GetValue(movement);
 
-        private static readonly FieldInfo isReloadingField = typeof(UseableGun).GetField("isReloading", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo isHammeringField = typeof(UseableGun).GetField("isHammering", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo isUnjammingField = typeof(UseableGun).GetField("isUnjamming", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo isAttachingField = typeof(UseableGun).GetField("isAttaching", BindingFlags.NonPublic | BindingFlags.Instance);
         private static readonly FieldInfo firemodeField = typeof(UseableGun).GetField("firemode", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly FieldInfo ammoField = typeof(UseableGun).GetField("ammo", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        private static bool GetFieldBool(UseableGun gun, FieldInfo field) => (bool)field.GetValue(gun);
         private static EFiremode GetFiremode(UseableGun gun) => (EFiremode)firemodeField.GetValue(gun);
-        private static byte GetAmmo(UseableGun gun) => (byte)ammoField.GetValue(gun);
 
         public static FieldInfo SimField = 
 		    typeof(PlayerInput).GetField("_simulation", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -236,7 +229,7 @@ namespace Thanking.Overrides
 
                 // Phase between false and true every other tick to simulate rapid tapping of the mouse
                 // (gunfire is simulated server-side from inputs)
-                if (MiscOptions.FastSemiAuto && 
+                if (WeaponOptions.FastSemiAuto && 
                     player.equipment.useable is UseableGun gun &&
                     (GetFiremode(gun) == EFiremode.SEMI || GetFiremode(gun) == EFiremode.BURST) &&
                     player.equipment.primary)

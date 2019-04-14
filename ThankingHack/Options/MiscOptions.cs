@@ -90,7 +90,5 @@ namespace Thanking.Options
         [Save] public static float SpinbotYaw = 180F;
         [Save] public static bool StaticSpinbotPitch = true;
         [Save] public static float SpinbotPitch = 0F;
-
-        [Save] public static bool FastSemiAuto;
     }
 }
