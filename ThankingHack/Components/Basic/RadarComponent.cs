@@ -133,8 +133,28 @@ namespace Thanking.Components.Basic
                     if (player.player != OptimizationVariables.MainPlayer)
                     {
                         Vector2 radarpos1 = GameToRadarPosition(player.player.transform.position);
-                        DrawRadarDot(new Vector2(radarcenter.x + radarpos1.x, radarcenter.y - radarpos1.y), Color.black, 3);
-                        DrawRadarDot(new Vector2(radarcenter.x + radarpos1.x, radarcenter.y - radarpos1.y), ColorUtilities.getColor($"_Players"), 2);
+                        Vector2 rpos = new Vector2(radarcenter.x + radarpos1.x, radarcenter.y - radarpos1.y);
+                        if (RadarOptions.DetialedPlayers)
+                        {
+                            if (rpos.y > 30)
+                            {
+                                Vector2 t = new Vector2(rpos.x, rpos.y - 10);
+                                Vector2 l = new Vector2(rpos.x + 5, rpos.y + 5);
+                                Vector2 r = new Vector2(rpos.x - 5, rpos.y + 5);
+                                t = RotatePoint(t, rpos, Math.Round(player.player.look.aim.eulerAngles.y, 2));
+                                l = RotatePoint(l, rpos, Math.Round(player.player.look.aim.eulerAngles.y, 2));
+                                r = RotatePoint(r, rpos, Math.Round(player.player.look.aim.eulerAngles.y, 2));
+                                DrawLine(t, l, ColorUtilities.getColor($"_Players"), 1);
+                                DrawLine(l, r, ColorUtilities.getColor($"_Players"), 1);
+                                DrawLine(r, t, ColorUtilities.getColor($"_Players"), 1);
+                            }
+                        }
+                        else
+                        {
+
+                            DrawRadarDot(rpos, Color.black, 3);
+                            DrawRadarDot(rpos, ColorUtilities.getColor($"_Players"), 2);
+                        }
                     }
                 }
             }
@@ -152,7 +172,8 @@ namespace Thanking.Components.Basic
 
         void DrawRadarDot(Vector2 pos, Color color, float size = 2)
         {
-            Drawing.DrawRect(new Rect(pos.x - size, pos.y - size, size * 2, size * 2), color);
+            if (pos.y > 28)
+                Drawing.DrawRect(new Rect(pos.x - size, pos.y - size, size * 2, size * 2), color);
         }
 
         public Vector2 GameToRadarPosition(Vector3 pos)
