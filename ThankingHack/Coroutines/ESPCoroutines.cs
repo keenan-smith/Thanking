@@ -20,6 +20,8 @@ namespace Thanking.Coroutines
     {
         public static Shader LitChams;
         public static Shader UnlitChams;
+        public static Shader OutlineShader;
+        public static Shader IgnoreZ;
         public static Shader Normal;
 	    
         public static IEnumerator DoChams()
@@ -66,6 +68,25 @@ namespace Thanking.Coroutines
 		            
 		            materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, front.a));
 		            materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, behind.a));
+	            }
+            }
+        }
+
+        public static void SeeThrough(GameObject pgo)
+        {
+            if (IgnoreZ == null) return;
+
+            Renderer[] rds = pgo.GetComponentsInChildren<Renderer>();
+
+            for (int j = 0; j < rds.Length; j++)
+            {
+	            if (!(rds[j].material.shader != IgnoreZ)) continue;
+	            
+	            Material[] materials = rds[j].materials;
+
+	            for (int k = 0; k < materials.Length; k++)
+	            {
+		            materials[k].shader = IgnoreZ;
 	            }
             }
         }

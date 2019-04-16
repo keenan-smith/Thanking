@@ -1,4 +1,5 @@
 ﻿using Thanking.Attributes;
+using UnityEngine;
 
 namespace Thanking.Options.VisualOptions
 {
@@ -13,5 +14,7 @@ namespace Thanking.Options.VisualOptions
         [Save] public static bool ShowDeathPosition = false;
         [Save] public static float RadarZoom = 1;
         [Save] public static float RadarSize = 300;
+        [Save] public static Rect vew = new Rect(Screen.width - RadarOptions.RadarSize - 20, 10, RadarOptions.RadarSize + 10, RadarOptions.RadarSize + 10); //Viewport of the mirror camera
+
     }
 }

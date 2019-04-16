@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
 using Thanking.Attributes;
+using UnityEngine;
 
 namespace Thanking.Options
 {
@@ -58,6 +59,9 @@ namespace Thanking.Options
 
         [Save] public static int SCrashMethod = 1;
 
+        public static string AutoJoinIP = "";
+        public static bool AutoJoin = false;
+
         [Save] public static int AntiSpyMethod = 0;
         [Save] public static string AntiSpyPath = "";
 
@@ -90,5 +94,6 @@ namespace Thanking.Options
         [Save] public static float SpinbotYaw = 180F;
         [Save] public static bool StaticSpinbotPitch = true;
         [Save] public static float SpinbotPitch = 0F;
+        [Save] public static Rect vew = new Rect(575, 10, 200, 55);
     }
 }
