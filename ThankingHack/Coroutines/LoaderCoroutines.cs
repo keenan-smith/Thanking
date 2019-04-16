@@ -93,7 +93,6 @@ namespace Thanking.Coroutines
 			ESPCoroutines.Normal = Shader.Find("Standard");
 			ESPCoroutines.LitChams = AssetVariables.Shaders["chamsLit"];
 			ESPCoroutines.UnlitChams = AssetVariables.Shaders["chamsUnlit"];
-			ESPCoroutines.IgnoreZ = AssetVariables.Shaders["SeethroughShader"];
 
 			IsLoaded = true;
 			
