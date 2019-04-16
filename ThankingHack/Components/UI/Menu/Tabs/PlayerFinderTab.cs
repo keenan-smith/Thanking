@@ -26,9 +26,8 @@ namespace Thanking.Components.UI.Menu.Tabs
         private readonly uint ip;
         private readonly ushort port;
         private readonly ISteamMatchmakingPlayersResponse playersResponse;
-
         private readonly List<string> players = new List<string>();
-        private ManualResetEvent reset = new ManualResetEvent(false);
+        private readonly ManualResetEvent reset = new ManualResetEvent(false);
 
         public PlayersQuery(uint ip, ushort port)
         {
@@ -133,7 +132,7 @@ namespace Thanking.Components.UI.Menu.Tabs
         {
             if (serverRequest == HServerListRequest.Invalid)
                 return;
-
+            isQueryingServerList = false;
             SteamMatchmakingServers.ReleaseRequest(serverRequest);
             serverRequest = HServerListRequest.Invalid;
         }
@@ -151,10 +150,10 @@ namespace Thanking.Components.UI.Menu.Tabs
 
         private static void BeginQueryPlayers()
         {
+            isQueryingPlayers = true;
             playersQueryCompleted = 0;
             selectedDetail = null;
             playerHits.Clear();
-            isQueryingPlayers = true;
             new Thread(QueryPlayers).Start();
         }
 
@@ -166,7 +165,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 var port = gameserver.m_NetAdr.GetConnectionPort();
                 var players = new PlayersQuery(ip, port).GetPlayers();
                 var comparisonType = caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
 
                 var foundName = exactMatch ?
                     players.FirstOrDefault(x => x.Equals(playerName, comparisonType)) :
@@ -218,9 +216,16 @@ namespace Thanking.Components.UI.Menu.Tabs
                     if (Prefab.Button("Load Servers", 135))
                         ReloadServers();
                 }
-                else
+                else if (isQueryingServerList)
                 {
                     GUILayout.Label("Querying for Servers...");
+                    GUILayout.Space(2);
+
+                    if (Prefab.Button("Cancel", 135))
+                    {
+                        StopServerRequest();
+                        gameservers.Clear();
+                    }
                 }
 
                 if (gameservers.Count > 0 && !isQueryingServerList)
@@ -236,7 +241,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                         GUILayout.Space(1);
                         Prefab.Toggle("Exact Match", ref exactMatch);
                         GUILayout.Space(2);
-                        if (Prefab.Button("Find Players", 135))
+                        if (Prefab.Button("Find Players", 135) && playerName.Trim() != String.Empty)
                             BeginQueryPlayers();
                     }
                     else
