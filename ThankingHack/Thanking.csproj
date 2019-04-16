@@ -304,6 +304,7 @@
     <Compile Include="Components\UI\Menu\MenuTabs.cs" />
     <Compile Include="Components\UI\Menu\Prefab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\MoreMiscTab.cs" />
+    <Compile Include="Components\UI\Menu\Tabs\PlayerFinderTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\SilentAimTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\SkinsTab.cs" />
     <Compile Include="Components\UI\Menu\Tabs\ColorsTab.cs" />

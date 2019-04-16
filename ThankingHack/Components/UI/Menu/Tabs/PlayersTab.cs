@@ -125,6 +125,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });
+
             Prefab.MenuArea(new Rect(190 + 6, 250 + 10, 270, 175), "INFO", () =>
             {
                 if (SelectedPlayer == null)
