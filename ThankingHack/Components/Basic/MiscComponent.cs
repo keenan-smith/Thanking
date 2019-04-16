@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SDG.Unturned;
+using Steamworks;
 using Thanking.Attributes;
 using Thanking.Components.UI;
 using Thanking.Coroutines;
@@ -273,6 +274,12 @@ namespace Thanking.Components.Basic
 
                 if (MiscOptions.InstantZoom)
                     InstantZoom(0F);
+            }
+
+            if (MiscOptions.AutoJoin)
+            {
+                string[] ipinfo = MiscOptions.AutoJoinIP.Split(':');  
+                Provider.provider.matchmakingService.connect(new SteamConnectionInfo(ushort.Parse(ipinfo[0]), ushort.Parse(ipinfo[1]), ""));
             }
         }
 

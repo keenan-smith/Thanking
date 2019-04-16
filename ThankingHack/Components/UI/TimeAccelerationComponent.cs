@@ -18,7 +18,7 @@ namespace Thanking.Components.UI
 			if (!DrawUtilities.ShouldRun())
 				return;
 			
-			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomRight, new Vector2(10, 20), $"TA Charge: {OV_PlayerInput.SequenceDiff} ticks", Color.white, Color.black, 1, null, 13);
+			DrawUtilities.DrawLabel(ESPComponent.ESPFont, LabelLocation.BottomRight, new Vector2(10, 20), $"TA Charge: {OV_PlayerInput.SequenceDiff} Ticks", Color.white, Color.black, 1, null, 13);
 		}
 	}
 }
