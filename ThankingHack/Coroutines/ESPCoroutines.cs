@@ -20,6 +20,7 @@ namespace Thanking.Coroutines
     {
         public static Shader LitChams;
         public static Shader UnlitChams;
+        public static Shader OutlineShader;
         public static Shader Normal;
 	    
         public static IEnumerator DoChams()

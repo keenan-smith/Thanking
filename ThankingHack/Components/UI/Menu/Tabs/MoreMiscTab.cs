@@ -3,6 +3,7 @@ using System.Linq;
 using SDG.Unturned;
 using Thanking.Options;
 using Thanking.Options.AimOptions;
+using Thanking.Options.VisualOptions;
 using Thanking.Threads;
 using Thanking.Utilities;
 using Thanking.Variables.UIVariables;
@@ -96,6 +97,11 @@ namespace Thanking.Components.UI.Menu.Tabs
                     GUILayout.Space(2);
                     MiscOptions.SpinbotYaw = Prefab.Slider(0, 360, MiscOptions.SpinbotYaw, 200);
                 }
+
+                /*GUILayout.Space(3);
+                Prefab.Toggle("Spam Join Server", ref MiscOptions.AutoJoin);
+                GUILayout.Space(5);
+                MiscOptions.AutoJoinIP = Prefab.TextField(MiscOptions.AutoJoinIP, "IP:Port", 200);*/
 
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical();
