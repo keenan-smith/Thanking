@@ -20,6 +20,7 @@ namespace Thanking.Components.UI.Menu
             MenuTabOption.Add(new MenuTabOption("colors", ColorsTab.Tab));
 	        MenuTabOption.Add(new MenuTabOption("hotkeys", HotkeyTab.Tab));
 	        MenuTabOption.Add(new MenuTabOption("stats", StatsTab.Tab));
-		}
+            MenuTabOption.Add(new MenuTabOption("findplayer", PlayerFinderTab.Tab));
+        }
     }
 }
