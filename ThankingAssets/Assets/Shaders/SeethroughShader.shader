@@ -66,6 +66,8 @@ Shader "SeethroughShader"
 
 				Blend[_SrcBlend][_DstBlend]
 				ZWrite[_ZWrite]
+				Cull off
+				ZWrite off
 				ZTest Always
 				CGPROGRAM
 				#pragma target 3.0

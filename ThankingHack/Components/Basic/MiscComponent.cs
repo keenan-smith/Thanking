@@ -22,6 +22,7 @@ namespace Thanking.Components.Basic
     public class MiscComponent : MonoBehaviour
     {
         public static Vector3 LastDeath;
+        public static GameObject dupeplayer;
         public static MiscComponent Instance;
         public static float LastMovementCheck;
         public static bool FreecamBeforeSpy;
