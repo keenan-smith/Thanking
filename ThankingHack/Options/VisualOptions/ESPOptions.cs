@@ -20,6 +20,7 @@ namespace Thanking.Options.VisualOptions
         [Save] public static bool ChamsEnabled = true;
         [Save] public static bool ChamsFlat = false;
         [Save] public static bool ShowVanishPlayers = true;
+        [Save] public static bool IgnoreZ = false;
 
         [Save]
         public static ESPVisual[] VisualOptions = Enumerable.Repeat(new ESPVisual

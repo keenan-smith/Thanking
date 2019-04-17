@@ -21,6 +21,7 @@ namespace Thanking.Coroutines
         public static Shader LitChams;
         public static Shader UnlitChams;
         public static Shader OutlineShader;
+        public static Shader IgnoreZ;
         public static Shader Normal;
 	    
         public static IEnumerator DoChams()
@@ -41,8 +42,10 @@ namespace Thanking.Coroutines
                 {
                     if (ESPOptions.ChamsEnabled)
                         EnableChams();
+                    else if (ESPOptions.IgnoreZ) 
+                        EnableXRay();
                     else
-                        DisableChams();
+                        DisableShaders();
                 }
                 catch (Exception e) { Debug.LogException(e); }
                 yield return new WaitForSeconds(5);
@@ -67,6 +70,25 @@ namespace Thanking.Coroutines
 		            
 		            materials[k].SetColor("_ColorVisible", new Color32(front.r, front.g, front.b, front.a));
 		            materials[k].SetColor("_ColorBehind", new Color32(behind.r, behind.g, behind.b, behind.a));
+	            }
+            }
+        }
+
+        public static void SeeThrough(GameObject pgo)
+        {
+            if (IgnoreZ == null) return;
+
+            Renderer[] rds = pgo.GetComponentsInChildren<Renderer>();
+
+            for (int j = 0; j < rds.Length; j++)
+            {
+	            if (!(rds[j].material.shader != IgnoreZ)) continue;
+	            
+	            Material[] materials = rds[j].materials;
+
+	            for (int k = 0; k < materials.Length; k++)
+	            {
+		            materials[k].shader = IgnoreZ;
 	            }
             }
         }
@@ -98,8 +120,26 @@ namespace Thanking.Coroutines
 	        }
         }
 
+        [OffSpy]
+        public static void EnableXRay()
+        {
+	        if (!ESPOptions.IgnoreZ) return;
+	        SteamPlayer[] players = Provider.clients.ToArray();
+	        for (int index = 0; index < players.Length; index++)
+	        {
+		        SteamPlayer p = players[index];
+		        Player plr = p.player;
+
+		        if (plr == null || plr == OptimizationVariables.MainPlayer || plr.gameObject == null || plr.life == null ||
+		            plr.life.isDead) continue;
+
+		        GameObject pgo = plr.gameObject;
+		        SeeThrough(pgo);
+	        }
+        }
+
         [OnSpy]
-        public static void DisableChams()
+        public static void DisableShaders()
         {
             if (Normal == null) return;
 

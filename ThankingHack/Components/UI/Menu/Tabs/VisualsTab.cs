@@ -224,7 +224,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 
                 if (ESPOptions.ChamsEnabled)
                     Prefab.Toggle("Flat Chams", ref ESPOptions.ChamsFlat);
-
+                Prefab.Toggle("Ignore Z", ref ESPOptions.IgnoreZ);
                 Prefab.Toggle("No Rain", ref MiscOptions.NoRain);
                 Prefab.Toggle("No Snow", ref MiscOptions.NoSnow);
                 Prefab.Toggle("No Flinch", ref MiscOptions.NoFlinch);
