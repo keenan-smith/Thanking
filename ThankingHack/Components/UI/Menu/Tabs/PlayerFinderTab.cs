@@ -28,8 +28,10 @@ namespace Thanking.Components.UI.Menu.Tabs
         private readonly ISteamMatchmakingPlayersResponse playersResponse;
         private readonly List<string> players = new List<string>();
         private readonly ManualResetEvent reset = new ManualResetEvent(false);
+        private readonly CancellationToken cancellation;
+        private HServerQuery query;
 
-        public PlayersQuery(uint ip, ushort port)
+        public PlayersQuery(uint ip, ushort port, CancellationToken cancellation)
         {
             this.ip = ip;
             this.port = port;
@@ -41,9 +43,21 @@ namespace Thanking.Components.UI.Menu.Tabs
 
         public List<string> GetPlayers()
         {
-            SteamMatchmakingServers.PlayerDetails(ip, (ushort)(port + 1), playersResponse);
-            reset.WaitOne();
+            if (cancellation.IsCancellationRequested)
+                return players;
+
+            query = SteamMatchmakingServers.PlayerDetails(ip, (ushort)(port + 1), playersResponse);
+            WaitHandle.WaitAny(new WaitHandle[] { reset, cancellation.WaitHandle });
+            StopRequest();
             return players;
+        }
+
+        private void StopRequest()
+        {
+            if (query == HServerQuery.Invalid)
+                return;
+            SteamMatchmakingServers.CancelServerQuery(query);
+            query = HServerQuery.Invalid;
         }
 
         private void OnAddPlayerToList(string name, int score, float time)
@@ -65,45 +79,6 @@ namespace Thanking.Components.UI.Menu.Tabs
     public static class PlayerFinderTab
     {
         private static Vector2 foundScroll;
-
-        private static bool isQueryingServerList;
-        private static bool isQueryingPlayers;
-        private static PlayerFinderData selectedDetail;
-        private static int playersQueryCompleted;
-
-        private static bool caseSensitive;
-        private static bool exactMatch;
-        private static string playerName;
-
-        private static readonly List<PlayerFinderData> playerHits = new List<PlayerFinderData>();
-        private static readonly List<gameserveritem_t> gameservers = new List<gameserveritem_t>();
-        private static ISteamMatchmakingServerListResponse serverListResponse;
-        private static HServerListRequest serverRequest;
-
-        private static readonly object locker = new object();
-
-        [Initializer]
-        public static void Initialize()
-        {
-            serverListResponse = new ISteamMatchmakingServerListResponse(
-            new ISteamMatchmakingServerListResponse.ServerResponded(OnServerResponded),
-            new ISteamMatchmakingServerListResponse.ServerFailedToRespond(OnServerFailedToRespond),
-            new ISteamMatchmakingServerListResponse.RefreshComplete(OnRefreshComplete));
-        }
-
-        private static void OnRefreshComplete(HServerListRequest request, EMatchMakingServerResponse response)
-        {
-            isQueryingServerList = false;
-        }
-
-        private static void OnServerResponded(HServerListRequest request, int index)
-        {
-            gameservers.Add(SteamMatchmakingServers.GetServerDetails(request, index));
-        }
-
-        private static void OnServerFailedToRespond(HServerListRequest request, int index)
-        {
-        }
 
         // prop so that filter version is always up to date
         private static List<MatchMakingKeyValuePair_t> Filters
@@ -128,6 +103,64 @@ namespace Thanking.Components.UI.Menu.Tabs
                 };
         }
 
+        private static bool IsQueryingPlayers
+        {
+            get
+            {
+                lock (isQueryingPlayersLocker)
+                    return isQueryingPlayers;
+            }
+            set
+            {
+                lock (isQueryingPlayersLocker)
+                    isQueryingPlayers = value;
+            }
+        }
+
+        private static bool isQueryingServerList;
+        private static bool isQueryingPlayers;
+        private static PlayerFinderData selectedDetail;
+        private static int playersQueryCompleted;
+
+        private static bool caseSensitive;
+        private static bool exactMatch;
+        private static string playerName;
+
+        private static CancellationTokenSource tokenSource = new CancellationTokenSource();
+        private static readonly List<PlayerFinderData> playerHits = new List<PlayerFinderData>();
+        private static readonly List<gameserveritem_t> gameservers = new List<gameserveritem_t>();
+        private static ISteamMatchmakingServerListResponse serverListResponse;
+        private static HServerListRequest serverRequest;
+        private static float lastCancelledPlayerQuery;
+        private static Thread playerQueryThread;
+
+        // locking these two because modified in QueryPlayers thread
+        private static readonly object playerHitsLocker = new object();
+        private static readonly object isQueryingPlayersLocker = new object();
+
+        [Initializer]
+        public static void Initialize()
+        {
+            serverListResponse = new ISteamMatchmakingServerListResponse(
+            new ISteamMatchmakingServerListResponse.ServerResponded(OnServerResponded),
+            new ISteamMatchmakingServerListResponse.ServerFailedToRespond(OnServerFailedToRespond),
+            new ISteamMatchmakingServerListResponse.RefreshComplete(OnRefreshComplete));
+        }
+
+        private static void OnRefreshComplete(HServerListRequest request, EMatchMakingServerResponse response)
+        {
+            isQueryingServerList = false;
+        }
+
+        private static void OnServerResponded(HServerListRequest request, int index)
+        {
+            gameservers.Add(SteamMatchmakingServers.GetServerDetails(request, index));
+        }
+
+        private static void OnServerFailedToRespond(HServerListRequest request, int index)
+        {
+        }
+        
         private static void StopServerRequest()
         {
             if (serverRequest == HServerListRequest.Invalid)
@@ -141,7 +174,10 @@ namespace Thanking.Components.UI.Menu.Tabs
         {
             playersQueryCompleted = 0;
             selectedDetail = null;
-            playerHits.Clear();
+
+            lock (playerHitsLocker)
+                playerHits.Clear();
+
             StopServerRequest();
             gameservers.Clear();
             isQueryingServerList = true;
@@ -150,56 +186,74 @@ namespace Thanking.Components.UI.Menu.Tabs
 
         private static void BeginQueryPlayers()
         {
-            isQueryingPlayers = true;
+            IsQueryingPlayers = true;
             playersQueryCompleted = 0;
             selectedDetail = null;
-            playerHits.Clear();
-            new Thread(QueryPlayers).Start();
+
+            lock (playerHitsLocker)
+                playerHits.Clear();
+
+            tokenSource = new CancellationTokenSource();
+            playerQueryThread = new Thread(QueryPlayers);
+            playerQueryThread.Start();
         }
 
         private static void QueryPlayers()
         {
-            Parallel.ForEach(gameservers, (gameserver) =>
+            var loopOptions = new ParallelOptions { CancellationToken = tokenSource.Token };
+            try
             {
-                var ip = gameserver.m_NetAdr.GetIP();
-                var port = gameserver.m_NetAdr.GetConnectionPort();
-                var players = new PlayersQuery(ip, port).GetPlayers();
-                var comparisonType = caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-
-                var foundName = exactMatch ?
-                    players.FirstOrDefault(x => x.Equals(playerName, comparisonType)) :
-                    players.FirstOrDefault(x => x.IndexOf(playerName, comparisonType) >= 0);
-
-                if (foundName != null)
+                Parallel.ForEach(gameservers, loopOptions, (gameserver) =>
                 {
-                    lock (locker)
+                    var ip = gameserver.m_NetAdr.GetIP();
+                    var port = gameserver.m_NetAdr.GetConnectionPort();
+                    var players = new PlayersQuery(ip, port, loopOptions.CancellationToken).GetPlayers();
+
+                    loopOptions.CancellationToken.ThrowIfCancellationRequested();
+
+                    var comparisonType = caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+                    var foundName = exactMatch ?
+                        players.FirstOrDefault(x => x.Equals(playerName, comparisonType)) :
+                        players.FirstOrDefault(x => x.IndexOf(playerName, comparisonType) >= 0);
+
+                    if (foundName != null)
                     {
-                        playerHits.Add(new PlayerFinderData
+                        lock (playerHitsLocker)
                         {
-                            Ip = ip,
-                            Port = port,
-                            PlayerName = foundName,
-                            ServerName = gameserver.GetServerName(),
-                            RawDetails = gameserver
-                        });
+                            playerHits.Add(new PlayerFinderData
+                            {
+                                Ip = ip,
+                                Port = port,
+                                PlayerName = foundName,
+                                ServerName = gameserver.GetServerName(),
+                                RawDetails = gameserver
+                            });
+                        }
                     }
-                }
 
-                Interlocked.Increment(ref playersQueryCompleted);
-            });
-
-            isQueryingPlayers = false;
+                    Interlocked.Increment(ref playersQueryCompleted);
+                });
+            }
+            catch (OperationCanceledException) { }
+            finally
+            {
+                tokenSource.Dispose();
+                IsQueryingPlayers = false;
+            }
         }
 
         public static void Tab()
         {
             Prefab.ScrollView(new Rect(0, 10, 466, 250 - 30), "Servers Found", ref foundScroll, () =>
             {
-                foreach (var detail in playerHits)
+                lock (playerHitsLocker)
                 {
-                    if (Prefab.Button($"<b>{detail.PlayerName}</b> on {Parser.getIPFromUInt32(detail.Ip)}:{detail.Port}", 400))
-                        selectedDetail = detail;
-                    GUILayout.Space(2);
+                    foreach (var detail in playerHits)
+                    {
+                        if (Prefab.Button($"<b>{detail.PlayerName}</b> on {Parser.getIPFromUInt32(detail.Ip)}:{detail.Port}", 400))
+                            selectedDetail = detail;
+                        GUILayout.Space(2);
+                    }
                 }
             });
 
@@ -211,7 +265,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.Label($"Servers Loaded: {gameservers.Count}");
                 GUILayout.Space(1);
 
-                if (!isQueryingServerList && !isQueryingPlayers)
+                if (!isQueryingServerList && !IsQueryingPlayers)
                 {
                     if (Prefab.Button("Load Servers", 135))
                         ReloadServers();
@@ -222,17 +276,14 @@ namespace Thanking.Components.UI.Menu.Tabs
                     GUILayout.Space(2);
 
                     if (Prefab.Button("Cancel", 135))
-                    {
                         StopServerRequest();
-                        gameservers.Clear();
-                    }
                 }
 
                 if (gameservers.Count > 0 && !isQueryingServerList)
                 {
                     GUILayout.Space(1);
                     GUILayout.Label($"Servers Searched: {playersQueryCompleted}/{gameservers.Count}");
-                    if (!isQueryingPlayers)
+                    if (!IsQueryingPlayers)
                     {
                         GUILayout.Space(1);
                         playerName = Prefab.TextField(playerName, "Name: ", 95);
@@ -247,6 +298,29 @@ namespace Thanking.Components.UI.Menu.Tabs
                     else
                     {
                         GUILayout.Label($"Searching for <b>{playerName}</b>");
+                        GUILayout.Space(2);
+
+                        if (!tokenSource.IsCancellationRequested)
+                        {
+                            if (Prefab.Button("Cancel", 135))
+                            {
+                                tokenSource.Cancel();
+                                lastCancelledPlayerQuery = Time.realtimeSinceStartup;
+                            }
+                        }
+                        else
+                        {
+                            var delta = Time.realtimeSinceStartup - lastCancelledPlayerQuery;
+                            var text = $"Cancelling... ({(delta <= 5 ? (5 - (int)(delta)).ToString() : "Force")})";
+                            // Screw it, I can't fix it
+                            // Not really orthodox and probably doesn't clean up but who cares
+                            if (Prefab.Button(text, 135) && delta > 5)
+                            {
+                                playerQueryThread.Abort();
+                                tokenSource.Dispose();
+                                IsQueryingPlayers = false;
+                            }
+                        }
                     }
                 }
 
@@ -281,6 +355,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                             String.Empty, MenuPlayServerInfoUI.EServerInfoOpenContext.CONNECT);
                     }
                 }
+
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
             });
