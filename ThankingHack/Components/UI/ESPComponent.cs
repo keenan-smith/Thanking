@@ -29,9 +29,9 @@ namespace Thanking.Components.UI
 
         public static Camera MainCamera;
 
-		[Initializer]
-		public static void Initialize()
-		{
+        [Initializer]
+        public static void Initialize()
+        {
             for (int i = 0; i < ESPOptions.VisualOptions.Length; i++)
             {
                 ESPTarget Target = (ESPTarget)i;
@@ -75,14 +75,14 @@ namespace Thanking.Components.UI
                 ColorUtilities.addColor(new ColorVariable($"_{Target}_Glow", $"ESP - {Target} (Glow)", Color.yellow, false));
             }
 
-			ColorUtilities.addColor(new ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
-			ColorUtilities.addColor(new ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green, false));
-			ColorUtilities.addColor(new ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue, false));
-			ColorUtilities.addColor(new ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255), false));
-			ColorUtilities.addColor(new ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red, false));
-		}
-		
-		public void Start()
+            ColorUtilities.addColor(new ColorVariable("_ESPFriendly", "Friendly Players", Color.green, false));
+            ColorUtilities.addColor(new ColorVariable("_ChamsFriendVisible", "Chams - Visible Friend", Color.green, false));
+            ColorUtilities.addColor(new ColorVariable("_ChamsFriendInisible", "Chams - Invisible Friend", Color.blue, false));
+            ColorUtilities.addColor(new ColorVariable("_ChamsEnemyVisible", "Chams - Visible Enemy", new Color32(255, 165, 0, 255), false));
+            ColorUtilities.addColor(new ColorVariable("_ChamsEnemyInvisible", "Chams - Invisible Enemy", Color.red, false));
+        }
+
+        public void Start()
         {
             CoroutineComponent.ESPCoroutine = StartCoroutine(ESPCoroutines.UpdateObjectList());
             CoroutineComponent.ChamsCoroutine = StartCoroutine(ESPCoroutines.DoChams());
@@ -186,211 +186,6 @@ namespace Thanking.Components.UI
                 string outerText = $"<size={size}>";
                 text = $"<size={size}>";
 
-                #region coopys 
-                /*
-
-                switch (obj.Target)
-                {
-                    #region Players
-
-                    case ESPTarget.Players:
-                        {
-                            Player p = (Player)obj.Object;
-
-                            if (p.life.isDead)
-                                continue;
-
-                            if (visual.ShowName)
-                                text += GetSteamPlayer(p).playerID.characterName + "\n";
-                            if (ESPOptions.ShowPlayerWeapon)
-                                text += (p.equipment.asset != null ? p.equipment.asset.itemName : "Fists") + "\n";
-                            if (ESPOptions.ShowPlayerVehicle)
-                                text += (p.movement.getVehicle() != null ? p.movement.getVehicle().asset.name + "\n" : "No Vehicle\n");
-                            b.size = b.size / 2;
-                            b.size = new Vector3(b.size.x, b.size.y * 1.25f, b.size.z);
-
-                            if (FriendUtilities.IsFriendly(p) && ESPOptions.UsePlayerGroup)
-                                c = ColorUtilities.getColor("_ESPFriendly");
-
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Zombies
-
-                    case ESPTarget.Zombies:
-                        {
-                            if (((Zombie)obj.Object).isDead)
-                                continue;
-
-                            if (visual.ShowName)
-                                text += $"Zombie\n";
-
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Items
-
-                    case ESPTarget.Items:
-                        {
-                            InteractableItem item = (InteractableItem)obj.Object;
-
-                            if (visual.ShowName)
-                                text += item.asset.itemName + "\n";
-
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Sentries
-
-                    case ESPTarget.Sentries:
-                        {
-                            InteractableSentry sentry = (InteractableSentry)obj.Object;
-
-                            if (visual.ShowName)
-                            {
-                                text += "Sentry\n";
-                                outerText += "Sentry\n";
-                            }
-
-                            if (ESPOptions.ShowSentryItem)
-                            {
-                                outerText += SentryName(sentry.displayItem, false) + "\n";
-                                text += SentryName(sentry.displayItem, true) + "\n";
-                            }
-
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Beds
-
-                    case ESPTarget.Beds:
-                        {
-                            InteractableBed bed = (InteractableBed)obj.Object;
-
-                            if (visual.ShowName)
-                            {
-                                text += "Bed\n";
-                                outerText += "Bed\n";
-                            }
-
-                            if (ESPOptions.ShowClaimed)
-                            {
-                                text += GetOwned(bed, true) + "\n";
-                                outerText += GetOwned(bed, false) + "\n";
-                            }
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Claim Flags
-
-                    case ESPTarget.ClaimFlags:
-                        {
-                            if (visual.ShowName)
-                                text += "Claim Flag\n";
-
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Vehicles
-
-                    case ESPTarget.Vehicles:
-                        {
-                            InteractableVehicle vehicle = (InteractableVehicle)obj.Object;
-
-                            if (vehicle.health == 0)
-                                continue;
-
-                            if (ESPOptions.FilterVehicleLocked && vehicle.isLocked)
-                                continue;
-
-                            vehicle.getDisplayFuel(out ushort Fuel, out ushort MaxFuel);
-
-                            float health = Mathf.Round(100 * (vehicle.health / (float)vehicle.asset.health));
-                            float fuel = Mathf.Round(100 * (Fuel / (float)MaxFuel));
-
-                            if (visual.ShowName)
-                            {
-                                text += vehicle.asset.name + "\n";
-                                outerText += vehicle.asset.name + "\n";
-                            }
-
-                            if (ESPOptions.ShowVehicleHealth)
-                            {
-                                text += $"Health: {health}%\n";
-                                outerText += $"Health: {health}%\n";
-                            }
-
-                            if (ESPOptions.ShowVehicleFuel)
-                            {
-                                text += $"Fuel: {fuel}%\n";
-                                outerText += $"Fuel: {fuel}%\n";
-                            }
-
-                            if (ESPOptions.ShowVehicleLocked)
-                            {
-                                text += GetLocked(vehicle, true) + "\n";
-                                outerText += GetLocked(vehicle, false) + "\n";
-                            }
-
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Storage
-
-                    case ESPTarget.Storage:
-                        {
-                            if (visual.ShowName)
-                                text += "Storage\n";
-
-                            break;
-                        }
-
-                    #endregion
-
-                    #region Generators
-
-                    case ESPTarget.Generators:
-                        {
-                            InteractableGenerator gen = (InteractableGenerator)obj.Object;
-
-                            float fuel = Mathf.Round(100 * (gen.fuel / (float)gen.capacity));
-
-                            if (ESPOptions.ShowGeneratorFuel)
-                            {
-                                text += $"Fuel: {fuel}%\n";
-                                outerText += $"Fuel: {fuel}%\n";
-                            }
-
-                            if (ESPOptions.ShowGeneratorPowered)
-                            {
-                                text += GetPowered(gen, true) + "\n";
-                                outerText += GetPowered(gen, false) + "\n";
-                            }
-
-                            break;
-                        }
-
-                        #endregion
-                }
-
-                if (outerText == $"<size={size}>")
-                    outerText = null;
-*/
-                #endregion
                 switch (obj.Target)
                 {
                     #region Players
@@ -646,10 +441,10 @@ namespace Thanking.Components.UI
                     Highlighter highlighter = go.GetComponent<Highlighter>() ?? go.AddComponent<Highlighter>();
                     //highlighter.OccluderOn();
                     //highlighter.SeeThroughOn();
-                    
+
                     highlighter.occluder = true;
                     highlighter.overlay = true;
-                    
+
                     highlighter.ConstantOnImmediate(ColorUtilities.getColor($"_{obj.Target}_Glow"));
                     Highlighters.Add(highlighter);
                 }
@@ -738,7 +533,7 @@ namespace Thanking.Components.UI
             {
                 highlighter.occluder = false;
                 highlighter.overlay = false;
-                
+
                 highlighter.ConstantOffImmediate();
             }
             Highlighters.Clear();
@@ -768,6 +563,6 @@ namespace Thanking.Components.UI
             }
 
             return null;
-}
+        }
     }
 }
