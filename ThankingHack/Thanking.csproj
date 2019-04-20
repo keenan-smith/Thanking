@@ -350,6 +350,7 @@
     <Compile Include="Misc\Ldr.cs" />
     <Compile Include="Managers\Main\ConfigManager.cs" />
     <Compile Include="Misc\Serializables\SerializableColor.cs" />
+    <Compile Include="Misc\Serializables\SerializableRect.cs" />
     <Compile Include="Misc\Serializables\SerializableVector.cs" />
     <Compile Include="Misc\Serializables\SerializableVector2.cs" />
     <Compile Include="Options\AimOptions\AimbotOptions.cs" />
