@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Thanking.Components.UI;
+using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace Thanking.Coroutines
         {
             while (true)
             {
-                if (!DrawUtilities.ShouldRun())
+                if (!DrawUtilities.ShouldRun() || !WeaponOptions.EnableBulletDropPrediction)
                 {
                     yield return new WaitForSeconds(1);
                     continue;
@@ -36,8 +37,9 @@ namespace Thanking.Coroutines
                         TrajectoryComponent.BodiesInMotion.Add(gameObject);
                     else if (gameObject.name == "Throwable")
                     {
+                        DebugUtilities.Log(gameObject.GetComponent<Rigidbody>()?.drag);
                         var sticky = gameObject.GetComponent<StickyGrenade>();
-                        if (sticky != null && sticky.GetComponent<Rigidbody>()?.useGravity == false)
+                        if (sticky != null && gameObject.GetComponent<Rigidbody>()?.useGravity == false)
                             continue;
 
                         TrajectoryComponent.BodiesInMotion.Add(gameObject);
