@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Misc.Serializables;
 using UnityEngine;
 
 namespace Thanking.Options
@@ -94,6 +95,8 @@ namespace Thanking.Options
         [Save] public static float SpinbotYaw = 180F;
         [Save] public static bool StaticSpinbotPitch = true;
         [Save] public static float SpinbotPitch = 0F;
-        [Save] public static Rect vew = new Rect(575, 10, 200, 55);
+        [Save] public static SerializableRect vew = new Rect(575, 10, 200, 55);
+
+        [Save] public static float MinTimeBetweenSpy = 0.5F;
     }
 }

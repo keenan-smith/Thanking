@@ -25,7 +25,7 @@ namespace Thanking.Coroutines
 			{
 				case 0:
 				{
-					if (Time.realtimeSinceStartup - LastSpy < 0.5f || IsSpying) // Checks for spam spy 
+					if (Time.realtimeSinceStartup - LastSpy < MiscOptions.MinTimeBetweenSpy || IsSpying) // Checks for spam spy 
 						yield break;
 
 					IsSpying = true;

@@ -65,15 +65,16 @@ namespace Thanking.Components.UI.Menu.Tabs
                     MiscOptions.AntiSpyPath = Prefab.TextField(MiscOptions.AntiSpyPath, "", 225);
                 }
 
-                GUILayout.Space(5);
+                GUILayout.Space(2);
                 Prefab.Toggle("Alert on Spy", ref MiscOptions.AlertOnSpy);
 
-                GUILayout.Space(5);
-                Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
+                GUILayout.Space(2);
+                GUILayout.Label($"Min Seconds Between Spy", Prefab._TextStyle);
+                GUILayout.Space(2);
+                MiscOptions.MinTimeBetweenSpy = Prefab.Slider(0, 10, MiscOptions.MinTimeBetweenSpy, 200);
 
-                GUILayout.Space(5);
-                if (Prefab.Button("Instant Disconnect", 200))
-                    Provider.disconnect();
+                GUILayout.Space(4);
+                Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
 
                 GUILayout.Space(5);
                 if (Prefab.Button("Clear Auto Crasher", 200))
