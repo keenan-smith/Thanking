@@ -37,7 +37,6 @@ namespace Thanking.Coroutines
                         TrajectoryComponent.BodiesInMotion.Add(gameObject);
                     else if (gameObject.name == "Throwable")
                     {
-                        DebugUtilities.Log(gameObject.GetComponent<Rigidbody>()?.drag);
                         var sticky = gameObject.GetComponent<StickyGrenade>();
                         if (sticky != null && gameObject.GetComponent<Rigidbody>()?.useGravity == false)
                             continue;
