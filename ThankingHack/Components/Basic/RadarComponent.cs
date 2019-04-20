@@ -51,7 +51,7 @@ namespace Thanking.Components.Basic
             GUILayout.Label("Radar");
             Vector2 realradarcenter = new Vector2((RadarOptions.vew.width) / 2, (RadarOptions.vew.height + 25) / 2);
             radarcenter = new Vector2((RadarOptions.vew.width) / 2, (RadarOptions.vew.height + 25) / 2);
-            Vector2 localpos = GameToRadarPosition(Player.player.transform.position);
+            Vector2 localpos = GameToRadarPosition(OptimizationVariables.MainPlayer.transform.position);
             if (RadarOptions.type == 2 || RadarOptions.type == 3)
             {
                 radarcenter.x -= localpos.x;
@@ -106,6 +106,9 @@ namespace Thanking.Components.Basic
             {
                 foreach (InteractableVehicle vehicle in VehicleManager.vehicles)
                 {
+                    if (vehicle?.transform?.position == null)
+                        continue;
+
                     if (RadarOptions.ShowVehiclesUnlocked)
                     {
                         if (!vehicle.isLocked)
@@ -131,6 +134,9 @@ namespace Thanking.Components.Basic
                 {
                     if (player.player != OptimizationVariables.MainPlayer)
                     {
+                        if (player.player?.transform?.position == null)
+                            continue;
+
                         Vector2 radarpos1 = GameToRadarPosition(player.player.transform.position);
                         Vector2 rpos = new Vector2(radarcenter.x + radarpos1.x, radarcenter.y - radarpos1.y);
                         if (RadarOptions.DetialedPlayers)

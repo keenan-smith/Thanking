@@ -21,6 +21,9 @@ namespace Thanking.Components.UI
         public static Highlighter Highlighted { get; private set; }
         private static bool spying;
 
+        private static Color InRangeColor { get => ColorUtilities.getColor("_TrajectoryPredictionInRange"); }
+        private static Color OutOfRangeColor { get => ColorUtilities.getColor("_TrajectoryPredictionOutOfRange"); }
+
         [Initializer]
         public static void Initialize()
         {
@@ -28,13 +31,8 @@ namespace Thanking.Components.UI
             ColorUtilities.addColor(new ColorVariable("_TrajectoryPredictionOutOfRange", "B.D. Predict (Out of Range)", Color.red));
         }
 
-        private void DoNormalTrajectory(UseableGun item)
+        private void HighlightForTrajectory(RaycastHit hit, Color color)
         {
-            var traj = PlotTrajectory(item, out var hit);
-            var outOfRange = Vector3.Distance(traj.Last(), OptimizationVariables.MainPlayer.look.aim.position) > item.equippedGunAsset.range;
-            var inRangeColor = ColorUtilities.getColor("_TrajectoryPredictionInRange");
-            var outOfRangeColor = ColorUtilities.getColor("_TrajectoryPredictionOutOfRange");
-
             if (WeaponOptions.HighlightBulletDropPredictionTarget && hit.collider != null)
             {
                 var t = hit.transform;
@@ -61,7 +59,7 @@ namespace Thanking.Components.UI
                         newHighlight.occluder = true;
                         newHighlight.overlay = true;
 
-                        newHighlight.ConstantOnImmediate(outOfRange ? outOfRangeColor : inRangeColor);
+                        newHighlight.ConstantOnImmediate(color);
                     }
 
                     if (Highlighted != null && newHighlight != Highlighted)
@@ -80,30 +78,6 @@ namespace Thanking.Components.UI
                 RemoveHighlight(Highlighted);
                 Highlighted = null;
             }
-
-            DrawLine(traj, outOfRange ? outOfRangeColor : inRangeColor);
-        }
-
-        private void DoRocketTrajectory(UseableGun item)
-        {
-            DrawLine(PlotTrajectoryRocket(item, out var hit, 255), ColorUtilities.getColor("_TrajectoryPredictionInRange"));
-        }
-
-        private void DrawLine(List<Vector3> points, Color color)
-        {
-            ESPComponent.GLMat.SetPass(0);
-            GL.PushMatrix();
-            GL.LoadProjectionMatrix(OptimizationVariables.MainCam.projectionMatrix);
-            GL.modelview = OptimizationVariables.MainCam.worldToCameraMatrix;
-            GL.Begin(GL.LINE_STRIP);
-
-            GL.Color(color);
-
-            foreach (var x in points)
-                GL.Vertex(x);
-
-            GL.End();
-            GL.PopMatrix();
         }
 
         public void OnGUI()
@@ -121,14 +95,27 @@ namespace Thanking.Components.UI
                 return;
             }
 
-            if (item.equippedGunAsset.action != EAction.Rocket)
-            {
-                DoNormalTrajectory(item);
-            }
-            else
-            {
-                DoRocketTrajectory(item);
-            }
+            var action = item.equippedGunAsset.action;
+            var traj = action == EAction.Rocket ? PlotTrajectoryRocket(item, out var hit, 300) : PlotTrajectory(item, out hit);
+            var outOfRange = action == EAction.Rocket ? false :
+                Vector3.Distance(traj.Last(), OptimizationVariables.MainPlayer.look.aim.position) > item.equippedGunAsset.range;
+
+            if (action != EAction.Rocket)
+                HighlightForTrajectory(hit, outOfRange ? OutOfRangeColor : InRangeColor);
+
+            ESPComponent.GLMat.SetPass(0);
+            GL.PushMatrix();
+            GL.LoadProjectionMatrix(OptimizationVariables.MainCam.projectionMatrix);
+            GL.modelview = OptimizationVariables.MainCam.worldToCameraMatrix;
+            GL.Begin(GL.LINE_STRIP);
+
+            GL.Color(outOfRange ? OutOfRangeColor : InRangeColor);
+
+            foreach (var x in traj)
+                GL.Vertex(x);
+
+            GL.End();
+            GL.PopMatrix();
         }
 
         private static void RemoveHighlight(Highlighter h)
@@ -149,24 +136,36 @@ namespace Thanking.Components.UI
             hit = default;
 
             var pos = OptimizationVariables.MainPlayer.look.aim.position;
-            var vel = OptimizationVariables.MainPlayer.look.aim.forward * gun.equippedGunAsset.ballisticForce;
+            var force = OptimizationVariables.MainPlayer.look.aim.forward * gun.equippedGunAsset.ballisticForce;
+            var mass = gun.equippedGunAsset.projectile.GetComponent<Rigidbody>().mass;
+            var vel = (force / mass) * Time.fixedDeltaTime;
+
+            var points = new List<Vector3>()
+            {
+                pos
+            };
 
             if (!PhysicsUtility.raycast(new Ray(pos, OptimizationVariables.MainPlayer.look.aim.forward),
-                out var rchit, 1f, RayMasks.DAMAGE_SERVER, QueryTriggerInteraction.UseGlobal))
-                pos += vel;
+                out _, 1f, RayMasks.DAMAGE_SERVER, QueryTriggerInteraction.UseGlobal))
+                pos += OptimizationVariables.MainPlayer.look.aim.forward;
 
-            var t = Time.fixedDeltaTime;
+            points.Add(pos);
 
-            var points = new List<Vector3>();
+            // tbh this is kinda pasted because im bad at physics
+            var t = 1.0F / vel.magnitude;
 
-            DebugUtilities.Log("dab " + Physics.gravity);
-
-            for (int step = 0; step < maxSteps; step++)
+            for (int step = 1; step < maxSteps; step++)
             {
-                pos = pos + t * vel + t * t * Physics.gravity;
+                pos += vel * t + 0.5f * Physics.gravity * t * t;
+                vel += Physics.gravity * t;
 
-                vel = vel + t * Physics.gravity;
-                DebugUtilities.Log("xd " + pos + " | " + vel);
+                if (Physics.Linecast(points[step - 1], pos, out hit, RayMasks.DAMAGE_CLIENT))
+                {
+                    points.Add(hit.point);
+                    break;
+                }
+
+                points.Add(pos);
             }
 
             return points;
