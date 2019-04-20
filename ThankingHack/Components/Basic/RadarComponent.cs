@@ -30,7 +30,7 @@ namespace Thanking.Components.Basic
 
         void OnGUI()
         {
-            if (RadarOptions.Enabled && Provider.isConnected && !Provider.isLoading)
+            if (RadarOptions.Enabled && DrawUtilities.ShouldRun())
             {
                 RadarOptions.vew.width = RadarOptions.vew.height = RadarOptions.RadarSize + 10;
 
@@ -98,8 +98,6 @@ namespace Thanking.Components.Basic
                 DrawLine(r, t, Color.white, 1);
             }
 
-
-
             #endregion
             #region Vehicles
             if (RadarOptions.ShowVehicles)
@@ -132,9 +130,10 @@ namespace Thanking.Components.Basic
             {
                 foreach (SteamPlayer player in Provider.clients)
                 {
-                    if (player.player != OptimizationVariables.MainPlayer)
+                    if (player?.player != OptimizationVariables.MainPlayer)
                     {
-                        if (player.player?.transform?.position == null)
+                        if (player?.player?.transform?.position == null ||
+                            player?.player?.look?.aim?.eulerAngles == null)
                             continue;
 
                         Vector2 radarpos1 = GameToRadarPosition(player.player.transform.position);

@@ -325,6 +325,7 @@
     <Compile Include="Coroutines\LoaderCoroutines.cs" />
     <Compile Include="Coroutines\PlayerCoroutines.cs" />
     <Compile Include="Coroutines\RaycastCoroutines.cs" />
+    <Compile Include="Coroutines\TrajectoryCoroutines.cs" />
     <Compile Include="Managers\Main\AssetManager.cs" />
     <Compile Include="Managers\Submanagers\SpyManager.cs" />
     <Compile Include="Misc\Classes\ESP\ESPBox.cs" />
