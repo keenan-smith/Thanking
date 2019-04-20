@@ -14,5 +14,6 @@ namespace Thanking.Components.Basic
         public static Coroutine ItemPickupCoroutine;
         public static Coroutine AimbotCoroutine;
         public static Coroutine LockCoroutine;
+        public static Coroutine TrajectoryCoroutine;
     }
 }

@@ -5,6 +5,8 @@ using HighlightingSystem;
 using SDG.Framework.Utilities;
 using SDG.Unturned;
 using Thanking.Attributes;
+using Thanking.Components.Basic;
+using Thanking.Coroutines;
 using Thanking.Options.AimOptions;
 using Thanking.Utilities;
 using Thanking.Variables;
@@ -16,9 +18,21 @@ namespace Thanking.Components.UI
     [Component]
     public class TrajectoryComponent : MonoBehaviour
     {
-        private static readonly FieldInfo thirdAttachments = typeof(UseableGun).GetField("thirdAttachments", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo thirdAttachmentsField = typeof(UseableGun).GetField("thirdAttachments", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo swingModeField = typeof(UseableThrowable).GetField("swingMode", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static Highlighter highlighted;
+        public static Highlighter Highlighted
+        {
+            get => highlighted;
+            private set
+            {
+                if (highlighted != null)
+                    RemoveHighlight(highlighted);
 
-        public static Highlighter Highlighted { get; private set; }
+                highlighted = value;
+            }
+        }
+        public static HashSet<GameObject> BodiesInMotion { get; } = new HashSet<GameObject>();
         private static bool spying;
 
         private static Color InRangeColor { get => ColorUtilities.getColor("_TrajectoryPredictionInRange"); }
@@ -31,8 +45,19 @@ namespace Thanking.Components.UI
             ColorUtilities.addColor(new ColorVariable("_TrajectoryPredictionOutOfRange", "B.D. Predict (Out of Range)", Color.red));
         }
 
+        public void Start()
+        {
+            CoroutineComponent.TrajectoryCoroutine = StartCoroutine(TrajectoryCoroutines.UpdateBodiesInMotionSet());
+        }
+
         private void HighlightForTrajectory(RaycastHit hit, Color color)
         {
+            if (!WeaponOptions.HighlightBulletDropPredictionTarget)
+            {
+                Highlighted = null;
+                return;
+            }
+
             if (WeaponOptions.HighlightBulletDropPredictionTarget && hit.collider != null)
             {
                 var t = hit.transform;
@@ -62,56 +87,84 @@ namespace Thanking.Components.UI
                         newHighlight.ConstantOnImmediate(color);
                     }
 
-                    if (Highlighted != null && newHighlight != Highlighted)
-                        RemoveHighlight(Highlighted);
-
                     Highlighted = newHighlight;
+                    return;
                 }
-                else if (Highlighted != null)
-                {
-                    RemoveHighlight(Highlighted);
-                    Highlighted = null;
-                }
-            }
-            else if (!WeaponOptions.HighlightBulletDropPredictionTarget && Highlighted != null)
-            {
-                RemoveHighlight(Highlighted);
                 Highlighted = null;
             }
         }
 
         public void OnGUI()
         {
-            var item = OptimizationVariables.MainPlayer?.equipment?.useable as UseableGun;
-
-            if (item == null || spying || !WeaponOptions.EnableBulletDropPrediction || !Provider.modeConfigData.Gameplay.Ballistics)
+            if (!DrawUtilities.ShouldRun() || spying || !WeaponOptions.EnableBulletDropPrediction)
             {
-                if (Highlighted != null)
-                {
-                    RemoveHighlight(Highlighted);
-                    Highlighted = null;
-                }
-
+                Highlighted = null;
                 return;
             }
 
-            var action = item.equippedGunAsset.action;
-            var traj = action == EAction.Rocket ? PlotTrajectoryRocket(item, out var hit, 300) : PlotTrajectory(item, out hit);
-            var outOfRange = action == EAction.Rocket ? false :
-                Vector3.Distance(traj.Last(), OptimizationVariables.MainPlayer.look.aim.position) > item.equippedGunAsset.range;
+            BodiesInMotion.RemoveWhere(x =>
+            {
+                if (x == null)
+                    return true;
 
-            if (action != EAction.Rocket)
-                HighlightForTrajectory(hit, outOfRange ? OutOfRangeColor : InRangeColor);
+                var sticky = x.GetComponent<StickyGrenade>();
+                if (sticky != null && sticky.GetComponent<Rigidbody>()?.useGravity == false)
+                    return true;
 
+                return false;
+            });
+
+            foreach (var body in BodiesInMotion)
+            {
+                if (body.GetComponent<Rigidbody>()?.velocity != Vector3.zero)
+                    DrawTrajectory(PlotTrajectoryRigidBodyInMotion(body, 50 * 30), OutOfRangeColor);
+            }
+
+            Useable item = OptimizationVariables.MainPlayer?.equipment?.useable;
+
+            if (item == null || ((item as UseableGun)?.equippedGunAsset?.action != EAction.Rocket && !Provider.modeConfigData.Gameplay.Ballistics))
+            {
+                Highlighted = null;
+                return;
+            }
+
+            bool outOfRange;
+            List<Vector3> trajectory;
+
+            if (item is UseableGun gun)
+            {
+                var action = gun.equippedGunAsset.action;
+                trajectory = action == EAction.Rocket ? PlotTrajectoryRocket(gun, out var hit, 50 * 30) : PlotTrajectoryGun(gun, out hit);
+                outOfRange = action == EAction.Rocket ? false :
+                    Vector3.Distance(trajectory.Last(), OptimizationVariables.MainPlayer.look.aim.position) > gun.equippedGunAsset.range;
+
+                if (action != EAction.Rocket)
+                    HighlightForTrajectory(hit, outOfRange ? OutOfRangeColor : InRangeColor);
+            }
+            else if (item is UseableThrowable grenade)
+            {
+                outOfRange = false;
+                trajectory = PlotTrajectoryGrenade(grenade, 50 * (int)grenade.equippedThrowableAsset.fuseLength);
+            }
+            else
+            {
+                return;
+            }
+
+            DrawTrajectory(trajectory, outOfRange ? OutOfRangeColor : InRangeColor);
+        }
+
+        private static void DrawTrajectory(List<Vector3> trajectory, Color color)
+        {
             ESPComponent.GLMat.SetPass(0);
             GL.PushMatrix();
             GL.LoadProjectionMatrix(OptimizationVariables.MainCam.projectionMatrix);
             GL.modelview = OptimizationVariables.MainCam.worldToCameraMatrix;
             GL.Begin(GL.LINE_STRIP);
 
-            GL.Color(outOfRange ? OutOfRangeColor : InRangeColor);
+            GL.Color(color);
 
-            foreach (var x in traj)
+            foreach (var x in trajectory)
                 GL.Vertex(x);
 
             GL.End();
@@ -131,6 +184,82 @@ namespace Thanking.Components.UI
             h.ConstantOffImmediate();
         }
 
+        public static List<Vector3> PlotTrajectoryGrenade(UseableThrowable grenade, int maxSteps)
+        {
+            var pos = OptimizationVariables.MainPlayer.look.aim.position;
+            var force = OptimizationVariables.MainPlayer.look.aim.forward;
+
+            var forceMultiplier = grenade.equippedThrowableAsset.strongThrowForce;
+
+            if (OptimizationVariables.MainPlayer.skills.boost == EPlayerBoost.OLYMPIC)
+                forceMultiplier *= grenade.equippedThrowableAsset.boostForceMultiplier;
+
+            force *= forceMultiplier;
+
+            var mass = grenade.equippedThrowableAsset.throwable.GetComponent<Rigidbody>().mass;
+            var vel = (force / mass) * Time.fixedDeltaTime;
+
+            var points = new List<Vector3>()
+            {
+                pos
+            };
+
+            if (!PhysicsUtility.raycast(new Ray(pos, OptimizationVariables.MainPlayer.look.aim.forward),
+                out _, 1f, RayMasks.DAMAGE_SERVER, QueryTriggerInteraction.UseGlobal))
+            {
+                pos += OptimizationVariables.MainPlayer.look.aim.forward;
+                points.Add(pos);
+            }
+
+            var deltaTime = Time.fixedDeltaTime;
+
+            // collision and bounce calculations are too big brain for me
+            for (int step = 1; step < maxSteps; step++)
+            {
+                pos += vel * deltaTime + 0.5f * Physics.gravity * deltaTime * deltaTime;
+                vel += Physics.gravity * deltaTime;
+
+                if (Physics.Linecast(points[step - 1], pos, out var hit, RayMasks.DAMAGE_CLIENT))
+                {
+                    points.Add(hit.point);
+                    break;
+                }
+
+                 points.Add(pos);
+            }
+
+            return points;
+        }
+
+        public static List<Vector3> PlotTrajectoryRigidBodyInMotion(GameObject obj, int maxSteps)
+        {
+            var pos = obj.transform.position;
+            var vel = obj.GetComponent<Rigidbody>().velocity;
+
+            var points = new List<Vector3>()
+            {
+                obj.transform.position
+            };
+
+            var deltaTime = Time.fixedDeltaTime;
+
+            for (int step = 1; step < maxSteps; step++)
+            {
+                pos += vel * deltaTime + 0.5f * Physics.gravity * deltaTime * deltaTime;
+                vel += Physics.gravity * deltaTime;
+
+                if (Physics.Linecast(points[step - 1], pos, out var hit, RayMasks.DAMAGE_CLIENT))
+                {
+                    points.Add(hit.point);
+                    break;
+                }
+
+                points.Add(pos);
+            }
+
+            return points;
+        }
+
         public static List<Vector3> PlotTrajectoryRocket(UseableGun gun, out RaycastHit hit, int maxSteps)
         {
             hit = default;
@@ -147,17 +276,18 @@ namespace Thanking.Components.UI
 
             if (!PhysicsUtility.raycast(new Ray(pos, OptimizationVariables.MainPlayer.look.aim.forward),
                 out _, 1f, RayMasks.DAMAGE_SERVER, QueryTriggerInteraction.UseGlobal))
+            {
                 pos += OptimizationVariables.MainPlayer.look.aim.forward;
-
-            points.Add(pos);
+                points.Add(pos);
+            }
 
             // tbh this is kinda pasted because im bad at physics
-            var t = 1.0F / vel.magnitude;
+            var deltaTime = Time.fixedDeltaTime;
 
             for (int step = 1; step < maxSteps; step++)
             {
-                pos += vel * t + 0.5f * Physics.gravity * t * t;
-                vel += Physics.gravity * t;
+                pos += vel * deltaTime + 0.5f * Physics.gravity * deltaTime * deltaTime;
+                vel += Physics.gravity * deltaTime;
 
                 if (Physics.Linecast(points[step - 1], pos, out hit, RayMasks.DAMAGE_CLIENT))
                 {
@@ -171,7 +301,7 @@ namespace Thanking.Components.UI
             return points;
         }
 
-        public static List<Vector3> PlotTrajectory(UseableGun gun, out RaycastHit hit, int maxSteps = 255)
+        public static List<Vector3> PlotTrajectoryGun(UseableGun gun, out RaycastHit hit, int maxSteps = 255)
         {
             hit = default;
 
@@ -181,7 +311,7 @@ namespace Thanking.Components.UI
 
             var asset = gun.equippedGunAsset;
             float drop = asset.ballisticDrop;
-            var attachments = (Attachments)thirdAttachments.GetValue(gun);
+            var attachments = (Attachments)thirdAttachmentsField.GetValue(gun);
 
             var points = new List<Vector3>
             {
