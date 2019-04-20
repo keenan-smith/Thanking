@@ -187,15 +187,12 @@ namespace Thanking.Components.UI
         public static List<Vector3> PlotTrajectoryGrenade(UseableThrowable grenade, int maxSteps)
         {
             var pos = OptimizationVariables.MainPlayer.look.aim.position;
-            var force = OptimizationVariables.MainPlayer.look.aim.forward;
-
             var forceMultiplier = grenade.equippedThrowableAsset.strongThrowForce;
 
             if (OptimizationVariables.MainPlayer.skills.boost == EPlayerBoost.OLYMPIC)
                 forceMultiplier *= grenade.equippedThrowableAsset.boostForceMultiplier;
 
-            force *= forceMultiplier;
-
+            var force = OptimizationVariables.MainPlayer.look.aim.forward * forceMultiplier;
             var mass = grenade.equippedThrowableAsset.throwable.GetComponent<Rigidbody>().mass;
             var vel = (force / mass) * Time.fixedDeltaTime;
 

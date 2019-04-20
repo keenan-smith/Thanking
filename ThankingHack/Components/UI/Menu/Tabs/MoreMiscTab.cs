@@ -69,7 +69,7 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Alert on Spy", ref MiscOptions.AlertOnSpy);
 
                 GUILayout.Space(2);
-                GUILayout.Label($"Min Seconds Between Spy", Prefab._TextStyle);
+                GUILayout.Label($"Min Time Between Spy: {Math.Round(MiscOptions.MinTimeBetweenSpy, 2)}s", Prefab._TextStyle);
                 GUILayout.Space(2);
                 MiscOptions.MinTimeBetweenSpy = Prefab.Slider(0, 10, MiscOptions.MinTimeBetweenSpy, 200);
 
