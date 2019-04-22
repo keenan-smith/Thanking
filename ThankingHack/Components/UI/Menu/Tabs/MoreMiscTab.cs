@@ -77,10 +77,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Punch Killaura", ref MiscOptions.PunchAura);
 
                 GUILayout.Space(5);
-                if (Prefab.Button("Clear Auto Crasher", 200))
-                    PlayerCrashThread.CrashTargets.Clear();
-
-                GUILayout.Space(5);
                 Prefab.Toggle("Spinbot", ref MiscOptions.Spinbot);
 
                 if (MiscOptions.Spinbot)
@@ -107,54 +103,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical();
 
-                Prefab.Toggle("Crash By List", ref MiscOptions.CrashByName);
-                Prefab.SectionTabButton("Crash Lists", () =>
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.BeginVertical(GUILayout.Width(300));
-                    Prefab.ScrollView(new Rect(10, 20, 298, 300), "Crash Prefixes", ref Scroll, () =>
-                    {
-                        foreach (string Word in MiscOptions.CrashWords)
-                        {
-                            if (Prefab.Button(Word, 255))
-                            {
-                                MiscOptions.CrashWords.Remove(Word);
-                            }
-                        }
-                    });
-
-                    GUILayout.Space(310);
-                    text = Prefab.TextField(text, "Import Prefix/Name: ", 100);
-                    if (Prefab.Button("Add", 100))
-                    {
-                        MiscOptions.CrashWords.AddRange(text.Split(',').Reverse().ToList());
-                        text = "";
-                    }
-
-                    GUILayout.EndVertical();
-                    GUILayout.BeginHorizontal();
-                    GUILayout.BeginVertical(GUILayout.Width(300));
-                    Prefab.ScrollView(new Rect(312, 20, 300, 300), "Crash Steam IDs", ref Scroll1, () =>
-                    {
-                        foreach (string Word in MiscOptions.CrashIDs)
-                        {
-                            if (Prefab.Button(Word, 255))
-                            {
-                                MiscOptions.CrashIDs.Remove(Word);
-                            }
-                        }
-                    });
-
-                    GUILayout.Space(310);
-                    text1 = Prefab.TextField(text1, "Import Steam ID: ", 100);
-                    if (Prefab.Button("Add", 100))
-                    {
-                        MiscOptions.CrashIDs.AddRange(text1.Split(',').Reverse().ToList());
-                        text1 = "";
-                    }
-                    GUILayout.EndVertical();
-                });
-
                 GUILayout.Label("Time Acceleration: " + MiscOptions.TimeAcceleration + "x", Prefab._TextStyle);
                 GUILayout.Space(2);
 
@@ -173,26 +121,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 
                 int x = v >> 1; // previous power of 2
                 MiscOptions.TimeAcceleration = (v - n) > (n - x) ? x : v;
-
-                GUILayout.Space(5);
-
-                Prefab.Toggle("Player Distance Crashing", ref MiscOptions.EnableDistanceCrash);
-
-                if (MiscOptions.EnableDistanceCrash)
-                {
-                    GUILayout.Space(5);
-
-                    GUILayout.Label("Crash Distance: " + MiscOptions.CrashDistance + "m", Prefab._TextStyle);
-
-                    GUILayout.Space(2);
-
-                    MiscOptions.CrashDistance = (float)Math.Round(Prefab.Slider(0, 500, MiscOptions.CrashDistance, 200), 2);
-                }
-
-                GUILayout.Space(5);
-
-                Prefab.Toggle("Pickup Through Walls", ref MiscOptions.NearbyItemRaycast);
-
                 GUILayout.Space(5);
 
                 Prefab.Toggle("Extended Pickup Range", ref MiscOptions.IncreaseNearbyItemDistance);

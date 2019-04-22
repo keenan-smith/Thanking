@@ -78,11 +78,6 @@ namespace Thanking.Components.UI.Menu.Tabs
 						if (Prefab.Button("Reset Camera", 150))
 							OptimizationVariables.MainPlayer.look.orbitPosition = Vector3.zero;
 				}
-
-				Prefab.Toggle("Crash Server", ref ServerCrashThread.ServerCrashEnabled);
-				Prefab.Toggle("Crash Server Automatically", ref ServerCrashThread.AlwaysCrash);
-				
-				Prefab.Toggle("Crash All Players", ref PlayerCrashThread.ContinuousPlayerCrash);
 				
 				Prefab.Toggle("Auto Check Movement", ref MiscOptions.AlwaysCheckMovementVerification);
 

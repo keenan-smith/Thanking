@@ -45,14 +45,11 @@ namespace Thanking.Components.UI.Menu.Tabs
 
                     bool Friend = FriendUtilities.IsFriendly(player);
                     bool Spectating = MiscOptions.SpectatedPlayer == player;
-                    bool Crash = PlayerCrashThread.CrashTarget == player.channel.owner.playerID.steamID;
                     bool Selected = player == SelectedPlayer;
                     
-                    string color = 
-                        Crash ? "<color=#ff0000ff>"
-                        : (Friend ? "<color=#00ff00ff>" : "");
+                    string color = Friend ? "<color=#00ff00ff>" : "";
                     
-                    if (Prefab.Button((Selected ? "<b>" : "") + (Spectating ? "<color=#0000ffff>[SPECTATING]</color> " : "") + color + $"{player.name}" + (Friend || Crash ? "</color>" : "") + (Selected ? "</b>" : ""), 400))
+                    if (Prefab.Button((Selected ? "<b>" : "") + (Spectating ? "<color=#0000ffff>[SPECTATING]</color> " : "") + color + $"{player.name}" + (Friend ? "</color>" : "") + (Selected ? "</b>" : ""), 400))
                         SelectedPlayer = player;
 
 					GUILayout.Space(2);
@@ -77,26 +74,6 @@ namespace Thanking.Components.UI.Menu.Tabs
                 {
                     if (Prefab.Button("Add Friend", 150))
                         FriendUtilities.AddFriend(SelectedPlayer);
-                }
-
-                if (PlayerCrashThread.CrashTarget != steamId)
-                {
-                    if (Prefab.Button("Crash Player", 150))
-                        PlayerCrashThread.CrashTarget = steamId;
-                }
-                else
-                    if (Prefab.Button("Stop Crashing", 150))
-                        PlayerCrashThread.CrashTarget = CSteamID.Nil;
-                
-                if (!PlayerCrashThread.CrashTargets.Contains(steamId))
-                {
-                    if (Prefab.Button("Auto Crash Player", 150))
-                        PlayerCrashThread.CrashTargets.Add(steamId);
-                }
-                else
-                {
-                    if (Prefab.Button("Stop Auto Crash", 150))
-                        PlayerCrashThread.CrashTargets.Remove(steamId);
                 }
 
                 if (MiscOptions.SpectatedPlayer != SelectedPlayer)

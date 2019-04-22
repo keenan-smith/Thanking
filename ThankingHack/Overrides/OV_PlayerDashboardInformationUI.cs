@@ -82,18 +82,6 @@ namespace Thanking.Overrides
 
             OverrideUtilities.CallOriginal();
         }
-
-	    [Override(typeof(PlayerDashboardInventoryUI), "updateNearbyDrops",
-		    BindingFlags.NonPublic | BindingFlags.Static)]
-	    public static void OV_updateNearbyDrops()
-	    {
-		    if (MiscOptions.NearbyItemRaycast)
-			    OV_Physics.ForceReturnFalse = true;
-		    
-		    OverrideUtilities.CallOriginal();
-		    
-		    OV_Physics.ForceReturnFalse = false;
-	    }
         
 		[Override(typeof(PlayerDashboardInformationUI), "refreshDynamicMap", BindingFlags.Public | BindingFlags.Static)]
         public static void OV_refreshDynamicMap()

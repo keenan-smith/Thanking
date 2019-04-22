@@ -18,9 +18,6 @@ namespace Thanking.Overrides
 			if (!IsConnected)
 				IsConnected = true;
 			
-			if (ServerCrashThread.ServerCrashEnabled && packet[0] == (byte)ESteamPacket.WORKSHOP)
-				return;
-			
 			if (steamID != Provider.server && packet[0] != (byte)ESteamPacket.UPDATE_VOICE)
 				return;
 

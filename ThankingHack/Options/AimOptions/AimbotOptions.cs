@@ -18,7 +18,5 @@ namespace Thanking.Options.AimOptions
 
         [Save] public static ELimb TargetLimb = ELimb.SKULL;
         [Save] public static TargetMode TargetMode = TargetMode.Distance;
-
-        [Save] public static bool NoAimbotDrop = false;
     }
 }

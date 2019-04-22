@@ -24,9 +24,6 @@ namespace Thanking.Options
         [Save] public static bool SetTimeEnabled = false;
         [Save] public static float Time = 0f;
 
-        [Save] public static bool SlowFall = false;
-        [Save] public static bool AirStick = false;
-
         [Save] public static bool Compass = false;
         [Save] public static bool GPS = false;
         [Save] public static bool ShowPlayersOnMap = false;
@@ -58,8 +55,6 @@ namespace Thanking.Options
 
         [Save] public static HashSet<ulong> Friends = new HashSet<ulong>();
 
-        [Save] public static int SCrashMethod = 1;
-
         public static string AutoJoinIP = "";
         public static bool AutoJoin = false;
 
@@ -68,15 +63,6 @@ namespace Thanking.Options
 
         [Save] public static bool AlertOnSpy = false;
         [Save] public static int TimeAcceleration = 2;
-
-        [Save] public static bool EnableDistanceCrash = false;
-        [Save] public static float CrashDistance = 100;
-
-        [Save] public static bool CrashByName = false;
-        [Save] public static List<string> CrashWords = new List<string>();
-        [Save] public static List<string> CrashIDs = new List<string>();
-
-        [Save] public static bool NearbyItemRaycast = false;
 
         [Save] public static bool IncreaseNearbyItemDistance = false;
         [Save] public static float NearbyItemDistance = 15f;
