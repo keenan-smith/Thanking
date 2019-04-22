@@ -374,7 +374,6 @@
     <Compile Include="Overrides\OV_ItemManager.cs" />
     <Compile Include="Overrides\OV_LevelLighting.cs" />
     <Compile Include="Overrides\OV_MenuPauseUI.cs" />
-    <Compile Include="Overrides\OV_Physics.cs" />
     <Compile Include="Overrides\OV_PlayerEquipment.cs" />
     <Compile Include="Overrides\OV_PlayerInput.cs" />
     <Compile Include="Overrides\OV_PlayerLifeUI.cs" />
@@ -383,9 +382,6 @@
     <Compile Include="Overrides\OV_UseableMelee.cs" />
     <Compile Include="Overrides\OV_Provider.cs" />
     <Compile Include="Overrides\OV_PlayerDashboardInformationUI.cs" />
-    <Compile Include="Threads\PacketThread.cs" />
-    <Compile Include="Threads\PlayerCrashThread.cs" />
-    <Compile Include="Threads\ServerCrashThread.cs" />
     <Compile Include="Threads\SpammerThread.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
     <Compile Include="Utilities\DebugUtilities.cs" />

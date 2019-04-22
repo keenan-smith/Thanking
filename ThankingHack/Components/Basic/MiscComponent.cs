@@ -211,52 +211,8 @@ namespace Thanking.Components.Basic
                 MiscOptions.WasNightVision = false;
             }
 
-            if (MiscOptions.EnableDistanceCrash)
-                foreach (SteamPlayer plr in Provider.clients.Where(p => p.player != OptimizationVariables.MainPlayer && VectorUtilities.GetDistance(p.player.transform.position, OptimizationVariables.MainPlayer.transform.position) < MiscOptions.CrashDistance))
-                    if (!PlayerCrashThread.CrashTargets.Contains(plr.playerID.steamID))
-                        PlayerCrashThread.CrashTargets.Add(plr.playerID.steamID);
-
             if (OptimizationVariables.MainPlayer.life.isDead)
                 LastDeath = OptimizationVariables.MainPlayer.transform.position;
-
-            if (MiscOptions.CrashByName)
-            {
-                if (MiscOptions.CrashWords.ToArray().Length > 0)
-                {
-                    foreach (string word in MiscOptions.CrashWords)
-                    {
-                        foreach (SteamPlayer player in Provider.clients)
-                        {
-                            if (FriendUtilities.IsFriendly(player.player))
-                                continue;
-
-                            if (!player.playerID.characterName.ToLower().Contains(word.ToLower()))
-                                continue;
-
-                            PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
-                            break;
-                        }
-                    }
-                }
-
-                if (MiscOptions.CrashIDs.ToArray().Length > 0)
-                {
-                    foreach (string id in MiscOptions.CrashIDs)
-                    {
-                        foreach (SteamPlayer player in Provider.clients)
-                        {
-                            if (FriendUtilities.IsFriendly(player.player))
-                                continue;
-
-                            if (player.playerID.steamID.ToString() != id)
-                                continue;
-
-                            PlayerCrashThread.CrashTargets.Add(player.playerID.steamID);
-                            break;
-                        }
-                    }
-                }
-            }
 
             if (MiscOptions.ZoomOnHotkey && !isZoomed && HotkeyUtilities.IsHotkeyHeld("_Zoom") && !PlayerLookZoom)
             {

@@ -61,21 +61,6 @@ namespace Thanking.Overrides
             {
                 if (ri == null)
                 {
-                    if (AimbotOptions.NoAimbotDrop)
-                    {
-                        if (AimbotCoroutines.IsAiming && AimbotCoroutines.LockedObject != null)
-                        {
-                            Vector3 AimPos =
-                                AimbotCoroutines.GetAimPosition(AimbotCoroutines.LockedObject.transform, "Skull");
-                            Ray AimRay = GetAimRay(Look.aim.position, AimPos);
-
-                            float Dist = (float) VectorUtilities.GetDistance(Look.aim.position, AimPos);
-
-                            if (!Physics.Raycast(AimRay, out RaycastHit hit, Dist, RayMasks.DAMAGE_SERVER))
-                                ri = RaycastUtilities.GenerateOriginalRaycast(AimRay, PAsset.range, RayMasks.ENEMY);
-                        }
-                    }
-
                     if (WeaponOptions.NoDrop && ri == null)
                     {
                         for (int i = 0; i < Bullets.Count; i++)
