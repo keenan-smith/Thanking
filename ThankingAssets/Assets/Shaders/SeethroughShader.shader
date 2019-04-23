@@ -15,7 +15,6 @@
 			{
 				ZWrite Off
 				ZTest Greater
-				Lighting Off
 				SetTexture[_MainTex] //{combine texture}
 			}
 
