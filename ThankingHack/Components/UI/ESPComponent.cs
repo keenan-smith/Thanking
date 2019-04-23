@@ -444,8 +444,7 @@ namespace Thanking.Components.UI
 
                     highlighter.occluder = true;
                     highlighter.overlay = true;
-
-                    highlighter.ConstantOnImmediate(ColorUtilities.getColor($"_{obj.Target}_Glow"));
+                    highlighter.ConstantOnImmediate(c);
                     Highlighters.Add(highlighter);
                 }
                 else

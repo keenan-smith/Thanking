@@ -138,6 +138,10 @@ namespace Thanking.Components.Basic
 
                         Vector2 radarpos1 = GameToRadarPosition(player.player.transform.position);
                         Vector2 rpos = new Vector2(radarcenter.x + radarpos1.x, radarcenter.y - radarpos1.y);
+
+                        Color c = ColorUtilities.getColor($"_Players");
+                        if (FriendUtilities.IsFriendly(player.player) && ESPOptions.UsePlayerGroup)
+                                c = ColorUtilities.getColor("_ESPFriendly");
                         if (RadarOptions.DetialedPlayers)
                         {
                             if (rpos.y > 30)
@@ -148,16 +152,16 @@ namespace Thanking.Components.Basic
                                 t = RotatePoint(t, rpos, Math.Round(player.player.look.aim.eulerAngles.y, 2));
                                 l = RotatePoint(l, rpos, Math.Round(player.player.look.aim.eulerAngles.y, 2));
                                 r = RotatePoint(r, rpos, Math.Round(player.player.look.aim.eulerAngles.y, 2));
-                                DrawLine(t, l, ColorUtilities.getColor($"_Players"), 1);
-                                DrawLine(l, r, ColorUtilities.getColor($"_Players"), 1);
-                                DrawLine(r, t, ColorUtilities.getColor($"_Players"), 1);
+                                DrawLine(t, l, c, 1);
+                                DrawLine(l, r, c, 1);
+                                DrawLine(r, t, c, 1);
                             }
                         }
                         else
                         {
 
                             DrawRadarDot(rpos, Color.black, 3);
-                            DrawRadarDot(rpos, ColorUtilities.getColor($"_Players"), 2);
+                            DrawRadarDot(rpos, c, 2);
                         }
                     }
                 }
