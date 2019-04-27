@@ -315,7 +315,6 @@ namespace Thanking.Components.UI
                 pos
             };
 
-
             if (attachments?.barrelAsset != null)
                 drop *= attachments.barrelAsset.ballisticDrop;
 
