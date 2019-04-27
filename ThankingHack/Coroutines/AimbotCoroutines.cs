@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Reflection;
 using SDG.Unturned;
 using Thanking.Attributes;
@@ -39,6 +40,7 @@ namespace Thanking.Coroutines
             PitchInfo = typeof(PlayerLook).GetField("_pitch", BindingFlags.NonPublic | BindingFlags.Instance);
             YawInfo = typeof(PlayerLook).GetField("_yaw", BindingFlags.NonPublic | BindingFlags.Instance);
         }
+
         public static IEnumerator SetLockedObject()
         {
             #if DEBUG
@@ -47,53 +49,77 @@ namespace Thanking.Coroutines
             
             while (true)
             {
-                if (!DrawUtilities.ShouldRun() || !AimbotOptions.Enabled)
+                if (!DrawUtilities.ShouldRun() || !AimbotOptions.Enabled || OptimizationVariables.MainPlayer?.look?.aim == null)
                 {
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
                 
-                Player p = null;
+                Player newTarget = null;
                 
                 Vector3 aimPos = OptimizationVariables.MainPlayer.look.aim.position;
                 Vector3 aimForward = OptimizationVariables.MainPlayer.look.aim.forward;
-                
-                SteamPlayer[] players = Provider.clients.ToArray();
-                for (int i = 0; i < players.Length; i++)
+
+                var players = Provider.clients;
+
+                for (int i = 0; i < Provider.clients.Count; i++)
                 {
                     SteamPlayer cPlayer = players[i];
-                    if (cPlayer == null || cPlayer.player == OptimizationVariables.MainPlayer || cPlayer.player.life == null ||
-                        cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player)) continue;
+
+                    if (cPlayer?.player?.transform == null)
+                        continue;
+
+                    if (cPlayer.player == OptimizationVariables.MainPlayer || cPlayer.player.life == null ||
+                        cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player) || VectorUtilities.GetDistance(cPlayer.player.transform.position) > AimbotOptions.Distance)
+                        continue;
+
+                    var enemyPosition = GetAimPosition(cPlayer.player.transform, "Skull");
+
+                    if (AimbotOptions.UseGunDistance && OptimizationVariables.MainPlayer?.equipment?.asset is ItemGunAsset gun && VectorUtilities.GetDistance(aimPos) > gun.range)
+                        continue;
+
+                    if (!AimbotOptions.AimThroughWalls && Physics.Linecast(aimPos, enemyPosition, RayMasks.DAMAGE_SERVER))
+                        continue;
 
                     switch (AimbotOptions.TargetMode)
                     {
                         case TargetMode.Distance:
-                        {
-                            if (p == null)
-                                p = players[i].player;
-                            
-                            else if (VectorUtilities.GetDistance(p.transform.position) >
-                                    VectorUtilities.GetDistance(players[i].player.transform.position))
-                                    p = players[i].player;
-                            
-                            break;
-                        }
-                        case TargetMode.FOV:
-                        {
-                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward,
-                                    players[i].player.transform.position) < AimbotOptions.FOV) {
-                                if (p == null)
-                                    p = players[i].player;
-                                
-                                else if (VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < VectorUtilities.GetAngleDelta(aimPos, aimForward, p.transform.position))
-                                    p = players[i].player;
+                            {
+                                if (newTarget == null)
+                                    newTarget = players[i].player;
+                                else if (VectorUtilities.GetDistance(newTarget.transform.position) >
+                                        VectorUtilities.GetDistance(players[i].player.transform.position))
+                                    newTarget = players[i].player;
+
+                                break;
                             }
-                            break;
-                        }
+                        case TargetMode.FOV:
+                            {
+                                if (VectorUtilities.GetAngleDelta(aimPos, aimForward,
+                                    players[i].player.transform.position) < AimbotOptions.FOV)
+                                {
+                                    if (newTarget == null)
+                                    {
+                                        newTarget = players[i].player;
+                                    }
+                                    else if (!AimbotOptions.ClosestInFOV &&
+                                                VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < VectorUtilities.GetAngleDelta(aimPos, aimForward, newTarget.transform.position))
+                                    {
+                                        newTarget = players[i].player;
+                                    }
+                                    else if (AimbotOptions.ClosestInFOV &&
+                                                VectorUtilities.GetDistance(newTarget.transform.position) > VectorUtilities.GetDistance(players[i].player.transform.position))
+                                    {
+                                        newTarget = players[i].player;
+                                    }
+                                }
+                                break;
+                            }
                     }
                 }
-                if (!IsAiming)
-                    LockedObject = (p != null ? p.gameObject : null);
+
+                if (!IsAiming && !(AimbotOptions.UseReleaseAimKey && HotkeyUtilities.IsHotkeyHeld("_AimbotReleaseKey")))
+                    LockedObject = newTarget?.gameObject;
                 
                 yield return new WaitForEndOfFrame();
             }
@@ -112,16 +138,29 @@ namespace Thanking.Coroutines
                     yield return new WaitForSeconds(.1f);
                     continue;
                 }
+
+                if (LockedObject != null &&
+                    !AimbotOptions.AimThroughWalls &&
+                    Physics.Linecast(OptimizationVariables.MainPlayer.look.aim.position, GetAimPosition(LockedObject?.transform, "Skull"), RayMasks.DAMAGE_SERVER))
+                    LockedObject = null;
                 
-                if (LockedObject != null && LockedObject.transform != null && ESPComponent.MainCamera != null)
+                if (LockedObject?.transform != null && ESPComponent.MainCamera != null)
                 {
                     if (HotkeyUtilities.IsHotkeyHeld("_AimbotKey") || !AimbotOptions.OnKey)
                     {
-                        IsAiming = true;
-                        if (AimbotOptions.Smooth)
-                            SmoothAim(LockedObject);
+                        if (!AimbotOptions.OnKey && AimbotOptions.UseReleaseAimKey && HotkeyUtilities.IsHotkeyHeld("_AimbotReleaseKey"))
+                        {
+                            IsAiming = false;
+                            LockedObject = null;
+                        }
                         else
-                            Aim(LockedObject);
+                        {
+                            IsAiming = true;
+                            if (AimbotOptions.Smooth)
+                                SmoothAim(LockedObject);
+                            else
+                                Aim(LockedObject);
+                        }
                     }
                     else
                         IsAiming = false;
@@ -202,6 +241,9 @@ namespace Thanking.Coroutines
 
         public static Vector3 GetAimPosition(Transform parent, string name)
         {
+            if (parent == null)
+                return PiVector;
+
             Transform[] componentsInChildren = parent.GetComponentsInChildren<Transform>();
             
             if (componentsInChildren == null) 

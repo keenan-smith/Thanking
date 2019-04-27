@@ -15,7 +15,8 @@ namespace Thanking.Utilities
             AddHotkey("Aimbot", "Aimbot On/Off", "_ToggleAimbot", KeyCode.Keypad3);
             AddHotkey("Aimbot", "Aimbot On Key On/Off", "_AimbotOnKey", KeyCode.Keypad4);
             AddHotkey("Aimbot", "Aimbot Key", "_AimbotKey", KeyCode.F);
-            
+            AddHotkey("Aimbot", "Aimbot Release Key", "_AimbotReleaseKey", KeyCode.LeftAlt);
+
             AddHotkey("Weapons", "Toggle Triggerbot", "_ToggleTriggerbot", KeyCode.Keypad5);
             AddHotkey("Weapons", "Toggle No Recoil", "_ToggleNoRecoil", KeyCode.Keypad6);
             AddHotkey("Weapons", "Toggle No Spread", "_ToggleNoSpread", KeyCode.Keypad7);

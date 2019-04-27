@@ -17,6 +17,13 @@ namespace Thanking.Components.UI.Menu.Tabs
                 Prefab.Toggle("Use Gun Distance", ref AimbotOptions.UseGunDistance);
                 Prefab.Toggle("Smooth", ref AimbotOptions.Smooth);
                 Prefab.Toggle("Use Key", ref AimbotOptions.OnKey);
+
+                if (!AimbotOptions.OnKey)
+                {
+                    Prefab.Toggle("Use Release Key", ref AimbotOptions.UseReleaseAimKey);
+                }
+
+                Prefab.Toggle("Aim Through Walls", ref AimbotOptions.AimThroughWalls);
                 GUILayout.Space(3);
 				if (AimbotOptions.Smooth)
 				{
@@ -24,8 +31,13 @@ namespace Thanking.Components.UI.Menu.Tabs
 					AimbotOptions.AimSpeed = (int)Prefab.Slider(1, AimbotOptions.MaxSpeed, AimbotOptions.AimSpeed, 200);
 				}
 
-                GUILayout.Label("FOV: " + AimbotOptions.FOV, Prefab._TextStyle);
-                AimbotOptions.FOV = (int)Prefab.Slider(1, 180, AimbotOptions.FOV, 200);
+                if (AimbotOptions.TargetMode == Misc.Enums.TargetMode.FOV)
+                {
+                    GUILayout.Label("FOV: " + AimbotOptions.FOV, Prefab._TextStyle);
+                    AimbotOptions.FOV = (int)Prefab.Slider(1, 180, AimbotOptions.FOV, 200);
+                    Prefab.Toggle("Target Closest in FOV", ref AimbotOptions.ClosestInFOV);
+                }
+                
                 GUILayout.Label("Distance: " + AimbotOptions.Distance, Prefab._TextStyle);
                 AimbotOptions.Distance = (int)Prefab.Slider(50, 1000, AimbotOptions.Distance, 200);
                 GUIContent[] TargetMode = {

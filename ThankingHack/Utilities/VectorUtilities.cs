@@ -7,7 +7,7 @@ namespace Thanking.Utilities
     public static class VectorUtilities
     {
         public static double GetDistance(Vector3 point) =>
-            GetDistance(OptimizationVariables.MainCam.transform.position, point);
+            GetDistance(OptimizationVariables.MainPlayer.look.aim.position, point);
         
         public static double GetDistance(Vector3 start, Vector3 point)
         {
