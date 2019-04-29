@@ -17,6 +17,8 @@ namespace Thanking.Utilities
             AddHotkey("Aimbot", "Aimbot Key", "_AimbotKey", KeyCode.F);
             AddHotkey("Aimbot", "Aimbot Release Key", "_AimbotReleaseKey", KeyCode.LeftAlt);
 
+            AddHotkey("SilentAim", "Silent Aim Key", "_SilentAimKey", KeyCode.LeftControl);
+
             AddHotkey("Weapons", "Toggle Triggerbot", "_ToggleTriggerbot", KeyCode.Keypad5);
             AddHotkey("Weapons", "Toggle No Recoil", "_ToggleNoRecoil", KeyCode.Keypad6);
             AddHotkey("Weapons", "Toggle No Spread", "_ToggleNoSpread", KeyCode.Keypad7);
@@ -52,6 +54,13 @@ namespace Thanking.Utilities
             AddHotkey("Misc", "Select Player", "_SelectPlayer", KeyCode.LeftAlt);
             AddHotkey("Misc", "Instant Disconnect", "_InstantDisconnect", KeyCode.F5);
             AddHotkey("Misc", "Zoom", "_Zoom", KeyCode.F);
+        }
+
+        public static string GetHotkeyString(string group, string identifier)
+        {
+            if (HotkeyOptions.DefaultHotkeyDict.ContainsKey(group) && HotkeyOptions.DefaultHotkeyDict[group].ContainsKey(identifier))
+                return HotkeyOptions.DefaultHotkeyDict[group][identifier].Keys.FirstOrDefault().ToString();
+            return "None";
         }
         
         public static void AddHotkey(string Group, string Name, string Identifier, params KeyCode[] DefaultKeys)

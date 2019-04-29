@@ -69,11 +69,11 @@ namespace Thanking.Coroutines
                     if (cPlayer?.player?.transform == null)
                         continue;
 
-                    if (cPlayer.player == OptimizationVariables.MainPlayer || cPlayer.player.life == null ||
-                        cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player) || VectorUtilities.GetDistance(cPlayer.player.transform.position) > AimbotOptions.Distance)
-                        continue;
-
                     var enemyPosition = GetAimPosition(cPlayer.player.transform, "Skull");
+
+                    if (cPlayer.player == OptimizationVariables.MainPlayer || cPlayer.player.life == null ||
+                        cPlayer.player.life.isDead || FriendUtilities.IsFriendly(cPlayer.player) || VectorUtilities.GetDistance(enemyPosition) > AimbotOptions.Distance)
+                        continue;
 
                     if (AimbotOptions.UseGunDistance && OptimizationVariables.MainPlayer?.equipment?.asset is ItemGunAsset gun && VectorUtilities.GetDistance(aimPos) > gun.range)
                         continue;
@@ -84,37 +84,34 @@ namespace Thanking.Coroutines
                     switch (AimbotOptions.TargetMode)
                     {
                         case TargetMode.Distance:
+                        {
+                            if (newTarget == null)
+                                newTarget = players[i].player;
+                            else if (VectorUtilities.GetDistance(newTarget.transform.position) > VectorUtilities.GetDistance(players[i].player.transform.position))
+                                newTarget = players[i].player;
+                            break;
+                        }
+                        case TargetMode.FOV:
+                        {
+                            if (VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < AimbotOptions.FOV)
                             {
                                 if (newTarget == null)
-                                    newTarget = players[i].player;
-                                else if (VectorUtilities.GetDistance(newTarget.transform.position) >
-                                        VectorUtilities.GetDistance(players[i].player.transform.position))
-                                    newTarget = players[i].player;
-
-                                break;
-                            }
-                        case TargetMode.FOV:
-                            {
-                                if (VectorUtilities.GetAngleDelta(aimPos, aimForward,
-                                    players[i].player.transform.position) < AimbotOptions.FOV)
                                 {
-                                    if (newTarget == null)
-                                    {
-                                        newTarget = players[i].player;
-                                    }
-                                    else if (!AimbotOptions.ClosestInFOV &&
-                                                VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < VectorUtilities.GetAngleDelta(aimPos, aimForward, newTarget.transform.position))
-                                    {
-                                        newTarget = players[i].player;
-                                    }
-                                    else if (AimbotOptions.ClosestInFOV &&
-                                                VectorUtilities.GetDistance(newTarget.transform.position) > VectorUtilities.GetDistance(players[i].player.transform.position))
-                                    {
-                                        newTarget = players[i].player;
-                                    }
+                                    newTarget = players[i].player;
                                 }
-                                break;
+                                else if (!AimbotOptions.ClosestInFOV &&
+                                         VectorUtilities.GetAngleDelta(aimPos, aimForward, players[i].player.transform.position) < VectorUtilities.GetAngleDelta(aimPos, aimForward, newTarget.transform.position))
+                                {
+                                    newTarget = players[i].player;
+                                }
+                                else if (AimbotOptions.ClosestInFOV &&
+                                         VectorUtilities.GetDistance(newTarget.transform.position) > VectorUtilities.GetDistance(players[i].player.transform.position))
+                                {
+                                    newTarget = players[i].player;
+                                }
                             }
+                            break;
+                        }
                     }
                 }
 

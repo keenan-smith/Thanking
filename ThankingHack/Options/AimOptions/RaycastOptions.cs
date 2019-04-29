@@ -10,6 +10,7 @@ namespace Thanking.Options.AimOptions
 	public static class RaycastOptions
 	{
 		[Save] public static bool Enabled = true;
+        [Save] public static bool HoldKey = true;
 		[Save] public static bool UseRandomLimb = false;
 		[Save] public static bool UseCustomLimb = false;
 		[Save] public static bool UseTargetMaterial = true;
