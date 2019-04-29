@@ -54,7 +54,7 @@ namespace Thanking.Overrides
 
             RaycastInfo ri = null;
             
-            if (RaycastOptions.Enabled)
+            if (RaycastOptions.Enabled && (!RaycastOptions.HoldKey || HotkeyUtilities.IsHotkeyHeld("_SilentAimKey")))
                 RaycastUtilities.GenerateRaycast(out ri);
             
             if (Provider.modeConfigData.Gameplay.Ballistics)

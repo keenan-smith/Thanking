@@ -139,7 +139,7 @@ namespace Thanking.Components.UI.Menu.Tabs
 
                 GUILayout.Space(5);
 
-                Prefab.Toggle("Zoom on Hotkey", ref MiscOptions.ZoomOnHotkey);
+                Prefab.Toggle($"Zoom on Hotkey ({HotkeyUtilities.GetHotkeyString("Misc", "_Zoom")})", ref MiscOptions.ZoomOnHotkey);
 
                 if (MiscOptions.ZoomOnHotkey)
                 {
