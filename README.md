@@ -10,3 +10,6 @@ ThankingProcessing contains the server used for DRM.
 ThankingHack contains the assembly injected into the game.
 
 ThankingAssets are the assets that the assembly uses.
+
+
+Migrated from a private GitLab repo
