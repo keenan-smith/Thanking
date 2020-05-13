@@ -1,5 +1,5 @@
 # Thanking
-Source code for the :thanking: Unturned hack. Credits to ExtraConcentratedJuice, Defcon42, Kr4ken, and Trojaner.
+Source code for the :thanking: Unturned hack. Credits to ExtraConcentratedJuice, Defcon42, and Kr4ken.
 
 Mirrored from a private GitLab repo.
 
